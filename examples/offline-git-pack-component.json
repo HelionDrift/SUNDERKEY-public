@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-pack",
+      "object_format": "sha1",
+      "pack_base64": "UEFDSwAAAAIAAAACNngBAQYA+f9hYmNkZWYIHgJWahJ4AQEKAPX/BgaQAgJYWZEEAgnvAenosoLsqXI0DNXDgVVqlnLWhv/yZw=="
+    }
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/detection-validation-contract-v1.schema.json",
+  "title": "SUNDERKEY Detection Validation Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "binding",
+    "contract_id",
+    "contract_sha256",
+    "control_outcomes",
+    "correlation_window",
+    "coverage_gaps",
+    "detector_observations",
+    "effects",
+    "evaluated_at",
+    "expected_detections",
+    "independent_validations",
+    "kind",
+    "live_action_authorization_sha256",
+    "live_action_claimed",
+    "objectives",
+    "schema_version",
+    "telemetry_observations"
+  ],
+  "properties": {
+    "binding": {"$ref": "#/$defs/executionBinding"},
+    "contract_id": {"type": "string", "pattern": "^DVC-[0-9A-F]{32}$"},
+    "contract_sha256": {"$ref": "#/$defs/sha256"},
+    "control_outcomes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/controlOutcome"}
+    },
+    "correlation_window": {"$ref": "#/$defs/correlationWindow"},
+    "coverage_gaps": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/coverageGap"}
+    },
+    "detector_observations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/detectorObservation"}
+    },
+    "effects": {"$ref": "#/$defs/noEffects"},
+    "evaluated_at": {"$ref": "#/$defs/timestamp"},
+    "expected_detections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/expectedDetection"}
+    },
+    "independent_validations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/independentValidation"}
+    },
+    "kind": {"const": "sunderkey.detection-validation-contract.v1"},
+    "live_action_authorization_sha256": {
+      "oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+    },
+    "live_action_claimed": {"type": "boolean"},
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/controlObjective"}
+    },
+    "schema_version": {"const": 1},
+    "telemetry_observations": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/telemetryObservation"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "domain": {
+      "enum": ["application", "cloud", "data", "endpoint", "identity", "network"]
+    },
+    "observationKind": {
+      "enum": ["alert", "event", "investigation", "prevention"]
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "collection",
+        "detection_system_write",
+        "network",
+        "qualification",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "collection": {"const": "none"},
+        "detection_system_write": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "executionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_sha256",
+        "action_tier",
+        "assessment_id",
+        "evidence_sha256",
+        "execution_completed_at",
+        "execution_id",
+        "execution_started_at",
+        "executor_profile_id",
+        "scope_sha256"
+      ],
+      "properties": {
+        "action_sha256": {"$ref": "#/$defs/sha256"},
+        "action_tier": {"enum": ["R0", "R1", "R2", "R3", "R4"]},
+        "assessment_id": {"$ref": "#/$defs/identifier"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_completed_at": {"$ref": "#/$defs/timestamp"},
+        "execution_id": {"$ref": "#/$defs/identifier"},
+        "execution_started_at": {"$ref": "#/$defs/timestamp"},
+        "executor_profile_id": {"$ref": "#/$defs/identifier"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "correlationWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["closes_at", "maximum_lag_seconds", "opens_at"],
+      "properties": {
+        "closes_at": {"$ref": "#/$defs/timestamp"},
+        "maximum_lag_seconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+        "opens_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "independentValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_sha256",
+        "decision",
+        "evidence_sha256",
+        "review_sha256",
+        "reviewed_at",
+        "reviewer_profile_id",
+        "reviewer_role",
+        "scope_sha256"
+      ],
+      "properties": {
+        "action_sha256": {"$ref": "#/$defs/sha256"},
+        "decision": {"const": "accepted"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "review_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "reviewer_profile_id": {"$ref": "#/$defs/identifier"},
+        "reviewer_role": {"enum": ["independent_assurance", "independent_control"]},
+        "scope_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "controlObjective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_config_sha256",
+        "control_family",
+        "control_id",
+        "expectation_ids",
+        "expected_effect",
+        "material_path_id",
+        "objective_id",
+        "required_domains"
+      ],
+      "properties": {
+        "control_config_sha256": {"$ref": "#/$defs/sha256"},
+        "control_family": {"$ref": "#/$defs/domain"},
+        "control_id": {"$ref": "#/$defs/identifier"},
+        "expectation_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "expected_effect": {"enum": ["detect", "investigate", "prevent"]},
+        "material_path_id": {"$ref": "#/$defs/identifier"},
+        "objective_id": {"$ref": "#/$defs/identifier"},
+        "required_domains": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/domain"}
+        }
+      }
+    },
+    "expectedDetection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_observation_kinds",
+        "detector_config_sha256",
+        "detector_id",
+        "expectation_id",
+        "maximum_latency_seconds",
+        "objective_id",
+        "required",
+        "telemetry_domain"
+      ],
+      "properties": {
+        "accepted_observation_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/observationKind"}
+        },
+        "detector_config_sha256": {"$ref": "#/$defs/sha256"},
+        "detector_id": {"$ref": "#/$defs/identifier"},
+        "expectation_id": {"$ref": "#/$defs/identifier"},
+        "maximum_latency_seconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+        "objective_id": {"$ref": "#/$defs/identifier"},
+        "required": {"type": "boolean"},
+        "telemetry_domain": {"$ref": "#/$defs/domain"}
+      }
+    },
+    "telemetryObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_sha256",
+        "artifact_sha256",
+        "custody_sha256",
+        "custody_status",
+        "detector_id",
+        "evidence_sha256",
+        "observation_id",
+        "observation_kind",
+        "observed_at",
+        "redacted",
+        "retained_until",
+        "scope_sha256",
+        "source_system_id",
+        "telemetry_domain"
+      ],
+      "properties": {
+        "action_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_status": {"const": "durable_verified"},
+        "detector_id": {"$ref": "#/$defs/identifier"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "observation_id": {"$ref": "#/$defs/identifier"},
+        "observation_kind": {"$ref": "#/$defs/observationKind"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "redacted": {"const": true},
+        "retained_until": {"$ref": "#/$defs/timestamp"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "source_system_id": {"$ref": "#/$defs/identifier"},
+        "telemetry_domain": {"$ref": "#/$defs/domain"}
+      }
+    },
+    "detectorObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detector_id",
+        "detector_observation_id",
+        "disposition",
+        "evaluated_at",
+        "evidence_sha256",
+        "expectation_id",
+        "observation_ids",
+        "rationale_code"
+      ],
+      "properties": {
+        "detector_id": {"$ref": "#/$defs/identifier"},
+        "detector_observation_id": {"$ref": "#/$defs/identifier"},
+        "disposition": {"enum": ["false_negative", "false_positive", "inconclusive", "true_positive"]},
+        "evaluated_at": {"$ref": "#/$defs/timestamp"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "expectation_id": {"$ref": "#/$defs/identifier"},
+        "observation_ids": {
+          "type": "array",
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "rationale_code": {"$ref": "#/$defs/code"}
+      }
+    },
+    "controlOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detector_observation_ids",
+        "evidence_sha256",
+        "false_negative_count",
+        "false_positive_count",
+        "objective_id",
+        "outcome_id",
+        "outcome_state"
+      ],
+      "properties": {
+        "detector_observation_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "false_negative_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "false_positive_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "objective_id": {"$ref": "#/$defs/identifier"},
+        "outcome_id": {"$ref": "#/$defs/identifier"},
+        "outcome_state": {"enum": ["effective", "inconclusive", "ineffective", "partially_effective"]}
+      }
+    },
+    "coverageGap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_sha256",
+        "expectation_id",
+        "gap_id",
+        "gap_kind",
+        "objective_id",
+        "reason_code",
+        "severity"
+      ],
+      "properties": {
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "expectation_id": {"$ref": "#/$defs/identifier"},
+        "gap_id": {"$ref": "#/$defs/identifier"},
+        "gap_kind": {
+          "enum": [
+            "control_unverified",
+            "detector_unmapped",
+            "missing_detection",
+            "missing_investigation",
+            "missing_prevention",
+            "missing_telemetry"
+          ]
+        },
+        "objective_id": {"$ref": "#/$defs/identifier"},
+        "reason_code": {"$ref": "#/$defs/code"},
+        "severity": {"enum": ["critical", "high", "low", "medium"]}
+      }
+    }
+  }
+}

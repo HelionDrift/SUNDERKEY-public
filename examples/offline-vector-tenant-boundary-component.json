@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S04",
+  "component_id": "data_supplied_vector_tenant_boundary_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "namespace_inventory_complete": true,
+      "namespaces": [
+        {
+          "namespace_id": "tenant-a-index", "owner_tenant_id": "tenant-a",
+          "mapping_complete": true, "policy_complete": true,
+          "tenant_isolation_required": true
+        },
+        {
+          "namespace_id": "tenant-b-index", "owner_tenant_id": "tenant-b",
+          "mapping_complete": true, "policy_complete": true,
+          "tenant_isolation_required": true
+        }
+      ],
+      "queries": [{
+        "query_id": "query-a", "namespace_id": "tenant-a-index",
+        "requester_tenant_id": "tenant-a", "filter_mode": "exact_tenant",
+        "filter_tenant_id": "tenant-a", "filter_complete": true,
+        "context_complete": true, "result_complete": true,
+        "sharing_delegation_policy_complete": true,
+        "sharing_delegation_exception": "none",
+        "returned_records": [
+          {
+            "record_id": "cross-tenant", "namespace_id": "tenant-a-index",
+            "tenant_id": "tenant-b", "metadata_complete": true
+          },
+          {
+            "record_id": "exact-match", "namespace_id": "tenant-a-index",
+            "tenant_id": "tenant-a", "metadata_complete": true
+          },
+          {
+            "record_id": "unknown-label", "namespace_id": "tenant-a-index",
+            "tenant_id": null, "metadata_complete": false
+          }
+        ]
+      }]
+    }
+  }
+}

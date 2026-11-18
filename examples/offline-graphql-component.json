@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "schema_content": "{\"query_type\":\"Query\",\"types\":[{\"name\":\"Query\",\"kind\":\"OBJECT\",\"fields\":[{\"name\":\"users\",\"type\":\"[User!]!\"}]},{\"name\":\"User\",\"kind\":\"OBJECT\",\"fields\":[{\"name\":\"id\",\"type\":\"ID!\"}]},{\"name\":\"ID\",\"kind\":\"SCALAR\",\"fields\":[]}]}",
+    "query_content": "{ users { first: id second: id } }",
+    "schema_source_id": "example.output-types",
+    "query_source_id": "example.query",
+    "operation_name": null,
+    "limits": {
+      "max_schema_bytes": 4096,
+      "max_query_bytes": 4096,
+      "max_depth": 8,
+      "max_tokens": 128,
+      "max_nodes": 128,
+      "max_expanded_selections": 128
+    }
+  }
+}

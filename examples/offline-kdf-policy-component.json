@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S04",
+  "component_id": "crypto_supplied_kdf_policy_comparison",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:kdf-policy",
+      "policy_complete": true,
+      "records_complete": true,
+      "policy_profiles": [
+        {
+          "algorithm": "argon2id",
+          "minimum_parameters": {
+            "memory_kib": 65536,
+            "iterations": 3,
+            "parallelism": 1
+          },
+          "minimum_salt_bytes": 16,
+          "minimum_output_bytes": 32
+        }
+      ],
+      "records": [
+        {
+          "record_id": "synthetic:configuration-one",
+          "algorithm": "argon2id",
+          "parameters": {
+            "memory_kib": 32768,
+            "iterations": 3,
+            "parallelism": 1
+          },
+          "salt_bytes": 16,
+          "output_bytes": 32,
+          "active": true
+        }
+      ]
+    }
+  }
+}

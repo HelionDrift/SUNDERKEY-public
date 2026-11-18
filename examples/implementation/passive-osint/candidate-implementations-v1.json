@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "candidate_catalog_id": "sunderkey-passive-osint-development-candidates",
+  "candidate_catalog_version": "1.0.0",
+  "expert_catalog_id": "sunderkey-offensive-expert-army",
+  "expert_catalog_version": "1.0.0",
+  "capability_catalog_id": "sunderkey-army-capabilities",
+  "capability_catalog_version": "1.0.0",
+  "capability_catalog_sha256": "sha256:62739135d468daf2a45b1145432271f2e26f851a42409b2f347e9c0d6e47646f",
+  "qualification_standard_id": "sunderkey-specialist-qualification",
+  "qualification_standard_version": "1.0.0",
+  "qualification_standard_sha256": "sha256:814aa71328244b3c608706a08504e13fde8290f72d741b8c94d93cbd41e945cc",
+  "qualification_plan_catalog_id": "sunderkey-army-qualification-plans",
+  "qualification_plan_catalog_version": "1.0.0",
+  "qualification_plan_catalog_sha256": "sha256:f820ddd290463a9c8f14debc8e85d272ea34f43524f34825a3728da8d2c5aa9e",
+  "candidate_blueprint_catalog_id": "sunderkey-specialist-blueprints",
+  "candidate_blueprint_catalog_version": "1.0.0",
+  "candidate_blueprint_catalog_sha256": "sha256:b69f75b8b920f77bb768f5bd99559ed971a30e578eb6ea8027406baf909d3797",
+  "candidates": [
+    {
+      "candidate_id": "development.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "lifecycle": "development",
+      "implementation_kind": "agent_bundle",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "behavior_contract_sha256": "sha256:c4696f09904cd134fd2395a3c3fd5e9844ee09639a1431cd08f9baded6ffcbf0",
+      "instruction_bundle_sha256": "sha256:a3b00c740c429b33f23b6dd7962cd4f6bd54598ad1f23b9111219677327ccdc1",
+      "knowledge_manifest_sha256": "sha256:29742585cc7dae365bd26254a429d543e40a246fb9f61e05a2d9241aabf19444",
+      "runtime_manifest_sha256": "sha256:f842ea7d8ab7e98358dfe692cfdd2038d0fd9fc687d0a7bf25d2313c5698f280",
+      "tool_policy_sha256": "sha256:e37d78c1620b1a65b732669872b97bea104512e7e1e84bd29aab05c7dbfdb3a4",
+      "candidate_artifact_sha256": "sha256:faf1afbbaba455b9c4d5a02faaa80b0d3b0f04780fe65a89583087e8b7d0605e"
+    }
+  ]
+}

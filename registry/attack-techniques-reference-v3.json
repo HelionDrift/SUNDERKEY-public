@@ -1,0 +1,1013 @@
+{
+  "schema_version": 3,
+  "catalog_id": "sunderkey-attack-techniques-reference-v3",
+  "catalog_version": "3.0.0",
+  "catalog_sha256": "sha256:ddd8ec32ed2c4d92cf44fb0e9c0d15b59883c73a2ea626f510ffc5406618a423",
+  "catalog_status": "infrastructure_independent_reference",
+  "reference_profiles": [
+    {
+      "profile_id": "AOE-GA-D01-S01",
+      "profile_name": "Passive OSINT",
+      "vector_id": "AV-GA-D01-S01-01",
+      "family": "passive_discovery"
+    },
+    {
+      "profile_id": "AOE-GB-D06-S09",
+      "profile_name": "API object-level authorization",
+      "vector_id": "AV-GB-D06-S09-01",
+      "family": "api_object_authorization"
+    },
+    {
+      "profile_id": "AOE-GA-D03-S14",
+      "profile_name": "Entitlement graphs and toxic combinations",
+      "vector_id": "AV-GA-D03-S14-01",
+      "family": "identity_entitlement_paths"
+    },
+    {
+      "profile_id": "AOE-GC-D14-S01",
+      "profile_name": "AWS IAM and Organizations",
+      "vector_id": "AV-GC-D14-S01-01",
+      "family": "cloud_iam_paths"
+    },
+    {
+      "profile_id": "AOE-GC-D11-S08",
+      "profile_name": "Windows local privilege escalation",
+      "vector_id": "AV-GC-D11-S08-01",
+      "family": "endpoint_privilege_paths"
+    },
+    {
+      "profile_id": "AOE-GD-D19-S01",
+      "profile_name": "ICS zones and conduits",
+      "vector_id": "AV-GD-D19-S01-01",
+      "family": "ics_segmentation_and_restoration"
+    }
+  ],
+  "standards_sources": [
+    {
+      "source_id": "iec-62443-3-3",
+      "title": "IEC 62443-3-3:2013 Industrial communication networks security",
+      "publisher": "International Electrotechnical Commission",
+      "source_version": "IEC 62443-3-3:2013",
+      "release_date": "2013-08-07",
+      "url": "https://webstore.iec.ch/en/publication/7033",
+      "reference_ids": [
+        "SR 5.1",
+        "SR 5.2",
+        "SR 7.4"
+      ]
+    },
+    {
+      "source_id": "mitre-attack-enterprise",
+      "title": "MITRE ATT&CK Enterprise",
+      "publisher": "MITRE",
+      "source_version": "19.2",
+      "release_date": "2026-08-05",
+      "url": "https://github.com/mitre-attack/attack-stix-data/releases/tag/v19.2",
+      "reference_ids": [
+        "T1053.005",
+        "T1069.002",
+        "T1069.003",
+        "T1087.004",
+        "T1098",
+        "T1098.003",
+        "T1543.003",
+        "T1547.001",
+        "T1593.003",
+        "T1596.001",
+        "T1596.003"
+      ]
+    },
+    {
+      "source_id": "owasp-api-security",
+      "title": "OWASP API Security Top 10",
+      "publisher": "OWASP Foundation",
+      "source_version": "2023",
+      "release_date": "2023-07-03",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+      "reference_ids": [
+        "API1:2023"
+      ]
+    }
+  ],
+  "techniques": [
+    {
+      "technique_id": "AT3-GA-D01-S01-01",
+      "profile_id": "AOE-GA-D01-S01",
+      "vector_id": "AV-GA-D01-S01-01",
+      "name": "Certificate transparency name expansion",
+      "family": "passive_discovery",
+      "record_kind": "technique",
+      "mechanic": "Join certificate subject alternative names to the scoped suffix and issuance window.",
+      "description": "Expand candidate hostnames from a fixed offline certificate transparency export.",
+      "prerequisites": [
+        "A synthetic certificate export has stable record identifiers and timestamps.",
+        "The approved synthetic suffix and observation window are fixed before analysis."
+      ],
+      "observables": [
+        "Subject alternative names sharing the scoped suffix.",
+        "Issuer and not-before timestamps that support each name relationship."
+      ],
+      "safe_proof": [
+        "Report only normalized names and cited synthetic record identifiers.",
+        "Recompute the join from the same immutable export and compare its digest."
+      ],
+      "negative_controls": [
+        "Include a certificate for an unrelated suffix and require its exclusion.",
+        "Include a matching name outside the time window and require its exclusion."
+      ],
+      "cleanup_and_restoration": [
+        "Delete the disposable normalized-name table after evidence is hashed.",
+        "Verify the source export digest is unchanged because analysis is read-only."
+      ],
+      "blind_spots": [
+        "Private certification authorities are absent from public transparency data.",
+        "Wildcard names do not establish that any concrete host is active."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1596.003",
+          "relationship": "related_technique",
+          "rationale": "Certificate records are used only as offline search-open-web evidence."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:82bd3ebfc4b383f33749bf3bcd15ea736ee8dccc34a033e9b1cf517fb1fbeb8a"
+    },
+    {
+      "technique_id": "AT3-GA-D01-S01-02",
+      "profile_id": "AOE-GA-D01-S01",
+      "vector_id": "AV-GA-D01-S01-01",
+      "name": "Passive DNS relationship correlation",
+      "family": "passive_discovery",
+      "record_kind": "path",
+      "mechanic": "Traverse time-bounded passive DNS name-to-address-to-name relationships.",
+      "description": "Correlate historical DNS observations without issuing a DNS query or touching a target.",
+      "prerequisites": [
+        "An offline synthetic passive DNS table includes first-seen and last-seen times.",
+        "Seed names and the maximum relationship depth are explicitly bounded."
+      ],
+      "observables": [
+        "Timestamped name and address edges used by each reported path.",
+        "Path depth and temporal overlap for every correlation."
+      ],
+      "safe_proof": [
+        "Emit the shortest bounded path with the evidence ID for every edge.",
+        "Replay the traversal on a shuffled copy and require the same sorted result."
+      ],
+      "negative_controls": [
+        "Add an address reuse edge with no temporal overlap and reject the path.",
+        "Add a relationship beyond the depth bound and require its omission."
+      ],
+      "cleanup_and_restoration": [
+        "Discard the derived adjacency index after the result digest is recorded.",
+        "Confirm no resolver or network interface was used during the proof."
+      ],
+      "blind_spots": [
+        "Shared hosting can create relationships with no organizational ownership.",
+        "Short retention windows can hide older name and address associations."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1596.001",
+          "relationship": "related_technique",
+          "rationale": "Historical DNS records provide a bounded offline analogue of DNS collection."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:76907278aec47055ce8d4a883cd2f8ef5d5e9a9162e8d153e6c817fd6fe22d78"
+    },
+    {
+      "technique_id": "AT3-GA-D01-S01-03",
+      "profile_id": "AOE-GA-D01-S01",
+      "vector_id": "AV-GA-D01-S01-01",
+      "name": "Public repository ownership hint extraction",
+      "family": "passive_discovery",
+      "record_kind": "technique",
+      "mechanic": "Correlate repository metadata tokens to a synthetic organization name without cloning code.",
+      "description": "Use a fixed metadata snapshot to identify declared domains, package namespaces, and owners.",
+      "prerequisites": [
+        "Repository and package metadata are supplied as an immutable synthetic snapshot.",
+        "Organization aliases and accepted metadata fields are enumerated in advance."
+      ],
+      "observables": [
+        "Declared homepage domains and package namespace strings.",
+        "Repository owner identifiers and snapshot timestamps."
+      ],
+      "safe_proof": [
+        "Cite the metadata field and synthetic record ID for every ownership hint.",
+        "Label each result as a hint and never infer operational control from a string match."
+      ],
+      "negative_controls": [
+        "Include a similarly named unrelated organization and require exact alias handling.",
+        "Include an archived record after the cutoff date and require its exclusion."
+      ],
+      "cleanup_and_restoration": [
+        "Remove the temporary token index after deterministic results are produced.",
+        "Retain only digests and cited synthetic metadata identifiers."
+      ],
+      "blind_spots": [
+        "Metadata may be stale, copied, or intentionally misleading.",
+        "Private repositories and registries cannot appear in the supplied snapshot."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1593.003",
+          "relationship": "related_technique",
+          "rationale": "Repository metadata is a non-interactive subset of code repository search."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:313526dd6357fbcdc412ba36351524b694cbad980bd6710afdf2cf05c8a0c918"
+    },
+    {
+      "technique_id": "AT3-GA-D03-S14-01",
+      "profile_id": "AOE-GA-D03-S14",
+      "vector_id": "AV-GA-D03-S14-01",
+      "name": "Nested group entitlement path",
+      "family": "identity_entitlement_paths",
+      "record_kind": "path",
+      "mechanic": "Traverse user-to-group and group-to-group edges to a privileged entitlement.",
+      "description": "Find a shortest inherited group path in a synthetic identity graph.",
+      "prerequisites": [
+        "Identity nodes and typed membership edges have stable synthetic identifiers.",
+        "Privileged entitlement nodes and maximum traversal depth are declared."
+      ],
+      "observables": [
+        "Each user, group, and entitlement node on the selected path.",
+        "Direct or inherited membership type for every path edge."
+      ],
+      "safe_proof": [
+        "Return only a cited graph path and do not change any membership.",
+        "Revoke one synthetic edge in a copied graph and require the path to disappear."
+      ],
+      "negative_controls": [
+        "Provide a cycle with no privileged endpoint and require cycle-safe termination.",
+        "Provide a disabled membership edge and require the traversal to ignore it."
+      ],
+      "cleanup_and_restoration": [
+        "Discard the copied graph used for edge-removal proof.",
+        "Compare the original identity graph digest before and after analysis."
+      ],
+      "blind_spots": [
+        "Dynamic groups may depend on attributes absent from a static export.",
+        "Application-local roles can be omitted from a directory-only graph."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1069.002",
+          "relationship": "related_technique",
+          "rationale": "Domain group discovery is related to enumerating inherited group paths."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:6f0cb8349f189342fbe2adc9288a4afe4d14971313755f51f7395b29c5fdece0"
+    },
+    {
+      "technique_id": "AT3-GA-D03-S14-02",
+      "profile_id": "AOE-GA-D03-S14",
+      "vector_id": "AV-GA-D03-S14-01",
+      "name": "Delegated role activation chain",
+      "family": "identity_entitlement_paths",
+      "record_kind": "path",
+      "mechanic": "Join assignment, activation condition, and role edges into a delegated privilege path.",
+      "description": "Evaluate whether a synthetic principal can activate a privileged role through delegation.",
+      "prerequisites": [
+        "Role assignments, eligibility windows, and activation conditions are in one snapshot.",
+        "The evaluation time and privileged role set are fixed inputs."
+      ],
+      "observables": [
+        "Eligible assignment and delegating principal identifiers.",
+        "Satisfied and unsatisfied activation conditions along the candidate path."
+      ],
+      "safe_proof": [
+        "Evaluate conditions symbolically and emit no role activation request.",
+        "Cite the exact assignment records that make the path reachable."
+      ],
+      "negative_controls": [
+        "Move the evaluation time outside eligibility and require path rejection.",
+        "Mark one approval condition unsatisfied and require path rejection."
+      ],
+      "cleanup_and_restoration": [
+        "Remove the temporary condition evaluation cache.",
+        "Verify all assignment and eligibility records retain their initial digests."
+      ],
+      "blind_spots": [
+        "External approval services can impose conditions missing from the snapshot.",
+        "Emergency access processes may bypass normal activation relationships."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1098.003",
+          "relationship": "related_technique",
+          "rationale": "Additional cloud roles are related to the delegated role path being modeled."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:2d836e63377c4d8eaf6f4d19d91663a6434250d6fbc2da4941eeeba4ea87571f"
+    },
+    {
+      "technique_id": "AT3-GA-D03-S14-03",
+      "profile_id": "AOE-GA-D03-S14",
+      "vector_id": "AV-GA-D03-S14-01",
+      "name": "Toxic entitlement combination",
+      "family": "identity_entitlement_paths",
+      "record_kind": "path",
+      "mechanic": "Intersect data-read and entitlement-delegation capabilities held by one principal.",
+      "description": "Identify a synthetic toxic combination that exists only when two capability sets converge.",
+      "prerequisites": [
+        "Normalized effective entitlements identify capability, resource, and principal.",
+        "The toxic-combination rule names both required capabilities and resource scope."
+      ],
+      "observables": [
+        "The independent grants contributing each required capability.",
+        "The common principal and overlapping resource scope."
+      ],
+      "safe_proof": [
+        "Produce a set-intersection witness with cited grant identifiers.",
+        "Remove either grant in a copied entitlement set and require a negative result."
+      ],
+      "negative_controls": [
+        "Supply the two capabilities on different principals and reject the combination.",
+        "Supply non-overlapping resource scopes and reject the combination."
+      ],
+      "cleanup_and_restoration": [
+        "Destroy the copied entitlement sets used for counterfactual checks.",
+        "Confirm no grant, role, or resource policy was altered."
+      ],
+      "blind_spots": [
+        "Conditional denies may reduce an apparent effective entitlement.",
+        "Session constraints can narrow privileges after the snapshot was taken."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1098",
+          "relationship": "related_technique",
+          "rationale": "Account manipulation provides context for harmful combinations of account grants."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:f6db68f778ecdf500d4e87abe6734136451e8f122b7f7f1e7742a89bdb830cdb"
+    },
+    {
+      "technique_id": "AT3-GB-D06-S09-01",
+      "profile_id": "AOE-GB-D06-S09",
+      "vector_id": "AV-GB-D06-S09-01",
+      "name": "Peer object identifier substitution",
+      "family": "api_object_authorization",
+      "record_kind": "technique",
+      "mechanic": "Compare an owned-object fixture with a peer-object fixture under the same synthetic actor.",
+      "description": "Detect an object-level decision that relies on identifier validity but omits ownership.",
+      "prerequisites": [
+        "An offline decision trace contains one actor and two same-type synthetic objects.",
+        "Expected owner and policy decisions are declared for both objects."
+      ],
+      "observables": [
+        "Actor, object, ownership, policy-rule, and decision identifiers.",
+        "Equivalent request shape with only the synthetic object identifier changed."
+      ],
+      "safe_proof": [
+        "Replay the two stored decisions in a pure policy evaluator with no HTTP request.",
+        "Require allow for the owned fixture and deny for the peer fixture."
+      ],
+      "negative_controls": [
+        "Use an unknown object identifier and require a deny outcome.",
+        "Use the peer owner as actor and require the expected allow outcome."
+      ],
+      "cleanup_and_restoration": [
+        "Discard evaluator state after recording cited decision traces.",
+        "Verify fixture and policy digests remain unchanged."
+      ],
+      "blind_spots": [
+        "A fixture cannot model undocumented application-side authorization hooks.",
+        "Opaque indirect identifiers may hide whether two objects share a type."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "owasp-api-security",
+          "source_version": "2023",
+          "source_release_date": "2023-07-03",
+          "reference_id": "API1:2023",
+          "relationship": "exact_risk",
+          "rationale": "Peer object substitution directly represents broken object-level authorization risk."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:1f9692a0902a0b030b4873046f9f0a42b1c03cb0a5bcbe606d30f025198965b0"
+    },
+    {
+      "technique_id": "AT3-GB-D06-S09-02",
+      "profile_id": "AOE-GB-D06-S09",
+      "vector_id": "AV-GB-D06-S09-01",
+      "name": "Nested subresource ownership mismatch",
+      "family": "api_object_authorization",
+      "record_kind": "path",
+      "mechanic": "Resolve parent and child ownership separately before evaluating a nested object route.",
+      "description": "Detect a policy that validates a parent but fails to bind the requested child to that parent.",
+      "prerequisites": [
+        "Synthetic parent-child records and ownership edges are complete for the fixture.",
+        "A stored route template identifies both parent and child selectors."
+      ],
+      "observables": [
+        "Resolved parent owner, child owner, and parent-child relationship.",
+        "Policy trace showing which selector each authorization rule consumed."
+      ],
+      "safe_proof": [
+        "Evaluate a mismatched child in an offline route-policy model.",
+        "Require the proof to stop at deny without invoking a resource handler."
+      ],
+      "negative_controls": [
+        "Pair the parent with its legitimate child and require an allow decision.",
+        "Pair a legitimate child with an unauthorized parent and require a deny decision."
+      ],
+      "cleanup_and_restoration": [
+        "Clear the in-memory route resolution table.",
+        "Reconcile parent-child fixture hashes against their baseline values."
+      ],
+      "blind_spots": [
+        "Eventual consistency can make parent-child exports temporarily disagree.",
+        "Authorization performed downstream may be absent from a route-level trace."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "owasp-api-security",
+          "source_version": "2023",
+          "source_release_date": "2023-07-03",
+          "reference_id": "API1:2023",
+          "relationship": "exact_risk",
+          "rationale": "Nested resource ownership is a concrete object-level authorization boundary."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:0b0d341b8bce66e515adf811bfe8c39b46d1361c6dbfd7e833a38279e7e15ba2"
+    },
+    {
+      "technique_id": "AT3-GB-D06-S09-03",
+      "profile_id": "AOE-GB-D06-S09",
+      "vector_id": "AV-GB-D06-S09-01",
+      "name": "Bulk selector mixed-ownership decision",
+      "family": "api_object_authorization",
+      "record_kind": "technique",
+      "mechanic": "Partition a synthetic bulk selector by per-object ownership before aggregate evaluation.",
+      "description": "Find an aggregate authorization decision that masks one unauthorized object among owned ones.",
+      "prerequisites": [
+        "A synthetic bulk request fixture contains at least two object identifiers.",
+        "Per-object ownership and expected all-or-nothing behavior are declared."
+      ],
+      "observables": [
+        "The ordered object identifiers and their individual owner decisions.",
+        "Aggregate allow or deny decision with the governing policy rule."
+      ],
+      "safe_proof": [
+        "Evaluate the stored selector without sending an API request.",
+        "Require a deny or explicit authorized subset when any object is unauthorized."
+      ],
+      "negative_controls": [
+        "Use an all-owned selector and require its documented success behavior.",
+        "Use an all-peer selector and require a complete deny outcome."
+      ],
+      "cleanup_and_restoration": [
+        "Erase the temporary selector partition after evidence capture.",
+        "Confirm object fixtures and ownership records are byte-identical to baseline."
+      ],
+      "blind_spots": [
+        "Streaming endpoints may authorize objects after the initial aggregate decision.",
+        "Field-level filtering can obscure an object-level authorization defect."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "owasp-api-security",
+          "source_version": "2023",
+          "source_release_date": "2023-07-03",
+          "reference_id": "API1:2023",
+          "relationship": "exact_risk",
+          "rationale": "A mixed-ownership bulk selector exercises object-level authorization for every ID."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:084a2ab6b3f659238833c997afe054be677df128d33356dbaa9750d138df528f"
+    },
+    {
+      "technique_id": "AT3-GC-D11-S08-01",
+      "profile_id": "AOE-GC-D11-S08",
+      "vector_id": "AV-GC-D11-S08-01",
+      "name": "Writable service configuration path",
+      "family": "endpoint_privilege_paths",
+      "record_kind": "path",
+      "mechanic": "Join service start identity, configuration ACL, and binary ACL into a static privilege path.",
+      "description": "Identify a synthetic service path where an unprivileged principal can alter privileged startup state.",
+      "prerequisites": [
+        "Offline service configuration and ACL fixtures identify principals by stable SID aliases.",
+        "Privileged service identities and protected paths are labeled in the fixture."
+      ],
+      "observables": [
+        "Service identity, start mode, configuration path, and binary path.",
+        "Effective write edges from the synthetic principal to service-controlled objects."
+      ],
+      "safe_proof": [
+        "Construct a graph witness without editing a service or file.",
+        "Cite the exact access-control entries that complete the path."
+      ],
+      "negative_controls": [
+        "Remove the write edge in a copied ACL and require no path.",
+        "Change the service identity to an unprivileged fixture and require no privileged endpoint."
+      ],
+      "cleanup_and_restoration": [
+        "Delete copied ACL and service graph material after comparison.",
+        "Verify no service, registry key, or executable was created or modified."
+      ],
+      "blind_spots": [
+        "Runtime security products can block changes allowed by a static ACL.",
+        "Service launch protections can invalidate a path inferred from configuration alone."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1543.003",
+          "relationship": "related_technique",
+          "rationale": "Windows service configuration is the specific privilege-path surface modeled."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:9b26bdafa13be3dadaaa887cf9cfd74c7167f3f380bd7dee89d9c25a7244620b"
+    },
+    {
+      "technique_id": "AT3-GC-D11-S08-02",
+      "profile_id": "AOE-GC-D11-S08",
+      "vector_id": "AV-GC-D11-S08-01",
+      "name": "Privileged scheduled task edit path",
+      "family": "endpoint_privilege_paths",
+      "record_kind": "path",
+      "mechanic": "Connect task run identity to writable task definition and referenced action artifacts.",
+      "description": "Model whether a synthetic user controls data consumed by a higher-privilege scheduled task.",
+      "prerequisites": [
+        "Offline task definitions include run-as identity, triggers, and action paths.",
+        "ACL fixtures cover each task definition and referenced local artifact."
+      ],
+      "observables": [
+        "Task run-as identity and action command metadata without executable content.",
+        "Write permission edges to the task definition or referenced artifact."
+      ],
+      "safe_proof": [
+        "Emit a static task-to-artifact-to-principal path only.",
+        "Demonstrate path removal by tightening a copied ACL fixture."
+      ],
+      "negative_controls": [
+        "Use a disabled task and require it to be classified non-triggerable.",
+        "Use a writable artifact referenced only by an unprivileged task and reject escalation."
+      ],
+      "cleanup_and_restoration": [
+        "Dispose of copied task and ACL fixtures used by the proof.",
+        "Assert that task definitions, triggers, and files were never written."
+      ],
+      "blind_spots": [
+        "A static task export may omit runtime credential restrictions.",
+        "Remote task actions can depend on permissions outside the endpoint fixture."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1053.005",
+          "relationship": "related_technique",
+          "rationale": "Scheduled task metadata is the Windows task surface represented by this path."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:95a7e386a379fef385e93141b6bdba1fece849cbbfe5c2319f271b7d4ad20efa"
+    },
+    {
+      "technique_id": "AT3-GC-D11-S08-03",
+      "profile_id": "AOE-GC-D11-S08",
+      "vector_id": "AV-GC-D11-S08-01",
+      "name": "Privileged startup artifact path",
+      "family": "endpoint_privilege_paths",
+      "record_kind": "path",
+      "mechanic": "Correlate startup location execution context with effective write access to its artifact.",
+      "description": "Find a synthetic startup entry consumed by a more privileged logon context.",
+      "prerequisites": [
+        "Startup entry fixtures state scope, consuming identity class, and artifact path.",
+        "Effective ACL fixtures are normalized for the unprivileged synthetic principal."
+      ],
+      "observables": [
+        "Startup location and consuming identity class.",
+        "Artifact ownership plus inherited and explicit write permissions."
+      ],
+      "safe_proof": [
+        "Report a read-only relationship path with no registry or filesystem write.",
+        "Prove dependency by removing the startup edge in an isolated graph copy."
+      ],
+      "negative_controls": [
+        "Use a user-only startup entry and require no higher-privilege path.",
+        "Use a protected artifact ACL and require path rejection."
+      ],
+      "cleanup_and_restoration": [
+        "Destroy the isolated relationship graph after the proof.",
+        "Compare registry and artifact fixture digests to their original values."
+      ],
+      "blind_spots": [
+        "Application control policy can prevent execution despite the relationship.",
+        "Logon ordering can affect whether the startup artifact is consumed."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1547.001",
+          "relationship": "related_technique",
+          "rationale": "Registry run keys and startup folders are the persistence surface being modeled."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:68cddb802c47a792de4ea06595f3684b58dee300b8d78b5407f2ff54e5862265"
+    },
+    {
+      "technique_id": "AT3-GC-D14-S01-01",
+      "profile_id": "AOE-GC-D14-S01",
+      "vector_id": "AV-GC-D14-S01-01",
+      "name": "Identity policy wildcard permission path",
+      "family": "cloud_iam_paths",
+      "record_kind": "path",
+      "mechanic": "Resolve principal-to-policy attachments and wildcard action-resource allows.",
+      "description": "Trace a synthetic principal to an overbroad allow while preserving explicit deny precedence.",
+      "prerequisites": [
+        "Normalized synthetic IAM policies include statements, attachments, and conditions.",
+        "The evaluation context supplies every condition key referenced by a statement."
+      ],
+      "observables": [
+        "Principal, policy, statement, action, resource, and condition identifiers.",
+        "Matched explicit deny and allow statements in evaluation order."
+      ],
+      "safe_proof": [
+        "Use a pure policy evaluator and emit only the decision trace.",
+        "Require an explicit deny to override a wildcard allow in the proof fixture."
+      ],
+      "negative_controls": [
+        "Add a matching explicit deny and require the effective path to close.",
+        "Narrow the requested resource outside the allow scope and require denial."
+      ],
+      "cleanup_and_restoration": [
+        "Clear the policy evaluation cache and synthetic request context.",
+        "Verify no policy version, attachment, or cloud object was changed."
+      ],
+      "blind_spots": [
+        "Service-specific authorization rules may differ from the normalized evaluator.",
+        "Missing condition keys can make an offline decision indeterminate."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1087.004",
+          "relationship": "related_technique",
+          "rationale": "Cloud account discovery is related context for the principals in an IAM path."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:41b8bf9672d4d0c6bc2b974c61b19519f4c553c082e23615ca4d3ba35152d468"
+    },
+    {
+      "technique_id": "AT3-GC-D14-S01-02",
+      "profile_id": "AOE-GC-D14-S01",
+      "vector_id": "AV-GC-D14-S01-01",
+      "name": "Cross-account role trust path",
+      "family": "cloud_iam_paths",
+      "record_kind": "path",
+      "mechanic": "Join caller permissions, role trust, and organization conditions across synthetic accounts.",
+      "description": "Determine whether both sides of a modeled role assumption path are satisfied.",
+      "prerequisites": [
+        "Caller policy, role trust policy, and organization metadata share stable account aliases.",
+        "External identifier and organization condition values are explicitly supplied or absent."
+      ],
+      "observables": [
+        "Caller-side allow statement and target-side trust statement.",
+        "Condition results for organization, account, and external identifier constraints."
+      ],
+      "safe_proof": [
+        "Evaluate the two policy halves without requesting any token.",
+        "Report the minimal cited statement set required for reachability."
+      ],
+      "negative_controls": [
+        "Remove the caller-side allow and require the path to fail.",
+        "Use a nonmatching organization identifier and require the trust condition to fail."
+      ],
+      "cleanup_and_restoration": [
+        "Delete the temporary cross-account adjacency index.",
+        "Confirm no role session, credential, or policy update was created."
+      ],
+      "blind_spots": [
+        "Service control policies may block a path otherwise allowed by both role policies.",
+        "Federation session attributes may change condition evaluation."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1098.003",
+          "relationship": "related_technique",
+          "rationale": "Additional cloud roles are related to cross-account role access paths."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:9687ab46e73370ef225f02e1594435f74e00af55a2b4a6a6b47017d5e266ffc0"
+    },
+    {
+      "technique_id": "AT3-GC-D14-S01-03",
+      "profile_id": "AOE-GC-D14-S01",
+      "vector_id": "AV-GC-D14-S01-01",
+      "name": "Organization boundary effective permission path",
+      "family": "cloud_iam_paths",
+      "record_kind": "path",
+      "mechanic": "Intersect identity allow, permissions boundary, and organization policy layers.",
+      "description": "Find a synthetic action that survives every applicable cloud IAM policy boundary.",
+      "prerequisites": [
+        "The organization hierarchy and attached service control policies are immutable fixtures.",
+        "Identity policy and permissions boundary inputs use one normalized action vocabulary."
+      ],
+      "observables": [
+        "Organization units traversed from account to root.",
+        "Allow or deny contribution from each policy layer for the action and resource."
+      ],
+      "safe_proof": [
+        "Compute set intersection and deny precedence without a cloud control-plane call.",
+        "Cite every layer needed to support the final effective permission."
+      ],
+      "negative_controls": [
+        "Attach a copied service control policy deny and require the path to close.",
+        "Remove the identity allow in a copied fixture and require no effective permission."
+      ],
+      "cleanup_and_restoration": [
+        "Discard copied hierarchy and policy-layer fixtures.",
+        "Verify all original organization and IAM fixture hashes are unchanged."
+      ],
+      "blind_spots": [
+        "Resource policies and session policies can add layers absent from this fixture.",
+        "Organization policy propagation delay is not represented offline."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "mitre-attack-enterprise",
+          "source_version": "19.2",
+          "source_release_date": "2026-08-05",
+          "reference_id": "T1069.003",
+          "relationship": "related_technique",
+          "rationale": "Cloud role discovery is related to resolving effective organization role paths."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:8469c6de4cd653f5874534bcfcfa82c5d2bf79994935f9eb1171c093772e7723"
+    },
+    {
+      "technique_id": "AT3-GD-D19-S01-01",
+      "profile_id": "AOE-GD-D19-S01",
+      "vector_id": "AV-GD-D19-S01-01",
+      "name": "Unauthorized inter-zone flow path",
+      "family": "ics_segmentation_and_restoration",
+      "record_kind": "path",
+      "mechanic": "Compare observed synthetic source-zone and destination-zone flows to the conduit matrix.",
+      "description": "Detect a modeled flow that crosses an undeclared industrial zone boundary.",
+      "prerequisites": [
+        "A synthetic zone inventory and approved conduit matrix have stable identifiers.",
+        "Offline flow records identify direction, protocol class, and observation time."
+      ],
+      "observables": [
+        "Source zone, destination zone, conduit, and protocol class.",
+        "Policy matrix decision and cited flow record for each boundary crossing."
+      ],
+      "safe_proof": [
+        "Compare immutable records only and emit no packet or rule change.",
+        "Report the matrix cell and flow identifier that demonstrate the mismatch."
+      ],
+      "negative_controls": [
+        "Use a declared conduit flow and require a compliant result.",
+        "Reverse a one-way permitted flow and require an unauthorized result."
+      ],
+      "cleanup_and_restoration": [
+        "Remove the derived zone-pair index after the comparison.",
+        "Verify the zone, conduit, and flow input digests remain unchanged."
+      ],
+      "blind_spots": [
+        "Unmonitored serial or vendor links may not appear in flow records.",
+        "NAT can obscure the original industrial asset zone."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "iec-62443-3-3",
+          "source_version": "IEC 62443-3-3:2013",
+          "source_release_date": "2013-08-07",
+          "reference_id": "SR 5.1",
+          "relationship": "control_alignment",
+          "rationale": "Network segmentation aligns with checking traffic against defined zones and conduits."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:2df7de6b7c2432390099991dcba6e63d1713ec3e371909da35a9a67fe7943203"
+    },
+    {
+      "technique_id": "AT3-GD-D19-S01-02",
+      "profile_id": "AOE-GD-D19-S01",
+      "vector_id": "AV-GD-D19-S01-01",
+      "name": "Conduit boundary protection gap",
+      "family": "ics_segmentation_and_restoration",
+      "record_kind": "technique",
+      "mechanic": "Join each declared conduit to its synthetic boundary enforcement and monitoring controls.",
+      "description": "Identify a modeled conduit lacking a required deny, allowlist, or observation control.",
+      "prerequisites": [
+        "Each conduit fixture names required control classes and enforcement points.",
+        "Boundary control inventory is a read-only synthetic configuration export."
+      ],
+      "observables": [
+        "Conduit identifier, enforcement point, and configured control classes.",
+        "Required control class with present, absent, or indeterminate status."
+      ],
+      "safe_proof": [
+        "Produce a configuration join result without connecting to industrial equipment.",
+        "Cite both the conduit requirement and control inventory records."
+      ],
+      "negative_controls": [
+        "Provide a conduit with every required control and require no gap.",
+        "Provide an unreferenced control device and require it not to satisfy the conduit."
+      ],
+      "cleanup_and_restoration": [
+        "Delete the temporary conduit-to-control join table.",
+        "Confirm no firewall, switch, gateway, or monitoring configuration changed."
+      ],
+      "blind_spots": [
+        "A configuration export cannot show a failed enforcement process.",
+        "Proprietary gateway functions may not map cleanly to the control classes."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "iec-62443-3-3",
+          "source_version": "IEC 62443-3-3:2013",
+          "source_release_date": "2013-08-07",
+          "reference_id": "SR 5.2",
+          "relationship": "control_alignment",
+          "rationale": "Zone boundary protection aligns with verifying controls assigned to each conduit."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:97d203333c46620bba1134f84b2331639fb6972f48b967a14df47f9c77054151"
+    },
+    {
+      "technique_id": "AT3-GD-D19-S01-03",
+      "profile_id": "AOE-GD-D19-S01",
+      "vector_id": "AV-GD-D19-S01-01",
+      "name": "Temporary segmentation change restoration",
+      "family": "ics_segmentation_and_restoration",
+      "record_kind": "path",
+      "mechanic": "Compare pre-change, approved temporary, and restored synthetic rule-state snapshots.",
+      "description": "Verify that a modeled maintenance conduit returns exactly to its recorded baseline.",
+      "prerequisites": [
+        "Canonical before, temporary, and after rule snapshots share one device alias.",
+        "The approved temporary delta and restoration deadline are explicit fixture fields."
+      ],
+      "observables": [
+        "Rules added, removed, or reordered in the temporary snapshot.",
+        "Residual differences between baseline and restored snapshots."
+      ],
+      "safe_proof": [
+        "Apply the declared delta only to an in-memory model and compare canonical hashes.",
+        "Require the restored snapshot hash to equal the pre-change snapshot hash."
+      ],
+      "negative_controls": [
+        "Leave one temporary rule in the restored fixture and require restoration failure.",
+        "Restore equivalent rules in a different order and evaluate documented order semantics."
+      ],
+      "cleanup_and_restoration": [
+        "Erase the in-memory changed-state model after evidence generation.",
+        "Record failed-closed status for any residual and never assert live restoration."
+      ],
+      "blind_spots": [
+        "Snapshot equality cannot confirm that a device loaded the configuration.",
+        "External controller state may reapply a temporary change after the snapshot."
+      ],
+      "standards_mappings": [
+        {
+          "source_id": "iec-62443-3-3",
+          "source_version": "IEC 62443-3-3:2013",
+          "source_release_date": "2013-08-07",
+          "reference_id": "SR 7.4",
+          "relationship": "control_alignment",
+          "rationale": "Control system recovery aligns with restoring and verifying a known configuration baseline."
+        }
+      ],
+      "authority_effect": "none",
+      "qualification_effect": "none",
+      "routing_effect": "none",
+      "execution_effect": "none",
+      "deployment_effect": "none",
+      "technique_sha256": "sha256:4fc9d62f036c255ff064db68c07f599829a8a06fa7e0940d5357df3e3b4f9623"
+    }
+  ],
+  "coverage_summary": {
+    "reference_profile_count": 6,
+    "technique_count": 18,
+    "profiles_with_multiple_techniques": 6,
+    "standards_source_count": 3,
+    "mapped_technique_count": 18,
+    "unique_mechanic_count": 18,
+    "non_operational_technique_count": 18
+  },
+  "authority_effect": "none",
+  "qualification_effect": "none",
+  "routing_effect": "none",
+  "execution_effect": "none",
+  "deployment_effect": "none",
+  "limitations": [
+    "This catalog describes offline synthetic evidence paths and grants no target authority.",
+    "A mapping supplies standards context but does not claim successful execution or impact.",
+    "Product, deployment, telemetry, and runtime behavior remain outside this reference catalog."
+  ]
+}

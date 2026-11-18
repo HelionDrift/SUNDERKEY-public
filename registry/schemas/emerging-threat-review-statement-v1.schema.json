@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/emerging-threat-review-statement-v1.schema.json",
+  "title": "SUNDERKEY Signed Historical Emerging-Threat Opinion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "statement_id", "statement_sha256", "schema_version", "review_sha256",
+    "advisory_sha256", "inventory_sha256", "reviewer_id", "claimed_role",
+    "disposition", "rationale_sha256", "signed_at", "signer_key_id",
+    "qualification_effect", "effects", "signature_b64url"
+  ],
+  "properties": {
+    "statement_id": {"type": "string", "pattern": "^ETS-[0-9A-F]{32}$"},
+    "statement_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "review_sha256": {"$ref": "#/$defs/sha256"},
+    "advisory_sha256": {"$ref": "#/$defs/sha256"},
+    "inventory_sha256": {"$ref": "#/$defs/sha256"},
+    "reviewer_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "claimed_role": {"enum": ["independent_control", "independent_assurance"]},
+    "disposition": {"enum": ["supports", "challenges", "insufficient_evidence"]},
+    "rationale_sha256": {"$ref": "#/$defs/sha256"},
+    "signed_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "signer_key_id": {"type": "string", "pattern": "^ETK-[0-9A-F]{32}$"},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "admission": "none", "authorization": "none", "content_release": "none",
+        "qualification": "none", "review_approval": "none",
+        "target_interaction": "none", "test_execution": "none"
+      }
+    },
+    "signature_b64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

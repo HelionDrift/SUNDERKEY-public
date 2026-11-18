@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-kexinit",
+      "client_payload_base64": "FAABAgMEBQYHCAkKCwwNDg8AAAAdZGlmZmllLWhlbGxtYW4tZ3JvdXAxNC1zaGEyNTYAAAAMcnNhLXNoYTItMjU2AAAACmFlczEyOC1jdHIAAAAKYWVzMTI4LWN0cgAAAA1obWFjLXNoYTItMjU2AAAADWhtYWMtc2hhMi0yNTYAAAAEbm9uZQAAAARub25lAAAAAAAAAAAAAAAAAA==",
+      "server_payload_base64": "FBAREhMUFRYXGBkaGxwdHh8AAAAdZGlmZmllLWhlbGxtYW4tZ3JvdXAxNC1zaGEyNTYAAAAMcnNhLXNoYTItMjU2AAAACmFlczEyOC1jdHIAAAAKYWVzMTI4LWN0cgAAAA1obWFjLXNoYTItMjU2AAAADWhtYWMtc2hhMi0yNTYAAAAEbm9uZQAAAARub25lAAAAAAAAAAAAAAAAAA=="
+    }
+  }
+}

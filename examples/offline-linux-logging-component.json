@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-logging-routes",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "required_stream_ids": ["security"],
+    "sink_states": [{"sink_id": "sink-a", "enabled_declared": false}],
+    "stream_routes": [{"stream_id": "security", "sink_ids": ["sink-a"]}]
+  }}
+}

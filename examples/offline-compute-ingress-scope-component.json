@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-compute-ingress",
+      "workloads": [
+        {"workload_id": "function-one", "workload_kind": "serverless", "private_only_required": true, "ingress_scope": "public", "authentication_required": true, "context_complete": true},
+        {"workload_id": "container-one", "workload_kind": "container", "private_only_required": true, "ingress_scope": "private", "authentication_required": true, "context_complete": true}
+      ]
+    }
+  }
+}

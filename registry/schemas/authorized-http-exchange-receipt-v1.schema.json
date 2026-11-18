@@ -1,0 +1,229 @@
+{
+  "$id": "https://sunderkey.invalid/schemas/authorized-http-exchange-receipt-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admission_receipt_id": { "$ref": "#/$defs/identifier" },
+    "admission_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "authority_effect": { "const": "none" },
+    "binding": { "$ref": "#/$defs/binding" },
+    "dns_attestation_sha256": {
+      "items": { "$ref": "#/$defs/digest" },
+      "maxItems": 2,
+      "minItems": 0,
+      "type": "array"
+    },
+    "enforcement_boundary": { "const": "injected_authorized_http_adapter_only" },
+    "execution_request_id": { "$ref": "#/$defs/identifier" },
+    "execution_request_sha256": { "$ref": "#/$defs/digest" },
+    "intent_sha256": { "$ref": "#/$defs/digest" },
+    "kind": { "const": "authorized_http_exchange_receipt" },
+    "network_call_performed": { "type": "boolean" },
+    "policy_id": { "$ref": "#/$defs/identifier" },
+    "policy_sha256": { "$ref": "#/$defs/digest" },
+    "qualification_effect": { "const": "none" },
+    "reason": { "$ref": "#/$defs/code" },
+    "receipt_id": { "pattern": "^AHR-[0-9A-F]{32}$", "type": "string" },
+    "receipt_sha256": { "$ref": "#/$defs/digest" },
+    "request_body_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "request_size_bytes": { "maximum": 100000000, "minimum": 0, "type": "integer" },
+    "response_body_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "response_mime_type": {
+      "anyOf": [
+        { "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$", "type": "string" },
+        { "type": "null" }
+      ]
+    },
+    "response_size_bytes": { "maximum": 100000000, "minimum": 0, "type": "integer" },
+    "response_status_code": {
+      "anyOf": [
+        { "maximum": 599, "minimum": 100, "type": "integer" },
+        { "type": "null" }
+      ]
+    },
+    "schema_version": { "const": 1 },
+    "scope_id": { "$ref": "#/$defs/identifier" },
+    "scope_sha256": { "$ref": "#/$defs/digest" },
+    "status": {
+      "enum": ["rejected_before_send", "backend_failed", "response_rejected", "completed"]
+    },
+    "transcript": {
+      "items": { "$ref": "#/$defs/event" },
+      "maxItems": 64,
+      "minItems": 1,
+      "type": "array"
+    },
+    "transcript_id": { "pattern": "^AHT-[0-9A-F]{32}$", "type": "string" },
+    "transcript_sha256": { "$ref": "#/$defs/digest" },
+    "transport_called": { "type": "boolean" }
+  },
+  "required": [
+    "admission_receipt_id",
+    "admission_receipt_sha256",
+    "authority_effect",
+    "binding",
+    "dns_attestation_sha256",
+    "enforcement_boundary",
+    "execution_request_id",
+    "execution_request_sha256",
+    "intent_sha256",
+    "kind",
+    "network_call_performed",
+    "policy_id",
+    "policy_sha256",
+    "qualification_effect",
+    "reason",
+    "receipt_id",
+    "receipt_sha256",
+    "request_body_sha256",
+    "request_size_bytes",
+    "response_body_sha256",
+    "response_mime_type",
+    "response_size_bytes",
+    "response_status_code",
+    "schema_version",
+    "scope_id",
+    "scope_sha256",
+    "status",
+    "transcript",
+    "transcript_id",
+    "transcript_sha256",
+    "transport_called"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "rejected_before_send" } } },
+      "then": {
+        "properties": {
+          "network_call_performed": { "const": false },
+          "transport_called": { "const": false }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": { "enum": ["backend_failed", "response_rejected", "completed"] }
+        }
+      },
+      "then": {
+        "properties": {
+          "network_call_performed": { "const": true },
+          "transport_called": { "const": true }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "completed" } } },
+      "then": {
+        "properties": {
+          "reason": { "const": "completed" },
+          "response_body_sha256": { "$ref": "#/$defs/digest" },
+          "response_mime_type": {
+            "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$",
+            "type": "string"
+          },
+          "response_status_code": { "maximum": 599, "minimum": 100, "type": "integer" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["rejected_before_send", "backend_failed", "response_rejected"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "response_body_sha256": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "request_size_bytes": { "const": 0 } } },
+      "then": {
+        "properties": {
+          "request_body_sha256": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          { "properties": { "transport_called": { "const": true } } },
+          { "properties": { "request_size_bytes": { "minimum": 1 } } }
+        ]
+      },
+      "then": {
+        "properties": {
+          "request_body_sha256": { "$ref": "#/$defs/digest" }
+        }
+      }
+    }
+  ],
+  "title": "Authorized HTTP exchange receipt version 1",
+  "type": "object",
+  "$defs": {
+    "binding": {
+      "additionalProperties": false,
+      "properties": {
+        "context_id": { "$ref": "#/$defs/identifier" },
+        "context_sha256": { "$ref": "#/$defs/digest" },
+        "fence_epoch": { "minimum": 1, "type": "integer" },
+        "lease_id": { "$ref": "#/$defs/identifier" },
+        "scope_id": { "$ref": "#/$defs/identifier" },
+        "scope_sha256": { "$ref": "#/$defs/digest" },
+        "session_id": { "$ref": "#/$defs/identifier" },
+        "target_id": { "$ref": "#/$defs/identifier" },
+        "target_sha256": { "$ref": "#/$defs/digest" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      },
+      "required": [
+        "context_id",
+        "context_sha256",
+        "fence_epoch",
+        "lease_id",
+        "scope_id",
+        "scope_sha256",
+        "session_id",
+        "target_id",
+        "target_sha256",
+        "tenant_id"
+      ],
+      "type": "object"
+    },
+    "code": { "pattern": "^[a-z][a-z0-9_.-]{1,63}$", "type": "string" },
+    "digest": { "pattern": "^sha256:[0-9a-f]{64}$", "type": "string" },
+    "event": {
+      "additionalProperties": false,
+      "properties": {
+        "detail_sha256": { "$ref": "#/$defs/digest" },
+        "event_sha256": { "$ref": "#/$defs/digest" },
+        "monotonic_tick": { "minimum": 1, "type": "integer" },
+        "observed_at": { "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", "type": "string" },
+        "previous_event_sha256": { "$ref": "#/$defs/nullableDigest" },
+        "sequence": { "maximum": 64, "minimum": 1, "type": "integer" },
+        "stage": { "$ref": "#/$defs/code" }
+      },
+      "required": [
+        "detail_sha256",
+        "event_sha256",
+        "monotonic_tick",
+        "observed_at",
+        "previous_event_sha256",
+        "sequence",
+        "stage"
+      ],
+      "type": "object"
+    },
+    "identifier": { "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$", "type": "string" },
+    "nullableDigest": {
+      "anyOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-width-arithmetic",
+    "operation_inventory_complete": true,
+    "operations": [
+      {"operation_id": "unsigned_add", "width_bits": 8, "signed": false,
+       "operator": "add", "left": 250, "right": 10, "observed_result": 4},
+      {"operation_id": "signed_multiply", "width_bits": 8, "signed": true,
+       "operator": "multiply", "left": 20, "right": 10, "observed_result": -56}
+    ]
+  }}
+}

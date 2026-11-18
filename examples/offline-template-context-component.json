@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S09",
+  "component_id": "supplied_template_context",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-template-model",
+      "evidence_sources": [
+        {"source_id": "synthetic-template", "provenance_kind": "synthetic_fixture"},
+        {"source_id": "synthetic-bindings", "provenance_kind": "synthetic_fixture"}
+      ],
+      "engine": {"autoescape": "off", "source_id": "synthetic-template"},
+      "slots": [
+        {"slot_id": "slot-title", "context": "html_text", "source_id": "synthetic-template"},
+        {"slot_id": "slot-attribute", "context": "html_attribute", "source_id": "synthetic-template"},
+        {"slot_id": "slot-script", "context": "script_string", "source_id": "synthetic-template"},
+        {"slot_id": "slot-trusted", "context": "html_text", "source_id": "synthetic-template"},
+        {"slot_id": "slot-unbound", "context": "html_text", "source_id": "synthetic-template"}
+      ],
+      "bindings": [
+        {
+          "slot_id": "slot-title",
+          "origin": "untrusted",
+          "explicit_escape": "html_text",
+          "source_id": "synthetic-bindings"
+        },
+        {
+          "slot_id": "slot-attribute",
+          "origin": "untrusted",
+          "explicit_escape": "html_text",
+          "source_id": "synthetic-bindings"
+        },
+        {
+          "slot_id": "slot-script",
+          "origin": "untrusted",
+          "explicit_escape": "none",
+          "source_id": "synthetic-bindings"
+        },
+        {
+          "slot_id": "slot-trusted",
+          "origin": "trusted",
+          "explicit_escape": "none",
+          "source_id": "synthetic-bindings"
+        }
+      ]
+    }
+  }
+}

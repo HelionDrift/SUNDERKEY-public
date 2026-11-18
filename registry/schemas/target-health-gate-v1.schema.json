@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/target-health-gate-v1.schema.json",
+  "title": "SUNDERKEY target-health gate contracts version 1",
+  "oneOf": [
+    {"$ref": "#/$defs/subject"},
+    {"$ref": "#/$defs/observation"},
+    {"$ref": "#/$defs/transition"},
+    {"$ref": "#/$defs/head"},
+    {"$ref": "#/$defs/recovery_intent"},
+    {"$ref": "#/$defs/resumption"},
+    {"$ref": "#/$defs/decision"}
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "utc": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "effects": {
+      "type": "object",
+      "required": ["authority_effect", "budget_effect", "credential_effect", "dispatch_effect", "network_call_performed", "qualification_effect", "scope_effect", "target_effect_performed", "tier_effect"],
+      "properties": {
+        "authority_effect": {"const": "none"},
+        "budget_effect": {"const": "none"},
+        "credential_effect": {"const": "none"},
+        "dispatch_effect": {"const": "none"},
+        "network_call_performed": {"type": "boolean", "const": false},
+        "qualification_effect": {"const": "none"},
+        "scope_effect": {"const": "none"},
+        "target_effect_performed": {"type": "boolean", "const": false},
+        "tier_effect": {"const": "none"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context_id", "context_sha256", "fence_epoch", "lease_id", "scope_id", "scope_sha256", "session_id", "target_id", "target_sha256", "tenant_id"],
+      "properties": {
+        "context_id": {"$ref": "#/$defs/identifier"},
+        "context_sha256": {"$ref": "#/$defs/digest"},
+        "fence_epoch": {"type": "integer", "minimum": 1},
+        "lease_id": {"$ref": "#/$defs/identifier"},
+        "scope_id": {"$ref": "#/$defs/identifier"},
+        "scope_sha256": {"$ref": "#/$defs/digest"},
+        "session_id": {"$ref": "#/$defs/identifier"},
+        "target_id": {"$ref": "#/$defs/identifier"},
+        "target_sha256": {"$ref": "#/$defs/digest"},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "inspection": {"$ref": "target-health-custody-v1.schema.json#/$defs/current_head_inspection"},
+    "subject": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["kind", "mission_id", "schema_version", "scope_sha256", "subject_id", "subject_sha256", "target_sha256", "tenant_id"],
+          "properties": {
+            "kind": {"const": "sunderkey.target-health-gate-subject.v1"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "schema_version": {"type": "integer", "const": 1},
+            "scope_sha256": {"$ref": "#/$defs/digest"},
+            "subject_id": {"type": "string", "pattern": "^THGS-[0-9A-F]{32}$"},
+            "subject_sha256": {"$ref": "#/$defs/digest"},
+            "target_sha256": {"$ref": "#/$defs/digest"},
+            "tenant_id": {"$ref": "#/$defs/identifier"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "observation": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["binding", "binding_sha256", "classification", "evidence_advanced", "inspection", "kind", "observation_id", "observation_sequence", "observation_sha256", "previous_observation_sha256", "recorded_at", "schema_version", "subject"],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "classification": {"enum": ["healthy", "adverse"]},
+            "evidence_advanced": {"type": "boolean"},
+            "inspection": {"$ref": "#/$defs/inspection"},
+            "kind": {"const": "sunderkey.target-health-gate-observation.v1"},
+            "observation_id": {"type": "string", "pattern": "^THGO-[0-9A-F]{32}$"},
+            "observation_sequence": {"type": "integer", "minimum": 1},
+            "observation_sha256": {"$ref": "#/$defs/digest"},
+            "previous_observation_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "recorded_at": {"$ref": "#/$defs/utc"},
+            "schema_version": {"type": "integer", "const": 1},
+            "subject": {"$ref": "#/$defs/subject"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "transition": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["from_state", "kind", "observation_id", "observation_sha256", "occurred_at", "pause_effect", "pause_epoch", "previous_transition_sha256", "recovery_healthy_count", "resume_effect", "resumption_id", "resumption_sha256", "schema_version", "subject", "to_state", "transition_id", "transition_kind", "transition_sequence", "transition_sha256"],
+          "properties": {
+            "from_state": {"type": ["string", "null"], "enum": ["active", "paused", "recovery_pending", null]},
+            "kind": {"const": "sunderkey.target-health-gate-transition.v1"},
+            "observation_id": {"type": ["string", "null"], "pattern": "^THGO-[0-9A-F]{32}$"},
+            "observation_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "occurred_at": {"$ref": "#/$defs/utc"},
+            "pause_effect": {"enum": ["none", "deny_new_target_work"]},
+            "pause_epoch": {"type": "integer", "minimum": 0},
+            "previous_transition_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "recovery_healthy_count": {"type": "integer", "minimum": 0, "maximum": 2},
+            "resume_effect": {"enum": ["none", "permit_health_gate_evaluation"]},
+            "resumption_id": {"type": ["string", "null"], "pattern": "^THGR-[0-9A-F]{32}$"},
+            "resumption_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "schema_version": {"type": "integer", "const": 1},
+            "subject": {"$ref": "#/$defs/subject"},
+            "to_state": {"enum": ["active", "paused", "recovery_pending"]},
+            "transition_id": {"type": "string", "pattern": "^THGT-[0-9A-F]{32}$"},
+            "transition_kind": {"enum": ["initialized_active", "initialized_paused", "active_health_confirmed", "pause_asserted", "pause_reaffirmed", "recovery_started", "recovery_advanced", "recovery_restarted", "recovery_held", "recovery_reset", "control_resumed"]},
+            "transition_sequence": {"type": "integer", "minimum": 1},
+            "transition_sha256": {"$ref": "#/$defs/digest"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "head": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["head_id", "head_sha256", "kind", "last_adverse_observation_id", "last_adverse_observation_sha256", "last_binding_sha256", "last_current_material_sha256", "last_global_transition_sequence", "last_head_binding_id", "last_head_binding_sha256", "last_inspection_id", "last_inspection_sha256", "last_observation_id", "last_observation_sha256", "last_resumption_id", "last_resumption_sha256", "latch_state", "observation_count", "observation_head_sha256", "pause_epoch", "recovery_chain_id", "recovery_envelope_id", "recovery_envelope_sequence", "recovery_envelope_sha256", "recovery_healthy_count", "recovery_observed_at", "resumption_count", "schema_version", "subject", "transition_count", "transition_head_sha256", "updated_at", "version"],
+          "properties": {
+            "head_id": {"type": "string", "pattern": "^THGH-[0-9A-F]{32}$"},
+            "head_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-gate-head.v1"},
+            "last_adverse_observation_id": {"type": ["string", "null"], "pattern": "^THGO-[0-9A-F]{32}$"},
+            "last_adverse_observation_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "last_binding_sha256": {"$ref": "#/$defs/digest"},
+            "last_current_material_sha256": {"$ref": "#/$defs/digest"},
+            "last_global_transition_sequence": {"type": "integer", "minimum": 1},
+            "last_head_binding_id": {"type": "string", "pattern": "^THHB-[0-9A-F]{32}$"},
+            "last_head_binding_sha256": {"$ref": "#/$defs/digest"},
+            "last_inspection_id": {"type": "string", "pattern": "^THCI-[0-9A-F]{32}$"},
+            "last_inspection_sha256": {"$ref": "#/$defs/digest"},
+            "last_observation_id": {"type": "string", "pattern": "^THGO-[0-9A-F]{32}$"},
+            "last_observation_sha256": {"$ref": "#/$defs/digest"},
+            "last_resumption_id": {"type": ["string", "null"], "pattern": "^THGR-[0-9A-F]{32}$"},
+            "last_resumption_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "latch_state": {"enum": ["active", "paused", "recovery_pending"]},
+            "observation_count": {"type": "integer", "minimum": 1},
+            "observation_head_sha256": {"$ref": "#/$defs/digest"},
+            "pause_epoch": {"type": "integer", "minimum": 0},
+            "recovery_chain_id": {"type": ["string", "null"], "pattern": "^THCH-[0-9A-F]{32}$"},
+            "recovery_envelope_id": {"type": ["string", "null"], "pattern": "^THCE-[0-9A-F]{32}$"},
+            "recovery_envelope_sequence": {"type": ["integer", "null"], "minimum": 1},
+            "recovery_envelope_sha256": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+            "recovery_healthy_count": {"type": "integer", "minimum": 0, "maximum": 2},
+            "recovery_observed_at": {"anyOf": [{"$ref": "#/$defs/utc"}, {"type": "null"}]},
+            "resumption_count": {"type": "integer", "minimum": 0},
+            "schema_version": {"type": "integer", "const": 1},
+            "subject": {"$ref": "#/$defs/subject"},
+            "transition_count": {"type": "integer", "minimum": 1},
+            "transition_head_sha256": {"$ref": "#/$defs/digest"},
+            "updated_at": {"$ref": "#/$defs/utc"},
+            "version": {"type": "integer", "minimum": 1}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "pair_ids": {"type": "array", "prefixItems": [{"type": "string", "pattern": "^THGO-[0-9A-F]{32}$"}, {"type": "string", "pattern": "^THGO-[0-9A-F]{32}$"}], "minItems": 2, "maxItems": 2},
+    "pair_digests": {"type": "array", "prefixItems": [{"$ref": "#/$defs/digest"}, {"$ref": "#/$defs/digest"}], "minItems": 2, "maxItems": 2},
+    "recovery_intent": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["authority_expires_at", "current_envelope_id", "current_envelope_sha256", "current_head_id", "current_head_sha256", "current_inspection_id", "current_inspection_sha256", "current_material_sha256", "global_transition_sequence", "head_last_current_material_sha256", "head_last_inspection_id", "head_last_inspection_sha256", "kind", "latest_head_binding_id", "latest_head_binding_sha256", "pause_effect", "pause_epoch", "prepared_at", "qualifying_observation_ids", "qualifying_observation_sha256s", "recovery_intent_id", "recovery_intent_sha256", "resume_effect", "schema_version", "subject"],
+          "properties": {
+            "authority_expires_at": {"$ref": "#/$defs/utc"},
+            "current_envelope_id": {"type": "string", "pattern": "^THCE-[0-9A-F]{32}$"},
+            "current_envelope_sha256": {"$ref": "#/$defs/digest"},
+            "current_head_id": {"type": "string", "pattern": "^THGH-[0-9A-F]{32}$"},
+            "current_head_sha256": {"$ref": "#/$defs/digest"},
+            "current_inspection_id": {"type": "string", "pattern": "^THCI-[0-9A-F]{32}$"},
+            "current_inspection_sha256": {"$ref": "#/$defs/digest"},
+            "current_material_sha256": {"$ref": "#/$defs/digest"},
+            "global_transition_sequence": {"type": "integer", "minimum": 1},
+            "head_last_current_material_sha256": {"$ref": "#/$defs/digest"},
+            "head_last_inspection_id": {"type": "string", "pattern": "^THCI-[0-9A-F]{32}$"},
+            "head_last_inspection_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-gate-recovery-intent.v1"},
+            "latest_head_binding_id": {"type": "string", "pattern": "^THHB-[0-9A-F]{32}$"},
+            "latest_head_binding_sha256": {"$ref": "#/$defs/digest"},
+            "pause_effect": {"const": "deny_new_target_work"},
+            "pause_epoch": {"type": "integer", "minimum": 1},
+            "prepared_at": {"$ref": "#/$defs/utc"},
+            "qualifying_observation_ids": {"$ref": "#/$defs/pair_ids"},
+            "qualifying_observation_sha256s": {"$ref": "#/$defs/pair_digests"},
+            "recovery_intent_id": {"type": "string", "pattern": "^THGI-[0-9A-F]{32}$"},
+            "recovery_intent_sha256": {"$ref": "#/$defs/digest"},
+            "resume_effect": {"const": "permit_health_gate_evaluation"},
+            "schema_version": {"type": "integer", "const": 1},
+            "subject": {"$ref": "#/$defs/subject"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "resumption": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["assertion_id", "assertion_issuer", "assertion_sha256", "authority_use_sequence", "authorization", "canonical_replay_key_sha256", "fresh_inspection", "kind", "operation_intent_sha256", "pause_effect", "pause_epoch", "qualifying_observation_ids", "qualifying_observation_sha256s", "recovery_intent", "resume_effect", "resumed_at", "resumption_id", "resumption_sha256", "schema_version", "subject"],
+          "properties": {
+            "assertion_id": {"$ref": "#/$defs/identifier"},
+            "assertion_issuer": {"$ref": "#/$defs/identifier"},
+            "assertion_sha256": {"$ref": "#/$defs/digest"},
+            "authority_use_sequence": {"type": "integer", "minimum": 1},
+            "authorization": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["assertion_id", "assertion_issuer", "assertion_sha256", "authority_use_sequence", "canonical_replay_key_sha256", "decision", "expires_at", "issued_at", "mission_id", "operation", "operation_intent_sha256", "pause_epoch", "principal_profile_id", "principal_subject", "recovery_intent_id", "recovery_intent_sha256", "role", "scope_sha256", "target_sha256", "tenant_id"],
+              "properties": {
+                "assertion_id": {"$ref": "#/$defs/identifier"},
+                "assertion_issuer": {"$ref": "#/$defs/identifier"},
+                "assertion_sha256": {"$ref": "#/$defs/digest"},
+                "authority_use_sequence": {"type": "integer", "minimum": 1},
+                "canonical_replay_key_sha256": {"$ref": "#/$defs/digest"},
+                "decision": {"const": "approved"},
+                "expires_at": {"$ref": "#/$defs/utc"},
+                "issued_at": {"$ref": "#/$defs/utc"},
+                "mission_id": {"$ref": "#/$defs/identifier"},
+                "operation": {"const": "sunderkey.target-health-gate.resume.v1"},
+                "operation_intent_sha256": {"$ref": "#/$defs/digest"},
+                "pause_epoch": {"type": "integer", "minimum": 1},
+                "principal_profile_id": {"$ref": "#/$defs/identifier"},
+                "principal_subject": {"$ref": "#/$defs/identifier"},
+                "recovery_intent_id": {"type": "string", "pattern": "^THGI-[0-9A-F]{32}$"},
+                "recovery_intent_sha256": {"$ref": "#/$defs/digest"},
+                "role": {"const": "independent_control"},
+                "scope_sha256": {"$ref": "#/$defs/digest"},
+                "target_sha256": {"$ref": "#/$defs/digest"},
+                "tenant_id": {"$ref": "#/$defs/identifier"}
+              }
+            },
+            "canonical_replay_key_sha256": {"$ref": "#/$defs/digest"},
+            "fresh_inspection": {"$ref": "#/$defs/inspection"},
+            "kind": {"const": "sunderkey.target-health-gate-resumption.v1"},
+            "operation_intent_sha256": {"$ref": "#/$defs/digest"},
+            "pause_effect": {"const": "none"},
+            "pause_epoch": {"type": "integer", "minimum": 1},
+            "qualifying_observation_ids": {"$ref": "#/$defs/pair_ids"},
+            "qualifying_observation_sha256s": {"$ref": "#/$defs/pair_digests"},
+            "recovery_intent": {"$ref": "#/$defs/recovery_intent"},
+            "resume_effect": {"const": "permit_health_gate_evaluation"},
+            "resumed_at": {"$ref": "#/$defs/utc"},
+            "resumption_id": {"type": "string", "pattern": "^THGR-[0-9A-F]{32}$"},
+            "resumption_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"type": "integer", "const": 1},
+            "subject": {"$ref": "#/$defs/subject"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "decision": {
+      "allOf": [
+        {"$ref": "#/$defs/effects"},
+        {
+          "type": "object",
+          "required": ["binding", "binding_sha256", "current_observation", "decision_id", "decision_sha256", "evaluated_at", "head", "kind", "pause_effect", "reason", "resume_effect", "schema_version", "status", "subject"],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "current_observation": {"$ref": "#/$defs/observation"},
+            "decision_id": {"type": "string", "pattern": "^THGD-[0-9A-F]{32}$"},
+            "decision_sha256": {"$ref": "#/$defs/digest"},
+            "evaluated_at": {"$ref": "#/$defs/utc"},
+            "head": {"$ref": "#/$defs/head"},
+            "kind": {"const": "sunderkey.target-health-gate-decision.v1"},
+            "pause_effect": {"enum": ["none", "deny_new_target_work"]},
+            "reason": {"enum": ["health_gate_current", "health_gate_denied"]},
+            "resume_effect": {"const": "none"},
+            "schema_version": {"type": "integer", "const": 1},
+            "status": {"enum": ["deny_new_target_work", "permit_health_gate_evaluation"]},
+            "subject": {"$ref": "#/$defs/subject"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

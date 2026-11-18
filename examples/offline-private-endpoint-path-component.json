@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-private-endpoints",
+      "paths": [
+        {"path_id": "path-one", "service_id": "service-one", "private_only_required": true, "dns_target_scope": "public", "route_scope": "private", "context_complete": true},
+        {"path_id": "path-two", "service_id": "service-two", "private_only_required": true, "dns_target_scope": "private", "route_scope": "private", "context_complete": true}
+      ]
+    }
+  }
+}

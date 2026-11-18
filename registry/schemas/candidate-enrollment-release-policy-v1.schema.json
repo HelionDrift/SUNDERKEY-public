@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-release-policy-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Release Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "policy_sha256",
+    "d011_decision",
+    "checkpoint_authority",
+    "local_checkpoint_storage",
+    "release_sequence",
+    "authority_rules",
+    "recovery_rules",
+    "distribution",
+    "initial_activation_scope",
+    "retention",
+    "fail_closed_conditions",
+    "prohibited_effects",
+    "implementation_effect",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "policy_id": {"type": "string", "pattern": "^CRP-[0-9A-F]{32}$"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "d011_decision": {"$ref": "#/$defs/d011Binding"},
+    "checkpoint_authority": {"const": "append_only_release_ledger_with_local_mirror"},
+    "local_checkpoint_storage": {
+      "const": {
+        "access": "deployment_service_identity_only",
+        "backup": "previous_valid_checkpoint_preserved",
+        "commit": "atomic_replace_after_fsync",
+        "format": "canonical_json_versioned_file",
+        "runtime_database_storage": false
+      }
+    },
+    "release_sequence": {
+      "const": [
+        "verify_catalog_and_phase72_receipt",
+        "append_release_intent",
+        "atomically_commit_local_checkpoint",
+        "append_checkpoint_committed",
+        "promote_content_addressed_catalog",
+        "append_catalog_promoted",
+        "append_release_completed"
+      ]
+    },
+    "authority_rules": {
+      "const": {
+        "initialization": "deployment_owner_and_independent_control",
+        "monotonic_advance": "automatic_after_complete_verification",
+        "recovery": "deployment_owner_and_independent_control"
+      }
+    },
+    "recovery_rules": {
+      "const": {
+        "authority_source": "verified_append_only_release_ledger",
+        "failure_mode": "fail_closed",
+        "retry": "same_version_same_digest_only",
+        "self_declared_current_catalog_trusted": false
+      }
+    },
+    "distribution": {"const": "organization_content_addressed_artifact_repository"},
+    "initial_activation_scope": {"const": "single_candidate_canary"},
+    "retention": {"const": "deployment_lifetime_plus_audit_period"},
+    "fail_closed_conditions": {
+      "const": [
+        "missing_checkpoint_after_initialization",
+        "checkpoint_digest_mismatch",
+        "checkpoint_version_decrease",
+        "same_version_different_catalog_digest",
+        "ledger_sequence_gap_or_fork",
+        "ledger_digest_or_predecessor_mismatch",
+        "receipt_binding_mismatch",
+        "promotion_before_checkpoint_commit",
+        "ambiguous_partial_release_state",
+        "recovery_without_dual_control"
+      ]
+    },
+    "prohibited_effects": {
+      "const": [
+        "does_not_create_a_deployment_checkpoint_or_release_ledger",
+        "does_not_write_or_promote_an_operational_catalog",
+        "does_not_select_operational_paths_endpoints_or_credentials",
+        "does_not_enroll_a_candidate_or_accept_evidence",
+        "does_not_qualify_a_specialist_or_change_routing"
+      ]
+    },
+    "implementation_effect": {"const": "contracts_defined_no_operational_state"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "d011Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

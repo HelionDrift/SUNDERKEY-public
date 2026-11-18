@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "nsgs": [
+        {
+          "nsg_id": "synthetic-nsg",
+          "rules_complete": true,
+          "rules": [
+            {"rule_id": "inbound-tls", "priority": 100, "direction": "Inbound", "access": "Allow", "predicate": {"kind": "cidr_ports", "protocol": "TCP", "source_cidrs": ["10.0.0.0/24"], "destination_cidrs": ["10.0.1.0/24"], "source_ports": [[0, 65535]], "destination_ports": [[443, 443]]}},
+            {"rule_id": "outbound-unknown-tag", "priority": 200, "direction": "Outbound", "access": "Allow", "predicate": {"kind": "unsupported", "reason": "service_tag"}}
+          ]
+        }
+      ],
+      "attachments": {"complete": true, "subnet_nsg_id": "synthetic-nsg", "nic_nsg_id": null},
+      "flows": [
+        {"flow_id": "synthetic-inbound", "direction": "Inbound", "protocol": "TCP", "source_ip": "10.0.0.7", "source_port": 49152, "destination_ip": "10.0.1.8", "destination_port": 443},
+        {"flow_id": "synthetic-outbound", "direction": "Outbound", "protocol": "TCP", "source_ip": "10.0.0.7", "source_port": 49152, "destination_ip": "10.0.1.8", "destination_port": 443}
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-model-similarity",
+      "reference_model_id": "reference",
+      "candidate_model_id": "candidate",
+      "control_model_id": "control",
+      "minimum_challenges": 2,
+      "minimum_excess_match_basis_points": 2000,
+      "comparable_conditions": true,
+      "challenge_matches": [
+        {
+          "challenge_id": "case-one",
+          "reference_output_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "candidate_output_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "control_output_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        {
+          "challenge_id": "case-two",
+          "reference_output_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "candidate_output_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "control_output_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      ]
+    }
+  }
+}

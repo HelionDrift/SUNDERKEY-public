@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D04-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-partner-trust",
+      "inventory_complete": true,
+      "nodes": [
+        {"node_id": "msp-a", "party_kind": "msp"},
+        {"node_id": "support-bridge", "party_kind": "third_party"},
+        {"node_id": "first-party-service", "party_kind": "first_party"}
+      ],
+      "edges": [
+        {
+          "edge_id": "support-delegation",
+          "from_id": "msp-a",
+          "to_id": "support-bridge",
+          "relation": "support_session",
+          "enabled": true,
+          "authority_state": "authorized"
+        },
+        {
+          "edge_id": "service-delegation",
+          "from_id": "support-bridge",
+          "to_id": "first-party-service",
+          "relation": "delegated_administration",
+          "enabled": true,
+          "authority_state": "denied"
+        }
+      ],
+      "paths": [
+        {
+          "path_id": "declared-msp-authority",
+          "entry_id": "msp-a",
+          "destination_id": "first-party-service",
+          "edge_ids": ["support-delegation", "service-delegation"],
+          "context_complete": true,
+          "claimed_authorized": true
+        }
+      ]
+    }
+  }
+}

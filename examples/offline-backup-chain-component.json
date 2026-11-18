@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S13",
+  "component_id": "supplied_backup_chain_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-backup-chain-v1",
+      "dataset_ref": "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "as_of_tick": 100,
+      "history_complete": false,
+      "snapshots": [
+        {"snapshot_id": "full", "recorded_tick": 20, "expires_tick": 120, "parent_snapshot_id": null, "declared_restorable": true},
+        {"snapshot_id": "incremental", "recorded_tick": 70, "expires_tick": 110, "parent_snapshot_id": "full", "declared_restorable": true}
+      ],
+      "objectives": [
+        {"target_tick": 75, "maximum_lag_ticks": 10}
+      ]
+    }
+  }
+}

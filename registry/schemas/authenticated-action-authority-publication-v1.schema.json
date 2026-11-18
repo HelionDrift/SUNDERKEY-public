@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/authenticated-action-authority-publication-v1.schema.json",
+  "title": "SUNDERKEY authenticated action authority publication v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "publication_id", "publication_sha256", "tenant_id", "mission_id", "plan_id", "source_records", "material_snapshot_id", "material_snapshot_sha256", "idempotency_key_sha256", "published_at", "effects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "authenticated_action_authority_publication"},
+    "publication_id": {"type": "string", "pattern": "^AAPB-[0-9A-F]{32}$"},
+    "publication_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "plan_id": {"$ref": "#/$defs/identifier"},
+    "source_records": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/source_record"}
+    },
+    "material_snapshot_id": {"type": "string", "pattern": "^AAM-[0-9A-F]{32}$"},
+    "material_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "idempotency_key_sha256": {"$ref": "#/$defs/sha256"},
+    "published_at": {"$ref": "#/$defs/timestamp"},
+    "effects": {"$ref": "#/$defs/effects"}
+  },
+  "allOf": [
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "action_authority_policy_revision"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "authoritative_action_catalog_revision"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "authoritative_target_descriptor_revision"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "action_budget_policy_revision"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "action_safety_policy_revision"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "authenticated_proposal_material_import"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "credential_lease_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "execution_fence_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "executor_deployment_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "executor_health_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "stop_monitor_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "workspace_high_water_observation"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}},
+    {"properties": {"source_records": {"contains": {"properties": {"record_kind": {"const": "exact_action_source_head_bundle"}}, "required": ["record_kind"]}, "minContains": 1, "maxContains": 1}}}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]{0,255}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "source_kind": {"type": "string", "enum": ["action_authority_policy_revision", "action_budget_policy_revision", "action_safety_policy_revision", "authenticated_proposal_material_import", "authoritative_action_catalog_revision", "authoritative_target_descriptor_revision", "credential_lease_observation", "exact_action_source_head_bundle", "execution_fence_observation", "executor_deployment_observation", "executor_health_observation", "stop_monitor_observation", "workspace_high_water_observation"]},
+    "source_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "record_kind", "record_sha256"],
+      "properties": {"record_id": {"$ref": "#/$defs/identifier"}, "record_kind": {"$ref": "#/$defs/source_kind"}, "record_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization_effect", "model_call_performed", "network_call_performed", "qualification_effect", "target_action_performed", "tool_effect"],
+      "properties": {"authorization_effect": {"const": "none"}, "model_call_performed": {"const": false}, "network_call_performed": {"const": false}, "qualification_effect": {"const": "none"}, "target_action_performed": {"const": false}, "tool_effect": {"const": "none"}}
+    }
+  }
+}

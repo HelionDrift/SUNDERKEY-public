@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S13",
+  "component_id": "identity_supplied_authorization_model_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-authz-model",
+      "policy_complete": true,
+      "roles_complete": true,
+      "attributes_complete": true,
+      "relations_complete": true,
+      "principals": [
+        {
+          "principal_id": "alice",
+          "roles": ["analyst"],
+          "attributes": [{"name": "clearance", "value": "internal"}]
+        },
+        {"principal_id": "bob", "roles": [], "attributes": []}
+      ],
+      "resources": [
+        {
+          "resource_id": "case-one",
+          "attributes": [{"name": "class", "value": "internal"}]
+        }
+      ],
+      "relations": [
+        {"principal_id": "alice", "relation": "owner", "resource_id": "case-one"}
+      ],
+      "rules": [
+        {
+          "rule_id": "analyst-owner",
+          "effect": "allow",
+          "action": "read",
+          "role": "analyst",
+          "principal_attribute": {"name": "clearance", "value": "internal"},
+          "resource_attribute": {"name": "class", "value": "internal"},
+          "relation": "owner"
+        }
+      ],
+      "observations": [
+        {
+          "observation_id": "alice-read",
+          "principal_id": "alice",
+          "resource_id": "case-one",
+          "action": "read",
+          "reported_outcome": "allowed"
+        },
+        {
+          "observation_id": "bob-read",
+          "principal_id": "bob",
+          "resource_id": "case-one",
+          "action": "read",
+          "reported_outcome": "allowed"
+        }
+      ]
+    }
+  }
+}

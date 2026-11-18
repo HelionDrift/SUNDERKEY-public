@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S02",
+  "component_id": "ci_supplied_workflow_trust_flow",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "workflow_id": "synthetic-ci",
+      "event": {
+        "event_id": "pull-request",
+        "trust": "untrusted"
+      },
+      "jobs": [
+        {
+          "job_id": "build",
+          "permissions": "read",
+          "uses_event_input": true,
+          "needs_job_ids": [],
+          "uses_job_output_ids": [],
+          "consumes_artifact_ids": []
+        },
+        {
+          "job_id": "publish",
+          "permissions": "write",
+          "uses_event_input": false,
+          "needs_job_ids": ["build"],
+          "uses_job_output_ids": [],
+          "consumes_artifact_ids": ["bundle"]
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "bundle",
+          "trust": "unknown",
+          "producer_job_id": "build"
+        }
+      ],
+      "source_ids": ["pull-request"],
+      "graph_complete": true
+    }
+  }
+}

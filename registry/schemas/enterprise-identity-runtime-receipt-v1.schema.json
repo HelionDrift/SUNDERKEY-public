@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/enterprise-identity-runtime-receipt-v1.schema.json",
+  "title": "SUNDERKEY Enterprise Identity Runtime Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "admission_authentication_sha256",
+    "admission_authenticator_id",
+    "admission_id",
+    "admission_sha256",
+    "algorithm",
+    "assurance_context",
+    "completion_id",
+    "completion_sha256",
+    "decision_sha256",
+    "dispatch_count",
+    "dispatcher_attestation_sha256",
+    "dispatcher_id",
+    "effects",
+    "environment",
+    "evaluated_at",
+    "evidence_sha256",
+    "idempotency_key",
+    "idempotency_store_id",
+    "key_fingerprint_sha256",
+    "key_id",
+    "keyset_id",
+    "keyset_sha256",
+    "kind",
+    "operation",
+    "policy_sha256",
+    "receipt_id",
+    "receipt_sha256",
+    "replay_binding_sha256",
+    "reservation_id",
+    "reservation_sha256",
+    "schema_version",
+    "source_sha256",
+    "status",
+    "subject_id",
+    "tenant_id"
+  ],
+  "properties": {
+    "admission_authentication_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "admission_authenticator_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "admission_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "admission_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "algorithm": {
+      "type": ["string", "null"],
+      "enum": ["RS256", null]
+    },
+    "assurance_context": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "completion_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "completion_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "decision_sha256": {"$ref": "#/$defs/digest"},
+    "dispatch_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "dispatcher_attestation_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "dispatcher_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "built_in_network",
+        "credential_values",
+        "production",
+        "qualification",
+        "raw_directory_payloads"
+      ],
+      "properties": {
+        "authority": {"const": "none"},
+        "built_in_network": {"const": "none"},
+        "credential_values": {"const": "none"},
+        "production": {"const": "none"},
+        "qualification": {"const": "none"},
+        "raw_directory_payloads": {"const": "none"}
+      }
+    },
+    "evaluated_at": {"$ref": "#/$defs/timestamp"},
+    "environment": {
+      "oneOf": [
+        {"enum": ["test", "staging"]},
+        {"type": "null"}
+      ]
+    },
+    "evidence_sha256": {"$ref": "#/$defs/digest"},
+    "idempotency_key": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "idempotency_store_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "key_fingerprint_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "key_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "keyset_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "keyset_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "kind": {"const": "sunderkey.enterprise-identity-runtime-receipt.v1"},
+    "operation": {
+      "enum": ["oidc_jws_verification", "scim_dispatch"]
+    },
+    "policy_sha256": {"$ref": "#/$defs/digest"},
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^EIR-[0-9A-F]{32}$"
+    },
+    "receipt_sha256": {"$ref": "#/$defs/digest"},
+    "replay_binding_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "reservation_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {"type": "null"}
+      ]
+    },
+    "reservation_sha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/digest"},
+        {"type": "null"}
+      ]
+    },
+    "schema_version": {"const": 1},
+    "source_sha256": {"$ref": "#/$defs/digest"},
+    "status": {
+      "enum": ["verified_and_admitted", "dispatched_non_production"]
+    },
+    "subject_id": {"$ref": "#/$defs/identifier"},
+    "tenant_id": {"$ref": "#/$defs/identifier"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"operation": {"const": "oidc_jws_verification"}},
+        "required": ["operation"]
+      },
+      "then": {
+        "properties": {
+          "admission_authentication_sha256": {"type": "null"},
+          "admission_authenticator_id": {"type": "null"},
+          "admission_id": {"type": "null"},
+          "admission_sha256": {"type": "null"},
+          "algorithm": {"const": "RS256"},
+          "assurance_context": {"$ref": "#/$defs/identifier"},
+          "completion_id": {"type": "null"},
+          "completion_sha256": {"type": "null"},
+          "dispatch_count": {"const": 0},
+          "dispatcher_attestation_sha256": {"type": "null"},
+          "dispatcher_id": {"type": "null"},
+          "environment": {"type": "null"},
+          "idempotency_key": {"type": "null"},
+          "idempotency_store_id": {"type": "null"},
+          "key_fingerprint_sha256": {"$ref": "#/$defs/digest"},
+          "key_id": {"$ref": "#/$defs/identifier"},
+          "keyset_id": {"$ref": "#/$defs/identifier"},
+          "keyset_sha256": {"$ref": "#/$defs/digest"},
+          "replay_binding_sha256": {"$ref": "#/$defs/digest"},
+          "reservation_id": {"type": "null"},
+          "reservation_sha256": {"type": "null"},
+          "status": {"const": "verified_and_admitted"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"operation": {"const": "scim_dispatch"}},
+        "required": ["operation"]
+      },
+      "then": {
+        "properties": {
+          "admission_authentication_sha256": {"$ref": "#/$defs/digest"},
+          "admission_authenticator_id": {"$ref": "#/$defs/identifier"},
+          "admission_id": {"$ref": "#/$defs/identifier"},
+          "admission_sha256": {"$ref": "#/$defs/digest"},
+          "algorithm": {"type": "null"},
+          "assurance_context": {"type": "null"},
+          "completion_id": {"$ref": "#/$defs/identifier"},
+          "completion_sha256": {"$ref": "#/$defs/digest"},
+          "dispatch_count": {"const": 1},
+          "dispatcher_attestation_sha256": {"$ref": "#/$defs/digest"},
+          "dispatcher_id": {"$ref": "#/$defs/identifier"},
+          "environment": {"enum": ["test", "staging"]},
+          "idempotency_key": {"$ref": "#/$defs/identifier"},
+          "idempotency_store_id": {"$ref": "#/$defs/identifier"},
+          "key_fingerprint_sha256": {"type": "null"},
+          "key_id": {"type": "null"},
+          "keyset_id": {"type": "null"},
+          "keyset_sha256": {"type": "null"},
+          "replay_binding_sha256": {"type": "null"},
+          "reservation_id": {"$ref": "#/$defs/identifier"},
+          "reservation_sha256": {"$ref": "#/$defs/digest"},
+          "status": {"const": "dispatched_non_production"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

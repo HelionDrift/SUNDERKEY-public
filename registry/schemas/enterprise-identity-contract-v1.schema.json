@@ -1,0 +1,447 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.example/schemas/enterprise-identity-contract-v1.schema.json",
+  "title": "SUNDERKEY Enterprise Identity Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assertions",
+    "bindings",
+    "decisions",
+    "effects",
+    "kind",
+    "policy",
+    "provisioning_commands",
+    "record_id",
+    "record_sha256",
+    "schema_version",
+    "tenant_id"
+  ],
+  "properties": {
+    "assertions": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/assertion" }
+    },
+    "bindings": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/binding" }
+    },
+    "decisions": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/decision" }
+    },
+    "effects": { "$ref": "#/$defs/noEffects" },
+    "kind": { "const": "sunderkey.enterprise-identity-contract.v1" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "provisioning_commands": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/command" }
+    },
+    "record_id": { "$ref": "#/$defs/recordId" },
+    "record_sha256": { "$ref": "#/$defs/sha256" },
+    "schema_version": { "const": 1 },
+    "tenant_id": { "$ref": "#/$defs/identifier" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "recordId": {
+      "type": "string",
+      "pattern": "^EIC-[0-9A-F]{32}$"
+    },
+    "permission": {
+      "enum": [
+        "assurance_review",
+        "control_review",
+        "evidence_custody",
+        "findings_review",
+        "identity_admin",
+        "mission_approve",
+        "mission_execute",
+        "mission_propose",
+        "mission_read",
+        "session_revoke"
+      ]
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "credential_values",
+        "directory",
+        "execution",
+        "identity_provider",
+        "network",
+        "provisioning",
+        "qualification",
+        "routing",
+        "sessions"
+      ],
+      "properties": {
+        "authority": { "const": "none" },
+        "credential_values": { "const": "none" },
+        "directory": { "const": "none" },
+        "execution": { "const": "none" },
+        "identity_provider": { "const": "none" },
+        "network": { "const": "none" },
+        "provisioning": { "const": "none" },
+        "qualification": { "const": "none" },
+        "routing": { "const": "none" },
+        "sessions": { "const": "none" }
+      }
+    },
+    "dutyConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "reason", "right"],
+      "properties": {
+        "left": { "$ref": "#/$defs/permission" },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "right": { "$ref": "#/$defs/permission" }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "effects",
+        "kind",
+        "permissions",
+        "record_id",
+        "record_sha256",
+        "role_id",
+        "schema_version",
+        "tenant_id"
+      ],
+      "properties": {
+        "description": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "kind": { "const": "sunderkey.enterprise-role.v1" },
+        "permissions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/permission" }
+        },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "role_id": { "$ref": "#/$defs/identifier" },
+        "schema_version": { "const": 1 },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effects",
+        "group_ids",
+        "kind",
+        "record_id",
+        "record_sha256",
+        "role_ids",
+        "schema_version",
+        "status",
+        "subject_id",
+        "tenant_id",
+        "valid_from",
+        "valid_until",
+        "version"
+      ],
+      "properties": {
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "group_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "kind": { "const": "sunderkey.enterprise-role-binding.v1" },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "role_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "schema_version": { "const": 1 },
+        "status": { "enum": ["active", "suspended", "tombstoned"] },
+        "subject_id": { "$ref": "#/$defs/identifier" },
+        "tenant_id": { "$ref": "#/$defs/identifier" },
+        "valid_from": { "$ref": "#/$defs/timestamp" },
+        "valid_until": { "$ref": "#/$defs/timestamp" },
+        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+      }
+    },
+    "ssoTrust": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_assurance_contexts",
+        "audience",
+        "clock_skew_seconds",
+        "effects",
+        "issuer",
+        "kind",
+        "maximum_auth_age_seconds",
+        "maximum_session_seconds",
+        "record_id",
+        "record_sha256",
+        "require_mfa",
+        "schema_version",
+        "tenant_id"
+      ],
+      "properties": {
+        "accepted_assurance_contexts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "audience": { "$ref": "#/$defs/identifier" },
+        "clock_skew_seconds": { "type": "integer", "minimum": 0, "maximum": 300 },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "issuer": { "$ref": "#/$defs/identifier" },
+        "kind": { "const": "sunderkey.sso-trust-policy.v1" },
+        "maximum_auth_age_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "maximum_session_seconds": { "type": "integer", "minimum": 1, "maximum": 604800 },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "require_mfa": { "type": "boolean" },
+        "schema_version": { "const": 1 },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assurance_context",
+        "audience",
+        "auth_time",
+        "effects",
+        "expires_at",
+        "externally_verified",
+        "issued_at",
+        "issuer",
+        "kind",
+        "mfa_present",
+        "record_id",
+        "record_sha256",
+        "schema_version",
+        "session_id",
+        "subject_id",
+        "tenant_id",
+        "verification_evidence_sha256"
+      ],
+      "properties": {
+        "assurance_context": { "$ref": "#/$defs/identifier" },
+        "audience": { "$ref": "#/$defs/identifier" },
+        "auth_time": { "$ref": "#/$defs/timestamp" },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "expires_at": { "$ref": "#/$defs/timestamp" },
+        "externally_verified": { "const": true },
+        "issued_at": { "$ref": "#/$defs/timestamp" },
+        "issuer": { "$ref": "#/$defs/identifier" },
+        "kind": { "const": "sunderkey.verified-sso-assertion.v1" },
+        "mfa_present": { "type": "boolean" },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "session_id": { "$ref": "#/$defs/identifier" },
+        "subject_id": { "$ref": "#/$defs/identifier" },
+        "tenant_id": { "$ref": "#/$defs/identifier" },
+        "verification_evidence_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "decision_type",
+        "effective_permissions",
+        "effects",
+        "evaluated_at",
+        "kind",
+        "policy_sha256",
+        "reason_codes",
+        "record_id",
+        "record_sha256",
+        "schema_version",
+        "session_revocation_required",
+        "source_record_sha256",
+        "subject_id",
+        "tenant_id"
+      ],
+      "properties": {
+        "decision": { "enum": ["allow", "deny"] },
+        "decision_type": { "$ref": "#/$defs/token" },
+        "effective_permissions": {
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/permission" }
+        },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "evaluated_at": { "$ref": "#/$defs/timestamp" },
+        "kind": { "const": "sunderkey.enterprise-identity-decision.v1" },
+        "policy_sha256": { "$ref": "#/$defs/sha256" },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/token" }
+        },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "session_revocation_required": { "type": "boolean" },
+        "source_record_sha256": { "$ref": "#/$defs/sha256" },
+        "subject_id": { "$ref": "#/$defs/identifier" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_subject_id",
+        "attribute_digests",
+        "deprovisioning",
+        "effects",
+        "expected_version",
+        "external_id",
+        "idempotency_key",
+        "issued_at",
+        "kind",
+        "member_subject_id",
+        "new_version",
+        "operation",
+        "precondition_sha256",
+        "record_id",
+        "record_sha256",
+        "resource_id",
+        "resource_kind",
+        "schema_version",
+        "session_ids",
+        "session_revocation_required",
+        "tenant_id",
+        "tombstone_required"
+      ],
+      "properties": {
+        "actor_subject_id": { "$ref": "#/$defs/identifier" },
+        "attribute_digests": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sha256" }
+        },
+        "deprovisioning": { "type": "boolean" },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "expected_version": { "type": "integer", "minimum": 0, "maximum": 2147483646 },
+        "external_id": { "$ref": "#/$defs/identifier" },
+        "idempotency_key": { "$ref": "#/$defs/identifier" },
+        "issued_at": { "$ref": "#/$defs/timestamp" },
+        "kind": { "const": "sunderkey.scim-provisioning-command.v1" },
+        "member_subject_id": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/identifier" }]
+        },
+        "new_version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+        "operation": {
+          "enum": [
+            "add_member",
+            "create",
+            "deactivate",
+            "remove_member",
+            "revoke_sessions",
+            "tombstone",
+            "update"
+          ]
+        },
+        "precondition_sha256": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/sha256" }]
+        },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "resource_id": { "$ref": "#/$defs/identifier" },
+        "resource_kind": { "enum": ["group", "membership", "user"] },
+        "schema_version": { "const": 1 },
+        "session_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "session_revocation_required": { "type": "boolean" },
+        "tenant_id": { "$ref": "#/$defs/identifier" },
+        "tombstone_required": { "type": "boolean" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_decision",
+        "duty_constraints",
+        "effects",
+        "kind",
+        "record_id",
+        "record_sha256",
+        "roles",
+        "schema_version",
+        "sso_trust",
+        "tenant_id"
+      ],
+      "properties": {
+        "default_decision": { "const": "deny" },
+        "duty_constraints": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/dutyConstraint" }
+        },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "kind": { "const": "sunderkey.enterprise-identity-policy.v1" },
+        "record_id": { "$ref": "#/$defs/recordId" },
+        "record_sha256": { "$ref": "#/$defs/sha256" },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/role" }
+        },
+        "schema_version": { "const": 1 },
+        "sso_trust": { "$ref": "#/$defs/ssoTrust" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S17",
+  "component_id": "web_supplied_cms_permission_graph_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "platform_kind": "cms",
+      "graph_complete": true,
+      "policy_extensions_complete": true,
+      "roles": [
+        {"role_id": "editor", "inherits": ["reader"], "grants": ["content.edit"]},
+        {"role_id": "reader", "inherits": [], "grants": ["content.read"]}
+      ],
+      "principals": [
+        {"principal_id": "alice", "roles": ["editor"], "assignments_complete": true},
+        {"principal_id": "bob", "roles": ["reader"], "assignments_complete": true}
+      ],
+      "resources": [
+        {"resource_id": "draft", "required_permission": "content.edit", "policy_complete": true},
+        {"resource_id": "index", "required_permission": "content.read", "policy_complete": true}
+      ],
+      "checks": [
+        {
+          "check_id": "alice-inherited",
+          "principal_id": "alice",
+          "resource_id": "index",
+          "supplied_outcome": "allowed",
+          "observation_complete": true,
+          "enforcement_scope_complete": true
+        },
+        {
+          "check_id": "bob-edit",
+          "principal_id": "bob",
+          "resource_id": "draft",
+          "supplied_outcome": "allowed",
+          "observation_complete": true,
+          "enforcement_scope_complete": true
+        },
+        {
+          "check_id": "bob-unknown",
+          "principal_id": "bob",
+          "resource_id": "index",
+          "supplied_outcome": "unknown",
+          "observation_complete": false,
+          "enforcement_scope_complete": true
+        }
+      ]
+    }
+  }
+}

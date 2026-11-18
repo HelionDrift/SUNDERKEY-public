@@ -1,0 +1,1726 @@
+{
+  "$defs": {
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$",
+      "type": "string"
+    },
+    "profileId": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "collection_limits": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "observed_facts": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "observed_facts",
+            "collection_limits"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "observation"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "coverage_limits": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "methods": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "non_observation": {
+              "$ref": "#/$defs/text"
+            },
+            "searched_for": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "searched_for",
+            "methods",
+            "non_observation",
+            "coverage_limits"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "negative_evidence"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "claim": {
+              "$ref": "#/$defs/text"
+            },
+            "falsification_conditions": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "supporting_reasons": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "claim",
+            "supporting_reasons",
+            "falsification_conditions"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "hypothesis"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "claim": {
+              "$ref": "#/$defs/text"
+            },
+            "limitations": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "reproduction_requirements": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "severity": {
+              "enum": [
+                "informational",
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            }
+          },
+          "required": [
+            "claim",
+            "severity",
+            "reproduction_requirements",
+            "limitations"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "finding"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "blocking": {
+              "type": "boolean"
+            },
+            "decision_needed": {
+              "$ref": "#/$defs/text"
+            },
+            "question": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "question",
+            "decision_needed",
+            "blocking"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "clarification_question"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "approval_requirement_ids": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "authority_snapshot_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "cleanup_requirement_ids": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "evidence_requirement_ids": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "evidence_snapshot_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "mission_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "plan_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "proposed_actions": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "requested_action_tier": {
+              "enum": [
+                "R0",
+                "R1",
+                "R2",
+                "R3",
+                "R4",
+                "R5"
+              ]
+            },
+            "stop_conditions": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "target_scope_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "work_id": {
+              "$ref": "#/$defs/identifier"
+            }
+          },
+          "required": [
+            "target_scope_sha256",
+            "authority_snapshot_sha256",
+            "evidence_snapshot_sha256",
+            "mission_id",
+            "plan_id",
+            "work_id",
+            "requested_action_tier",
+            "proposed_actions",
+            "evidence_requirement_ids",
+            "cleanup_requirement_ids",
+            "approval_requirement_ids",
+            "stop_conditions"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "action_proposal"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "blocked_requirement_ids": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "blocker_kind": {
+              "$ref": "#/$defs/text"
+            },
+            "resolution_needed": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "blocker_kind",
+            "blocked_requirement_ids",
+            "resolution_needed"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "blocker"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "missing_requirement_ids": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "reason": {
+              "$ref": "#/$defs/text"
+            },
+            "safe_alternative": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "reason",
+            "missing_requirement_ids",
+            "safe_alternative"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "abstention"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "confidence": {
+          "enum": [
+            "unknown",
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "evidence_refs": {
+          "items": {
+            "$ref": "#/$defs/sha256"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "execution_envelope_id": {
+          "pattern": "^EEE-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "independent_review": {
+          "additionalProperties": false,
+          "properties": {
+            "producer_excluded": {
+              "const": true
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "reviewer_profile_ids": {
+              "const": []
+            },
+            "status": {
+              "const": "not_reviewed"
+            }
+          },
+          "required": [
+            "required",
+            "status",
+            "reviewer_profile_ids",
+            "producer_excluded"
+          ],
+          "type": "object"
+        },
+        "lineage_product_ids": {
+          "items": {
+            "pattern": "^EWP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "maxItems": 256,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "model_output_effect": {
+          "const": "advisory_only"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "child_products": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "producer_profile_id": {
+                    "$ref": "#/$defs/profileId"
+                  },
+                  "product_id": {
+                    "pattern": "^EWP-[0-9A-F]{32}$",
+                    "type": "string"
+                  },
+                  "product_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "product_type": {
+                    "enum": [
+                      "observation",
+                      "negative_evidence",
+                      "hypothesis",
+                      "finding",
+                      "clarification_question",
+                      "action_proposal",
+                      "blocker",
+                      "abstention"
+                    ]
+                  }
+                },
+                "required": [
+                  "product_id",
+                  "product_sha256",
+                  "producer_profile_id",
+                  "product_type"
+                ],
+                "type": "object"
+              },
+              "maxItems": 256,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "disagreements": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "description": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "product_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "resolution_status": {
+                    "enum": [
+                      "unresolved",
+                      "proposed_resolution"
+                    ]
+                  }
+                },
+                "required": [
+                  "product_ids",
+                  "description",
+                  "resolution_status"
+                ],
+                "type": "object"
+              },
+              "maxItems": 256,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "independent_review_separation": {
+              "const": "not_performed_by_commander"
+            },
+            "recommendation": {
+              "$ref": "#/$defs/text"
+            },
+            "unresolved_uncertainties": {
+              "items": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                "type": "string"
+              },
+              "maxItems": 256,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "child_products",
+            "disagreements",
+            "unresolved_uncertainties",
+            "recommendation",
+            "independent_review_separation"
+          ],
+          "type": "object"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "producer_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "product_id": {
+          "pattern": "^EWP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "product_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "product_type": {
+          "const": "commander_synthesis"
+        },
+        "runtime_catalog_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_pack_id": {
+          "pattern": "^ERP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/text"
+        },
+        "tool_effect": {
+          "const": "none"
+        },
+        "uncertainty": {
+          "$ref": "#/$defs/text"
+        },
+        "work_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "product_id",
+        "product_sha256",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "producer_profile_id",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "summary",
+        "confidence",
+        "uncertainty",
+        "evidence_refs",
+        "lineage_product_ids",
+        "independent_review",
+        "model_output_effect",
+        "tool_effect",
+        "authorization_effect",
+        "product_type",
+        "payload"
+      ],
+      "type": "object"
+    }
+  ]
+}

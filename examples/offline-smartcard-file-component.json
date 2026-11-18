@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-card-files",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "roles": ["anonymous", "cardholder"],
+    "policies": [{
+      "policy_id": "private-file",
+      "allowed_read_role_ids": ["cardholder"],
+      "allowed_write_role_ids": ["cardholder"]
+    }],
+    "files": [{
+      "file_id": "file-a",
+      "policy_id": "private-file",
+      "declared_read_role_ids": ["anonymous", "cardholder"],
+      "declared_write_role_ids": ["cardholder"]
+    }]
+  }}
+}

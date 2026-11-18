@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-coverage-corpus",
+    "coverage_width_bits": 8,
+    "baseline_hex": "01",
+    "seed_inventory_complete": true,
+    "seeds": [
+      {"seed_id": "seed_a", "coverage_hex": "03", "cost_units": 2},
+      {"seed_id": "seed_b", "coverage_hex": "05", "cost_units": 1},
+      {"seed_id": "seed_c", "coverage_hex": "80", "cost_units": 5},
+      {"seed_id": "seed_d", "coverage_hex": "01", "cost_units": 1}
+    ]
+  }}
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "benchmark_version": "kubernetes-v1.34-linux-restricted-core",
+      "pod": {
+        "pod_ref": "pod:synthetic-restricted-core",
+        "os_name": "linux",
+        "host_users": null,
+        "security_context": {
+          "run_as_non_root": true,
+          "run_as_user": 1000,
+          "seccomp_profile": {
+            "type": "RuntimeDefault",
+            "localhost_profile": null
+          }
+        },
+        "containers": [
+          {
+            "container_ref": "container:application",
+            "security_context": {
+              "run_as_non_root": null,
+              "run_as_user": null,
+              "seccomp_profile": null,
+              "allow_privilege_escalation": false,
+              "capabilities": {
+                "add": [],
+                "drop": [
+                  "ALL"
+                ]
+              }
+            }
+          }
+        ],
+        "init_containers": [
+          {
+            "container_ref": "container:init",
+            "security_context": {
+              "run_as_non_root": null,
+              "run_as_user": null,
+              "seccomp_profile": null,
+              "allow_privilege_escalation": false,
+              "capabilities": {
+                "add": [],
+                "drop": [
+                  "ALL"
+                ]
+              }
+            }
+          }
+        ],
+        "ephemeral_containers": [
+          {
+            "container_ref": "container:ephemeral",
+            "security_context": {
+              "run_as_non_root": null,
+              "run_as_user": null,
+              "seccomp_profile": null,
+              "allow_privilege_escalation": false,
+              "capabilities": {
+                "add": [],
+                "drop": [
+                  "ALL"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

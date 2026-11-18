@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S06",
+  "component_id": "kubernetes_supplied_control_plane_declarations",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-kubernetes-control-plane-declarations",
+      "api_inventory_complete": true,
+      "store_inventory_complete": true,
+      "api_servers": [
+        {
+          "api_id": "api-a",
+          "store_id": "store-a",
+          "client_tls_required": true
+        }
+      ],
+      "stores": [
+        {
+          "store_id": "store-a",
+          "client_tls_required": true,
+          "at_rest_encryption_declared": false
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "check-a",
+          "api_id": "api-a",
+          "require_api_client_tls": true,
+          "require_store_client_tls": true,
+          "require_storage_encryption_at_rest": true,
+          "claimed_compliant": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

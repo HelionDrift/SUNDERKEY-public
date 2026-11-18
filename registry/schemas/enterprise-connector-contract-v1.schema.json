@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/enterprise-connector-contract-v1.schema.json",
+  "title": "SUNDERKEY Enterprise Connector Contract",
+  "oneOf": [
+    { "$ref": "#/$defs/binding" },
+    { "$ref": "#/$defs/request" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "reference": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,63}:[A-Za-z0-9._~:/+\\-]{1,255}$"
+    },
+    "timestamp": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "routeParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$" },
+        "value": { "type": "string", "minLength": 1, "maxLength": 320 }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_refs",
+        "event_id",
+        "event_sha256",
+        "event_type",
+        "occurred_at",
+        "severity",
+        "state",
+        "subject_ref",
+        "summary"
+      ],
+      "properties": {
+        "artifact_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/reference" }
+        },
+        "event_id": { "$ref": "#/$defs/reference" },
+        "event_sha256": { "$ref": "#/$defs/digest" },
+        "event_type": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$" },
+        "occurred_at": { "$ref": "#/$defs/timestamp" },
+        "severity": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$" },
+        "state": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$" },
+        "subject_ref": { "$ref": "#/$defs/reference" },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 500 }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "api_version",
+        "binding_id",
+        "binding_sha256",
+        "connector_kind",
+        "credential_ref",
+        "destination_ref",
+        "enabled_at",
+        "endpoint_ref",
+        "expires_at",
+        "kind",
+        "operation",
+        "route_parameters",
+        "schema_version",
+        "tenant_ref"
+      ],
+      "properties": {
+        "api_version": { "enum": ["3", "3.0.1", "2023-01-01"] },
+        "binding_id": { "type": "string", "pattern": "^ECB-[0-9A-F]{32}$" },
+        "binding_sha256": { "$ref": "#/$defs/digest" },
+        "connector_kind": {
+          "enum": ["jira_cloud", "microsoft_sentinel", "security_copilot"]
+        },
+        "credential_ref": { "$ref": "#/$defs/reference" },
+        "destination_ref": { "$ref": "#/$defs/reference" },
+        "enabled_at": { "$ref": "#/$defs/timestamp" },
+        "endpoint_ref": { "$ref": "#/$defs/reference" },
+        "expires_at": { "$ref": "#/$defs/timestamp" },
+        "kind": { "const": "enterprise_connector_binding" },
+        "operation": {
+          "enum": ["jira_create_issue", "sentinel_send_data", "copilot_publish_plugin"]
+        },
+        "route_parameters": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/routeParameter" }
+        },
+        "schema_version": { "const": 1 },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "binding_sha256",
+        "body_json",
+        "created_at",
+        "destination_ref",
+        "event",
+        "expires_at",
+        "idempotency_key",
+        "kind",
+        "method",
+        "operation",
+        "path_template",
+        "request_id",
+        "request_sha256",
+        "schema_version",
+        "tenant_ref"
+      ],
+      "properties": {
+        "binding_id": { "type": "string", "pattern": "^ECB-[0-9A-F]{32}$" },
+        "binding_sha256": { "$ref": "#/$defs/digest" },
+        "body_json": { "type": "string", "minLength": 2, "maxLength": 1000000 },
+        "created_at": { "$ref": "#/$defs/timestamp" },
+        "destination_ref": { "$ref": "#/$defs/reference" },
+        "event": { "$ref": "#/$defs/projection" },
+        "expires_at": { "$ref": "#/$defs/timestamp" },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+        },
+        "kind": { "const": "enterprise_connector_delivery_request" },
+        "method": { "const": "POST" },
+        "operation": {
+          "enum": ["jira_create_issue", "sentinel_send_data", "copilot_publish_plugin"]
+        },
+        "path_template": { "type": "string", "pattern": "^/", "maxLength": 256 },
+        "request_id": { "type": "string", "pattern": "^ECD-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/digest" },
+        "schema_version": { "const": 1 },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    }
+  }
+}

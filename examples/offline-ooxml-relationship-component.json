@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D02-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ooxml-relationships",
+      "synthetic_fixture": true,
+      "relationships_xml": "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/><Relationship Id=\"rId2\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"https://resource.synthetic.example/info\" TargetMode=\"External\"/></Relationships>"
+    }
+  }
+}

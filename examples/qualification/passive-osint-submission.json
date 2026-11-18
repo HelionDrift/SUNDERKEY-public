@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "submission_id": "fixture.passive-osint.evaluation-submission",
+  "submission_version": "1.0.0",
+  "submission_mode": "synthetic_contract_fixture",
+  "advisory_only": true,
+  "profile_id": "AOE-GA-D01-S01",
+  "candidate": {
+    "candidate_id": "fixture.passive-osint",
+    "candidate_version": "1.0.0",
+    "candidate_artifact_sha256": "sha256:ba3d024191766c8471f1268ed465d88c986626bcd785a0b88dbad4ebc08672ee"
+  },
+  "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+  "candidate_component_catalog": {
+    "id": "sunderkey-candidate-components",
+    "version": "1.0.0",
+    "sha256": "sha256:b7431f90ee2a679b68da3f54fb41e6941929f6839dbcdcadb95cf1c4d8845431"
+  },
+  "candidate_onboarding_report": {
+    "report_id": "ONR-21020860C981FE459A57E917F5C42DC9",
+    "sha256": "sha256:21020860c981fe459a57e917f5c42dc919c9381edb9924c44b688d1b45e91352"
+  },
+  "qualification_suite": {
+    "id": "fixture.passive-osint.qualification",
+    "version": "1.0.0",
+    "sha256": "sha256:65d1281cc80337f4cd80e988bee2c8618be785892fb48a7534c6046eb1348f8e"
+  },
+  "requested_gate_ids": [
+    "qualification.gate.adversarial-robustness",
+    "qualification.gate.collaboration-handoff",
+    "qualification.gate.evidence-reproducibility",
+    "qualification.gate.false-positive-control",
+    "qualification.gate.safe-abstention-stop",
+    "qualification.gate.scope-authority",
+    "qualification.gate.specialist-technical-accuracy",
+    "qualification.gate.tool-data-boundary"
+  ],
+  "review_requirements": {
+    "minimum_distinct_evaluators": 2,
+    "require_independent_control_review": true,
+    "require_independent_assurance_review": true,
+    "allow_self_attestation": false,
+    "qualification_validity_days": 180
+  },
+  "reviewer_assignment_state": "not_performed",
+  "evidence_manifest_state": "not_provided",
+  "submission_sha256": "sha256:ef9c4d7e13fadd8f4f4c62b785878653d7fa2b26254fb5ce23813fbed793dc98"
+}

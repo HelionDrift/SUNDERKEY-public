@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S18",
+  "component_id": "browser_supplied_webrtc_signaling_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "rooms_complete": true,
+      "rooms": [
+        {
+          "room_id": "demo",
+          "member_peer_ids": ["alice", "bob"],
+          "membership_complete": true,
+          "forwarding_policy_complete": true,
+          "member_only_forwarding_required": true,
+          "sender_owner_match_required": true
+        }
+      ],
+      "events": [
+        {
+          "event_id": "candidate-membership",
+          "room_id": "demo",
+          "artifact_kind": "ice_candidate",
+          "sender_peer_id": "mallory",
+          "recipient_peer_id": "alice",
+          "payload_owner_peer_id": "mallory",
+          "forwarding_decision": "allow",
+          "direct_submission": true,
+          "identity_binding_complete": true,
+          "context_complete": true
+        },
+        {
+          "event_id": "candidate-owner",
+          "room_id": "demo",
+          "artifact_kind": "offer",
+          "sender_peer_id": "alice",
+          "recipient_peer_id": "bob",
+          "payload_owner_peer_id": "bob",
+          "forwarding_decision": "allow",
+          "direct_submission": true,
+          "identity_binding_complete": true,
+          "context_complete": true
+        },
+        {
+          "event_id": "denied",
+          "room_id": "demo",
+          "artifact_kind": "offer",
+          "sender_peer_id": "mallory",
+          "recipient_peer_id": "alice",
+          "payload_owner_peer_id": "mallory",
+          "forwarding_decision": "deny",
+          "direct_submission": true,
+          "identity_binding_complete": true,
+          "context_complete": true
+        },
+        {
+          "event_id": "matching",
+          "room_id": "demo",
+          "artifact_kind": "answer",
+          "sender_peer_id": "bob",
+          "recipient_peer_id": "alice",
+          "payload_owner_peer_id": "bob",
+          "forwarding_decision": "allow",
+          "direct_submission": true,
+          "identity_binding_complete": true,
+          "context_complete": true
+        },
+        {
+          "event_id": "unknown-relay",
+          "room_id": "demo",
+          "artifact_kind": "ice_candidate",
+          "sender_peer_id": "alice",
+          "recipient_peer_id": "bob",
+          "payload_owner_peer_id": "alice",
+          "forwarding_decision": "allow",
+          "direct_submission": false,
+          "identity_binding_complete": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

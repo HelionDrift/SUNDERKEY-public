@@ -1,0 +1,216 @@
+{
+  "$defs": {
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$",
+      "type": "string"
+    },
+    "profileId": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "approval_requirement_ids": {
+      "items": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "authority_snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "authorization_effect": {
+      "const": "none"
+    },
+    "cleanup_requirement_ids": {
+      "items": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "context_items": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "maxLength": 16000,
+            "minLength": 1,
+            "pattern": "^[^\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F-\\u009F\\uD800-\\uDFFF\\u200B-\\u200F\\u202A-\\u202E\\u2060-\\u206F\\uFEFF]*$",
+            "type": "string"
+          },
+          "content_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "context_id": {
+            "$ref": "#/$defs/identifier"
+          },
+          "context_kind": {
+            "enum": [
+              "target_content",
+              "retrieved_context",
+              "tool_output",
+              "expert_work_product",
+              "operator_context"
+            ]
+          },
+          "estimated_tokens": {
+            "maximum": 4000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "trust": {
+            "const": "untrusted_data"
+          }
+        },
+        "required": [
+          "context_id",
+          "context_kind",
+          "content",
+          "content_sha256",
+          "estimated_tokens",
+          "trust"
+        ],
+        "type": "object"
+      },
+      "maxItems": 48,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "envelope_id": {
+      "pattern": "^EEE-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "envelope_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evidence_requirement_ids": {
+      "items": {
+        "maxLength": 4096,
+        "minLength": 1,
+        "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "mission_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "model_output_effect": {
+      "const": "advisory_only"
+    },
+    "plan_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/profileId"
+    },
+    "runtime_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "runtime_pack_id": {
+      "pattern": "^ERP-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "runtime_pack_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "target_scope_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "token_budget": {
+      "additionalProperties": false,
+      "properties": {
+        "context_tokens": {
+          "maximum": 24000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "input_token_ceiling": {
+          "maximum": 24000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "output_token_ceiling": {
+          "const": 8000
+        },
+        "total_token_ceiling": {
+          "const": 32000
+        }
+      },
+      "required": [
+        "context_tokens",
+        "input_token_ceiling",
+        "output_token_ceiling",
+        "total_token_ceiling"
+      ],
+      "type": "object"
+    },
+    "tool_effect": {
+      "const": "none"
+    },
+    "untrusted_text_policy": {
+      "const": "data_only_never_instruction"
+    },
+    "work_id": {
+      "$ref": "#/$defs/identifier"
+    }
+  },
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "envelope_sha256",
+    "runtime_catalog_sha256",
+    "runtime_pack_id",
+    "runtime_pack_sha256",
+    "profile_id",
+    "mission_id",
+    "plan_id",
+    "work_id",
+    "target_scope_sha256",
+    "authority_snapshot_sha256",
+    "evidence_snapshot_sha256",
+    "evidence_requirement_ids",
+    "cleanup_requirement_ids",
+    "approval_requirement_ids",
+    "context_items",
+    "token_budget",
+    "untrusted_text_policy",
+    "model_output_effect",
+    "tool_effect",
+    "authorization_effect"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/asset-risk-scorecard-v1.schema.json",
+  "title": "SUNDERKEY Asset Risk Portfolio v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "asset_bindings",
+    "attack_path_bindings",
+    "calculated_at",
+    "contract_type",
+    "defender_bindings",
+    "effects",
+    "finding_records",
+    "policy",
+    "portfolio_id",
+    "portfolio_sha256",
+    "schema_version",
+    "scorecards"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "contract_type": {"const": "asset_risk_portfolio"},
+    "portfolio_id": {"type": "string", "pattern": "^ARP-[0-9A-F]{32}$"},
+    "portfolio_sha256": {"$ref": "#/$defs/sha256"},
+    "calculated_at": {"$ref": "#/$defs/timestamp"},
+    "policy": {"$ref": "#/$defs/policy"},
+    "asset_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {"$ref": "#/$defs/assetBinding"}
+    },
+    "finding_records": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {"$ref": "#/$defs/findingRecord"}
+    },
+    "attack_path_bindings": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {"$ref": "#/$defs/attackPathBinding"}
+    },
+    "defender_bindings": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {"$ref": "#/$defs/defenderBinding"}
+    },
+    "scorecards": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {"$ref": "#/$defs/scorecard"}
+    },
+    "effects": {"$ref": "#/$defs/effects"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/+-]{0,255}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "bps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_evidence_age_seconds",
+        "minimum_evidence_coverage_bps",
+        "policy_id",
+        "policy_sha256",
+        "policy_version"
+      ],
+      "properties": {
+        "maximum_evidence_age_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31536000
+        },
+        "minimum_evidence_coverage_bps": {"$ref": "#/$defs/bps"},
+        "policy_id": {"type": "string", "pattern": "^RSP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_version": {"$ref": "#/$defs/version"}
+      }
+    },
+    "assetBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_ref",
+        "asset_sha256",
+        "binding_id",
+        "binding_sha256",
+        "context_ref",
+        "criticality_bps",
+        "evidence_coverage_bps",
+        "evidence_sha256",
+        "exposure_bps",
+        "observed_at",
+        "scope_sha256",
+        "tenant_ref",
+        "uncertainty_bps"
+      ],
+      "properties": {
+        "asset_ref": {"type": "string", "pattern": "^assetref:[A-Za-z0-9._:/+-]+$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "binding_id": {"type": "string", "pattern": "^ACB-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9._:/+-]+$"},
+        "criticality_bps": {"$ref": "#/$defs/bps"},
+        "evidence_coverage_bps": {"$ref": "#/$defs/bps"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "exposure_bps": {"$ref": "#/$defs/bps"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9._:/+-]+$"},
+        "uncertainty_bps": {"$ref": "#/$defs/bps"}
+      }
+    },
+    "findingRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_ref",
+        "asset_sha256",
+        "confidence_bps",
+        "context_ref",
+        "evidence_coverage_bps",
+        "evidence_sha256",
+        "exception_state",
+        "finding_ref",
+        "finding_sha256",
+        "observed_at",
+        "record_id",
+        "record_sha256",
+        "record_state",
+        "remediation_state",
+        "scope_sha256",
+        "severity",
+        "tenant_ref",
+        "validation_state"
+      ],
+      "properties": {
+        "asset_ref": {"type": "string", "pattern": "^assetref:[A-Za-z0-9._:/+-]+$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "confidence_bps": {"$ref": "#/$defs/bps"},
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9._:/+-]+$"},
+        "evidence_coverage_bps": {"$ref": "#/$defs/bps"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "exception_state": {"enum": ["approved", "none", "temporary"]},
+        "finding_ref": {"type": "string", "pattern": "^findingref:[A-Za-z0-9._:/+-]+$"},
+        "finding_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "record_id": {"type": "string", "pattern": "^OFR-[0-9A-F]{32}$"},
+        "record_sha256": {"$ref": "#/$defs/sha256"},
+        "record_state": {"enum": ["active", "merged_away"]},
+        "remediation_state": {
+          "enum": ["in_progress", "open_unaddressed", "planned", "reported_remediated"]
+        },
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "severity": {"enum": ["critical", "high", "info", "low", "medium"]},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9._:/+-]+$"},
+        "validation_state": {"enum": ["candidate", "invalid", "reproduced", "verified"]}
+      }
+    },
+    "attackPathBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_ref",
+        "asset_sha256",
+        "binding_id",
+        "binding_sha256",
+        "context_ref",
+        "depth",
+        "evidence_coverage_bps",
+        "evidence_sha256",
+        "observed_at",
+        "reachability_state",
+        "scope_sha256",
+        "tenant_ref",
+        "uncertainty_bps"
+      ],
+      "properties": {
+        "asset_ref": {"type": "string", "pattern": "^assetref:[A-Za-z0-9._:/+-]+$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "binding_id": {"type": "string", "pattern": "^APE-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9._:/+-]+$"},
+        "depth": {"type": "integer", "minimum": 0, "maximum": 64},
+        "evidence_coverage_bps": {"$ref": "#/$defs/bps"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "reachability_state": {"enum": ["confirmed", "not_observed", "unknown"]},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9._:/+-]+$"},
+        "uncertainty_bps": {"$ref": "#/$defs/bps"}
+      }
+    },
+    "defenderBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_ref",
+        "asset_sha256",
+        "binding_id",
+        "binding_sha256",
+        "context_ref",
+        "detection_coverage_bps",
+        "evidence_coverage_bps",
+        "evidence_sha256",
+        "observed_at",
+        "scope_sha256",
+        "tenant_ref",
+        "uncertainty_bps"
+      ],
+      "properties": {
+        "asset_ref": {"type": "string", "pattern": "^assetref:[A-Za-z0-9._:/+-]+$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "binding_id": {"type": "string", "pattern": "^DDC-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9._:/+-]+$"},
+        "detection_coverage_bps": {"$ref": "#/$defs/bps"},
+        "evidence_coverage_bps": {"$ref": "#/$defs/bps"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9._:/+-]+$"},
+        "uncertainty_bps": {"$ref": "#/$defs/bps"}
+      }
+    },
+    "findingContribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_contribution_bps",
+        "composite_contribution_bps",
+        "confidence_uncertainty_bonus_bps",
+        "evidence_age_seconds",
+        "exception_bonus_bps",
+        "exception_state",
+        "finding_ref",
+        "finding_sha256",
+        "remediation_bonus_bps",
+        "remediation_state",
+        "severity",
+        "severity_component_bps",
+        "validation_bonus_bps",
+        "validation_state"
+      ],
+      "properties": {
+        "baseline_contribution_bps": {"$ref": "#/$defs/bps"},
+        "composite_contribution_bps": {"$ref": "#/$defs/bps"},
+        "confidence_uncertainty_bonus_bps": {"$ref": "#/$defs/bps"},
+        "evidence_age_seconds": {"type": "integer", "minimum": 0, "maximum": 3153600000},
+        "exception_bonus_bps": {"$ref": "#/$defs/bps"},
+        "exception_state": {"enum": ["approved", "none", "temporary"]},
+        "finding_ref": {"type": "string", "pattern": "^findingref:[A-Za-z0-9._:/+-]+$"},
+        "finding_sha256": {"$ref": "#/$defs/sha256"},
+        "remediation_bonus_bps": {"$ref": "#/$defs/bps"},
+        "remediation_state": {
+          "enum": ["in_progress", "open_unaddressed", "planned", "reported_remediated"]
+        },
+        "severity": {"enum": ["critical", "high", "info", "low", "medium"]},
+        "severity_component_bps": {"$ref": "#/$defs/bps"},
+        "validation_bonus_bps": {"$ref": "#/$defs/bps"},
+        "validation_state": {"enum": ["candidate", "invalid", "reproduced", "verified"]}
+      }
+    },
+    "breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_context_floor_bps",
+        "asset_uncertainty_bonus_bps",
+        "attack_path_bonus_bps",
+        "attack_path_uncertainty_bonus_bps",
+        "baseline_floor_bps",
+        "calculated_score_bps",
+        "defender_detection_reduction_bps",
+        "defender_uncertainty_bonus_bps",
+        "finding_aggregate_bps",
+        "inherent_floor_bps",
+        "pre_control_score_bps"
+      ],
+      "properties": {
+        "asset_context_floor_bps": {"$ref": "#/$defs/bps"},
+        "asset_uncertainty_bonus_bps": {"$ref": "#/$defs/bps"},
+        "attack_path_bonus_bps": {"$ref": "#/$defs/bps"},
+        "attack_path_uncertainty_bonus_bps": {"$ref": "#/$defs/bps"},
+        "baseline_floor_bps": {"$ref": "#/$defs/bps"},
+        "calculated_score_bps": {"$ref": "#/$defs/bps"},
+        "defender_detection_reduction_bps": {"$ref": "#/$defs/bps"},
+        "defender_uncertainty_bonus_bps": {"$ref": "#/$defs/bps"},
+        "finding_aggregate_bps": {"$ref": "#/$defs/bps"},
+        "inherent_floor_bps": {"$ref": "#/$defs/bps"},
+        "pre_control_score_bps": {"$ref": "#/$defs/bps"}
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_binding_id",
+        "asset_binding_sha256",
+        "asset_ref",
+        "asset_sha256",
+        "attack_path_binding_id",
+        "attack_path_binding_sha256",
+        "baseline",
+        "composite",
+        "confidence_bps",
+        "context_ref",
+        "coverage_bps",
+        "defender_binding_id",
+        "defender_binding_sha256",
+        "disposition",
+        "evidence_state",
+        "finding_contributions",
+        "finding_count",
+        "maximum_evidence_age_seconds",
+        "rank",
+        "reason_codes",
+        "scope_sha256",
+        "scorecard_id",
+        "scorecard_sha256",
+        "tenant_ref"
+      ],
+      "properties": {
+        "asset_binding_id": {"type": "string", "pattern": "^ACB-[0-9A-F]{32}$"},
+        "asset_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "asset_ref": {"type": "string", "pattern": "^assetref:[A-Za-z0-9._:/+-]+$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "attack_path_binding_id": {
+          "type": ["string", "null"],
+          "pattern": "^APE-[0-9A-F]{32}$"
+        },
+        "attack_path_binding_sha256": {
+          "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["formula_id", "score_bps"],
+          "properties": {
+            "formula_id": {"const": "open_finding_severity_weighted_v1"},
+            "score_bps": {"$ref": "#/$defs/bps"}
+          }
+        },
+        "composite": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "breakdown",
+            "calculated_score_bps",
+            "fail_closed_floor_applied",
+            "formula_id",
+            "score_bps"
+          ],
+          "properties": {
+            "breakdown": {"$ref": "#/$defs/breakdown"},
+            "calculated_score_bps": {"$ref": "#/$defs/bps"},
+            "fail_closed_floor_applied": {"type": "boolean"},
+            "formula_id": {"const": "evidence_aware_asset_risk_v1"},
+            "score_bps": {"$ref": "#/$defs/bps"}
+          }
+        },
+        "confidence_bps": {"$ref": "#/$defs/bps"},
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9._:/+-]+$"},
+        "coverage_bps": {"$ref": "#/$defs/bps"},
+        "defender_binding_id": {
+          "type": ["string", "null"],
+          "pattern": "^DDC-[0-9A-F]{32}$"
+        },
+        "defender_binding_sha256": {
+          "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        },
+        "disposition": {
+          "enum": [
+            "blocked_insufficient",
+            "blocked_invalid",
+            "blocked_stale",
+            "manual_review_required"
+          ]
+        },
+        "evidence_state": {"enum": ["complete", "insufficient", "invalid", "stale"]},
+        "finding_contributions": {
+          "type": "array",
+          "maxItems": 100000,
+          "items": {"$ref": "#/$defs/findingContribution"}
+        },
+        "finding_count": {"type": "integer", "minimum": 0, "maximum": 100000},
+        "maximum_evidence_age_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3153600000
+        },
+        "rank": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "scorecard_id": {"type": "string", "pattern": "^ARS-[0-9A-F]{32}$"},
+        "scorecard_sha256": {"$ref": "#/$defs/sha256"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9._:/+-]+$"}
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credentials",
+        "deployment",
+        "discovery",
+        "filesystem_discovery",
+        "live_target_state",
+        "network",
+        "prediction",
+        "provider_calls",
+        "remediation",
+        "target_actions"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credentials": {"const": "none"},
+        "deployment": {"const": "none"},
+        "discovery": {"const": "none"},
+        "filesystem_discovery": {"const": "none"},
+        "live_target_state": {"const": "not_observed"},
+        "network": {"const": "none"},
+        "prediction": {"const": "none"},
+        "provider_calls": {"const": "none"},
+        "remediation": {"const": "none"},
+        "target_actions": {"const": "none"}
+      }
+    }
+  }
+}

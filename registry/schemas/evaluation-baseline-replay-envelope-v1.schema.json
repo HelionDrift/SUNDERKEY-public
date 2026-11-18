@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/evaluation-baseline-replay-envelope-v1.schema.json",
+  "title": "SUNDERKEY Evaluation Baseline Replay Envelope v1",
+  "description": "A strict, content-addressed, nonqualifying replay envelope for caller-supplied baseline observations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_type",
+    "effects",
+    "envelope_id",
+    "envelope_sha256",
+    "observation",
+    "qualification_effect",
+    "replay_adapter_id",
+    "replay_adapter_revision",
+    "replay_controller_identity_id",
+    "replayed_at",
+    "schema_version"
+  ],
+  "properties": {
+    "contract_type": {"const": "baseline_replay_envelope"},
+    "effects": {"$ref": "#/$defs/effects"},
+    "envelope_id": {"$ref": "#/$defs/identifier"},
+    "envelope_sha256": {"$ref": "#/$defs/sha256"},
+    "observation": {"$ref": "#/$defs/observation"},
+    "qualification_effect": {"const": "none"},
+    "replay_adapter_id": {"$ref": "#/$defs/identifier"},
+    "replay_adapter_revision": {"$ref": "#/$defs/revision"},
+    "replay_controller_identity_id": {"$ref": "#/$defs/identifier"},
+    "replayed_at": {"$ref": "#/$defs/timestamp"},
+    "schema_version": {"const": 1}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+      "not": {"enum": ["current", "head", "latest", "main", "master", "tip"]}
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "boundedInteger": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000000000000
+    },
+    "positiveBoundedInteger": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000000000000
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_access",
+        "evaluation_execution",
+        "filesystem_discovery",
+        "model_calls",
+        "network",
+        "process_execution",
+        "provider_calls",
+        "qualification",
+        "target_actions",
+        "tool_calls"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credential_access": {"const": "none"},
+        "evaluation_execution": {"const": "none"},
+        "filesystem_discovery": {"const": "none"},
+        "model_calls": {"const": "none"},
+        "network": {"const": "none"},
+        "process_execution": {"const": "none"},
+        "provider_calls": {"const": "none"},
+        "qualification": {"const": "none"},
+        "target_actions": {"const": "none"},
+        "tool_calls": {"const": "none"}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_cost_microusd",
+        "maximum_latency_ms",
+        "maximum_requests",
+        "maximum_tokens",
+        "maximum_tool_calls",
+        "used_cost_microusd",
+        "used_latency_ms",
+        "used_requests",
+        "used_tokens",
+        "used_tool_calls"
+      ],
+      "properties": {
+        "maximum_cost_microusd": {"$ref": "#/$defs/positiveBoundedInteger"},
+        "maximum_latency_ms": {"$ref": "#/$defs/positiveBoundedInteger"},
+        "maximum_requests": {"$ref": "#/$defs/positiveBoundedInteger"},
+        "maximum_tokens": {"$ref": "#/$defs/positiveBoundedInteger"},
+        "maximum_tool_calls": {"$ref": "#/$defs/positiveBoundedInteger"},
+        "used_cost_microusd": {"$ref": "#/$defs/boundedInteger"},
+        "used_latency_ms": {"$ref": "#/$defs/boundedInteger"},
+        "used_requests": {"$ref": "#/$defs/boundedInteger"},
+        "used_tokens": {"$ref": "#/$defs/boundedInteger"},
+        "used_tool_calls": {"const": 0}
+      }
+    },
+    "contamination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked_at",
+        "checker_identity_id",
+        "evidence_sha256",
+        "partition_type",
+        "status"
+      ],
+      "properties": {
+        "checked_at": {"$ref": "#/$defs/timestamp"},
+        "checker_identity_id": {"$ref": "#/$defs/identifier"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "partition_type": {"$ref": "#/$defs/partition"},
+        "status": {"enum": ["clean", "unknown", "contaminated"]}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_at",
+        "custody_manifest_sha256",
+        "producer_identity_id",
+        "source_artifact_id",
+        "source_artifact_sha256"
+      ],
+      "properties": {
+        "captured_at": {"$ref": "#/$defs/timestamp"},
+        "custody_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "producer_identity_id": {"$ref": "#/$defs/identifier"},
+        "source_artifact_id": {"$ref": "#/$defs/identifier"},
+        "source_artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "partition": {
+      "enum": ["public", "private_holdout", "adversarial_safety", "regression", "pilot"]
+    },
+    "metricValues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_remediation_findings",
+        "completed_evaluation_runs",
+        "elapsed_milliseconds_to_first_verified_finding",
+        "evaluation_cost_micro_usd",
+        "findings_submitted_for_validation",
+        "ground_truth_findings",
+        "independently_validated_findings",
+        "remediation_findings_reviewed",
+        "repeated_case_outcomes",
+        "reported_findings",
+        "reproduced_ground_truth_findings",
+        "required_cleanup_obligations",
+        "required_evidence_requirements",
+        "runs_with_ground_truth_findings",
+        "satisfied_evidence_requirements",
+        "stable_repeated_case_outcomes",
+        "unauthorized_target_actions",
+        "validator_reproduced_findings",
+        "verified_attack_path_hops_milli",
+        "verified_cleanup_obligations",
+        "verified_findings"
+      ],
+      "properties": {
+        "accepted_remediation_findings": {"$ref": "#/$defs/boundedInteger"},
+        "completed_evaluation_runs": {"$ref": "#/$defs/boundedInteger"},
+        "elapsed_milliseconds_to_first_verified_finding": {"$ref": "#/$defs/boundedInteger"},
+        "evaluation_cost_micro_usd": {"$ref": "#/$defs/boundedInteger"},
+        "findings_submitted_for_validation": {"$ref": "#/$defs/boundedInteger"},
+        "ground_truth_findings": {"$ref": "#/$defs/boundedInteger"},
+        "independently_validated_findings": {"$ref": "#/$defs/boundedInteger"},
+        "remediation_findings_reviewed": {"$ref": "#/$defs/boundedInteger"},
+        "repeated_case_outcomes": {"$ref": "#/$defs/boundedInteger"},
+        "reported_findings": {"$ref": "#/$defs/boundedInteger"},
+        "reproduced_ground_truth_findings": {"$ref": "#/$defs/boundedInteger"},
+        "required_cleanup_obligations": {"$ref": "#/$defs/boundedInteger"},
+        "required_evidence_requirements": {"$ref": "#/$defs/boundedInteger"},
+        "runs_with_ground_truth_findings": {"$ref": "#/$defs/boundedInteger"},
+        "satisfied_evidence_requirements": {"$ref": "#/$defs/boundedInteger"},
+        "stable_repeated_case_outcomes": {"$ref": "#/$defs/boundedInteger"},
+        "unauthorized_target_actions": {"$ref": "#/$defs/boundedInteger"},
+        "validator_reproduced_findings": {"$ref": "#/$defs/boundedInteger"},
+        "verified_attack_path_hops_milli": {"$ref": "#/$defs/boundedInteger"},
+        "verified_cleanup_obligations": {"$ref": "#/$defs/boundedInteger"},
+        "verified_findings": {"$ref": "#/$defs/boundedInteger"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_kind",
+        "budget",
+        "case_id",
+        "case_sha256",
+        "contamination",
+        "contract_type",
+        "effects",
+        "evaluator_identity_id",
+        "expected_output_sha256",
+        "implementation_id",
+        "implementation_revision",
+        "implementation_sha256",
+        "metric_values",
+        "observation_id",
+        "observation_sha256",
+        "observed_output_sha256",
+        "partition_type",
+        "policy_sha256",
+        "prompt_sha256",
+        "provenance",
+        "qualification_effect",
+        "result_status",
+        "schema_version",
+        "scoring_import_status",
+        "subject_id",
+        "subject_owner_identity_id",
+        "subject_role",
+        "subject_sha256",
+        "tools_allowed"
+      ],
+      "properties": {
+        "adapter_kind": {
+          "enum": [
+            "deterministic_rules",
+            "stored_model_snapshot",
+            "strategy_variant",
+            "human_reference_input"
+          ]
+        },
+        "budget": {"$ref": "#/$defs/budget"},
+        "case_id": {"$ref": "#/$defs/identifier"},
+        "case_sha256": {"$ref": "#/$defs/sha256"},
+        "contamination": {"$ref": "#/$defs/contamination"},
+        "contract_type": {"const": "baseline_observation"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evaluator_identity_id": {"$ref": "#/$defs/identifier"},
+        "expected_output_sha256": {"$ref": "#/$defs/sha256"},
+        "implementation_id": {"$ref": "#/$defs/identifier"},
+        "implementation_revision": {"$ref": "#/$defs/revision"},
+        "implementation_sha256": {"$ref": "#/$defs/sha256"},
+        "metric_values": {
+          "oneOf": [
+            {"$ref": "#/$defs/metricValues"},
+            {"type": "null"}
+          ]
+        },
+        "observation_id": {"$ref": "#/$defs/identifier"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_output_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "partition_type": {"$ref": "#/$defs/partition"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "qualification_effect": {"const": "none"},
+        "result_status": {"enum": ["completed", "failed", "unavailable"]},
+        "schema_version": {"const": 1},
+        "scoring_import_status": {
+          "enum": ["available", "failed", "unavailable", "blocked_contamination"]
+        },
+        "subject_id": {"$ref": "#/$defs/identifier"},
+        "subject_owner_identity_id": {"$ref": "#/$defs/identifier"},
+        "subject_role": {"enum": ["deterministic", "generalist", "prior_release"]},
+        "subject_sha256": {"$ref": "#/$defs/sha256"},
+        "tools_allowed": {"const": false}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"result_status": {"const": "completed"}}},
+          "then": {
+            "properties": {
+              "metric_values": {"$ref": "#/$defs/metricValues"},
+              "observed_output_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          },
+          "else": {"properties": {"metric_values": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"result_status": {"const": "unavailable"}}},
+          "then": {
+            "properties": {
+              "observed_output_sha256": {"type": "null"},
+              "budget": {
+                "properties": {
+                  "used_cost_microusd": {"const": 0},
+                  "used_latency_ms": {"const": 0},
+                  "used_requests": {"const": 0},
+                  "used_tokens": {"const": 0},
+                  "used_tool_calls": {"const": 0}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"adapter_kind": {"const": "deterministic_rules"}}},
+          "then": {"properties": {"subject_role": {"const": "deterministic"}}}
+        },
+        {
+          "if": {"properties": {"adapter_kind": {"const": "human_reference_input"}}},
+          "then": {"properties": {"subject_role": {"const": "generalist"}}}
+        },
+        {
+          "if": {
+            "properties": {
+              "adapter_kind": {
+                "enum": ["stored_model_snapshot", "strategy_variant"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "subject_role": {"enum": ["generalist", "prior_release"]}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-evidence-verification-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Evidence Verification Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_verification",
+    "base_custody_status",
+    "verification_custody_status",
+    "evidence_retention_status",
+    "semantic_verification_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "evidence_verification": {
+      "$ref": "collaboration-executor-provider-evidence-verification-v1.schema.json"
+    },
+    "base_custody_status": {
+      "const": "durable_authenticated_provider_report"
+    },
+    "verification_custody_status": {"const": "transient_not_retained"},
+    "evidence_retention_status": {"const": "not_retained"},
+    "semantic_verification_status": {"const": "not_performed"},
+    "external_effect_status": {
+      "const": "authenticated_report_evidence_digest_verified_effect_unverified"
+    },
+    "runtime_effect": {"const": "none"}
+  }
+}

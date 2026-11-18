@@ -1,0 +1,105 @@
+{
+  "decision": {
+    "decision_id": "D009",
+    "record_id": "CER-8E14690F10D716F768E1EE474B495F55",
+    "sha256": "sha256:8e14690f10d716f768e1ee474b495f556926b88a4119a201e3c67c7aefb44aeb"
+  },
+  "implementation_status": "contract_implementation_complete",
+  "implemented_steps": [
+    {
+      "artifacts": [
+        "registry/schemas/candidate-enrollment-catalog.schema.json",
+        "src/sunderkey/candidate_enrollment.py"
+      ],
+      "phase": 66,
+      "step_id": "define_candidate_enrollment_catalog_schema"
+    },
+    {
+      "artifacts": [
+        "registry/schemas/candidate-enrollment-signer-authorization.schema.json",
+        "src/sunderkey/candidate_enrollment.py"
+      ],
+      "phase": 66,
+      "step_id": "define_separated_enrollment_signer_key_use"
+    },
+    {
+      "artifacts": [
+        "registry/schemas/candidate-enrollment-catalog.schema.json",
+        "src/sunderkey/candidate_enrollment.py"
+      ],
+      "phase": 66,
+      "step_id": "define_owner_key_and_repository_identity_bindings"
+    },
+    {
+      "artifacts": [
+        "registry/schemas/candidate-enrollment-catalog.schema.json",
+        "src/sunderkey/candidate_enrollment.py"
+      ],
+      "phase": 66,
+      "step_id": "define_rotation_and_revocation_record_schemas"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_verification.py",
+        "tests/agents/test_candidate_enrollment_verification_phase67.py"
+      ],
+      "phase": 67,
+      "step_id": "implement_signature_scope_expiry_and_rollback_verification"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_evidence.py",
+        "tests/agents/test_candidate_enrollment_evidence_phase68.py"
+      ],
+      "phase": 68,
+      "step_id": "integrate_verified_enrollment_with_evidence_manifest_verification"
+    },
+    {
+      "artifacts": [
+        "tests/agents/test_candidate_enrollment_adversarial_phase69.py",
+        "tests/agents/test_candidate_enrollment_implementation_phase69.py"
+      ],
+      "phase": 69,
+      "step_id": "add_adversarial_rotation_revocation_and_migration_tests"
+    }
+  ],
+  "live_enrollment_status": "not_started",
+  "operational_prerequisites": [
+    "select_organization_issuer_audience_and_catalog_identity",
+    "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+    "issue_root_signed_enrollment_signer_authorization",
+    "issue_role_scoped_control_and_assurance_reviewer_credentials",
+    "select_exact_candidate_owner_identity_and_public_key",
+    "select_organization_logical_evidence_repository_identity",
+    "produce_independently_reviewed_and_signed_enrollment_catalog",
+    "distribute_catalog_and_revocations_through_reviewed_release_process",
+    "protect_last_seen_catalog_checkpoint_against_rollback"
+  ],
+  "prohibited_effects": [
+    "does_not_generate_import_store_or_select_private_keys",
+    "does_not_enroll_a_live_owner_candidate_or_repository",
+    "does_not_accept_or_retrieve_live_evidence",
+    "does_not_create_a_signature_credential_or_review",
+    "does_not_qualify_a_candidate_or_specialist",
+    "does_not_change_registry_status_or_routing_eligibility",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_mutate_runtime_or_sqlite_state"
+  ],
+  "qualification_effect": "none",
+  "registry_effect": "none",
+  "report_id": "CEI-D1B281DE3CA3249C30A0090844BDD2BB",
+  "report_sha256": "sha256:d1b281de3ca3249c30a0090844bdd2bb15928efdb3738f5b84c5cbf8407cc47d",
+  "schema_version": 1,
+  "security_properties": [
+    "offline_d008_root_authentication",
+    "separated_candidate_enrollment_catalog_signer",
+    "exact_candidate_owner_key_scope",
+    "logical_repository_identity_and_sha256_addressing_only",
+    "credential_signed_independent_control_and_assurance_review",
+    "time_bounded_reviewed_renewal",
+    "signed_predecessor_successor_rotation_overlap",
+    "signed_catalog_revocation_distribution",
+    "monotonic_version_expiry_and_last_seen_digest_rollback_protection",
+    "verified_enrollment_bound_evidence_manifest_acceptance"
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/attack-vector-catalog-v2.json",
+  "title": "SUNDERKEY Attack Vector Catalog v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "catalog_sha256",
+    "expert_catalog_id",
+    "expert_catalog_version",
+    "roadmap_id",
+    "roadmap_sha256",
+    "catalog_status",
+    "operational_effect",
+    "standards_sources",
+    "vectors",
+    "coverage_summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "catalog_id": {"const": "sunderkey-attack-vectors-v2"},
+    "catalog_version": {"const": "2.0.0"},
+    "catalog_sha256": {"$ref": "#/$defs/sha256"},
+    "expert_catalog_id": {"const": "sunderkey-offensive-expert-army"},
+    "expert_catalog_version": {"const": "2.0.0"},
+    "roadmap_id": {"type": "string", "pattern": "^AER-[0-9A-F]{32}$"},
+    "roadmap_sha256": {"$ref": "#/$defs/sha256"},
+    "catalog_status": {"const": "coverage_anchor_baseline"},
+    "operational_effect": {"const": "none"},
+    "standards_sources": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "vectors": {
+      "type": "array",
+      "minItems": 391,
+      "maxItems": 391,
+      "items": {"$ref": "#/$defs/vector"}
+    },
+    "coverage_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vector_count",
+        "primary_specialist_count",
+        "specialists_without_primary_vector",
+        "vectors_with_supporting_specialists",
+        "vectors_with_external_mapping",
+        "exact_external_mapping_count"
+      ],
+      "properties": {
+        "vector_count": {"const": 391},
+        "primary_specialist_count": {"const": 391},
+        "specialists_without_primary_vector": {"const": 0},
+        "vectors_with_supporting_specialists": {"const": 391},
+        "vectors_with_external_mapping": {"const": 391},
+        "exact_external_mapping_count": {"const": 10}
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/asciiText"}
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+$"
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-(G[A-E]-D[0-9]{2}-S[0-9]{2}|HQ-[0-9]{2})$"
+    },
+    "stringSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/asciiText"}
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "version", "url", "use"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/asciiText"},
+        "version": {"$ref": "#/$defs/asciiText"},
+        "url": {"type": "string", "format": "uri"},
+        "use": {"$ref": "#/$defs/asciiText"}
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_version", "reference_id", "relationship", "rationale"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/asciiText"},
+        "source_version": {"$ref": "#/$defs/asciiText"},
+        "reference_id": {"$ref": "#/$defs/asciiText"},
+        "relationship": {
+          "enum": ["exact_risk", "related_technique", "contextual_tactic"]
+        },
+        "rationale": {"$ref": "#/$defs/asciiText"}
+      }
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vector_id",
+        "name",
+        "vector_kind",
+        "description",
+        "standards_mappings",
+        "platforms_and_protocols",
+        "primary_specialist_id",
+        "supporting_specialist_ids",
+        "independent_validator_id",
+        "prerequisites_and_observations",
+        "allowed_action_tiers",
+        "tools_and_credentials",
+        "expected_evidence",
+        "cleanup_and_restoration",
+        "qualification_scenario_id",
+        "known_blind_spots"
+      ],
+      "properties": {
+        "vector_id": {
+          "type": "string",
+          "pattern": "^AV-G[A-E]-D[0-9]{2}-S[0-9]{2}-[0-9]{2}$"
+        },
+        "name": {"$ref": "#/$defs/asciiText"},
+        "vector_kind": {"const": "specialist_coverage_anchor"},
+        "description": {"$ref": "#/$defs/asciiText"},
+        "standards_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/mapping"}
+        },
+        "platforms_and_protocols": {"$ref": "#/$defs/stringSet"},
+        "primary_specialist_id": {"$ref": "#/$defs/profileId"},
+        "supporting_specialist_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/profileId"}
+        },
+        "independent_validator_id": {
+          "enum": ["AOE-HQ-19", "AOE-HQ-33", "AOE-HQ-34", "AOE-HQ-35"]
+        },
+        "prerequisites_and_observations": {"$ref": "#/$defs/stringSet"},
+        "allowed_action_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"enum": ["R0", "R1", "R2", "R3", "R4", "R5"]}
+        },
+        "tools_and_credentials": {"$ref": "#/$defs/stringSet"},
+        "expected_evidence": {"$ref": "#/$defs/stringSet"},
+        "cleanup_and_restoration": {"$ref": "#/$defs/stringSet"},
+        "qualification_scenario_id": {
+          "type": "string",
+          "pattern": "^qualification\\.aoe-g[a-e]-d[0-9]{2}-s[0-9]{2}$"
+        },
+        "known_blind_spots": {"$ref": "#/$defs/stringSet"}
+      }
+    }
+  }
+}

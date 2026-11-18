@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S13",
+  "component_id": "supplied_configuration_defaults",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-layered-configuration-defaults-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {"declaration_complete": true},
+      "observations": [
+        {
+          "setting_id": "setting-1",
+          "required_value": "enabled",
+          "default_value": "disabled",
+          "layers": [
+            {"scope_id": "organization", "value": "inherit"},
+            {"scope_id": "service", "value": "inherit"}
+          ],
+          "declared_effective_value": "disabled",
+          "capture_complete": true
+        }
+      ]
+    }
+  }
+}

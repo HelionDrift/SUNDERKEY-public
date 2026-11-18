@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/api-session-sequence-review-v1.schema.json",
+  "title": "SUNDERKEY Offline API Session Sequence Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tenant_id", "context_id", "context_sha256", "scope_id",
+    "scope_sha256", "inventory_sha256", "claims_sha256", "redaction_review_sha256",
+    "observation_count", "bound_event_count", "unbound_event_count",
+    "session_count", "edge_count", "role_label_change_edge_count",
+    "cross_origin_edge_count", "same_second_order_uncertain_edge_count",
+    "sessions", "ordering_basis", "session_linkage_authenticated",
+    "redaction_assurance_verified", "authorization_effect", "release_gate_effect",
+    "qualification_effect", "network_call_performed", "review_status",
+    "review_id", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "tenant_id": {"$ref": "#/$defs/id"},
+    "context_id": {"$ref": "#/$defs/id"},
+    "context_sha256": {"$ref": "#/$defs/sha256"},
+    "scope_id": {"$ref": "#/$defs/id"},
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "inventory_sha256": {"$ref": "#/$defs/sha256"},
+    "claims_sha256": {"$ref": "#/$defs/sha256"},
+    "redaction_review_sha256": {"$ref": "#/$defs/sha256"},
+    "observation_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "bound_event_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "unbound_event_count": {"type": "integer", "minimum": 0, "maximum": 9999},
+    "session_count": {"type": "integer", "minimum": 1, "maximum": 2000},
+    "edge_count": {"type": "integer", "minimum": 0, "maximum": 9999},
+    "role_label_change_edge_count": {"type": "integer", "minimum": 0, "maximum": 9999},
+    "cross_origin_edge_count": {"type": "integer", "minimum": 0, "maximum": 9999},
+    "same_second_order_uncertain_edge_count": {"type": "integer", "minimum": 0, "maximum": 9999},
+    "sessions": {
+      "type": "array", "minItems": 1, "maxItems": 2000,
+      "items": {"$ref": "#/$defs/session"}
+    },
+    "ordering_basis": {"const": "caller_asserted_session_sequence"},
+    "session_linkage_authenticated": {"const": false},
+    "redaction_assurance_verified": {"const": false},
+    "authorization_effect": {"const": "none"},
+    "release_gate_effect": {"const": "none"},
+    "qualification_effect": {"const": "none"},
+    "network_call_performed": {"const": false},
+    "review_status": {"const": "independent_review_required"},
+    "review_id": {"type": "string", "pattern": "^ASSR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "session_ref": {
+      "type": "string",
+      "pattern": "^sessionref:uuidv4:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "edge": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "from_observation_sha256", "to_observation_sha256",
+        "same_second_order_uncertain", "role_label_changed", "origin_changed"
+      ],
+      "properties": {
+        "from_observation_sha256": {"$ref": "#/$defs/sha256"},
+        "to_observation_sha256": {"$ref": "#/$defs/sha256"},
+        "same_second_order_uncertain": {"type": "boolean"},
+        "role_label_changed": {"type": "boolean"},
+        "origin_changed": {"type": "boolean"}
+      }
+    },
+    "session": {
+      "type": "object", "additionalProperties": false,
+      "required": ["session_ref", "event_observation_sha256", "edges"],
+      "properties": {
+        "session_ref": {"$ref": "#/$defs/session_ref"},
+        "event_observation_sha256": {
+          "type": "array", "minItems": 1, "maxItems": 10000,
+          "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}
+        },
+        "edges": {
+          "type": "array", "maxItems": 9999,
+          "items": {"$ref": "#/$defs/edge"}
+        }
+      }
+    }
+  }
+}

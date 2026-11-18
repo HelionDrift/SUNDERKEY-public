@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/cross-service-chain-review-v1.schema.json",
+  "title": "SUNDERKEY Offline Cross-Service Chain Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tenant_ref", "mission_ref", "scope_sha256", "chain_ref",
+    "plan_sha256", "observations_sha256", "as_of", "planned_hop_count",
+    "observed_hop_count", "declared_passed_hop_count",
+    "declared_terminal_state", "declared_end_surface_ref",
+    "planned_credential_reuse_count", "cleanup_due_hop_refs",
+    "plan_authority_authenticated", "per_hop_admission_authenticated",
+    "credential_custody_verified", "transition_proof_verified",
+    "cleanup_verified", "source_provenance", "review_status",
+    "qualification_effect", "effects", "review_id", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "tenant_ref": {"$ref": "#/$defs/tenant"},
+    "mission_ref": {"$ref": "#/$defs/mission"},
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "chain_ref": {"$ref": "#/$defs/chain"},
+    "plan_sha256": {"$ref": "#/$defs/sha256"},
+    "observations_sha256": {"$ref": "#/$defs/sha256"},
+    "as_of": {"$ref": "#/$defs/utc"},
+    "planned_hop_count": {"type": "integer", "minimum": 1, "maximum": 16},
+    "observed_hop_count": {"type": "integer", "minimum": 0, "maximum": 16},
+    "declared_passed_hop_count": {"type": "integer", "minimum": 0, "maximum": 16},
+    "declared_terminal_state": {
+      "enum": [
+        "not_started", "declared_stopped", "declared_partial",
+        "declared_complete_pending_independent_review"
+      ]
+    },
+    "declared_end_surface_ref": {
+      "oneOf": [{"$ref": "#/$defs/surface"}, {"type": "null"}]
+    },
+    "planned_credential_reuse_count": {
+      "type": "integer", "minimum": 0, "maximum": 15
+    },
+    "cleanup_due_hop_refs": {
+      "type": "array", "maxItems": 16, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/hop"}
+    },
+    "plan_authority_authenticated": {"const": false},
+    "per_hop_admission_authenticated": {"const": false},
+    "credential_custody_verified": {"const": false},
+    "transition_proof_verified": {"const": false},
+    "cleanup_verified": {"const": false},
+    "source_provenance": {"const": "caller_asserted_not_authenticated"},
+    "review_status": {"const": "independent_review_required"},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "admission": "none", "authorization": "none",
+        "credential_access": "none", "execution": "none",
+        "network": "none", "qualification": "none",
+        "target_interaction": "none"
+      }
+    },
+    "review_id": {"type": "string", "pattern": "^CSR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "tenant": {
+      "type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "mission": {
+      "type": "string", "pattern": "^missionref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "chain": {
+      "type": "string", "pattern": "^chainref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "hop": {
+      "type": "string", "pattern": "^hopref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "surface": {
+      "type": "string", "pattern": "^surfaceref:sha256:[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

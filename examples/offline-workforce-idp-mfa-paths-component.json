@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S20",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-idp-policy",
+      "applications": [
+        {
+          "application_id": "admin-app",
+          "privileged": true,
+          "mfa_required": true,
+          "policy_complete": true,
+          "sign_in_paths": [
+            {"path_id": "standard", "enabled": true, "declared_mfa_enforced": true},
+            {"path_id": "legacy", "enabled": true, "declared_mfa_enforced": false}
+          ]
+        }
+      ]
+    }
+  }
+}

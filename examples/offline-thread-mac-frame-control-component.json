@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-thread-frame-control",
+      "synthetic_fixture": true,
+      "word_inventory_complete": true,
+      "require_data_security_bit": true,
+      "words": [
+        {
+          "word_id": "secured-data",
+          "frame_control_le_hex": "29a8"
+        },
+        {
+          "word_id": "unsecured-data",
+          "frame_control_le_hex": "21a8"
+        }
+      ]
+    }
+  }
+}

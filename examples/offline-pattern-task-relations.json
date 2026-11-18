@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "semantics_profile": "supplied-pattern-task-relation-v1",
+  "plan_id": "synthetic.pattern-hypothesis-1",
+  "scope_binding": {
+    "scope_id": "synthetic.review-scope-1",
+    "basis": "caller_declared_unverified",
+    "job_ids": ["query", "interpreter", "observable"]
+  },
+  "premises": [
+    {
+      "premise_id": "premise-query",
+      "job_id": "query",
+      "component_id": "supplied_query_input_boundary",
+      "source_model_sha256": "sha256:70fa771f8726f850de0fbff6f4b051c7f3003ffc45fcc5d43f34e42c9836beeb",
+      "projection_id": "query-1",
+      "expected_disposition": "candidate_declared_query_input_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-interpreter",
+      "job_id": "interpreter",
+      "component_id": "supplied_interpreter_input_boundary",
+      "source_model_sha256": "sha256:4fd68403b943b2d5c311e0c3f7d68f82c96ffb516566bb7c79a3d7013d979df2",
+      "projection_id": "sink-1",
+      "expected_disposition": "candidate_declared_interpreter_input_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-observable",
+      "job_id": "observable",
+      "component_id": "supplied_observable_discrepancy",
+      "source_model_sha256": "sha256:d257a1fbab6876a3a8a8b800b84a8acf35ee7c5a10181b43aaf181f680025160",
+      "projection_id": "comparison-1",
+      "expected_disposition": "candidate_declared_sensitive_field_exposure"
+    }
+  ]
+}

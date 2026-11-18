@@ -1,0 +1,62 @@
+{
+  "authority_rules": {
+    "initialization": "deployment_owner_and_independent_control",
+    "monotonic_advance": "automatic_after_complete_verification",
+    "recovery": "deployment_owner_and_independent_control"
+  },
+  "checkpoint_authority": "append_only_release_ledger_with_local_mirror",
+  "d011_decision": {
+    "record_id": "CAR-786706306502CBA601BF44563E114B19",
+    "sha256": "sha256:786706306502cba601bf44563e114b19567b16563f05ff6d368a9684c900bbc1"
+  },
+  "distribution": "organization_content_addressed_artifact_repository",
+  "fail_closed_conditions": [
+    "missing_checkpoint_after_initialization",
+    "checkpoint_digest_mismatch",
+    "checkpoint_version_decrease",
+    "same_version_different_catalog_digest",
+    "ledger_sequence_gap_or_fork",
+    "ledger_digest_or_predecessor_mismatch",
+    "receipt_binding_mismatch",
+    "promotion_before_checkpoint_commit",
+    "ambiguous_partial_release_state",
+    "recovery_without_dual_control"
+  ],
+  "implementation_effect": "contracts_defined_no_operational_state",
+  "initial_activation_scope": "single_candidate_canary",
+  "local_checkpoint_storage": {
+    "access": "deployment_service_identity_only",
+    "backup": "previous_valid_checkpoint_preserved",
+    "commit": "atomic_replace_after_fsync",
+    "format": "canonical_json_versioned_file",
+    "runtime_database_storage": false
+  },
+  "policy_id": "CRP-CB268855D98EC59A1C8D758550848EF5",
+  "policy_sha256": "sha256:cb268855d98ec59a1c8d758550848ef5b5e2f0170d2e9f69d855bc7247a6bdde",
+  "prohibited_effects": [
+    "does_not_create_a_deployment_checkpoint_or_release_ledger",
+    "does_not_write_or_promote_an_operational_catalog",
+    "does_not_select_operational_paths_endpoints_or_credentials",
+    "does_not_enroll_a_candidate_or_accept_evidence",
+    "does_not_qualify_a_specialist_or_change_routing"
+  ],
+  "qualification_effect": "none",
+  "recovery_rules": {
+    "authority_source": "verified_append_only_release_ledger",
+    "failure_mode": "fail_closed",
+    "retry": "same_version_same_digest_only",
+    "self_declared_current_catalog_trusted": false
+  },
+  "registry_effect": "none",
+  "release_sequence": [
+    "verify_catalog_and_phase72_receipt",
+    "append_release_intent",
+    "atomically_commit_local_checkpoint",
+    "append_checkpoint_committed",
+    "promote_content_addressed_catalog",
+    "append_catalog_promoted",
+    "append_release_completed"
+  ],
+  "retention": "deployment_lifetime_plus_audit_period",
+  "schema_version": 1
+}

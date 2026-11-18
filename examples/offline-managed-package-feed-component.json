@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-managed-packages",
+    "inventory_complete": true,
+    "packages": [{
+      "record_id": "package_a",
+      "ecosystem": "maven",
+      "coordinate_id": "example.group:sample",
+      "release_id": "release_1",
+      "intended_feed_id": "internal",
+      "selected_feed_id": "public",
+      "pinned_artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "selected_artifact_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_state": "unknown"
+    }]
+  }}
+}

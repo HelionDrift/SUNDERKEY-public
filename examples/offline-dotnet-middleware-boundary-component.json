@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S07",
+  "component_id": "dotnet_supplied_middleware_order_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:dotnet-middleware",
+      "source": {
+        "schema_version": "v1",
+        "declarations_complete": true,
+        "pipeline_kind": "explicit_endpoint_routing",
+        "middleware": [
+          {"middleware_id": "routing", "stage": "routing"},
+          {"middleware_id": "authentication", "stage": "authentication"},
+          {"middleware_id": "authorization", "stage": "authorization"},
+          {"middleware_id": "endpoints", "stage": "endpoint"}
+        ],
+        "routes": [
+          {
+            "route_id": "account",
+            "route_path": "/account",
+            "requires_authorization": true
+          },
+          {
+            "route_id": "health",
+            "route_path": "/health",
+            "requires_authorization": false
+          }
+        ]
+      }
+    }
+  }
+}

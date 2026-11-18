@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "effects": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "model_call_performed": {
+          "const": false
+        },
+        "network_call_performed": {
+          "const": false
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "target_action_performed": {
+          "const": false
+        },
+        "tool_effect": {
+          "const": "none"
+        }
+      },
+      "required": [
+        "authorization_effect",
+        "model_call_performed",
+        "network_call_performed",
+        "qualification_effect",
+        "target_action_performed",
+        "tool_effect"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://sunderkey.example/schemas/expert-workspace-closure-application-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "application_id": {
+      "pattern": "^ECAP-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "application_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "applied_at": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "closure_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "closure_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "disposition": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "rework_required"
+      ]
+    },
+    "effects": {
+      "$ref": "#/$defs/effects"
+    },
+    "event_head_before_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "kind": {
+      "const": "expert_workspace_closure_application"
+    },
+    "mission_store_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "snapshot_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "workspace_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "workspace_revision_after": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "workspace_revision_before": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "effects",
+    "application_id",
+    "application_sha256",
+    "mission_store_id",
+    "workspace_id",
+    "snapshot_id",
+    "snapshot_sha256",
+    "closure_id",
+    "closure_sha256",
+    "disposition",
+    "workspace_revision_before",
+    "workspace_revision_after",
+    "event_head_before_sha256",
+    "applied_at"
+  ],
+  "title": "SUNDERKEY Expert Workspace Closure Application v1",
+  "type": "object"
+}

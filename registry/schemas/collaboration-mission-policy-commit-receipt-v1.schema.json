@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-mission-policy-commit-receipt-v1.json",
+  "title": "SUNDERKEY Collaboration Mission Policy Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy",
+    "selection_sha256",
+    "authentication_id",
+    "authentication_sha256",
+    "committed_at",
+    "mission_owner",
+    "independent_control",
+    "commit_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "policy": {
+      "$ref": "collaboration-mission-reconfiguration-policy-v1.schema.json"
+    },
+    "selection_sha256": {"$ref": "#/$defs/sha256"},
+    "authentication_id": {"type": "string", "pattern": "^MPA-[0-9A-F]{32}$"},
+    "authentication_sha256": {"$ref": "#/$defs/sha256"},
+    "committed_at": {"$ref": "#/$defs/timestamp"},
+    "mission_owner": {"$ref": "#/$defs/assertionCommit"},
+    "independent_control": {"$ref": "#/$defs/assertionCommit"},
+    "commit_status": {"const": "committed_inactive"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "assertionCommit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "assertion_sha256",
+        "ledger_entry_sha256"
+      ],
+      "properties": {
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "ledger_entry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

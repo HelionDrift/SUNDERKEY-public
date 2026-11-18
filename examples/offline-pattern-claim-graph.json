@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "graph_label": "synthetic.pattern-cross-task-graph",
+  "sources": [
+    {"source_id": "three"},
+    {"source_id": "six"}
+  ],
+  "scope_bindings": [
+    {
+      "scope_id": "synthetic.declared-shared-scope",
+      "source_ids": ["three", "six"],
+      "basis": "caller_declared_unverified"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim-query",
+      "source_id": "three",
+      "observation_kind": "premise",
+      "observation_id": "premise-query",
+      "scope_id": "synthetic.declared-shared-scope"
+    },
+    {
+      "claim_id": "claim-configuration",
+      "source_id": "six",
+      "observation_kind": "premise",
+      "observation_id": "premise-configuration",
+      "scope_id": "synthetic.declared-shared-scope"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "synthetic.bounded-conjunction",
+      "scope_id": "synthetic.declared-shared-scope",
+      "dependencies": [
+        {"kind": "claim", "id": "claim-query"},
+        {"kind": "claim", "id": "claim-configuration"}
+      ]
+    }
+  ]
+}

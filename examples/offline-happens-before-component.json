@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-event-graph",
+    "trace_complete": true,
+    "events": [
+      {"event_id": "a_write", "actor_id": "a", "resource_id": "x", "access": "write"},
+      {"event_id": "a_read", "actor_id": "a", "resource_id": "x", "access": "read"},
+      {"event_id": "b_write", "actor_id": "b", "resource_id": "x", "access": "write"},
+      {"event_id": "b_read", "actor_id": "b", "resource_id": "y", "access": "read"}
+    ],
+    "ordering_edges": [
+      {"before_event_id": "a_write", "after_event_id": "a_read"},
+      {"before_event_id": "a_read", "after_event_id": "b_read"}
+    ]
+  }}
+}

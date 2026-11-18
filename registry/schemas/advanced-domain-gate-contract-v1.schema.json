@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/advanced-domain-gate-contract-v1.schema.json",
+  "title": "SUNDERKEY critical-role and advanced-domain gate contracts v1",
+  "oneOf": [
+    {"$ref": "#/$defs/roster"},
+    {"$ref": "#/$defs/policy"},
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/decision"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+      "not": {"enum": ["auto", "current", "default", "latest", "stable"]}
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "tier": {
+      "enum": ["R0", "R1", "R2", "R3", "R4"]
+    },
+    "domain": {
+      "enum": [
+        "ot_cyber_physical",
+        "healthcare",
+        "transport",
+        "specialized_protocols",
+        "model_infrastructure",
+        "other_high_risk"
+      ]
+    },
+    "environment": {
+      "enum": ["simulator", "replica", "live"]
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activation",
+        "authorization",
+        "deployment",
+        "network",
+        "qualification",
+        "routing",
+        "target_action"
+      ],
+      "properties": {
+        "activation": {"const": "none"},
+        "authorization": {"const": "none"},
+        "deployment": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "routing": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_ref", "artifact_sha256", "exact_version"],
+      "properties": {
+        "artifact_ref": {"$ref": "#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "exact_version": {"$ref": "#/$defs/version"}
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "decision",
+        "expires_at",
+        "qualified_at",
+        "reviewer_profile_id"
+      ],
+      "properties": {
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "decision": {"const": "qualified"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "qualified_at": {"$ref": "#/$defs/timestamp"},
+        "reviewer_profile_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "failure_domain_id",
+        "maintainer_id",
+        "model_id",
+        "model_version",
+        "profile_id",
+        "provider_id",
+        "qualification",
+        "runtime_kind"
+      ],
+      "properties": {
+        "candidate_id": {"$ref": "#/$defs/identifier"},
+        "failure_domain_id": {"$ref": "#/$defs/identifier"},
+        "maintainer_id": {"$ref": "#/$defs/identifier"},
+        "model_id": {"oneOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "model_version": {"oneOf": [{"$ref": "#/$defs/version"}, {"type": "null"}]},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "provider_id": {"oneOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]},
+        "qualification": {"$ref": "#/$defs/qualification"},
+        "runtime_kind": {"enum": ["human", "model", "hybrid"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"runtime_kind": {"const": "human"}}},
+          "then": {
+            "properties": {
+              "model_id": {"type": "null"},
+              "model_version": {"type": "null"},
+              "provider_id": {"type": "null"}
+            }
+          },
+          "else": {
+            "properties": {
+              "model_id": {"$ref": "#/$defs/identifier"},
+              "model_version": {"$ref": "#/$defs/version"},
+              "provider_id": {"$ref": "#/$defs/identifier"}
+            }
+          }
+        }
+      ]
+    },
+    "rolePair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alternate", "primary", "role"],
+      "properties": {
+        "alternate": {"$ref": "#/$defs/candidate"},
+        "primary": {"$ref": "#/$defs/candidate"},
+        "role": {
+          "enum": ["domain_command", "safety", "validation", "high_value_specialty"]
+        }
+      }
+    },
+    "roster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "army_registry",
+        "effects",
+        "expires_at",
+        "issued_at",
+        "kind",
+        "qualification_standard",
+        "role_pairs",
+        "roster_id",
+        "roster_sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "army_registry": {"$ref": "#/$defs/artifact"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.critical-role-roster.v1"},
+        "qualification_standard": {"$ref": "#/$defs/artifact"},
+        "role_pairs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/rolePair"}
+        },
+        "roster_id": {"type": "string", "pattern": "^ACR-[0-9A-F]{32}$"},
+        "roster_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cleanup_contract",
+        "custody_contract",
+        "domain",
+        "domain_commander_profile_id",
+        "effects",
+        "expires_at",
+        "hazard_method",
+        "issued_at",
+        "kind",
+        "maximum_action_tier",
+        "monitoring_contract",
+        "policy_id",
+        "policy_sha256",
+        "restoration_contract",
+        "roster_id",
+        "roster_sha256",
+        "schema_version",
+        "simulator_requirements",
+        "stop_contract"
+      ],
+      "properties": {
+        "cleanup_contract": {"$ref": "#/$defs/artifact"},
+        "custody_contract": {"$ref": "#/$defs/artifact"},
+        "domain": {"$ref": "#/$defs/domain"},
+        "domain_commander_profile_id": {"$ref": "#/$defs/identifier"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "hazard_method": {"$ref": "#/$defs/artifact"},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.advanced-domain-safety-policy.v1"},
+        "maximum_action_tier": {"$ref": "#/$defs/tier"},
+        "monitoring_contract": {"$ref": "#/$defs/artifact"},
+        "policy_id": {"type": "string", "pattern": "^ADP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "restoration_contract": {"$ref": "#/$defs/artifact"},
+        "roster_id": {"type": "string", "pattern": "^ACR-[0-9A-F]{32}$"},
+        "roster_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "simulator_requirements": {"$ref": "#/$defs/artifact"},
+        "stop_contract": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "safetyEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_tier",
+        "artifact",
+        "disposition",
+        "environment",
+        "evidence_kind",
+        "expires_at",
+        "issued_at",
+        "policy_sha256",
+        "producer_profile_id",
+        "reviewer_profile_id",
+        "scope_sha256"
+      ],
+      "properties": {
+        "action_tier": {"$ref": "#/$defs/tier"},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "disposition": {"const": "accepted"},
+        "environment": {"$ref": "#/$defs/environment"},
+        "evidence_kind": {
+          "enum": [
+            "hazard_analysis",
+            "simulator_or_replica",
+            "target_authority",
+            "monitoring",
+            "stop",
+            "cleanup",
+            "restoration",
+            "custody"
+          ]
+        },
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "producer_profile_id": {"$ref": "#/$defs/identifier"},
+        "reviewer_profile_id": {"$ref": "#/$defs/identifier"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "independentReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activation_basis_sha256",
+        "artifact",
+        "decision",
+        "expires_at",
+        "reviewed_at",
+        "reviewer_profile_id",
+        "reviewer_role"
+      ],
+      "properties": {
+        "activation_basis_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "decision": {"const": "accepted"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "reviewer_profile_id": {"$ref": "#/$defs/identifier"},
+        "reviewer_role": {"enum": ["independent_control", "independent_assurance"]}
+      }
+    },
+    "canaryAdmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_tier",
+        "admission_ref",
+        "admission_sha256",
+        "admitted_at",
+        "canary_evidence",
+        "decision",
+        "decision_maker_profile_id",
+        "expires_at",
+        "independent_reviewer_profile_id",
+        "policy_sha256",
+        "scope_sha256"
+      ],
+      "properties": {
+        "action_tier": {"$ref": "#/$defs/tier"},
+        "admission_ref": {"$ref": "#/$defs/identifier"},
+        "admission_sha256": {"$ref": "#/$defs/sha256"},
+        "admitted_at": {"$ref": "#/$defs/timestamp"},
+        "canary_evidence": {"$ref": "#/$defs/artifact"},
+        "decision": {"const": "admitted"},
+        "decision_maker_profile_id": {"$ref": "#/$defs/identifier"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "independent_reviewer_profile_id": {"$ref": "#/$defs/identifier"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activation_basis_sha256",
+        "canary_admission",
+        "deployment_profile",
+        "domain",
+        "domain_commander_profile_id",
+        "effects",
+        "environment",
+        "evidence",
+        "expires_at",
+        "independent_reviews",
+        "kind",
+        "policy_id",
+        "policy_sha256",
+        "request_id",
+        "request_sha256",
+        "requested_action_tier",
+        "requested_at",
+        "requester_profile_id",
+        "roster_id",
+        "roster_sha256",
+        "schema_version",
+        "scope",
+        "target_authority"
+      ],
+      "properties": {
+        "activation_basis_sha256": {"$ref": "#/$defs/sha256"},
+        "canary_admission": {
+          "oneOf": [{"$ref": "#/$defs/canaryAdmission"}, {"type": "null"}]
+        },
+        "deployment_profile": {"$ref": "#/$defs/artifact"},
+        "domain": {"$ref": "#/$defs/domain"},
+        "domain_commander_profile_id": {"$ref": "#/$defs/identifier"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "environment": {"$ref": "#/$defs/environment"},
+        "evidence": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {"$ref": "#/$defs/safetyEvidence"}
+        },
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "independent_reviews": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {"$ref": "#/$defs/independentReview"}
+        },
+        "kind": {"const": "sunderkey.advanced-domain-activation-request.v1"},
+        "policy_id": {"type": "string", "pattern": "^ADP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "request_id": {"type": "string", "pattern": "^ADR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "requested_action_tier": {"$ref": "#/$defs/tier"},
+        "requested_at": {"$ref": "#/$defs/timestamp"},
+        "requester_profile_id": {"$ref": "#/$defs/identifier"},
+        "roster_id": {"type": "string", "pattern": "^ACR-[0-9A-F]{32}$"},
+        "roster_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "scope": {"$ref": "#/$defs/artifact"},
+        "target_authority": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocker_codes",
+        "decision_id",
+        "decision_sha256",
+        "effects",
+        "evaluated_at",
+        "kind",
+        "policy_id",
+        "policy_sha256",
+        "request_id",
+        "request_sha256",
+        "roster_id",
+        "roster_sha256",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "blocker_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"}
+        },
+        "decision_id": {"type": "string", "pattern": "^AGD-[0-9A-F]{32}$"},
+        "decision_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evaluated_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.advanced-domain-gate-decision.v1"},
+        "policy_id": {"type": "string", "pattern": "^ADP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "request_id": {"type": "string", "pattern": "^ADR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "roster_id": {"type": "string", "pattern": "^ACR-[0-9A-F]{32}$"},
+        "roster_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "status": {"enum": ["denied", "contract_ready_unverified"]}
+      }
+    }
+  }
+}

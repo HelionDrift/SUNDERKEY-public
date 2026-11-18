@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-engineering-exports",
+      "inventory_complete": true,
+      "project_exports": [
+        {
+          "project_id": "project-a",
+          "reviewed_package_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supplied_package_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "review_recorded": false,
+          "context_complete": true
+        },
+        {
+          "project_id": "project-b",
+          "reviewed_package_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "supplied_package_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "review_recorded": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

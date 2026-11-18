@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D24-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-mig-grants",
+      "inventory_complete": true,
+      "interface": "devfs",
+      "principals": [
+        {
+          "principal_id": "tenant-a",
+          "root_or_cap_sys_admin": false,
+          "grant": {
+            "cgroup_device_read": true,
+            "device_node_read": true
+          },
+          "expected_capability": false
+        }
+      ]
+    }
+  }
+}

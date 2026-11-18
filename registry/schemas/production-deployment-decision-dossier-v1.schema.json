@@ -1,0 +1,745 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/production-deployment-decision-dossier-v1.json",
+  "title": "SUNDERKEY D014 Production Deployment Decision Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dossier_id",
+    "dossier_sha256",
+    "decision_id",
+    "status",
+    "source_bindings",
+    "repository_evidence",
+    "current_boundary",
+    "related_pending_owner_decisions",
+    "decision_questions",
+    "required_owner_inputs",
+    "nonnegotiable_requirements",
+    "follow_up_steps_after_authenticated_owner_selection",
+    "limitations",
+    "decision_effect",
+    "recommendation_effect",
+    "authorization_effect",
+    "network_call_performed",
+    "runtime_effect",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "dossier_id": {"const": "PDD-BE3818A9FB5A0C3EB41502B3F0B50663"},
+    "dossier_sha256": {"const": "sha256:be3818a9fb5a0c3eb41502b3f0b50663162cf6412f57e3f7b43d7ae5a468e4e1"},
+    "decision_id": {"const": "D014"},
+    "status": {"const": "decision_required"},
+    "source_bindings": {
+      "const": {
+        "production_custody_decision": {
+          "record_id": "PCR-A2ACC5733A815AA349F5F6B7F1FBE5A3",
+          "sha256": "sha256:a2acc5733a815aa349f5f6b7f1fbe5a30881446417a9268923e96dea3c1624de"
+        },
+        "provider_evidence_custody_decision": {
+          "record_id": "ECR-24E4D6CE3E9902A20ACCCE2E2C74B6F6",
+          "sha256": "sha256:24e4d6ce3e9902a20accce2e2c74b6f61f99e27aff96280ba56178c84e140b9c"
+        },
+        "deployment_manifest_bundle": {
+          "bundle_id": "DMB-3D8C8D4CACA83A3520B7A23B20B43FCB",
+          "sha256": "sha256:3d8c8d4caca83a3520b7a23b20b43fcb3006f4007d398ec7b9dd10839594401f"
+        },
+        "containment_conformance_catalog": {
+          "catalog_id": "sunderkey-containment-conformance-suites-v1",
+          "sha256": "sha256:857bc288348d5e6bcd15deb92caf2b1a9c48df0678562af835aa7ad8086382c2"
+        },
+        "candidate_release_policy": {
+          "policy_id": "CRP-CB268855D98EC59A1C8D758550848EF5",
+          "sha256": "sha256:cb268855d98ec59a1c8d758550848ef5b5e2f0170d2e9f69d855bc7247a6bdde"
+        }
+      }
+    },
+    "repository_evidence": {
+      "const": [
+        {"evidence_area":"deployment_profiles","evidence_kind":"schema_contract","repository_path":"registry/schemas/deployment-profile-contract-v1.schema.json","file_sha256":"sha256:42c020bcf0442403199d51cbb6e86b0c8300c89e0696f0e0bd881070378a307c"},
+        {"evidence_area":"regional_custody","evidence_kind":"schema_contract","repository_path":"registry/schemas/regional-custody-contract-v1.schema.json","file_sha256":"sha256:8ec875ea47f24fafa7660d901ab6c4f60ea8c5e25ab013bd16e95897236ba2ee"},
+        {"evidence_area":"high_availability","evidence_kind":"schema_contract","repository_path":"registry/schemas/ha-coordination-contract-v1.schema.json","file_sha256":"sha256:1c68c9fdce17ee990a0bd76fde99354c6758a4e27fddb6e67731c67c727d67e2"},
+        {"evidence_area":"postgresql_runtime","evidence_kind":"receipt_schema","repository_path":"registry/schemas/postgresql-runtime-adapter-receipt-v1.schema.json","file_sha256":"sha256:5490233bae2691a6786de866af4bf06f32f89b8adc1690b3e6a8b2ee80b1e8a1"},
+        {"evidence_area":"evidence_lifecycle","evidence_kind":"schema_contract","repository_path":"registry/schemas/provider-evidence-lifecycle-policy-v1.schema.json","file_sha256":"sha256:2075a47716a8a7909000d38ed5d8b66e2958c6aff90d2d4bce687806eb237220"},
+        {"evidence_area":"evidence_authentication","evidence_kind":"schema_contract","repository_path":"registry/schemas/provider-evidence-repository-ingest-authentication-v1.schema.json","file_sha256":"sha256:268e53c50fe8a4bf608f889fd077914ce5286230b74c8a1a8cbfbc4776d5b334"},
+        {"evidence_area":"oci_containment","evidence_kind":"fixture_schema","repository_path":"registry/schemas/local-oci-containment-fixture-v1.schema.json","file_sha256":"sha256:8b4dfa7bb92f83aded4eea6e35e7c01e0b05112824cdb4b99dd7ac8d33cb7cd2"},
+        {"evidence_area":"microvm_containment","evidence_kind":"fixture_schema","repository_path":"registry/schemas/local-microvm-containment-fixture-v1.schema.json","file_sha256":"sha256:3d65f92784e5f6a6c1106661840deca106df0e9eb74b222f6aeacc6e76100851"},
+        {"evidence_area":"browser_workers","evidence_kind":"receipt_schema","repository_path":"registry/schemas/authorized-browser-action-receipt-v1.schema.json","file_sha256":"sha256:4c8c72718a6c67fa64f04d2ac2642bec02ed00ddc82e4eb6005b1a81b8234b22"},
+        {"evidence_area":"specialist_workers","evidence_kind":"schema_contract","repository_path":"registry/schemas/specialist-adapter-contract-v1.schema.json","file_sha256":"sha256:56da358d48fdd57ca9f39bd568a0881e07e959ee316eeb63a7df7d2e797c4c89"},
+        {"evidence_area":"target_authentication","evidence_kind":"schema_contract","repository_path":"registry/schemas/target-authentication-adapter-contract-v2.schema.json","file_sha256":"sha256:4e6212c31f9d2e461bdb819170624614b9465610a97c60ca11cbdadbbf8064e9"},
+        {"evidence_area":"target_health","evidence_kind":"observation_schema","repository_path":"registry/schemas/authorized-target-health-observation-v1.schema.json","file_sha256":"sha256:07efb8d8f186ec11cab967024f2b0e722c6ef742576f2e2f695b752ea95b5c96"},
+        {"evidence_area":"service_health","evidence_kind":"schema_contract","repository_path":"registry/schemas/health-state-contract-v1.schema.json","file_sha256":"sha256:5d087b67676b71f80289fbd3e1e5c8acb02d4bd8efdd00f01c5d90a8f68350ec"},
+        {"evidence_area":"monitoring_telemetry","evidence_kind":"schema_contract","repository_path":"registry/schemas/defender-telemetry-adapter-contract-v1.schema.json","file_sha256":"sha256:64e54f9ca306c96ca4362a47bc0fbedb6c014e92cb1f49aaae53b710b9fa1687"},
+        {"evidence_area":"disaster_recovery","evidence_kind":"schema_contract","repository_path":"registry/schemas/disaster-recovery-contract-v1.schema.json","file_sha256":"sha256:bd60ea7d966f3d390a133b19e5e14fa7900b00806fe765c7427edde28ed38e25"},
+        {"evidence_area":"disaster_recovery_commands","evidence_kind":"receipt_schema","repository_path":"registry/schemas/disaster-recovery-command-receipt-v1.schema.json","file_sha256":"sha256:421180ad376d129c1c8f8422c45d815f323885507006297e5545d2413fa85952"}
+      ]
+    },
+    "current_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "d012_production_custody_decision",
+        "d013_evidence_custody_decision",
+        "deployment_manifest_status",
+        "containment_suite_status",
+        "provider_account_region_identity_status",
+        "live_deployment_status",
+        "production_activation_status"
+      ],
+      "properties": {
+        "d012_production_custody_decision": {
+          "const": "approved_contract_partially_implemented_provider_unselected"
+        },
+        "d013_evidence_custody_decision": {
+          "const": "approved_contract_partially_implemented_provider_unselected"
+        },
+        "deployment_manifest_status": {
+          "const": "repository_complete_infrastructure_blocked"
+        },
+        "containment_suite_status": {"const": "defined_nonqualifying"},
+        "provider_account_region_identity_status": {"const": "not_selected"},
+        "live_deployment_status": {"const": "not_performed"},
+        "production_activation_status": {"const": "blocked"}
+      }
+    },
+    "related_pending_owner_decisions": {
+      "const": [
+        {
+          "decision_id": "PHASE186D-RUNTIME-ENTRYPOINT",
+          "status": "approved_operator_asserted_unsigned",
+          "question": "Should the generic Phase 186B2 caller-provided verifier remain an explicitly limited compatibility boundary, or should every runtime replacement enter through Phase 186D signed custody?",
+          "selection_status": "selected_for_implementation_only",
+          "selected_option_id": "mandatory_phase186d_signed_custody_for_runtime",
+          "authority_effect": "none",
+          "required_boundary": "runtime_replacement_requires_phase186d_signed_custody_while_phase186b2_is_internal_atomic_persistence_or_isolated_legacy_tests"
+        },
+        {
+          "decision_id": "PHASE186D-INDEPENDENT-REVIEWER-ADMISSION",
+          "status": "approved_operator_asserted_unsigned",
+          "question": "How should missions obtain sufficient assigned, non-owner independent Control and Assurance principals for conditional replacement review?",
+          "selection_status": "selected_for_implementation_only",
+          "selected_option_id": "explicit_signed_mission_scoped_reserve_pool",
+          "authority_effect": "none",
+          "required_boundary": "reviewer_assignment_requires_an_explicit_signed_admission_path_and_cannot_grant_implicit_unassigned_privilege"
+        }
+      ]
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 19,
+      "maxItems": 19,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "const": {
+            "question_id": "deployment_model",
+            "prompt": "Which single primary responsibility model should host the production control plane and workers?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "managed_control_plane_mixed_workers",
+                "name": "Managed control plane with mixed workers",
+                "impact": "Centralizes control-plane operations while allowing managed or customer workers."
+              },
+              {
+                "option_id": "customer_hosted_private_platform",
+                "name": "Customer-hosted private platform",
+                "impact": "Places the control plane and workers inside customer-operated infrastructure."
+              },
+              {
+                "option_id": "restricted_or_disconnected_platform",
+                "name": "Restricted or disconnected platform",
+                "impact": "Uses signed relays or offline bundles and adds synchronization duties."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "account_boundary",
+            "prompt": "Which single primary account ownership and isolation bundle should govern production resources?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "dedicated_accounts_per_environment",
+                "name": "Dedicated accounts per environment",
+                "impact": "Provides strong blast-radius and administrator separation at higher overhead."
+              },
+              {
+                "option_id": "shared_account_separate_projects",
+                "name": "Shared account with separate projects",
+                "impact": "Reduces overhead but increases the effect of account-level compromise."
+              },
+              {
+                "option_id": "customer_owned_accounts",
+                "name": "Customer-owned accounts",
+                "impact": "Places infrastructure custody and some operational dependencies with customers."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "region_topology",
+            "prompt": "Which single primary production region topology should be used?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "single_region_multi_zone",
+                "name": "Single region with zonal redundancy",
+                "impact": "Limits residency complexity but leaves regional recovery dependent on backups."
+              },
+              {
+                "option_id": "paired_regions_active_passive",
+                "name": "Paired regions active-passive",
+                "impact": "Adds warm recovery capacity and cross-region custody requirements."
+              },
+              {
+                "option_id": "multiple_regions_active_active",
+                "name": "Multiple regions active-active",
+                "impact": "Improves regional availability but adds distributed consistency complexity."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "data_residency",
+            "prompt": "Which single primary policy key should govern storage and processing residency?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "tenant_pinned_region_allowlist",
+                "name": "Tenant-pinned region allowlist",
+                "impact": "Makes each tenant boundary explicit and denies unapproved transfers."
+              },
+              {
+                "option_id": "classification_policy_allowlist",
+                "name": "Classification policy allowlist",
+                "impact": "Maps data classes to allowed regions and requires classification governance."
+              },
+              {
+                "option_id": "single_organization_boundary",
+                "name": "Single organization boundary",
+                "impact": "Simplifies operations but supports fewer tenant-specific residency obligations."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "workload_identity",
+            "prompt": "Which single primary workload identity and rotation model should services use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "federated_short_lived_identity",
+                "name": "Federated short-lived identity",
+                "impact": "Avoids static credentials and requires trusted federation and rotation controls."
+              },
+              {
+                "option_id": "platform_managed_service_identity",
+                "name": "Platform-managed service identity",
+                "impact": "Reduces credential handling while coupling identity to the selected platform."
+              },
+              {
+                "option_id": "organization_pki_workload_identity",
+                "name": "Organization PKI workload identity",
+                "impact": "Uses organization-issued certificates and requires lifecycle automation."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "operator_authentication",
+            "prompt": "Which single primary trust and authentication model should operators and independent reviewers use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "enterprise_oidc_hardware_mfa",
+                "name": "Enterprise OIDC with hardware MFA",
+                "impact": "Provides centralized lifecycle controls with phishing-resistant authentication."
+              },
+              {
+                "option_id": "enterprise_pki_and_sso",
+                "name": "Enterprise PKI and SSO",
+                "impact": "Adds mutual authentication and certificate lifecycle obligations."
+              },
+              {
+                "option_id": "customer_identity_federation",
+                "name": "Customer identity federation",
+                "impact": "Delegates operator identity proofing while requiring tenant trust configuration."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "postgresql_topology",
+            "prompt": "Which single primary PostgreSQL production topology should hold control-plane state?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "single_node_with_pitr",
+                "name": "Single node with point-in-time recovery",
+                "impact": "Minimizes operations but accepts a longer database recovery interval."
+              },
+              {
+                "option_id": "regional_ha_managed_postgresql",
+                "name": "Regional HA managed PostgreSQL",
+                "impact": "Provides managed failover while adding provider control-plane dependency."
+              },
+              {
+                "option_id": "self_managed_quorum_postgresql",
+                "name": "Self-managed quorum PostgreSQL",
+                "impact": "Maximizes control while requiring database and fencing expertise."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "object_and_evidence_storage",
+            "prompt": "Which single primary custody boundary should hold catalogs, ledgers, and evidence?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "separate_immutable_object_domains",
+                "name": "Separate immutable object domains",
+                "impact": "Separates credentials, namespaces, and failure domains for each custody class."
+              },
+              {
+                "option_id": "customer_owned_immutable_repositories",
+                "name": "Customer-owned immutable repositories",
+                "impact": "Keeps evidence custody with customers and adds integration obligations."
+              },
+              {
+                "option_id": "private_object_compatible_storage",
+                "name": "Private object-compatible storage",
+                "impact": "Supports private deployments but requires independent retention conformance."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "kms_and_release_signing",
+            "prompt": "Which single primary custody model should hold encryption and release signing keys?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "organization_kms_external_offline_root",
+                "name": "Organization KMS with external offline root",
+                "impact": "Separates routine envelope encryption from release authorization custody."
+              },
+              {
+                "option_id": "customer_kms_and_release_signer",
+                "name": "Customer KMS and release signer",
+                "impact": "Places key custody with customers and requires verified signing integration."
+              },
+              {
+                "option_id": "dedicated_hsm_key_domains",
+                "name": "Dedicated HSM key domains",
+                "impact": "Provides strong key isolation with higher cost and operational complexity."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "retention_legal_hold_and_deletion",
+            "prompt": "Which single primary evidence lifecycle authority model should apply?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "classification_schedules_independent_hold",
+                "name": "Classification schedules with independent hold",
+                "impact": "Uses class-specific retention and separate legal-hold authority."
+              },
+              {
+                "option_id": "tenant_contract_schedules",
+                "name": "Tenant contract schedules",
+                "impact": "Supports tenant-specific periods and increases policy reconciliation work."
+              },
+              {
+                "option_id": "organization_fixed_schedules",
+                "name": "Organization fixed schedules",
+                "impact": "Simplifies enforcement but supports fewer contractual variations."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "oci_workers",
+            "prompt": "Which single primary deployment model should OCI containment workers use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "rootless_dedicated_nodes",
+                "name": "Rootless dedicated nodes",
+                "impact": "Provides explicit host isolation and requires node lifecycle management."
+              },
+              {
+                "option_id": "orchestrated_ephemeral_pods",
+                "name": "Orchestrated ephemeral pods",
+                "impact": "Improves elasticity and requires verified runtime and node isolation."
+              },
+              {
+                "option_id": "oci_workers_disabled",
+                "name": "OCI workers disabled",
+                "impact": "Removes this execution class and limits supported specialist actions."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "microvm_workers",
+            "prompt": "Which single primary deployment model should microVM containment workers use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "jailed_dedicated_workers",
+                "name": "Jailed dedicated workers",
+                "impact": "Provides strong local isolation and requires host-specific hardening."
+              },
+              {
+                "option_id": "managed_microvm_workers",
+                "name": "Managed microVM workers",
+                "impact": "Moves some isolation operations to a provider and requires provider evidence."
+              },
+              {
+                "option_id": "microvm_workers_disabled",
+                "name": "MicroVM workers disabled",
+                "impact": "Avoids this runtime dependency and reduces high-isolation capacity."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "browser_workers",
+            "prompt": "Which single primary isolation model should browser automation workers use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "ephemeral_browser_per_mission",
+                "name": "Ephemeral browser per mission",
+                "impact": "Maximizes cleanup isolation with higher startup and capacity cost."
+              },
+              {
+                "option_id": "dedicated_tenant_browser_pools",
+                "name": "Dedicated tenant browser pools",
+                "impact": "Balances reuse and isolation while requiring tenant pool hygiene."
+              },
+              {
+                "option_id": "browser_workers_disabled",
+                "name": "Browser workers disabled",
+                "impact": "Removes browser execution and limits browser-dependent coverage."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "specialist_workers",
+            "prompt": "Which single primary partitioning model should specialist workers use?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "ephemeral_worker_per_work_item",
+                "name": "Ephemeral worker per work item",
+                "impact": "Provides narrow isolation with higher provisioning overhead."
+              },
+              {
+                "option_id": "dedicated_tenant_specialist_pools",
+                "name": "Dedicated tenant specialist pools",
+                "impact": "Provides tenant isolation with reserved capacity requirements."
+              },
+              {
+                "option_id": "shared_stateless_specialist_pool",
+                "name": "Shared stateless specialist pool",
+                "impact": "Improves utilization and requires strong identity and cleanup controls."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "monitoring_and_observability",
+            "prompt": "Which single primary system of record should monitor health, audit, security, and cost telemetry?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "organization_siem_and_observability",
+                "name": "Organization SIEM and observability",
+                "impact": "Centralizes monitoring and requires scoped integration and retention controls."
+              },
+              {
+                "option_id": "dedicated_service_monitoring",
+                "name": "Dedicated service monitoring",
+                "impact": "Isolates service telemetry and requires a separate staffed on-call function."
+              },
+              {
+                "option_id": "customer_telemetry_export",
+                "name": "Customer telemetry export",
+                "impact": "Places monitoring with customers and requires delivery and acknowledgement SLAs."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "incident_response",
+            "prompt": "Which single primary ownership model should govern incident command and evidence preservation?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "internal_security_incident_command",
+                "name": "Internal security incident command",
+                "impact": "Keeps command internal and requires a continuously staffed response function."
+              },
+              {
+                "option_id": "shared_provider_response",
+                "name": "Shared provider response",
+                "impact": "Uses provider escalation paths and requires explicit responsibility mapping."
+              },
+              {
+                "option_id": "customer_led_response",
+                "name": "Customer-led response",
+                "impact": "Places incident command with customers and requires custody handoff contracts."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "capacity_and_cost",
+            "prompt": "Which single primary control model should govern capacity and cost limits?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "fixed_quotas_and_budget_ceiling",
+                "name": "Fixed quotas and budget ceiling",
+                "impact": "Provides predictable spend and can limit burst response capacity."
+              },
+              {
+                "option_id": "autoscaling_with_hard_spend_caps",
+                "name": "Autoscaling with hard spend caps",
+                "impact": "Handles demand changes while requiring reliable cost enforcement."
+              },
+              {
+                "option_id": "reserved_baseline_with_burst_pool",
+                "name": "Reserved baseline with burst pool",
+                "impact": "Balances steady capacity and bursts with more planning complexity."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "backup_and_disaster_recovery",
+            "prompt": "Which single primary backup and disaster-recovery model should be required?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "same_region_pitr_cross_region_backup",
+                "name": "Same-region PITR with cross-region backup",
+                "impact": "Provides durable recovery and requires approved cross-region custody."
+              },
+              {
+                "option_id": "paired_region_warm_standby",
+                "name": "Paired-region warm standby",
+                "impact": "Reduces recovery time with higher standing cost and coordination needs."
+              },
+              {
+                "option_id": "customer_operated_backup_restore",
+                "name": "Customer-operated backup and restore",
+                "impact": "Delegates recovery custody and requires verified drill evidence."
+              }
+            ]
+          }
+        },
+        {
+          "const": {
+            "question_id": "custodians_and_reviewers",
+            "prompt": "Which single primary responsibility model should assign accountable owners, custodians, and independent reviewers?",
+            "selection_status": "not_selected",
+            "selected_option_id": null,
+            "recommendation_status": "not_provided",
+            "recommended_option_id": null,
+            "option_order_effect": "none",
+            "options": [
+              {
+                "option_id": "separated_internal_roles",
+                "name": "Separated internal roles",
+                "impact": "Names distinct deployment, platform, security, privacy, control, and assurance roles."
+              },
+              {
+                "option_id": "shared_responsibility_roles",
+                "name": "Shared responsibility roles",
+                "impact": "Splits duties with providers and requires exact escalation ownership."
+              },
+              {
+                "option_id": "customer_custody_internal_review",
+                "name": "Customer custody with internal review",
+                "impact": "Places operational custody with customers while retaining independent review."
+              }
+            ]
+          }
+        }
+      ],
+      "items": false
+    },
+    "required_owner_inputs": {
+      "const": [
+        "selected_deployment_model_and_control_plane_responsibility_boundary",
+        "selected_provider_account_subscription_project_and_environment_hierarchy",
+        "selected_primary_recovery_and_prohibited_regions",
+        "tenant_and_classification_specific_storage_and_processing_residency",
+        "selected_workload_identity_provider_scopes_rotation_and_revocation_model",
+        "selected_operator_identity_provider_mfa_and_break_glass_controls",
+        "selected_postgresql_service_version_topology_fencing_and_failover_model",
+        "selected_catalog_ledger_evidence_backup_and_replica_storage_boundaries",
+        "selected_kms_hierarchy_release_signer_and_offline_root_custodians",
+        "retention_schedules_legal_hold_authority_deletion_sla_and_erasure_proof",
+        "selected_oci_runtime_hosts_node_isolation_and_capacity",
+        "selected_microvm_runtime_hosts_jailer_configuration_and_capacity",
+        "selected_browser_runtime_pool_isolation_cleanup_and_capacity",
+        "selected_specialist_worker_partitioning_identity_tools_and_capacity",
+        "selected_monitoring_logging_siem_paging_and_telemetry_retention",
+        "incident_command_escalation_forensics_notification_and_evidence_preservation",
+        "service_level_capacity_concurrency_cost_targets_and_hard_budget_limits",
+        "rpo_rto_backup_replication_restore_failover_and_failback_drill_schedule",
+        "named_deployment_owner_platform_custodian_security_privacy_control_and_assurance"
+      ]
+    },
+    "nonnegotiable_requirements": {
+      "const": [
+        "no_provider_account_region_identity_or_endpoint_may_be_inferred_from_this_dossier",
+        "production_state_requires_postgresql_with_tls_migrations_backups_and_restore_drills",
+        "high_availability_requires_quorum_epoch_fencing_and_stale_writer_rejection",
+        "all_storage_and_processing_must_enforce_the_selected_residency_policy",
+        "catalog_ledger_checkpoint_and_evidence_custody_must_remain_separated",
+        "raw_evidence_bytes_must_remain_outside_the_control_plane_database",
+        "workload_and_operator_identity_must_be_short_lived_revocable_and_auditable",
+        "release_and_recovery_artifacts_must_be_independently_authenticatable",
+        "retention_legal_hold_deletion_and_key_erasure_must_produce_verifiable_receipts",
+        "oci_and_microvm_backends_must_pass_the_published_containment_suites",
+        "browser_and_specialist_workers_must_enforce_scope_egress_cleanup_and_custody",
+        "health_integrity_dependency_and_recovery_states_must_fail_closed_on_unknown",
+        "security_audit_health_capacity_and_cost_telemetry_must_have_named_responders",
+        "backup_restore_failover_failback_and_regional_loss_drills_must_be_evidenced",
+        "production_activation_requires_a_separate_dual_control_go_no_go_decision",
+        "future_selection_must_choose_exactly_one_option_per_question_or_publish_a_new_dossier_revision"
+      ]
+    },
+    "follow_up_steps_after_authenticated_owner_selection": {
+      "const": [
+        "record_a_separately_authenticated_owner_selected_d014_deployment_bundle",
+        "build_the_selected_provider_and_account_specific_implementation_plan",
+        "bind_exact_regions_identities_storage_key_and_runtime_resources",
+        "execute_external_security_capacity_recovery_and_custody_conformance",
+        "prepare_a_separate_dual_control_production_go_no_go_packet"
+      ]
+    },
+    "limitations": {
+      "const": [
+        "does_not_select_or_approve_any_d014_option",
+        "does_not_select_a_provider_account_subscription_project_region_or_endpoint",
+        "does_not_select_or_create_a_workload_identity_operator_identity_key_or_secret",
+        "does_not_create_deploy_modify_or_delete_infrastructure_or_runtime_state",
+        "does_not_connect_to_a_network_database_provider_kms_repository_or_target",
+        "does_not_store_credentials_evidence_target_information_or_live_configuration",
+        "does_not_authorize_production_activation_target_action_or_provider_execution",
+        "does_not_qualify_a_specialist_change_routing_or_complete_external_conformance",
+        "does_not_mutate_sqlite_or_postgresql_state",
+        "does_not_treat_review_publication_or_acknowledgement_as_selection_or_approval"
+      ]
+    },
+    "decision_effect": {"const": "none"},
+    "recommendation_effect": {"const": "none"},
+    "authorization_effect": {"const": "none"},
+    "network_call_performed": {"const": false},
+    "runtime_effect": {"const": "none"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "task_id": "synthetic.pattern-relation-task",
+  "jobs": [
+    {
+      "job_id": "query",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GE-D23-S01",
+        "component_id": "supplied_query_input_boundary",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "semantics_profile": "supplied-query-input-boundary-v1",
+            "source_id": "source.synthetic-1",
+            "policy": {"declaration_complete": true, "parameter_binding_required": true},
+            "queries": [
+              {
+                "query_id": "query-1",
+                "query_family": "relational",
+                "inputs": [
+                  {"input_ref": "ref:input-a", "source_trust": "untrusted", "incorporation": "interpolation"}
+                ],
+                "execution_declared": true,
+                "capture_complete": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "job_id": "interpreter",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GE-D23-S02",
+        "component_id": "supplied_interpreter_input_boundary",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "semantics_profile": "supplied-interpreter-input-boundary-v1",
+            "source_id": "source.synthetic-1",
+            "policy": {"declaration_complete": true, "untrusted_data_only_required": true},
+            "sinks": [
+              {
+                "sink_id": "sink-1",
+                "sink_family": "template",
+                "inputs": [
+                  {"input_ref": "ref:input-a", "source_trust": "untrusted", "incorporation": "interpreter_source"}
+                ],
+                "invocation_declared": true,
+                "capture_complete": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "job_id": "observable",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GE-D23-S16",
+        "component_id": "supplied_observable_discrepancy",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "semantics_profile": "supplied-observable-field-discrepancy-v1",
+            "source_id": "source.synthetic-1",
+            "policy": {
+              "declaration_complete": true,
+              "sensitive_field_refs": ["ref:field-secret"]
+            },
+            "comparisons": [
+              {
+                "comparison_id": "comparison-1",
+                "resource_ref": "ref:resource-a",
+                "permitted_restricted_field_refs": ["ref:field-public"],
+                "observed_restricted_field_refs": ["ref:field-public", "ref:field-secret"],
+                "capture_complete": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

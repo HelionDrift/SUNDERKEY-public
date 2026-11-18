@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-secure-boot-chain",
+      "chain_complete": true,
+      "expected_secure_boot_enabled": true,
+      "reported_secure_boot_enabled": true,
+      "boot_chain": [
+        {
+          "artifact_id": "boot-manager",
+          "predecessor_id": null,
+          "declared_loaded": true,
+          "declared_validation": "accepted"
+        },
+        {
+          "artifact_id": "os-loader",
+          "predecessor_id": "boot-manager",
+          "declared_loaded": true,
+          "declared_validation": "accepted"
+        }
+      ],
+      "proposed_updates": [
+        {
+          "proposal_id": "example-below-floor",
+          "target_artifact_id": "boot-manager",
+          "current_version": 12,
+          "rollback_floor": 9,
+          "proposed_version": 8
+        }
+      ]
+    }
+  }
+}

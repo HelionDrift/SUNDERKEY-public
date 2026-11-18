@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S09",
+  "component_id": "recon_supplied_organization_relationship_provenance",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:organization-relationships",
+      "sources_complete": true,
+      "policy_complete": true,
+      "current_tick": 100,
+      "maximum_age_ticks": 20,
+      "records": [
+        {
+          "record_id": "synthetic:current",
+          "subject_id": "synthetic:subject-one",
+          "organization_id": "synthetic:organization-one",
+          "relationship_kind": "contract",
+          "source_ref": "synthetic:source-one",
+          "source_kind": "public_profile",
+          "observed_tick": 90,
+          "reported_state": "current"
+        },
+        {
+          "record_id": "synthetic:former",
+          "subject_id": "synthetic:subject-one",
+          "organization_id": "synthetic:organization-one",
+          "relationship_kind": "contract",
+          "source_ref": "synthetic:source-two",
+          "source_kind": "organization_directory",
+          "observed_tick": 95,
+          "reported_state": "former"
+        },
+        {
+          "record_id": "synthetic:old",
+          "subject_id": "synthetic:subject-two",
+          "organization_id": "synthetic:organization-one",
+          "relationship_kind": "employment",
+          "source_ref": "synthetic:source-three",
+          "source_kind": "operator_assertion",
+          "observed_tick": 50,
+          "reported_state": "current"
+        }
+      ]
+    }
+  }
+}

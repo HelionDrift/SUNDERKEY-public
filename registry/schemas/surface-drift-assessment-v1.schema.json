@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/surface-drift-assessment-v1.schema.json",
+  "title": "SUNDERKEY Surface Drift Assessment v1",
+  "description": "Closed schema for an infrastructure-independent attack-surface drift assessment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessed_at",
+    "assessment_id",
+    "assessment_sha256",
+    "baseline",
+    "changes",
+    "current",
+    "no_effects",
+    "schema_version",
+    "scope_binding_sha256",
+    "triggers"
+  ],
+  "properties": {
+    "assessed_at": { "$ref": "#/$defs/utc" },
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^SDA-[0-9A-F]{32}$"
+    },
+    "assessment_sha256": { "$ref": "#/$defs/sha256" },
+    "baseline": { "$ref": "#/$defs/snapshot" },
+    "changes": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/change" }
+    },
+    "current": { "$ref": "#/$defs/snapshot" },
+    "no_effects": { "$ref": "#/$defs/noEffects" },
+    "schema_version": { "const": 1 },
+    "scope_binding_sha256": { "$ref": "#/$defs/sha256" },
+    "triggers": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/trigger" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "identifierArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/identifier" },
+      "uniqueItems": true,
+      "maxItems": 4096
+    },
+    "nonemptyIdentifierArray": {
+      "allOf": [
+        { "$ref": "#/$defs/identifierArray" },
+        { "minItems": 1 }
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "surfaceKind": {
+      "enum": [
+        "asset",
+        "endpoint",
+        "schema",
+        "identity",
+        "trust_edge",
+        "control",
+        "deployment"
+      ]
+    },
+    "observationState": {
+      "enum": ["verified", "negative", "hypothesis", "abstained"]
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "cloud",
+        "discovery",
+        "dns",
+        "execution",
+        "network",
+        "notification",
+        "scheduler"
+      ],
+      "properties": {
+        "authority": { "const": "none" },
+        "cloud": { "const": "none" },
+        "discovery": { "const": "none" },
+        "dns": { "const": "none" },
+        "execution": { "const": "none" },
+        "network": { "const": "none" },
+        "notification": { "const": "none" },
+        "scheduler": { "const": "none" }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_changes",
+        "max_observations",
+        "max_plan_records",
+        "max_triggers"
+      ],
+      "properties": {
+        "max_changes": { "type": "integer", "minimum": 1, "maximum": 4096 },
+        "max_observations": { "type": "integer", "minimum": 1, "maximum": 16384 },
+        "max_plan_records": { "type": "integer", "minimum": 1, "maximum": 8192 },
+        "max_triggers": { "type": "integer", "minimum": 1, "maximum": 4096 }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commander_ids",
+        "content_sha256",
+        "freshness_expires_at",
+        "observation_state",
+        "observed_at",
+        "profile_ids",
+        "provenance_sha256",
+        "risk_score",
+        "scope_binding_sha256",
+        "surface_id",
+        "surface_kind",
+        "technique_ids"
+      ],
+      "properties": {
+        "commander_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" },
+        "content_sha256": { "$ref": "#/$defs/sha256" },
+        "freshness_expires_at": { "$ref": "#/$defs/utc" },
+        "observation_state": { "$ref": "#/$defs/observationState" },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "profile_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" },
+        "provenance_sha256": { "$ref": "#/$defs/sha256" },
+        "risk_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "scope_binding_sha256": { "$ref": "#/$defs/sha256" },
+        "surface_id": { "$ref": "#/$defs/identifier" },
+        "surface_kind": { "$ref": "#/$defs/surfaceKind" },
+        "technique_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_at",
+        "excluded_surface_ids",
+        "limits",
+        "no_effects",
+        "observations",
+        "parent_snapshot_sha256",
+        "protected_endpoint_ids",
+        "schema_version",
+        "scope_binding_sha256",
+        "sequence",
+        "snapshot_id",
+        "snapshot_sha256"
+      ],
+      "properties": {
+        "captured_at": { "$ref": "#/$defs/utc" },
+        "excluded_surface_ids": { "$ref": "#/$defs/identifierArray" },
+        "limits": { "$ref": "#/$defs/limits" },
+        "no_effects": { "$ref": "#/$defs/noEffects" },
+        "observations": {
+          "type": "array",
+          "maxItems": 16384,
+          "items": { "$ref": "#/$defs/observation" }
+        },
+        "parent_snapshot_sha256": {
+          "oneOf": [
+            { "$ref": "#/$defs/sha256" },
+            { "type": "null" }
+          ]
+        },
+        "protected_endpoint_ids": { "$ref": "#/$defs/identifierArray" },
+        "schema_version": { "const": 1 },
+        "scope_binding_sha256": { "$ref": "#/$defs/sha256" },
+        "sequence": { "type": "integer", "minimum": 0 },
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^SDS-[0-9A-F]{32}$"
+        },
+        "snapshot_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "nullableObservation": {
+      "oneOf": [
+        { "$ref": "#/$defs/observation" },
+        { "type": "null" }
+      ]
+    },
+    "change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "after",
+        "before",
+        "certainty",
+        "change_kind",
+        "changed_fields",
+        "excluded",
+        "protected",
+        "risk_score",
+        "surface_id",
+        "surface_kind"
+      ],
+      "properties": {
+        "after": { "$ref": "#/$defs/nullableObservation" },
+        "before": { "$ref": "#/$defs/nullableObservation" },
+        "certainty": {
+          "enum": [
+            "verified",
+            "negative",
+            "hypothesis",
+            "abstained",
+            "uncertain_absence",
+            "stale_provenance"
+          ]
+        },
+        "change_kind": { "enum": ["added", "removed", "changed"] },
+        "changed_fields": { "$ref": "#/$defs/identifierArray" },
+        "excluded": { "type": "boolean" },
+        "protected": { "type": "boolean" },
+        "risk_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "surface_id": { "$ref": "#/$defs/identifier" },
+        "surface_kind": { "$ref": "#/$defs/surfaceKind" }
+      }
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change_sha256",
+        "change_kind",
+        "commander_ids",
+        "notification_permitted",
+        "profile_ids",
+        "reason",
+        "rescan_permitted",
+        "risk_score",
+        "surface_id",
+        "technique_ids",
+        "trigger_id"
+      ],
+      "properties": {
+        "change_sha256": { "$ref": "#/$defs/sha256" },
+        "change_kind": { "enum": ["added", "removed", "changed"] },
+        "commander_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" },
+        "notification_permitted": { "type": "boolean" },
+        "profile_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" },
+        "reason": { "$ref": "#/$defs/identifier" },
+        "rescan_permitted": { "type": "boolean" },
+        "risk_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "surface_id": { "$ref": "#/$defs/identifier" },
+        "technique_ids": { "$ref": "#/$defs/nonemptyIdentifierArray" },
+        "trigger_id": {
+          "type": "string",
+          "pattern": "^SDT-[0-9A-F]{32}$"
+        }
+      }
+    }
+  }
+}

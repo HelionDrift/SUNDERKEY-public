@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/action-authority-observation-v1.schema.json",
+  "title": "SUNDERKEY action authority observation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "observation_kind", "observation_id", "observation_sha256", "tenant_id", "mission_id", "plan_id", "payload", "observed_at", "valid_until", "effects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "action_authority_observation"},
+    "observation_kind": {"$ref": "#/$defs/observation_kind"},
+    "observation_id": {"type": "string", "pattern": "^AAO-[0-9A-F]{32}$"},
+    "observation_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "plan_id": {"$ref": "#/$defs/identifier"},
+    "payload": {"type": "object"},
+    "observed_at": {"$ref": "#/$defs/timestamp"},
+    "valid_until": {"$ref": "#/$defs/timestamp"},
+    "effects": {"$ref": "#/$defs/effects"}
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "observation_kind": {"const": "execution_fence_observation"},
+        "payload": {"$ref": "#/$defs/execution_fence_payload"}
+      }
+    },
+    {
+      "properties": {
+        "observation_kind": {"const": "credential_lease_observation"},
+        "payload": {"$ref": "#/$defs/credential_payload"}
+      }
+    },
+    {
+      "properties": {
+        "observation_kind": {"const": "executor_health_observation"},
+        "payload": {"$ref": "#/$defs/health_payload"}
+      }
+    },
+    {
+      "properties": {
+        "observation_kind": {"const": "executor_deployment_observation"},
+        "payload": {"$ref": "#/$defs/deployment_payload"}
+      }
+    },
+    {
+      "properties": {
+        "observation_kind": {"const": "stop_monitor_observation"},
+        "payload": {"$ref": "#/$defs/monitor_payload"}
+      }
+    },
+    {
+      "properties": {
+        "observation_kind": {"const": "workspace_high_water_observation"},
+        "payload": {"$ref": "#/$defs/high_water_payload"}
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]{0,255}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "observation_kind": {"type": "string", "enum": ["credential_lease_observation", "execution_fence_observation", "executor_deployment_observation", "executor_health_observation", "stop_monitor_observation", "workspace_high_water_observation"]},
+    "effects": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorization_effect", "model_call_performed", "network_call_performed", "qualification_effect", "target_action_performed", "tool_effect"],
+      "properties": {"authorization_effect": {"const": "none"}, "model_call_performed": {"const": false}, "network_call_performed": {"const": false}, "qualification_effect": {"const": "none"}, "target_action_performed": {"const": false}, "tool_effect": {"const": "none"}}
+    },
+    "worker": {
+      "type": "object", "additionalProperties": false,
+      "required": ["expires_at", "fence_token_sha256", "issued_at", "leader_epoch", "mission_id", "session_id", "tenant_id", "worker_id", "worker_profile_id"],
+      "properties": {"expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "issued_at": {"$ref": "#/$defs/timestamp"}, "leader_epoch": {"type": "integer", "minimum": 1}, "mission_id": {"$ref": "#/$defs/identifier"}, "session_id": {"$ref": "#/$defs/identifier"}, "tenant_id": {"$ref": "#/$defs/identifier"}, "worker_id": {"$ref": "#/$defs/identifier"}, "worker_profile_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "credential": {
+      "type": "object", "additionalProperties": false,
+      "required": ["credential_ref_sha256", "expires_at", "fence_token_sha256", "issued_at", "leader_epoch", "lease_id", "mission_id", "permitted_action_sha256", "revoked", "scope_sha256", "session_id", "tenant_id", "worker_id"],
+      "properties": {"credential_ref_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "issued_at": {"$ref": "#/$defs/timestamp"}, "leader_epoch": {"type": "integer", "minimum": 1}, "lease_id": {"$ref": "#/$defs/identifier"}, "mission_id": {"$ref": "#/$defs/identifier"}, "permitted_action_sha256": {"$ref": "#/$defs/sha256"}, "revoked": {"type": "boolean"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "session_id": {"$ref": "#/$defs/identifier"}, "tenant_id": {"$ref": "#/$defs/identifier"}, "worker_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "health": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_sha256", "expires_at", "fence_token_sha256", "leader_epoch", "observed_at", "session_id", "status", "worker_id"],
+      "properties": {"evidence_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "leader_epoch": {"type": "integer", "minimum": 1}, "observed_at": {"$ref": "#/$defs/timestamp"}, "session_id": {"$ref": "#/$defs/identifier"}, "status": {"enum": ["healthy", "degraded", "unhealthy"]}, "worker_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "execution_fence_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["session_authority_id", "session_authority_sha256", "execution_session_id", "execution_session_sha256", "owner_epoch", "fence_generation", "fence_token_sha256"],
+      "properties": {"session_authority_id": {"$ref": "#/$defs/identifier"}, "session_authority_sha256": {"$ref": "#/$defs/sha256"}, "execution_session_id": {"$ref": "#/$defs/identifier"}, "execution_session_sha256": {"$ref": "#/$defs/sha256"}, "owner_epoch": {"type": "integer", "minimum": 1}, "fence_generation": {"type": "integer", "minimum": 1}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "credential_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["credential_lease", "credential_lease_sha256"],
+      "properties": {"credential_lease": {"$ref": "#/$defs/credential"}, "credential_lease_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "health_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["health", "health_observation_sha256"],
+      "properties": {"health": {"$ref": "#/$defs/health"}, "health_observation_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "deployment_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["worker_session", "executor_deployment_sha256"],
+      "properties": {"worker_session": {"$ref": "#/$defs/worker"}, "executor_deployment_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "monitor_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["monitor_id", "principal_profile_id", "principal_subject", "monitor_session_id", "monitor_worker_id", "monitor_observation_sha256", "status", "heartbeat_observed_at", "heartbeat_expires_at"],
+      "properties": {"monitor_id": {"$ref": "#/$defs/identifier"}, "principal_profile_id": {"$ref": "#/$defs/identifier"}, "principal_subject": {"$ref": "#/$defs/identifier"}, "monitor_session_id": {"$ref": "#/$defs/identifier"}, "monitor_worker_id": {"$ref": "#/$defs/identifier"}, "monitor_observation_sha256": {"$ref": "#/$defs/sha256"}, "status": {"const": "healthy"}, "heartbeat_observed_at": {"$ref": "#/$defs/timestamp"}, "heartbeat_expires_at": {"$ref": "#/$defs/timestamp"}}
+    },
+    "high_water_payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["high_water", "high_water_sha256"],
+      "properties": {"high_water": {"$ref": "#/$defs/high_water"}, "high_water_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "high_water": {
+      "type": "object", "additionalProperties": false,
+      "required": ["application_id", "application_sha256", "closure_id", "closure_sha256", "event_count", "event_head_occurred_at", "event_head_sha256", "high_water_id", "high_water_sha256", "mission_id", "mission_store_id", "revocation_id", "revocation_sha256", "snapshot_id", "snapshot_sha256", "state", "workspace_id", "workspace_revision", "workspace_store_id", "workspace_store_path"],
+      "properties": {
+        "application_id": {"$ref": "#/$defs/identifier"},
+        "application_sha256": {"$ref": "#/$defs/sha256"},
+        "closure_id": {"$ref": "#/$defs/identifier"},
+        "closure_sha256": {"$ref": "#/$defs/sha256"},
+        "event_count": {"type": "integer", "minimum": 1},
+        "event_head_occurred_at": {"type": "integer", "minimum": 0},
+        "event_head_sha256": {"$ref": "#/$defs/sha256"},
+        "high_water_id": {"type": "string", "pattern": "^AWH-[0-9A-F]{32}$"},
+        "high_water_sha256": {"$ref": "#/$defs/sha256"},
+        "mission_id": {"$ref": "#/$defs/identifier"},
+        "mission_store_id": {"$ref": "#/$defs/identifier"},
+        "revocation_id": {"type": "null"},
+        "revocation_sha256": {"type": "null"},
+        "snapshot_id": {"$ref": "#/$defs/identifier"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "state": {"const": "closure_applied_unrevoked"},
+        "workspace_id": {"$ref": "#/$defs/identifier"},
+        "workspace_revision": {"type": "integer", "minimum": 1},
+        "workspace_store_id": {"$ref": "#/$defs/identifier"},
+        "workspace_store_path": {"type": "string", "minLength": 1, "maxLength": 32767, "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F]+$"}
+      }
+    }
+  }
+}

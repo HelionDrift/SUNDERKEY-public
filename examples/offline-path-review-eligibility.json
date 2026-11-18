@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "tenant_id": "tenant:one",
+  "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "evaluated_at": "2026-09-30T12:00:00Z",
+  "path": {
+    "nodes": [
+      "node:entry",
+      "node:middle",
+      "node:objective"
+    ],
+    "node_proofs": [
+      {
+        "node_id": "node:entry",
+        "proof_id": "proof:n0"
+      },
+      {
+        "node_id": "node:middle",
+        "proof_id": "proof:n1"
+      },
+      {
+        "node_id": "node:objective",
+        "proof_id": "proof:n2"
+      }
+    ],
+    "edges": [
+      {
+        "from_id": "node:entry",
+        "to_id": "node:middle",
+        "proof_id": "proof:e0"
+      },
+      {
+        "from_id": "node:middle",
+        "to_id": "node:objective",
+        "proof_id": "proof:e1"
+      }
+    ]
+  },
+  "observations": [
+    {
+      "proof_id": "proof:n0",
+      "claim_kind": "node",
+      "subject_id": "node:entry",
+      "object_id": null,
+      "disposition": "supports",
+      "evidence_class": "independently_authenticated_observation",
+      "source_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "lineage_sha256s": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "producer_id": "producer:one",
+      "tenant_id": "tenant:one",
+      "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-09-30T11:00:00Z",
+      "expires_at": "2026-09-30T13:00:00Z"
+    },
+    {
+      "proof_id": "proof:n1",
+      "claim_kind": "node",
+      "subject_id": "node:middle",
+      "object_id": null,
+      "disposition": "supports",
+      "evidence_class": "independently_authenticated_observation",
+      "source_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "lineage_sha256s": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ],
+      "producer_id": "producer:one",
+      "tenant_id": "tenant:one",
+      "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-09-30T11:00:00Z",
+      "expires_at": "2026-09-30T13:00:00Z"
+    },
+    {
+      "proof_id": "proof:n2",
+      "claim_kind": "node",
+      "subject_id": "node:objective",
+      "object_id": null,
+      "disposition": "supports",
+      "evidence_class": "independently_authenticated_observation",
+      "source_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "lineage_sha256s": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "producer_id": "producer:one",
+      "tenant_id": "tenant:one",
+      "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-09-30T11:00:00Z",
+      "expires_at": "2026-09-30T13:00:00Z"
+    },
+    {
+      "proof_id": "proof:e0",
+      "claim_kind": "edge",
+      "subject_id": "node:entry",
+      "object_id": "node:middle",
+      "disposition": "supports",
+      "evidence_class": "independently_authenticated_observation",
+      "source_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "lineage_sha256s": [
+        "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      ],
+      "producer_id": "producer:one",
+      "tenant_id": "tenant:one",
+      "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-09-30T11:00:00Z",
+      "expires_at": "2026-09-30T13:00:00Z"
+    },
+    {
+      "proof_id": "proof:e1",
+      "claim_kind": "edge",
+      "subject_id": "node:middle",
+      "object_id": "node:objective",
+      "disposition": "supports",
+      "evidence_class": "independently_authenticated_observation",
+      "source_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "lineage_sha256s": [
+        "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      ],
+      "producer_id": "producer:one",
+      "tenant_id": "tenant:one",
+      "context_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-09-30T11:00:00Z",
+      "expires_at": "2026-09-30T13:00:00Z"
+    }
+  ],
+  "reviews": [
+    {
+      "review_id": "review:control",
+      "role": "control",
+      "reviewer_id": "reviewer:control",
+      "decision": "accept",
+      "candidate_body_sha256": "sha256:e0810f55919ac44f359ef85723fbb4b961022a6d6bd6a14a12cf972d8b6503d5",
+      "reviewed_at": "2026-09-30T11:30:00Z"
+    },
+    {
+      "review_id": "review:assurance",
+      "role": "assurance",
+      "reviewer_id": "reviewer:assurance",
+      "decision": "accept",
+      "candidate_body_sha256": "sha256:e0810f55919ac44f359ef85723fbb4b961022a6d6bd6a14a12cf972d8b6503d5",
+      "reviewed_at": "2026-09-30T11:30:00Z"
+    }
+  ]
+}

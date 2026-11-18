@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/signed-target-health-observation-v1.schema.json",
+  "title": "SUNDERKEY signed target health observation version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "authority_effect",
+    "collector_id",
+    "health_receipt",
+    "kind",
+    "network_call_performed",
+    "observation_id",
+    "observation_sha256",
+    "previous_observation_sha256",
+    "qualification_effect",
+    "schema_version",
+    "sequence",
+    "signature",
+    "signing_payload_sha256"
+  ],
+  "properties": {
+    "authority_effect": { "const": "none" },
+    "collector_id": { "$ref": "#/$defs/identifier" },
+    "health_receipt": {
+      "$ref": "authorized-target-health-observation-v1.schema.json"
+    },
+    "kind": { "const": "signed_target_health_observation" },
+    "network_call_performed": { "const": false },
+    "observation_id": { "type": "string", "pattern": "^SHO-[0-9A-F]{32}$" },
+    "observation_sha256": { "$ref": "#/$defs/digest" },
+    "previous_observation_sha256": {
+      "oneOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "qualification_effect": { "const": "none" },
+    "schema_version": { "const": 1 },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "public_key_sha256", "signature"],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "ecdsa_p256_sha256",
+            "ed25519",
+            "hmac_sha256_test_only",
+            "rsa_pss_sha256"
+          ]
+        },
+        "key_id": { "$ref": "#/$defs/identifier" },
+        "public_key_sha256": { "$ref": "#/$defs/digest" },
+        "signature": { "type": "string", "pattern": "^[A-Za-z0-9_-]{16,8192}$" }
+      }
+    },
+    "signing_payload_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$"
+    }
+  }
+}

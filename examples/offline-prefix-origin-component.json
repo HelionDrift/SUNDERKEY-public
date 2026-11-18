@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S04",
+  "component_id": "supplied_prefix_origin_mapping",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-prefix-origin-snapshot-v1",
+      "routes": [
+        {"route_id": "broad", "prefix": "0.0.0.0/0", "origin_asn": 64500, "source_id": "synthetic-a"},
+        {"route_id": "specific-a", "prefix": "203.0.113.0/24", "origin_asn": 64501, "source_id": "synthetic-a"},
+        {"route_id": "specific-b", "prefix": "203.0.113.0/24", "origin_asn": 64502, "source_id": "synthetic-b"}
+      ],
+      "queries": [
+        {"query_id": "conflict", "address": "203.0.113.8"},
+        {"query_id": "broad", "address": "198.51.100.8"}
+      ]
+    }
+  }
+}

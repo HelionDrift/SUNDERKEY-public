@@ -1,0 +1,9 @@
+# Offline Management Engine State
+
+This R0 component supplies a narrow part of `AOE-GD-D24-S10`. It compares caller-supplied Intel AMT provisioning state, control mode, network-interface state and TLS state against an explicit caller-supplied network policy. A configured platform with a declared active AMT network interface and TLS disabled becomes a review candidate only if that platform's supplied policy requires TLS. It also flags supplied control-mode/provisioning inconsistencies and active network interfaces where supplied policy says disabled.
+
+Intel distinguishes [Client Control Mode and Admin Control Mode](https://www.intel.com/content/www/us/en/docs/active-management-technology/developer-guide/2021/intel-amt-basic-concepts.html), and its [setup guidance](https://www.intel.com/content/www/us/en/developer/articles/guide/getting-started-with-active-management-technology.html) describes configurable TLS and network behavior. The `none` control-mode label for an unconfigured row is a local projection convention, not a verified device state or universal Intel terminology. The `network_policy` field is a local policy declaration, not an Intel standard requirement. This model does not infer remote reachability from an enabled interface, and an enabled interface does not by itself establish exposure or a vulnerability.
+
+The component only accepts a closed, bounded JSON model. The report is unsigned and nonqualifying. It requires original-model replay before use and grants no finding, approval or execution authority. No management engine, chipset, host, BMC, network endpoint or credential is contacted or used. Incomplete inventory yields `unknown`, even if supplied rows have gaps.
+
+Example: [`examples/offline-management-engine-state-component.json`](../examples/offline-management-engine-state-component.json).

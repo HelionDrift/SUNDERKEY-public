@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S13",
+  "component_id": "dom_supplied_dataflow_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "graph_complete": true,
+      "sources": [
+        {
+          "source_id": "location-fragment",
+          "trust": "untrusted"
+        }
+      ],
+      "transforms": [
+        {
+          "transform_id": "html-encode",
+          "kind": "encoder",
+          "protects_contexts": ["html_markup"],
+          "semantics_complete": true
+        },
+        {
+          "transform_id": "passthrough",
+          "kind": "passthrough",
+          "protects_contexts": [],
+          "semantics_complete": true
+        }
+      ],
+      "sinks": [
+        {
+          "sink_id": "markup-sink",
+          "context": "html_markup",
+          "sensitive": true,
+          "semantics_complete": true
+        },
+        {
+          "sink_id": "script-sink",
+          "context": "javascript_string",
+          "sensitive": true,
+          "semantics_complete": true
+        }
+      ],
+      "edges": [
+        {"from_id": "html-encode", "to_id": "markup-sink"},
+        {"from_id": "location-fragment", "to_id": "html-encode"},
+        {"from_id": "location-fragment", "to_id": "passthrough"},
+        {"from_id": "passthrough", "to_id": "script-sink"}
+      ],
+      "source_ids": ["location-fragment"]
+    }
+  }
+}

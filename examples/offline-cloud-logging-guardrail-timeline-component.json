@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-cloud-logging",
+      "controls": [
+        {
+          "control_id": "control-one",
+          "resource_id": "project-one",
+          "alert_required": true,
+          "context_complete": true,
+          "events": [
+            {"event_id": "event-one", "position": 1, "action": "disable", "alert_recorded": false},
+            {"event_id": "event-two", "position": 2, "action": "enable", "alert_recorded": true}
+          ]
+        }
+      ]
+    }
+  }
+}

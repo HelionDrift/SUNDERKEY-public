@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/local-microvm-containment-fixture-v1.schema.json",
+  "title": "SUNDERKEY local microVM containment fixture contracts v1",
+  "oneOf": [
+    {"$ref": "#/$defs/specification"},
+    {"$ref": "#/$defs/observation"},
+    {"$ref": "#/$defs/receipt"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "none": {"const": "none"},
+    "absolutePath": {
+      "type": "string",
+      "pattern": "^/(?:[^/\\\\]+/)*[^/\\\\]+$"
+    },
+    "hostPreflightContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "binding_sha256",
+        "required_report_status",
+        "observed_report_id",
+        "observed_report_sha256",
+        "observed_status",
+        "external_preflight_required_before_dispatch"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^CBD-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "required_report_status": {
+          "const": "ready_for_dynamic_conformance_nonqualifying"
+        },
+        "observed_report_id": {"type": "null"},
+        "observed_report_sha256": {"type": "null"},
+        "observed_status": {"const": "not_observed_fixture"},
+        "external_preflight_required_before_dispatch": {"const": true}
+      }
+    },
+    "hostRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os_name",
+        "architecture",
+        "kvm_device_path",
+        "kvm_access_required",
+        "cgroup_version",
+        "seccomp_required",
+        "dedicated_uid_gid_required",
+        "single_tenant_vm_required",
+        "bounded_logging_required",
+        "host_hardening_required"
+      ],
+      "properties": {
+        "os_name": {"const": "linux"},
+        "architecture": {"enum": ["aarch64", "x86_64"]},
+        "kvm_device_path": {"const": "/dev/kvm"},
+        "kvm_access_required": {"const": true},
+        "cgroup_version": {"const": "v2"},
+        "seccomp_required": {"const": true},
+        "dedicated_uid_gid_required": {"const": true},
+        "single_tenant_vm_required": {"const": true},
+        "bounded_logging_required": {"const": true},
+        "host_hardening_required": {"const": true}
+      }
+    },
+    "artifactPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kernel", "base_rootfs", "ephemeral_overlay"],
+      "properties": {
+        "kernel": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "content_pinned"],
+          "properties": {
+            "path": {"$ref": "#/$defs/absolutePath"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "content_pinned": {"const": true}
+          }
+        },
+        "base_rootfs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "content_pinned", "read_only"],
+          "properties": {
+            "path": {"$ref": "#/$defs/absolutePath"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "content_pinned": {"const": true},
+            "read_only": {"const": true}
+          }
+        },
+        "ephemeral_overlay": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "maximum_bytes", "ephemeral", "remove_after_execution"],
+          "properties": {
+            "path": {"$ref": "#/$defs/absolutePath"},
+            "maximum_bytes": {"type": "integer", "minimum": 4096, "maximum": 268435456},
+            "ephemeral": {"const": true},
+            "remove_after_execution": {"const": true}
+          }
+        }
+      }
+    },
+    "jailerPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "firecracker_path",
+        "jailer_path",
+        "chroot_base_dir",
+        "service_identity_id",
+        "uid",
+        "gid",
+        "dedicated_uid_gid_required",
+        "seccomp_level",
+        "new_pid_namespace",
+        "daemonize"
+      ],
+      "properties": {
+        "firecracker_path": {"$ref": "#/$defs/absolutePath"},
+        "jailer_path": {"$ref": "#/$defs/absolutePath"},
+        "chroot_base_dir": {"$ref": "#/$defs/absolutePath"},
+        "service_identity_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+        },
+        "uid": {"type": "integer", "minimum": 1000, "maximum": 65535},
+        "gid": {"type": "integer", "minimum": 1000, "maximum": 65535},
+        "dedicated_uid_gid_required": {"const": true},
+        "seccomp_level": {"const": 2},
+        "new_pid_namespace": {"const": true},
+        "daemonize": {"const": false}
+      }
+    },
+    "machineConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vcpu_count",
+        "memory_mib",
+        "smt",
+        "track_dirty_pages",
+        "boot_args",
+        "single_tenant"
+      ],
+      "properties": {
+        "vcpu_count": {"type": "integer", "minimum": 1, "maximum": 8},
+        "memory_mib": {"type": "integer", "minimum": 64, "maximum": 4096},
+        "smt": {"const": false},
+        "track_dirty_pages": {"const": false},
+        "boot_args": {
+          "const": "console=ttyS0 reboot=k panic=1 pci=off random.trust_cpu=on"
+        },
+        "single_tenant": {"const": true}
+      }
+    },
+    "resourceLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vcpu_count",
+        "cpu_millis",
+        "memory_mib",
+        "pid_limit",
+        "output_bytes",
+        "log_bytes",
+        "timeout_seconds",
+        "overlay_bytes"
+      ],
+      "properties": {
+        "vcpu_count": {"type": "integer", "minimum": 1, "maximum": 8},
+        "cpu_millis": {"type": "integer", "minimum": 100, "maximum": 60000},
+        "memory_mib": {"type": "integer", "minimum": 64, "maximum": 4096},
+        "pid_limit": {"type": "integer", "minimum": 1, "maximum": 64},
+        "output_bytes": {"type": "integer", "minimum": 1024, "maximum": 16777216},
+        "log_bytes": {"type": "integer", "minimum": 0, "maximum": 16777216},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+        "overlay_bytes": {"type": "integer", "minimum": 4096, "maximum": 268435456}
+      }
+    },
+    "networkPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "interfaces", "tap_devices", "metadata_service"],
+      "properties": {
+        "mode": {"const": "deny_all"},
+        "interfaces": {"type": "array", "maxItems": 0},
+        "tap_devices": {"type": "array", "maxItems": 0},
+        "metadata_service": {"const": "disabled"}
+      }
+    },
+    "credentialPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "allowed_references", "host_environment_forwarding"],
+      "properties": {
+        "mode": {"const": "deny_all"},
+        "allowed_references": {"type": "array", "maxItems": 0},
+        "host_environment_forwarding": {"const": false}
+      }
+    },
+    "loggingPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "maximum_bytes", "stdout", "stderr", "destination"],
+      "properties": {
+        "mode": {"const": "bounded_capture"},
+        "maximum_bytes": {"type": "integer", "minimum": 0, "maximum": 16777216},
+        "stdout": {"const": "bounded"},
+        "stderr": {"const": "bounded"},
+        "destination": {"const": "content_addressed_receipt_only"}
+      }
+    },
+    "lifecyclePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cancellation_required",
+        "cancellation_mode",
+        "deadline_enforced",
+        "teardown_required",
+        "teardown_grace_seconds",
+        "teardown_failure_disposition",
+        "residual_effect_observation_required",
+        "residual_effect_failure_disposition"
+      ],
+      "properties": {
+        "cancellation_required": {"const": true},
+        "cancellation_mode": {"const": "executor_control_channel_fail_closed"},
+        "deadline_enforced": {"const": true},
+        "teardown_required": {"const": true},
+        "teardown_grace_seconds": {"type": "integer", "minimum": 1, "maximum": 10},
+        "teardown_failure_disposition": {"const": "failed_closed"},
+        "residual_effect_observation_required": {"const": true},
+        "residual_effect_failure_disposition": {"const": "failed_closed"}
+      }
+    },
+    "specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "spec_id",
+        "spec_sha256",
+        "runtime_kind",
+        "runner_interface",
+        "plan_id",
+        "plan_sha256",
+        "invocation_sha256",
+        "backend_attestation_sha256",
+        "deployment_binding_id",
+        "deployment_binding_sha256",
+        "isolation_class",
+        "vm_id",
+        "host_preflight_contract",
+        "host_requirements",
+        "artifact_policy",
+        "jailer_policy",
+        "machine_configuration",
+        "resource_limits",
+        "network_policy",
+        "credential_policy",
+        "logging_policy",
+        "lifecycle_policy",
+        "jailer_argv",
+        "status",
+        "qualification_effect",
+        "routing_effect",
+        "deployment_effect",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "local_microvm_execution_spec"},
+        "spec_id": {"type": "string", "pattern": "^MVS-[0-9A-F]{32}$"},
+        "spec_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_kind": {"const": "jailed_firecracker"},
+        "runner_interface": {"const": "injected_executor_only"},
+        "plan_id": {"type": "string", "pattern": "^CEP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "invocation_sha256": {"$ref": "#/$defs/sha256"},
+        "backend_attestation_sha256": {"$ref": "#/$defs/sha256"},
+        "deployment_binding_id": {"type": "string", "pattern": "^CBD-[0-9A-F]{32}$"},
+        "deployment_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "isolation_class": {"const": "microvm"},
+        "vm_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"},
+        "host_preflight_contract": {"$ref": "#/$defs/hostPreflightContract"},
+        "host_requirements": {"$ref": "#/$defs/hostRequirements"},
+        "artifact_policy": {"$ref": "#/$defs/artifactPolicy"},
+        "jailer_policy": {"$ref": "#/$defs/jailerPolicy"},
+        "machine_configuration": {"$ref": "#/$defs/machineConfiguration"},
+        "resource_limits": {"$ref": "#/$defs/resourceLimits"},
+        "network_policy": {"$ref": "#/$defs/networkPolicy"},
+        "credential_policy": {"$ref": "#/$defs/credentialPolicy"},
+        "logging_policy": {"$ref": "#/$defs/loggingPolicy"},
+        "lifecycle_policy": {"$ref": "#/$defs/lifecyclePolicy"},
+        "jailer_argv": {
+          "type": "array",
+          "minItems": 15,
+          "maxItems": 15,
+          "items": {"type": "string"}
+        },
+        "status": {
+          "const": "specification_pending_external_host_preflight_nonqualifying"
+        },
+        "qualification_effect": {"$ref": "#/$defs/none"},
+        "routing_effect": {"$ref": "#/$defs/none"},
+        "deployment_effect": {"$ref": "#/$defs/none"},
+        "target_authority_effect": {"$ref": "#/$defs/none"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "observation_id",
+        "observation_sha256",
+        "spec_id",
+        "spec_sha256",
+        "observation_kind",
+        "outcome",
+        "assertions",
+        "host_preflight_passed",
+        "runtime_execution_performed",
+        "external_containment_proven",
+        "qualification_effect",
+        "routing_effect",
+        "deployment_effect",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "local_microvm_containment_observation"},
+        "observation_id": {"type": "string", "pattern": "^MVO-[0-9A-F]{32}$"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "spec_id": {"type": "string", "pattern": "^MVS-[0-9A-F]{32}$"},
+        "spec_sha256": {"$ref": "#/$defs/sha256"},
+        "observation_kind": {
+          "enum": [
+            "specification_validation",
+            "runtime_absence",
+            "lifecycle_absence",
+            "qualification_boundary"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "repository_validated_nonqualifying",
+            "not_executed",
+            "not_exercised",
+            "no_effect"
+          ]
+        },
+        "assertions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "host_preflight_passed": {"const": false},
+        "runtime_execution_performed": {"const": false},
+        "external_containment_proven": {"const": false},
+        "qualification_effect": {"$ref": "#/$defs/none"},
+        "routing_effect": {"$ref": "#/$defs/none"},
+        "deployment_effect": {"$ref": "#/$defs/none"},
+        "target_authority_effect": {"$ref": "#/$defs/none"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "receipt_id",
+        "receipt_sha256",
+        "specification",
+        "observations",
+        "status",
+        "host_preflight_passed",
+        "runtime_execution_performed",
+        "external_containment_proven",
+        "cancellation_requested",
+        "teardown_status",
+        "residual_effect_observation_status",
+        "residual_effects",
+        "output_bytes",
+        "log_bytes",
+        "qualification_effect",
+        "routing_effect",
+        "deployment_effect",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "local_microvm_containment_fixture_receipt"},
+        "receipt_id": {"type": "string", "pattern": "^MVR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "specification": {"$ref": "#/$defs/specification"},
+        "observations": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/observation"}
+        },
+        "status": {"const": "deterministic_repository_fixture_nonqualifying"},
+        "host_preflight_passed": {"const": false},
+        "runtime_execution_performed": {"const": false},
+        "external_containment_proven": {"const": false},
+        "cancellation_requested": {"const": false},
+        "teardown_status": {"const": "not_started"},
+        "residual_effect_observation_status": {"const": "not_observed"},
+        "residual_effects": {"type": "array", "maxItems": 0},
+        "output_bytes": {"const": 0},
+        "log_bytes": {"const": 0},
+        "qualification_effect": {"$ref": "#/$defs/none"},
+        "routing_effect": {"$ref": "#/$defs/none"},
+        "deployment_effect": {"$ref": "#/$defs/none"},
+        "target_authority_effect": {"$ref": "#/$defs/none"}
+      }
+    }
+  }
+}

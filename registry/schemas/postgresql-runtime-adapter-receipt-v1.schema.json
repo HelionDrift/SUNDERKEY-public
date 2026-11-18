@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/postgresql-runtime-adapter-receipt-v1.schema.json",
+  "title": "SUNDERKEY PostgreSQL runtime adapter receipts",
+  "description": "Content-addressed, nonqualifying observations emitted through an injected DB-API boundary.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/transactionReceipt"
+    },
+    {
+      "$ref": "#/$defs/healthObservation"
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "transactionEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "deployment_qualification",
+        "network",
+        "persistence"
+      ],
+      "properties": {
+        "authorization": {
+          "const": "none"
+        },
+        "deployment_qualification": {
+          "const": "none"
+        },
+        "network": {
+          "const": "injected_connection_factory_only"
+        },
+        "persistence": {
+          "const": "observed_database_transaction"
+        }
+      }
+    },
+    "healthEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "deployment_qualification",
+        "health_check",
+        "migration"
+      ],
+      "properties": {
+        "authorization": {
+          "const": "none"
+        },
+        "deployment_qualification": {
+          "const": "none"
+        },
+        "health_check": {
+          "const": "injected_connection_factory_only"
+        },
+        "migration": {
+          "const": "identity_observation_only"
+        }
+      }
+    },
+    "aggregateVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aggregate_ref",
+        "version"
+      ],
+      "properties": {
+        "aggregate_ref": {
+          "type": "string",
+          "pattern": "^aggregateref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "transactionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "aggregate_versions",
+        "assessment_ref",
+        "batch_id",
+        "batch_sha256",
+        "effects",
+        "kind",
+        "migration_id",
+        "migration_sha256",
+        "outbox_event_refs",
+        "qualification_effect",
+        "receipt_id",
+        "receipt_sha256",
+        "recorded_at",
+        "replayed",
+        "schema_version",
+        "scope_ref",
+        "tenant_ref"
+      ],
+      "properties": {
+        "adapter_ref": {
+          "type": "string",
+          "pattern": "^adapterref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "aggregate_versions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/aggregateVersion"
+          }
+        },
+        "assessment_ref": {
+          "type": "string",
+          "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "batch_id": {
+          "type": "string",
+          "pattern": "^PTB-[0-9A-F]{32}$"
+        },
+        "batch_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "effects": {
+          "$ref": "#/$defs/transactionEffects"
+        },
+        "kind": {
+          "const": "sunderkey.postgresql-transaction-receipt.v1"
+        },
+        "migration_id": {
+          "type": "string",
+          "pattern": "^migrationref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "migration_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "outbox_event_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^outboxref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+          }
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^PGR-[0-9A-F]{32}$"
+        },
+        "receipt_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "scope_ref": {
+          "type": "string",
+          "pattern": "^scoperef:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "tenant_ref": {
+          "type": "string",
+          "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        }
+      }
+    },
+    "healthObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "capability_declaration_id",
+        "capability_declaration_sha256",
+        "connection_factory_invoked",
+        "effects",
+        "kind",
+        "live_deployment_proof",
+        "migration_id",
+        "migration_sha256",
+        "observation_id",
+        "observation_sha256",
+        "observed_at",
+        "qualification_effect",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "adapter_ref": {
+          "type": "string",
+          "pattern": "^adapterref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "capability_declaration_id": {
+          "type": "string",
+          "pattern": "^PBD-[0-9A-F]{32}$"
+        },
+        "capability_declaration_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "connection_factory_invoked": {
+          "const": true
+        },
+        "effects": {
+          "$ref": "#/$defs/healthEffects"
+        },
+        "kind": {
+          "const": "sunderkey.postgresql-health-observation.v1"
+        },
+        "live_deployment_proof": {
+          "const": false
+        },
+        "migration_id": {
+          "type": "string",
+          "pattern": "^migrationref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "migration_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observation_id": {
+          "type": "string",
+          "pattern": "^PGH-[0-9A-F]{32}$"
+        },
+        "observation_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "status": {
+          "const": "healthy"
+        }
+      }
+    }
+  }
+}

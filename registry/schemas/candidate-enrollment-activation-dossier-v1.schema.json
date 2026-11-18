@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-activation-dossier-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Activation Decision Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "decision_id",
+    "status",
+    "source_bindings",
+    "current_boundary",
+    "decision_questions",
+    "recommendation",
+    "nonnegotiable_requirements",
+    "authorized_next_steps_if_approved",
+    "limitations",
+    "decision_effect",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^CAD-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D011"},
+    "status": {"const": "decision_required"},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "d009_decision",
+        "implementation_report",
+        "deployment_preparation",
+        "verification_receipt_schema"
+      ],
+      "properties": {
+        "d009_decision": {"$ref": "#/$defs/cerBinding"},
+        "implementation_report": {"$ref": "#/$defs/ceiBinding"},
+        "deployment_preparation": {"$ref": "#/$defs/cdpBinding"},
+        "verification_receipt_schema": {"$ref": "#/$defs/schemaBinding"}
+      }
+    },
+    "current_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "d009_contract_status",
+        "deployment_documentation_status",
+        "cryptographic_verification_status",
+        "checkpoint_persistence_status",
+        "controlled_catalog_release_status",
+        "live_enrollment_status"
+      ],
+      "properties": {
+        "d009_contract_status": {"const": "complete"},
+        "deployment_documentation_status": {"const": "contract_available_inputs_not_supplied"},
+        "cryptographic_verification_status": {"const": "contract_available_no_live_receipt"},
+        "checkpoint_persistence_status": {"const": "not_implemented"},
+        "controlled_catalog_release_status": {"const": "not_implemented"},
+        "live_enrollment_status": {"const": "not_started"}
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question_id", "prompt", "recommended_option_id", "options"],
+        "properties": {
+          "question_id": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"},
+          "prompt": {"type": "string", "minLength": 16, "maxLength": 160},
+          "recommended_option_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+          "options": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["option_id", "name", "impact", "recommended"],
+              "properties": {
+                "option_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+                "name": {"type": "string", "minLength": 8, "maxLength": 120},
+                "impact": {"type": "string", "minLength": 16, "maxLength": 180},
+                "recommended": {"type": "boolean"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_state", "recommended_options", "rationale"],
+      "properties": {
+        "selection_state": {"const": "not_selected"},
+        "recommended_options": {
+          "type": "object",
+          "minProperties": 8,
+          "maxProperties": 8,
+          "additionalProperties": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+          "propertyNames": {"pattern": "^[a-z0-9_]{8,64}$"}
+        },
+        "rationale": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+        }
+      }
+    },
+    "nonnegotiable_requirements": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "authorized_next_steps_if_approved": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,128}$"}
+    },
+    "decision_effect": {"const": "none"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "cerBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CER-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "ceiBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {"type": "string", "pattern": "^CEI-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "cdpBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^CDP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "schemaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "sha256"],
+      "properties": {
+        "schema_id": {"type": "string", "pattern": "^https://schemas\\.sunderkey\\.dev/[A-Za-z0-9._/-]+$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

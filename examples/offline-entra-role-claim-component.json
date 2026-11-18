@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S14",
+  "component_id": "supplied_entra_role_claim_review",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-entra-direct-role-claim-review-v1",
+      "tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assignments": [
+        {"assignment_id": "a1", "subject_ref": "subject:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "resource_ref": "resource:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "role_ref": "role:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "active": true}
+      ],
+      "observations": [
+        {"token_ref": "token:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "declared_tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "subject_ref": "subject:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "resource_ref": "resource:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "role_refs": ["role:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"]}
+      ]
+    }
+  }
+}

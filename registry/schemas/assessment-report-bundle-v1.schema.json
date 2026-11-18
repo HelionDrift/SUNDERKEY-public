@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/assessment-report-bundle-v1.schema.json",
+  "title": "SUNDERKEY Assessment Report Bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "bundle_id", "bundle_sha256", "report", "attestation", "effects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "sunderkey.assessment-report-bundle.v1"},
+    "bundle_id": {"$ref": "#/$defs/bundle_id"},
+    "bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "report": {"$ref": "#/$defs/report"},
+    "attestation": {"$ref": "#/$defs/attestation"},
+    "effects": {"$ref": "#/$defs/no_effects"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "token": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "bundle_id": {"type": "string", "pattern": "^ARB-[0-9A-F]{32}$"},
+    "effects_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "browser", "credential_values", "deployment", "execution", "integrations", "network", "payload_generation", "qualification", "requests", "routing", "target_authority", "tools"],
+      "properties": {
+        "authority": {"const": "none"},
+        "browser": {"const": "none"},
+        "credential_values": {"const": "none"},
+        "deployment": {"const": "none"},
+        "execution": {"const": "none"},
+        "integrations": {"const": "none"},
+        "network": {"const": "none"},
+        "payload_generation": {"const": "none"},
+        "qualification": {"const": "none"},
+        "requests": {"const": "none"},
+        "routing": {"const": "none"},
+        "target_authority": {"const": "none"},
+        "tools": {"const": "none"}
+      }
+    },
+    "no_effects": {"$ref": "#/$defs/effects_map"},
+    "digest_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sha256"}
+    },
+    "identifier_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "text_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 500}
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_id", "role"],
+      "properties": {
+        "reviewer_id": {"$ref": "#/$defs/identifier"},
+        "role": {
+          "enum": ["report_author", "technical_reviewer", "independent_control", "independent_assurance", "attestor"]
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "kind", "asset_record_id", "asset_sha256", "asset_id", "asset_type",
+        "display_name", "operation_ids", "signed_scope_sha256", "evidence_digests", "effects"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.asset-record.v1"},
+        "asset_record_id": {"type": "string", "pattern": "^AST-[0-9A-F]{32}$"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "asset_id": {"$ref": "#/$defs/identifier"},
+        "asset_type": {"$ref": "#/$defs/token"},
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 256},
+        "operation_ids": {"allOf": [{"$ref": "#/$defs/identifier_list"}, {"minItems": 1}]},
+        "signed_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_digests": {"allOf": [{"$ref": "#/$defs/digest_list"}, {"minItems": 1}]},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id", "transcript_sha256", "transcript_record_sha256", "coverage_area_id", "technique_id",
+        "profile_id", "status", "started_at", "ended_at", "signed_scope_sha256", "world_snapshot_sha256",
+        "schedule_sha256", "evidence_digests", "blocker_code", "restoration_required", "restoration_status"
+      ],
+      "properties": {
+        "task_id": {"$ref": "#/$defs/identifier"},
+        "transcript_sha256": {"$ref": "#/$defs/sha256"},
+        "transcript_record_sha256": {"$ref": "#/$defs/sha256"},
+        "coverage_area_id": {"$ref": "#/$defs/identifier"},
+        "technique_id": {"$ref": "#/$defs/identifier"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "status": {"enum": ["tested", "negative", "abstained", "blocked", "untested", "not_determined"]},
+        "started_at": {"$ref": "#/$defs/timestamp"},
+        "ended_at": {"$ref": "#/$defs/timestamp"},
+        "signed_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "world_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "schedule_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_digests": {"$ref": "#/$defs/digest_list"},
+        "blocker_code": {"oneOf": [{"$ref": "#/$defs/token"}, {"type": "null"}]},
+        "restoration_required": {"type": "boolean"},
+        "restoration_status": {"enum": ["not_required", "verified", "incomplete", "failed", "not_determined"]}
+      }
+    },
+    "validator_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validator_id", "task_id", "result_sha256", "outcome", "evidence_digests"],
+      "properties": {
+        "validator_id": {"$ref": "#/$defs/identifier"},
+        "task_id": {"$ref": "#/$defs/identifier"},
+        "result_sha256": {"$ref": "#/$defs/sha256"},
+        "outcome": {"enum": ["validated", "negative", "inconclusive", "abstained"]},
+        "evidence_digests": {"allOf": [{"$ref": "#/$defs/digest_list"}, {"minItems": 1}]}
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "snapshot_sha256", "state", "updated_at"],
+      "properties": {
+        "finding_id": {"$ref": "#/$defs/identifier"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "state": {
+          "enum": ["new", "triaged", "validated", "accepted", "remediation_in_progress", "retest_pending", "resolved", "risk_accepted", "false_positive", "reopened"]
+        },
+        "updated_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "coverage_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_areas", "tested", "negative_results", "abstentions", "blocked", "untested", "not_determined", "coverage_basis_points"],
+      "properties": {
+        "total_areas": {"type": "integer", "minimum": 1},
+        "tested": {"type": "integer", "minimum": 0},
+        "negative_results": {"type": "integer", "minimum": 0},
+        "abstentions": {"type": "integer", "minimum": 0},
+        "blocked": {"type": "integer", "minimum": 0},
+        "untested": {"type": "integer", "minimum": 0},
+        "not_determined": {"type": "integer", "minimum": 0},
+        "coverage_basis_points": {"type": "integer", "minimum": 0, "maximum": 10000}
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "kind", "assessment_id", "assessment_sha256", "assets", "signed_scope_sha256",
+        "world_snapshot_sha256", "schedule_sha256", "task_transcripts", "validator_results", "finding_lifecycle",
+        "started_at", "ended_at", "source_observed_at", "generated_at", "max_source_age_seconds", "completeness",
+        "coverage_metrics", "tested_areas", "blocked_areas", "untested_areas", "not_determined_areas",
+        "residual_risk", "residual_risk_rating", "scope_limits", "restoration_status", "effects"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.assessment-record.v1"},
+        "assessment_id": {"type": "string", "pattern": "^ASM-[0-9A-F]{32}$"},
+        "assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "assets": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/asset"}},
+        "signed_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "world_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "schedule_sha256": {"$ref": "#/$defs/sha256"},
+        "task_transcripts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/task"}},
+        "validator_results": {"type": "array", "items": {"$ref": "#/$defs/validator_result"}},
+        "finding_lifecycle": {"type": "array", "items": {"$ref": "#/$defs/lifecycle"}},
+        "started_at": {"$ref": "#/$defs/timestamp"},
+        "ended_at": {"$ref": "#/$defs/timestamp"},
+        "source_observed_at": {"$ref": "#/$defs/timestamp"},
+        "generated_at": {"$ref": "#/$defs/timestamp"},
+        "max_source_age_seconds": {"type": "integer", "minimum": 0, "maximum": 31536000},
+        "completeness": {"enum": ["complete", "partial"]},
+        "coverage_metrics": {"$ref": "#/$defs/coverage_metrics"},
+        "tested_areas": {"$ref": "#/$defs/identifier_list"},
+        "blocked_areas": {"$ref": "#/$defs/identifier_list"},
+        "untested_areas": {"$ref": "#/$defs/identifier_list"},
+        "not_determined_areas": {"$ref": "#/$defs/identifier_list"},
+        "residual_risk": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "residual_risk_rating": {"enum": ["informational", "low", "medium", "high", "critical", "not_determined"]},
+        "scope_limits": {"allOf": [{"$ref": "#/$defs/text_list"}, {"minItems": 1}]},
+        "restoration_status": {"enum": ["not_required", "verified", "incomplete", "failed", "not_determined"]},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "kind", "finding_report_id", "finding_report_sha256", "finding_id",
+        "lifecycle_snapshot_sha256", "title", "affected_asset_id", "affected_operation_id",
+        "vulnerability_class", "cwe_ref", "cvss_vector", "cvss_score", "severity", "confidence", "status",
+        "evidence_digests", "impact_description", "reproduction_summary", "remediation_guidance",
+        "validation_status", "validation_result_sha256", "retest_status", "effects"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.finding-report.v1"},
+        "finding_report_id": {"type": "string", "pattern": "^FRP-[0-9A-F]{32}$"},
+        "finding_report_sha256": {"$ref": "#/$defs/sha256"},
+        "finding_id": {"$ref": "#/$defs/identifier"},
+        "lifecycle_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 256},
+        "affected_asset_id": {"$ref": "#/$defs/identifier"},
+        "affected_operation_id": {"$ref": "#/$defs/identifier"},
+        "vulnerability_class": {"$ref": "#/$defs/identifier"},
+        "cwe_ref": {"type": "string", "pattern": "^CWE-[1-9][0-9]{0,5}$"},
+        "cvss_vector": {"oneOf": [{"type": "string", "pattern": "^CVSS:3\\.[01](?:/[A-Z]{1,3}:[A-Z]){8}$"}, {"type": "null"}]},
+        "cvss_score": {"oneOf": [{"type": "number", "minimum": 0, "maximum": 10}, {"type": "null"}]},
+        "severity": {"enum": ["informational", "low", "medium", "high", "critical", "unrated"]},
+        "confidence": {"enum": ["low", "medium", "high"]},
+        "status": {"enum": ["new", "triaged", "validated", "accepted", "remediation_in_progress", "retest_pending", "resolved", "risk_accepted", "false_positive", "reopened"]},
+        "evidence_digests": {"allOf": [{"$ref": "#/$defs/digest_list"}, {"minItems": 1}]},
+        "impact_description": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "reproduction_summary": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"type": "string", "minLength": 1, "maxLength": 500}},
+        "remediation_guidance": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "validation_status": {"enum": ["validated", "negative", "inconclusive", "abstained"]},
+        "validation_result_sha256": {"$ref": "#/$defs/sha256"},
+        "retest_status": {"enum": ["not_planned", "pending", "fixed", "persists", "inconclusive", "abstained"]},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    },
+    "count_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 0},
+        "severity": {"enum": ["informational", "low", "medium", "high", "critical", "unrated"]},
+        "status": {"enum": ["new", "triaged", "validated", "accepted", "remediation_in_progress", "retest_pending", "resolved", "risk_accepted", "false_positive", "reopened"]}
+      },
+      "oneOf": [
+        {"required": ["severity"], "not": {"required": ["status"]}},
+        {"required": ["status"], "not": {"required": ["severity"]}}
+      ]
+    },
+    "executive_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "kind", "executive_summary_id", "executive_summary_sha256", "assessment_id",
+        "assessment_sha256", "completeness", "coverage_metrics", "severity_counts", "status_counts",
+        "negative_result_task_ids", "abstained_task_ids", "blocked_areas", "untested_areas", "blind_spots",
+        "scope_limits", "residual_risk", "residual_risk_rating", "restoration_status",
+        "incomplete_restoration_task_ids", "effects"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.executive-summary.v1"},
+        "executive_summary_id": {"type": "string", "pattern": "^EXS-[0-9A-F]{32}$"},
+        "executive_summary_sha256": {"$ref": "#/$defs/sha256"},
+        "assessment_id": {"$ref": "#/$defs/identifier"},
+        "assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "completeness": {"enum": ["complete", "partial"]},
+        "coverage_metrics": {"$ref": "#/$defs/coverage_metrics"},
+        "severity_counts": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/count_item"}},
+        "status_counts": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"$ref": "#/$defs/count_item"}},
+        "negative_result_task_ids": {"$ref": "#/$defs/identifier_list"},
+        "abstained_task_ids": {"$ref": "#/$defs/identifier_list"},
+        "blocked_areas": {"$ref": "#/$defs/identifier_list"},
+        "untested_areas": {"$ref": "#/$defs/identifier_list"},
+        "blind_spots": {"$ref": "#/$defs/identifier_list"},
+        "scope_limits": {"allOf": [{"$ref": "#/$defs/text_list"}, {"minItems": 1}]},
+        "residual_risk": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "residual_risk_rating": {"enum": ["informational", "low", "medium", "high", "critical", "not_determined"]},
+        "restoration_status": {"enum": ["not_required", "verified", "incomplete", "failed", "not_determined"]},
+        "incomplete_restoration_task_ids": {"$ref": "#/$defs/identifier_list"},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "kind", "report_id", "report_sha256", "assessment", "executive_summary", "findings", "reviewer_roles", "effects"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.pentest-report.v1"},
+        "report_id": {"type": "string", "pattern": "^PTR-[0-9A-F]{32}$"},
+        "report_sha256": {"$ref": "#/$defs/sha256"},
+        "assessment": {"$ref": "#/$defs/assessment"},
+        "executive_summary": {"$ref": "#/$defs/executive_summary"},
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "reviewer_roles": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/reviewer"}},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    },
+    "attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "kind", "attestation_id", "attestation_sha256", "report_id", "report_sha256",
+        "assessment_id", "assessment_sha256", "tested_areas", "not_tested_areas", "not_determined_areas",
+        "negative_result_task_ids", "abstained_task_ids", "scope_limits", "restoration_status", "reviewer_roles",
+        "attested_at", "compliance_claim", "conclusion", "effects"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "kind": {"const": "sunderkey.assessment-attestation.v1"},
+        "attestation_id": {"type": "string", "pattern": "^ATT-[0-9A-F]{32}$"},
+        "attestation_sha256": {"$ref": "#/$defs/sha256"},
+        "report_id": {"$ref": "#/$defs/identifier"},
+        "report_sha256": {"$ref": "#/$defs/sha256"},
+        "assessment_id": {"$ref": "#/$defs/identifier"},
+        "assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "tested_areas": {"$ref": "#/$defs/identifier_list"},
+        "not_tested_areas": {"$ref": "#/$defs/identifier_list"},
+        "not_determined_areas": {"$ref": "#/$defs/identifier_list"},
+        "negative_result_task_ids": {"$ref": "#/$defs/identifier_list"},
+        "abstained_task_ids": {"$ref": "#/$defs/identifier_list"},
+        "scope_limits": {"allOf": [{"$ref": "#/$defs/text_list"}, {"minItems": 1}]},
+        "restoration_status": {"enum": ["not_required", "verified", "incomplete", "failed", "not_determined"]},
+        "reviewer_roles": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/reviewer"}},
+        "attested_at": {"$ref": "#/$defs/timestamp"},
+        "compliance_claim": {"const": "not_assessed"},
+        "conclusion": {"const": "evidence_only_no_compliance_determination"},
+        "effects": {"$ref": "#/$defs/no_effects"}
+      }
+    }
+  }
+}

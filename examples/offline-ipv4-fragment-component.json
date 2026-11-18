@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ipv4-fragments",
+      "fragment_sets": [
+        {
+          "set_id": "declared-comparison",
+          "packets": [
+            {
+              "packet_id": "first",
+              "packet_base64": "RQAAJBI0IABAEVxewAACAcYzZAJhYmNkZWZnaGlqa2xtbm9w"
+            },
+            {
+              "packet_id": "last",
+              "packet_base64": "RQAAHBI0AAJAEXxkwAACAcYzZAJxcnN0dXZ3eA=="
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-kerberos-ad",
+      "inventory_complete": true,
+      "policy": {
+        "forbid_unconstrained_delegation": true,
+        "allowed_encryption_labels": ["aes128", "aes256"]
+      },
+      "services": [
+        {
+          "service_ref": "service:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "account_ref": "account:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "spn_refs": ["spn:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"],
+          "delegation_mode": "unconstrained",
+          "delegation_target_refs": [],
+          "encryption_labels": ["aes256", "rc4"]
+        },
+        {
+          "service_ref": "service:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "account_ref": "account:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "spn_refs": ["spn:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"],
+          "delegation_mode": "none",
+          "delegation_target_refs": [],
+          "encryption_labels": ["aes256"]
+        }
+      ]
+    }
+  }
+}

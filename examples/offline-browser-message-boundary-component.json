@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S15",
+  "component_id": "browser_supplied_message_boundary_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "origins_complete": true,
+      "listeners": [
+        {
+          "listener_id": "checked",
+          "receiver_origin": "https://app.example",
+          "origin_rule": "exact_allowlist",
+          "accepted_origins": ["https://partner.example"],
+          "handler_sensitive": true,
+          "semantics_complete": true
+        },
+        {
+          "listener_id": "unchecked",
+          "receiver_origin": "https://app.example",
+          "origin_rule": "none",
+          "accepted_origins": [],
+          "handler_sensitive": true,
+          "semantics_complete": true
+        }
+      ],
+      "messages": [
+        {
+          "message_id": "candidate",
+          "listener_id": "unchecked",
+          "sender_origin": "https://other.example",
+          "target_origin": "https://app.example",
+          "payload_trust": "untrusted",
+          "context_complete": true
+        },
+        {
+          "message_id": "checked-partner",
+          "listener_id": "checked",
+          "sender_origin": "https://partner.example",
+          "target_origin": "*",
+          "payload_trust": "untrusted",
+          "context_complete": true
+        },
+        {
+          "message_id": "mismatched-target",
+          "listener_id": "unchecked",
+          "sender_origin": "https://other.example",
+          "target_origin": "https://wrong.example",
+          "payload_trust": "untrusted",
+          "context_complete": true
+        },
+        {
+          "message_id": "opaque-sender",
+          "listener_id": "unchecked",
+          "sender_origin": "null",
+          "target_origin": "https://app.example",
+          "payload_trust": "untrusted",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

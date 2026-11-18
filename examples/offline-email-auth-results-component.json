@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D02-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-email-auth-results",
+      "synthetic_fixture": true,
+      "authentication_results_header": "Authentication-Results: mx.synthetic.example; spf=pass smtp.mailfrom=sender.synthetic.example; dkim=pass header.d=sender.synthetic.example; dmarc=pass header.from=sender.synthetic.example",
+      "expected_authserv_id": "mx.synthetic.example",
+      "expected_origin_domain": "sender.synthetic.example"
+    }
+  }
+}

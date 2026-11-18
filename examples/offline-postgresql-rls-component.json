@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "contexts": [
+        {
+          "context_id": "context:alice",
+          "current_role": "alice",
+          "row_security_on": true
+        }
+      ],
+      "memberships": [
+        {
+          "granted_role": "reader",
+          "inherit": true,
+          "member_role": "alice"
+        }
+      ],
+      "queries": [
+        {
+          "context_id": "context:alice",
+          "query_id": "query:own",
+          "row_id": "own"
+        },
+        {
+          "context_id": "context:alice",
+          "query_id": "query:other",
+          "row_id": "other"
+        },
+        {
+          "context_id": "context:alice",
+          "query_id": "query:null",
+          "row_id": "null"
+        }
+      ],
+      "role_membership_complete": true,
+      "roles": [
+        {
+          "bypass_rls": false,
+          "name": "alice",
+          "superuser": false
+        },
+        {
+          "bypass_rls": false,
+          "name": "reader",
+          "superuser": false
+        },
+        {
+          "bypass_rls": false,
+          "name": "owner",
+          "superuser": false
+        }
+      ],
+      "rows": [
+        {
+          "row_id": "own",
+          "values": {
+            "active": true,
+            "level": 1,
+            "owner": "alice"
+          }
+        },
+        {
+          "row_id": "other",
+          "values": {
+            "active": true,
+            "level": 2,
+            "owner": "bob"
+          }
+        },
+        {
+          "row_id": "null",
+          "values": {
+            "active": null,
+            "level": null,
+            "owner": "alice"
+          }
+        }
+      ],
+      "schema_version": 1,
+      "semantics_profile": "postgresql-18-select-rls-subset-v1",
+      "table": {
+        "columns": {
+          "active": "boolean",
+          "level": "int8",
+          "owner": "text_c"
+        },
+        "force_rls": false,
+        "owner_role": "owner",
+        "policies": [
+          {
+            "command": "SELECT",
+            "mode": "PERMISSIVE",
+            "policy_id": "own_rows",
+            "to_roles": [
+              {
+                "kind": "role",
+                "name": "reader"
+              }
+            ],
+            "using": {
+              "left": {
+                "kind": "column",
+                "name": "owner"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "current_user"
+              }
+            }
+          },
+          {
+            "command": "ALL",
+            "mode": "RESTRICTIVE",
+            "policy_id": "active_rows",
+            "to_roles": [
+              {
+                "kind": "public"
+              }
+            ],
+            "using": {
+              "left": {
+                "kind": "column",
+                "name": "active"
+              },
+              "op": "eq",
+              "right": {
+                "kind": "literal",
+                "type": "boolean",
+                "value": true
+              }
+            }
+          }
+        ],
+        "policy_inventory_complete": true,
+        "relation_kind": "ordinary_table",
+        "rls_enabled": true,
+        "select_grantees": [
+          {
+            "kind": "role",
+            "name": "reader"
+          }
+        ],
+        "select_grants_complete": true,
+        "table_ref": "table:synthetic"
+      }
+    }
+  }
+}

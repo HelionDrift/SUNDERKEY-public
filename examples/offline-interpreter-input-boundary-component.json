@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S02",
+  "component_id": "supplied_interpreter_input_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-interpreter-input-boundary-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {"declaration_complete": true, "untrusted_data_only_required": true},
+      "sinks": [
+        {
+          "sink_id": "sink-1",
+          "sink_family": "template",
+          "inputs": [
+            {"input_ref": "ref:input-a", "source_trust": "untrusted", "incorporation": "interpreter_source"}
+          ],
+          "invocation_declared": true,
+          "capture_complete": true
+        }
+      ]
+    }
+  }
+}

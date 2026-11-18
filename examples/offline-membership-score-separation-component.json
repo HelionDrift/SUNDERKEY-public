@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-membership-scores",
+      "member_group_id": "members",
+      "nonmember_group_id": "nonmembers",
+      "threshold_basis_points": 6000,
+      "minimum_samples_per_group": 3,
+      "minimum_advantage_basis_points": 2000,
+      "same_scoring_conditions": true,
+      "member_scores_basis_points": [9000, 8000, 7000, 2000],
+      "nonmember_scores_basis_points": [1000, 3000, 5000, 7000]
+    }
+  }
+}

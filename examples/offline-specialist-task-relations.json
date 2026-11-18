@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "plan_id": "synthetic.declared-flow-conjunctions",
+  "premises": [
+    {"premise_id":"gcp.ingress","job_id":"gcp","component_id":"gcp_supplied_vpc_firewall_new_flow_predicates","source_model_sha256":"sha256:5c9cfab6bd6d73292c098d1e5440967ac6ff73a48964e9c557c4e8b26e8c9806","flow_id":"synthetic-ingress","expected_decision":"allow_under_supplied_vpc_predicates"},
+    {"premise_id":"azure.inbound","job_id":"azure","component_id":"azure_supplied_nsg_directional_predicates","source_model_sha256":"sha256:5b86106d482a0ab104104c983cc0554addc26651b8d1d34bd743d3249438cbad","flow_id":"synthetic-inbound","expected_decision":"allow_under_supplied_nsg_predicates"},
+    {"premise_id":"gcp.egress","job_id":"gcp","component_id":"gcp_supplied_vpc_firewall_new_flow_predicates","source_model_sha256":"sha256:5c9cfab6bd6d73292c098d1e5440967ac6ff73a48964e9c557c4e8b26e8c9806","flow_id":"synthetic-egress","expected_decision":"deny_under_supplied_vpc_predicates"},
+    {"premise_id":"azure.outbound","job_id":"azure","component_id":"azure_supplied_nsg_directional_predicates","source_model_sha256":"sha256:5b86106d482a0ab104104c983cc0554addc26651b8d1d34bd743d3249438cbad","flow_id":"synthetic-outbound","expected_decision":"allow_under_supplied_nsg_predicates"}
+  ],
+  "hypotheses": [
+    {"hypothesis_id":"known","dependencies":[{"kind":"premise","id":"gcp.ingress"},{"kind":"premise","id":"azure.inbound"}]},
+    {"hypothesis_id":"unknown","dependencies":[{"kind":"premise","id":"gcp.egress"},{"kind":"premise","id":"azure.outbound"}]},
+    {"hypothesis_id":"overall","dependencies":[{"kind":"hypothesis","id":"known"},{"kind":"hypothesis","id":"unknown"}]}
+  ]
+}

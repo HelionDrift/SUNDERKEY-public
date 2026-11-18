@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-macos-privilege-items",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "items": [{
+      "item_id": "helper-a", "item_kind": "privileged_helper",
+      "root_execution_declared": true, "user_writable_declared": true
+    }]
+  }}
+}

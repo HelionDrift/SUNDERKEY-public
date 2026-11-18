@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/offline-api-assessment-result-v1.schema.json",
+  "title": "Offline API assessment correlation result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "mission_id",
+    "target_id",
+    "scope_id",
+    "invocation_id",
+    "manifest_sha256",
+    "adapter_result_sha256",
+    "validator_result_sha256",
+    "evidence_sha256s",
+    "adapter_disposition",
+    "validator_state",
+    "disposition",
+    "effects",
+    "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "case_id": {"$ref": "#/$defs/identifier"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "target_id": {"$ref": "#/$defs/identifier"},
+    "scope_id": {"$ref": "#/$defs/identifier"},
+    "invocation_id": {"$ref": "#/$defs/identifier"},
+    "manifest_sha256": {"$ref": "#/$defs/digest"},
+    "adapter_result_sha256": {"$ref": "#/$defs/digest"},
+    "validator_result_sha256": {"$ref": "#/$defs/digest"},
+    "evidence_sha256s": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/digest"}
+    },
+    "adapter_disposition": {
+      "enum": ["verified_finding", "negative_result", "hypothesis", "abstention"]
+    },
+    "validator_state": {
+      "enum": ["verified", "negative", "hypothesis", "inconclusive", "abstained"]
+    },
+    "disposition": {
+      "enum": [
+        "corroborated_synthetic_signal",
+        "negative_synthetic_result",
+        "review_required",
+        "abstained"
+      ]
+    },
+    "effects": {
+      "const": {
+        "authority": "none",
+        "deployment": "none",
+        "finding_publication": "none",
+        "network": "none",
+        "qualification": "none",
+        "target_execution": "none"
+      }
+    },
+    "result_sha256": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

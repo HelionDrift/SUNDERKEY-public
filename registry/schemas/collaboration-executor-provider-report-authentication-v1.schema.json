@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-report-authentication-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Report Authentication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_authentication_id",
+    "report_authentication_sha256",
+    "provider_report",
+    "acknowledgement_authentication",
+    "authentication_status",
+    "evidence_verification_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_authentication_id": {
+      "type": "string",
+      "pattern": "^EPA-[0-9A-F]{32}$"
+    },
+    "report_authentication_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "provider_report": {
+      "$ref": "collaboration-executor-provider-report-v1.schema.json"
+    },
+    "acknowledgement_authentication": {
+      "$ref": "collaboration-executor-acknowledgement-authentication-v1.schema.json"
+    },
+    "authentication_status": {"const": "authenticated_worker_principal"},
+    "evidence_verification_status": {
+      "const": "provider_evidence_digest_unverified"
+    },
+    "external_effect_status": {
+      "const": "authenticated_report_unverified_effect"
+    },
+    "runtime_effect": {"const": "none"}
+  }
+}

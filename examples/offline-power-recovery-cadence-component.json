@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-power-recovery-cadence",
+      "synthetic_fixture": true,
+      "as_of_date": "2026-10-01",
+      "plan_exercise_date": "2025-10-01",
+      "recovery_information_sample_date": "2025-09-01",
+      "sample_usable_and_compatible_declared": true
+    }
+  }
+}

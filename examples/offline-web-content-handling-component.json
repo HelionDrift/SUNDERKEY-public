@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S10",
+  "component_id": "supplied_web_content_handling",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-content-model",
+      "evidence_sources": [
+        {"source_id": "synthetic-policy", "provenance_kind": "synthetic_fixture"},
+        {"source_id": "synthetic-cases", "provenance_kind": "synthetic_fixture"}
+      ],
+      "extension_rules": [
+        {
+          "extension_token": "extension-a",
+          "expected_media_token": "media-a",
+          "disposition": "allow",
+          "source_id": "synthetic-policy"
+        },
+        {
+          "extension_token": "extension-b",
+          "expected_media_token": "media-b",
+          "disposition": "deny",
+          "source_id": "synthetic-policy"
+        },
+        {
+          "extension_token": "extension-c",
+          "expected_media_token": "media-b",
+          "disposition": "allow",
+          "source_id": "synthetic-policy"
+        }
+      ],
+      "media_rules": [
+        {"media_token": "media-a", "disposition": "allow", "source_id": "synthetic-policy"},
+        {"media_token": "media-b", "disposition": "deny", "source_id": "synthetic-policy"}
+      ],
+      "cases": [
+        {
+          "case_id": "case-agree",
+          "extension_token": "extension-a",
+          "declared_media_token": "media-a",
+          "source_id": "synthetic-cases"
+        },
+        {
+          "case_id": "case-differential",
+          "extension_token": "extension-c",
+          "declared_media_token": "media-b",
+          "source_id": "synthetic-cases"
+        },
+        {
+          "case_id": "case-missing",
+          "extension_token": "extension-b",
+          "declared_media_token": "media-unknown",
+          "source_id": "synthetic-cases"
+        }
+      ]
+    }
+  }
+}

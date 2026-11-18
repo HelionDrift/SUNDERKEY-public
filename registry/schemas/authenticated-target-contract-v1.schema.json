@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/authenticated-target-contract-v1.schema.json",
+  "title": "SUNDERKEY Authenticated Target Contract",
+  "oneOf": [
+    { "$ref": "#/$defs/session" },
+    { "$ref": "#/$defs/plan" },
+    { "$ref": "#/$defs/admission" },
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/response" },
+    { "$ref": "#/$defs/termination" }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|missionref|scoperef|targetref|workerref|sessionref|fenceref|principalref|leaseref|evidenceref|checkpointref|operatorref|cookieref|caseref|reasonref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "method": {
+      "enum": ["basic", "bearer", "cookie_session", "oauth2_pkce", "oidc_pkce"]
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authentication", "credential_resolution", "logout", "mfa_response", "network",
+        "redirect_following", "refresh", "remote_revocation", "request_dispatch", "session_creation"
+      ],
+      "properties": {
+        "authentication": { "const": "none" },
+        "credential_resolution": { "const": "none" },
+        "logout": { "const": "none" },
+        "mfa_response": { "const": "none" },
+        "network": { "const": "none" },
+        "redirect_following": { "const": "none" },
+        "refresh": { "const": "none" },
+        "remote_revocation": { "const": "none" },
+        "request_dispatch": { "const": "none" },
+        "session_creation": { "const": "none" }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant_ref", "mission_ref", "scope_ref", "target_ref", "worker_ref", "session_ref",
+        "fence_ref", "fencing_token_sha256", "fence_epoch"
+      ],
+      "properties": {
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "mission_ref": { "$ref": "#/$defs/reference" },
+        "scope_ref": { "$ref": "#/$defs/reference" },
+        "target_ref": { "$ref": "#/$defs/reference" },
+        "worker_ref": { "$ref": "#/$defs/reference" },
+        "session_ref": { "$ref": "#/$defs/reference" },
+        "fence_ref": { "$ref": "#/$defs/reference" },
+        "fencing_token_sha256": { "$ref": "#/$defs/sha256" },
+        "fence_epoch": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lease_ref", "authentication_method", "descriptor_sha256", "principal_ref",
+        "context_sha256", "issued_at", "expires_at", "revoked_at"
+      ],
+      "properties": {
+        "lease_ref": { "$ref": "#/$defs/reference" },
+        "authentication_method": { "$ref": "#/$defs/method" },
+        "descriptor_sha256": { "$ref": "#/$defs/sha256" },
+        "principal_ref": { "$ref": "#/$defs/reference" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" },
+        "revoked_at": { "oneOf": [{ "$ref": "#/$defs/utc" }, { "type": "null" }] }
+      }
+    },
+    "redirect": {
+      "type": ["object", "null"],
+      "required": [
+        "protocol", "evidence_ref", "context_sha256", "state_sha256", "pkce_challenge_sha256",
+        "redirect_uri_sha256", "authorization_response_sha256", "nonce_sha256", "observed_at", "expires_at"
+      ],
+      "properties": {
+        "protocol": { "enum": ["oauth2_pkce", "oidc_pkce"] },
+        "evidence_ref": { "$ref": "#/$defs/reference" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "state_sha256": { "$ref": "#/$defs/sha256" },
+        "pkce_challenge_sha256": { "$ref": "#/$defs/sha256" },
+        "redirect_uri_sha256": { "$ref": "#/$defs/sha256" },
+        "authorization_response_sha256": { "$ref": "#/$defs/sha256" },
+        "nonce_sha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      },
+      "additionalProperties": false
+    },
+    "mfa": {
+      "type": ["object", "null"],
+      "required": [
+        "checkpoint_ref", "operator_ref", "context_sha256", "challenge_sha256", "status",
+        "observed_at", "expires_at"
+      ],
+      "properties": {
+        "checkpoint_ref": { "$ref": "#/$defs/reference" },
+        "operator_ref": { "$ref": "#/$defs/reference" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "challenge_sha256": { "$ref": "#/$defs/sha256" },
+        "status": { "enum": ["operator_confirmed", "operator_declined"] },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      },
+      "additionalProperties": false
+    },
+    "refresh": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_ref", "context_sha256", "predecessor_lease_ref", "successor_lease_ref",
+        "exchange_sha256", "observed_at", "expires_at"
+      ],
+      "properties": {
+        "evidence_ref": { "$ref": "#/$defs/reference" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "predecessor_lease_ref": { "$ref": "#/$defs/reference" },
+        "successor_lease_ref": { "$ref": "#/$defs/reference" },
+        "exchange_sha256": { "$ref": "#/$defs/sha256" },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "headerDigests": {
+      "type": "object",
+      "maxProperties": 64,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]{0,63}$" },
+      "additionalProperties": { "$ref": "#/$defs/sha256" }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id", "contract_sha256", "kind", "schema_version", "effects", "context",
+        "authentication_method", "principal_ref", "lease", "cookie_jar_ref", "isolation_nonce_sha256",
+        "redirect_evidence", "mfa_checkpoint", "refresh_evidence", "issued_at", "expires_at"
+      ],
+      "properties": {
+        "contract_id": { "type": "string", "pattern": "^ASC-[0-9A-F]{32}$" },
+        "contract_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "authenticated_session_contract" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "context": { "$ref": "#/$defs/context" },
+        "authentication_method": { "$ref": "#/$defs/method" },
+        "principal_ref": { "$ref": "#/$defs/reference" },
+        "lease": { "$ref": "#/$defs/lease" },
+        "cookie_jar_ref": { "oneOf": [{ "$ref": "#/$defs/reference" }, { "type": "null" }] },
+        "isolation_nonce_sha256": { "$ref": "#/$defs/sha256" },
+        "redirect_evidence": { "$ref": "#/$defs/redirect" },
+        "mfa_checkpoint": { "$ref": "#/$defs/mfa" },
+        "refresh_evidence": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/refresh" } },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_ref", "principal_ref", "session_ref", "role_sha256", "resource_sha256",
+        "action_sha256", "expected_allowed"
+      ],
+      "properties": {
+        "case_ref": { "$ref": "#/$defs/reference" },
+        "principal_ref": { "$ref": "#/$defs/reference" },
+        "session_ref": { "$ref": "#/$defs/reference" },
+        "role_sha256": { "$ref": "#/$defs/sha256" },
+        "resource_sha256": { "$ref": "#/$defs/sha256" },
+        "action_sha256": { "$ref": "#/$defs/sha256" },
+        "expected_allowed": { "type": "boolean" }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_id", "plan_sha256", "kind", "schema_version", "effects", "tenant_ref",
+        "mission_ref", "scope_ref", "target_ref", "cases", "issued_at", "expires_at"
+      ],
+      "properties": {
+        "plan_id": { "type": "string", "pattern": "^MAP-[0-9A-F]{32}$" },
+        "plan_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "multi_principal_authorization_plan" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "mission_ref": { "$ref": "#/$defs/reference" },
+        "scope_ref": { "$ref": "#/$defs/reference" },
+        "target_ref": { "$ref": "#/$defs/reference" },
+        "cases": { "type": "array", "minItems": 2, "maxItems": 64, "items": { "$ref": "#/$defs/case" } },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_id", "admission_sha256", "kind", "schema_version", "effects", "contract_id",
+        "contract_sha256", "context_sha256", "active_lease_ref", "status", "reason_refs", "evaluated_at"
+      ],
+      "properties": {
+        "admission_id": { "type": "string", "pattern": "^ASA-[0-9A-F]{32}$" },
+        "admission_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "session_admission" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "contract_id": { "type": "string", "pattern": "^ASC-[0-9A-F]{32}$" },
+        "contract_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "active_lease_ref": { "$ref": "#/$defs/reference" },
+        "status": { "enum": ["admitted", "denied"] },
+        "reason_refs": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/reference" } },
+        "evaluated_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id", "request_sha256", "kind", "schema_version", "effects", "admission_id",
+        "admission_sha256", "context_sha256", "method_sha256", "request_target_sha256",
+        "header_value_sha256", "body_sha256", "prepared_at", "expires_at"
+      ],
+      "properties": {
+        "request_id": { "type": "string", "pattern": "^AQR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "prepared_authenticated_request" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "admission_id": { "type": "string", "pattern": "^ASA-[0-9A-F]{32}$" },
+        "admission_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "method_sha256": { "$ref": "#/$defs/sha256" },
+        "request_target_sha256": { "$ref": "#/$defs/sha256" },
+        "header_value_sha256": { "$ref": "#/$defs/headerDigests" },
+        "body_sha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "prepared_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "response_id", "response_sha256", "kind", "schema_version", "effects", "request_id",
+        "request_sha256", "context_sha256", "status_code", "header_value_sha256", "body_sha256",
+        "body_size_bytes", "received_at"
+      ],
+      "properties": {
+        "response_id": { "type": "string", "pattern": "^ANR-[0-9A-F]{32}$" },
+        "response_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "normalized_authenticated_response" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "request_id": { "type": "string", "pattern": "^AQR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "status_code": { "type": "integer", "minimum": 100, "maximum": 599 },
+        "header_value_sha256": { "$ref": "#/$defs/headerDigests" },
+        "body_sha256": { "$ref": "#/$defs/sha256" },
+        "body_size_bytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
+        "received_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "termination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "termination_id", "termination_sha256", "kind", "schema_version", "effects", "contract_id",
+        "contract_sha256", "context_sha256", "reason", "evidence_refs", "logout_observed",
+        "revocation_observed", "terminated_at"
+      ],
+      "properties": {
+        "termination_id": { "type": "string", "pattern": "^ATE-[0-9A-F]{32}$" },
+        "termination_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "session_termination_evidence" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "contract_id": { "type": "string", "pattern": "^ASC-[0-9A-F]{32}$" },
+        "contract_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "reason": { "enum": ["logout", "revoked", "expired", "operator_stop", "fence_replaced"] },
+        "evidence_refs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/reference" } },
+        "logout_observed": { "type": "boolean" },
+        "revocation_observed": { "type": "boolean" },
+        "terminated_at": { "$ref": "#/$defs/utc" }
+      }
+    }
+  }
+}

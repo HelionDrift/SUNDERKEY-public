@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S16",
+  "component_id": "supplied_observable_discrepancy",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-observable-field-discrepancy-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {
+        "declaration_complete": true,
+        "sensitive_field_refs": ["ref:field-secret"]
+      },
+      "comparisons": [
+        {
+          "comparison_id": "comparison-1",
+          "resource_ref": "ref:resource-a",
+          "permitted_restricted_field_refs": ["ref:field-public"],
+          "observed_restricted_field_refs": ["ref:field-public", "ref:field-secret"],
+          "capture_complete": true
+        }
+      ]
+    }
+  }
+}

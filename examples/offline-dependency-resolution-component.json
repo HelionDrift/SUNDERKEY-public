@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S08",
+  "component_id": "dependency_supplied_resolution_collision",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-resolution-model",
+      "evidence_complete": true,
+      "manifest": {
+        "source_id": "synthetic-manifest",
+        "registries": ["internal", "public"],
+        "requirements": [
+          {
+            "requirement_id": "dep-widget",
+            "name": "widget-core",
+            "intended_registry_ref": "internal"
+          }
+        ]
+      },
+      "lockfile": {
+        "source_id": "synthetic-lockfile",
+        "entries": [
+          {
+            "requirement_id": "dep-widget",
+            "name": "widget-core",
+            "version": "2.0",
+            "registry_ref": "public",
+            "artifact_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      },
+      "resolution": {
+        "source_id": "synthetic-resolution",
+        "records": [
+          {
+            "requirement_id": "dep-widget",
+            "selected": {
+              "name": "widget-core",
+              "version": "2.0",
+              "registry_ref": "public"
+            },
+            "available": [
+              {"name": "widget-core", "version": "1.0", "registry_ref": "internal"},
+              {"name": "widget-core", "version": "2.0", "registry_ref": "public"}
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

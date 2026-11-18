@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-10-10T00:00:00Z",
+  "plan": {
+    "schema_version": 1,
+    "plan_ref": "decoy-plan-synthetic-01",
+    "asset_ref": "asset-synthetic-01",
+    "owner_ref": "owner-synthetic-01",
+    "scope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "owner_approval_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "token_class": "nonprivileged_unique_marker",
+    "token_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "removal_procedure_sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "removal_test_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "created_at": "2026-10-01T00:00:00Z",
+    "expires_at": "2026-10-10T00:00:00Z"
+  },
+  "events": [
+    {
+      "event_id": "event-01",
+      "kind": "placement",
+      "at": "2026-10-02T00:00:00Z",
+      "evidence_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "token_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "related_alert_ref": null
+    },
+    {
+      "event_id": "event-02",
+      "kind": "alert",
+      "at": "2026-10-03T00:00:00Z",
+      "evidence_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "token_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "related_alert_ref": "alert-synthetic-01"
+    }
+  ]
+}

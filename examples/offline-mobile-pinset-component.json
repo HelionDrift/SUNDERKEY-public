@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-mobile-pinsets",
+    "synthetic_fixture": true,
+    "evaluation_day": "2026-01-01",
+    "inventory_complete": true,
+    "hosts": [
+      {"host_id": "api", "hostname": "api.example.invalid"},
+      {"host_id": "admin", "hostname": "admin.example.invalid"}
+    ],
+    "pinsets": [{
+      "pinset_id": "base",
+      "domain": "example.invalid",
+      "include_subdomains": true,
+      "pins": [
+        {
+          "pin_id": "primary",
+          "spki_sha256_hex": "1111111111111111111111111111111111111111111111111111111111111111",
+          "not_after_day": "2027-01-01",
+          "backup": false
+        },
+        {
+          "pin_id": "backup",
+          "spki_sha256_hex": "2222222222222222222222222222222222222222222222222222222222222222",
+          "not_after_day": "2027-01-01",
+          "backup": true
+        }
+      ]
+    }]
+  }}
+}

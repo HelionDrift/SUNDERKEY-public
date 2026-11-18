@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/capability-roadmap-v1.json",
+  "title": "SUNDERKEY Capability Roadmap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "roadmap_id",
+    "roadmap_sha256",
+    "program",
+    "status",
+    "roadmap_effect",
+    "baseline",
+    "release_states",
+    "scorecard_measures",
+    "increments",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "roadmap_id": {"type": "string", "pattern": "^CRD-[0-9A-F]{32}$"},
+    "roadmap_sha256": {"$ref": "#/$defs/sha256"},
+    "program": {"const": "SUNDERKEY"},
+    "status": {"const": "approved_planning_baseline"},
+    "roadmap_effect": {"const": "planning_only"},
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_commit", "software_version", "planning_version"],
+      "properties": {
+        "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "software_version": {"type": "string", "minLength": 1},
+        "planning_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "release_states": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "planned"},
+        {"const": "implemented"},
+        {"const": "qualified"},
+        {"const": "deployed"},
+        {"const": "production_authorized"},
+        {"const": "generally_available"}
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "scorecard_measures": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "increments": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/increment"}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "title",
+        "owner_role",
+        "dependency_package_ids",
+        "completion_result"
+      ],
+      "properties": {
+        "package_id": {
+          "type": "string",
+          "pattern": "^(R|X|A|E|C|P|S|D)[0-9]+\\.[0-9]+$"
+        },
+        "title": {"type": "string", "minLength": 1},
+        "owner_role": {"type": "string", "minLength": 1},
+        "dependency_package_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(R|X|A|E|C|P|S|D)[0-9]+\\.[0-9]+$"
+          }
+        },
+        "completion_result": {"type": "string", "minLength": 1}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "title", "evidence_requirements"],
+      "properties": {
+        "gate_id": {"type": "string", "pattern": "^G[0-8]$"},
+        "title": {"type": "string", "minLength": 1},
+        "evidence_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "increment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["increment_id", "title", "objective", "packages", "gate"],
+      "properties": {
+        "increment_id": {"type": "string", "pattern": "^I[0-8]$"},
+        "title": {"type": "string", "minLength": 1},
+        "objective": {"type": "string", "minLength": 1},
+        "packages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/package"}
+        },
+        "gate": {"$ref": "#/$defs/gate"}
+      }
+    }
+  }
+}

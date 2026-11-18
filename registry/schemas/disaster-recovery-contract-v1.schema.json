@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/disaster-recovery-contract-v1.schema.json",
+  "title": "SUNDERKEY disaster recovery proof contract version 1",
+  "oneOf": [
+    { "$ref": "#/$defs/objective" },
+    { "$ref": "#/$defs/backupManifest" },
+    { "$ref": "#/$defs/rehearsalPlan" },
+    { "$ref": "#/$defs/observedResult" },
+    { "$ref": "#/$defs/readinessAssessment" }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+(?:\\.[0-9]+){1,3}(?:[-+][A-Za-z0-9.]+)?$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(?:tenantref|systemref|backupref|keyref|registrysnapshotref|artifactref|eventref|evidenceref|custodyref|verificationref|planref|observationref|signatureref|reviewerref|principalref|manifestref|recoveryref|gapref|migrationref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "backup",
+        "credential_or_key_access",
+        "deletion",
+        "deployment",
+        "network",
+        "persistence",
+        "qualification",
+        "restore"
+      ],
+      "properties": {
+        "authorization": { "const": "none" },
+        "backup": { "const": "none" },
+        "credential_or_key_access": { "const": "none" },
+        "deletion": { "const": "none" },
+        "deployment": { "const": "none" },
+        "network": { "const": "none" },
+        "persistence": { "const": "none" },
+        "qualification": { "const": "none" },
+        "restore": { "const": "none" }
+      }
+    },
+    "custodiedObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["custody_ref", "custody_sha256", "reference", "sha256", "version"],
+      "properties": {
+        "custody_ref": { "$ref": "#/$defs/reference" },
+        "custody_sha256": { "$ref": "#/$defs/sha256" },
+        "reference": { "$ref": "#/$defs/reference" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "version": { "$ref": "#/$defs/version" }
+      }
+    },
+    "keySnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "custody_ref",
+        "custody_sha256",
+        "key_descriptor_sha256",
+        "key_ref",
+        "key_version"
+      ],
+      "properties": {
+        "custody_ref": { "$ref": "#/$defs/reference" },
+        "custody_sha256": { "$ref": "#/$defs/sha256" },
+        "key_descriptor_sha256": { "$ref": "#/$defs/sha256" },
+        "key_ref": { "$ref": "#/$defs/reference" },
+        "key_version": { "$ref": "#/$defs/version" }
+      }
+    },
+    "registrySnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parent_snapshot_ref",
+        "parent_snapshot_sha256",
+        "registry_sha256",
+        "registry_snapshot_ref",
+        "registry_version",
+        "rollback_manifest_ref",
+        "rollback_manifest_sha256",
+        "sequence"
+      ],
+      "properties": {
+        "parent_snapshot_ref": { "$ref": "#/$defs/reference" },
+        "parent_snapshot_sha256": { "$ref": "#/$defs/sha256" },
+        "registry_sha256": { "$ref": "#/$defs/sha256" },
+        "registry_snapshot_ref": { "$ref": "#/$defs/reference" },
+        "registry_version": { "$ref": "#/$defs/version" },
+        "rollback_manifest_ref": { "$ref": "#/$defs/reference" },
+        "rollback_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+      }
+    },
+    "eventCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_ref",
+        "event_sequence",
+        "event_sha256",
+        "verification_passed",
+        "verification_ref",
+        "verification_sha256",
+        "verified_at"
+      ],
+      "properties": {
+        "event_ref": { "$ref": "#/$defs/reference" },
+        "event_sequence": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+        "event_sha256": { "$ref": "#/$defs/sha256" },
+        "verification_passed": { "type": "boolean" },
+        "verification_ref": { "$ref": "#/$defs/reference" },
+        "verification_sha256": { "$ref": "#/$defs/sha256" },
+        "verified_at": { "$ref": "#/$defs/timestamp" }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detected_at",
+        "expected_ref",
+        "expected_sha256",
+        "gap_id",
+        "gap_sha256",
+        "kind",
+        "observed_ref",
+        "observed_sha256",
+        "reason",
+        "schema_version",
+        "subject",
+        "type"
+      ],
+      "properties": {
+        "detected_at": { "$ref": "#/$defs/timestamp" },
+        "expected_ref": { "$ref": "#/$defs/reference" },
+        "expected_sha256": { "$ref": "#/$defs/sha256" },
+        "gap_id": { "type": "string", "pattern": "^DRG-[0-9A-F]{32}$" },
+        "gap_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "enum": ["missing", "digest_mismatch", "custody_break", "unavailable"] },
+        "observed_ref": { "oneOf": [{ "$ref": "#/$defs/reference" }, { "type": "null" }] },
+        "observed_sha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "reason": { "type": "string", "minLength": 3, "maxLength": 500 },
+        "schema_version": { "const": 1 },
+        "subject": { "enum": ["artifact", "event", "evidence", "key", "registry"] },
+        "type": { "const": "sunderkey.disaster-recovery-gap.v1" }
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "created_at", "effects", "kind", "max_backup_age_seconds", "max_rpo_seconds",
+        "max_rto_seconds", "objective_id", "objective_sha256", "objective_version",
+        "required_artifact_refs", "required_event_refs", "required_evidence_refs",
+        "reviewer_ref", "reviewer_signature_ref", "reviewer_signature_sha256",
+        "schema_version", "system_ref", "system_version", "tenant_ref"
+      ],
+      "properties": {
+        "created_at": { "$ref": "#/$defs/timestamp" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "kind": { "const": "sunderkey.disaster-recovery-objective.v1" },
+        "max_backup_age_seconds": { "type": "integer", "minimum": 1 },
+        "max_rpo_seconds": { "type": "integer", "minimum": 1 },
+        "max_rto_seconds": { "type": "integer", "minimum": 1 },
+        "objective_id": { "type": "string", "pattern": "^DRO-[0-9A-F]{32}$" },
+        "objective_sha256": { "$ref": "#/$defs/sha256" },
+        "objective_version": { "$ref": "#/$defs/version" },
+        "required_artifact_refs": { "$ref": "#/$defs/referenceArray" },
+        "required_event_refs": { "$ref": "#/$defs/referenceArray" },
+        "required_evidence_refs": { "$ref": "#/$defs/referenceArray" },
+        "reviewer_ref": { "$ref": "#/$defs/reference" },
+        "reviewer_signature_ref": { "$ref": "#/$defs/reference" },
+        "reviewer_signature_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "system_ref": { "$ref": "#/$defs/reference" },
+        "system_version": { "$ref": "#/$defs/version" },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "referenceArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/reference" }
+    },
+    "objectArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/custodiedObject" }
+    },
+    "backupManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifacts", "backup_ref", "backup_version", "created_at", "effects",
+        "event_checkpoint", "evidence", "key_snapshot", "kind", "manifest_id",
+        "manifest_sha256", "registry_snapshot", "schema_version", "system_ref",
+        "system_version", "tenant_ref", "verification_passed", "verification_ref",
+        "verification_sha256", "verification_signature_ref",
+        "verification_signature_sha256", "verified_at", "verifier_ref"
+      ],
+      "properties": {
+        "artifacts": { "$ref": "#/$defs/objectArray" },
+        "backup_ref": { "$ref": "#/$defs/reference" },
+        "backup_version": { "$ref": "#/$defs/version" },
+        "created_at": { "$ref": "#/$defs/timestamp" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "event_checkpoint": { "$ref": "#/$defs/eventCheckpoint" },
+        "evidence": { "$ref": "#/$defs/objectArray" },
+        "key_snapshot": { "$ref": "#/$defs/keySnapshot" },
+        "kind": { "const": "sunderkey.disaster-recovery-backup-manifest.v1" },
+        "manifest_id": { "type": "string", "pattern": "^DRB-[0-9A-F]{32}$" },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "registry_snapshot": { "$ref": "#/$defs/registrySnapshot" },
+        "schema_version": { "const": 1 },
+        "system_ref": { "$ref": "#/$defs/reference" },
+        "system_version": { "$ref": "#/$defs/version" },
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "verification_passed": { "type": "boolean" },
+        "verification_ref": { "$ref": "#/$defs/reference" },
+        "verification_sha256": { "$ref": "#/$defs/sha256" },
+        "verification_signature_ref": { "$ref": "#/$defs/reference" },
+        "verification_signature_sha256": { "$ref": "#/$defs/sha256" },
+        "verified_at": { "$ref": "#/$defs/timestamp" },
+        "verifier_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "rehearsalPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backup_manifest_id", "backup_manifest_sha256", "backup_ref", "backup_version",
+        "effects", "executor_ref", "key_snapshot", "kind", "objective_id",
+        "objective_sha256", "plan_id", "plan_sha256", "planned_at", "rehearsal_version",
+        "registry_snapshot", "required_artifact_refs", "required_event_refs",
+        "required_evidence_refs", "restore_point_at", "reviewer_ref", "schema_version",
+        "simulated_failure_at", "system_ref", "system_version", "tenant_ref"
+      ],
+      "properties": {
+        "backup_manifest_id": { "type": "string", "pattern": "^DRB-[0-9A-F]{32}$" },
+        "backup_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "backup_ref": { "$ref": "#/$defs/reference" },
+        "backup_version": { "$ref": "#/$defs/version" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "executor_ref": { "$ref": "#/$defs/reference" },
+        "key_snapshot": { "$ref": "#/$defs/keySnapshot" },
+        "kind": { "const": "sunderkey.disaster-recovery-rehearsal-plan.v1" },
+        "objective_id": { "type": "string", "pattern": "^DRO-[0-9A-F]{32}$" },
+        "objective_sha256": { "$ref": "#/$defs/sha256" },
+        "plan_id": { "type": "string", "pattern": "^DRP-[0-9A-F]{32}$" },
+        "plan_sha256": { "$ref": "#/$defs/sha256" },
+        "planned_at": { "$ref": "#/$defs/timestamp" },
+        "rehearsal_version": { "$ref": "#/$defs/version" },
+        "registry_snapshot": { "$ref": "#/$defs/registrySnapshot" },
+        "required_artifact_refs": { "$ref": "#/$defs/referenceArray" },
+        "required_event_refs": { "$ref": "#/$defs/referenceArray" },
+        "required_evidence_refs": { "$ref": "#/$defs/referenceArray" },
+        "restore_point_at": { "$ref": "#/$defs/timestamp" },
+        "reviewer_ref": { "$ref": "#/$defs/reference" },
+        "schema_version": { "const": 1 },
+        "simulated_failure_at": { "$ref": "#/$defs/timestamp" },
+        "system_ref": { "$ref": "#/$defs/reference" },
+        "system_version": { "$ref": "#/$defs/version" },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "observedResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifacts", "backup_ref", "backup_version", "completed_at", "effects",
+        "event_checkpoint", "evidence", "gaps", "key_snapshot", "kind",
+        "observation_ref", "observation_sha256", "observation_signature_ref",
+        "observation_signature_sha256", "observation_signed", "observer_ref",
+        "plan_id", "plan_sha256", "registry_snapshot", "restoration_claimed",
+        "restore_point_at", "result_id", "result_sha256", "result_version",
+        "schema_version", "started_at", "system_ref", "system_version", "tenant_ref"
+      ],
+      "properties": {
+        "artifacts": { "$ref": "#/$defs/objectArray" },
+        "backup_ref": { "$ref": "#/$defs/reference" },
+        "backup_version": { "$ref": "#/$defs/version" },
+        "completed_at": { "$ref": "#/$defs/timestamp" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "event_checkpoint": { "$ref": "#/$defs/eventCheckpoint" },
+        "evidence": { "$ref": "#/$defs/objectArray" },
+        "gaps": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/$defs/gap" } },
+        "key_snapshot": { "$ref": "#/$defs/keySnapshot" },
+        "kind": { "const": "sunderkey.disaster-recovery-observed-result.v1" },
+        "observation_ref": { "$ref": "#/$defs/reference" },
+        "observation_sha256": { "$ref": "#/$defs/sha256" },
+        "observation_signature_ref": { "$ref": "#/$defs/reference" },
+        "observation_signature_sha256": { "$ref": "#/$defs/sha256" },
+        "observation_signed": { "type": "boolean" },
+        "observer_ref": { "$ref": "#/$defs/reference" },
+        "plan_id": { "type": "string", "pattern": "^DRP-[0-9A-F]{32}$" },
+        "plan_sha256": { "$ref": "#/$defs/sha256" },
+        "registry_snapshot": { "$ref": "#/$defs/registrySnapshot" },
+        "restoration_claimed": { "type": "boolean" },
+        "restore_point_at": { "$ref": "#/$defs/timestamp" },
+        "result_id": { "type": "string", "pattern": "^DRR-[0-9A-F]{32}$" },
+        "result_sha256": { "$ref": "#/$defs/sha256" },
+        "result_version": { "$ref": "#/$defs/version" },
+        "schema_version": { "const": 1 },
+        "started_at": { "$ref": "#/$defs/timestamp" },
+        "system_ref": { "$ref": "#/$defs/reference" },
+        "system_version": { "$ref": "#/$defs/version" },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "readinessAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_continuity_passed", "assessed_at", "assessment_id",
+        "assessment_sha256", "backup_age_seconds", "backup_manifest_id",
+        "backup_manifest_sha256", "effects", "event_continuity_passed",
+        "evidence_continuity_passed", "gap_ids", "key_binding_passed", "kind",
+        "objective_id", "objective_sha256", "observed_rpo_seconds",
+        "observed_rto_seconds", "plan_id", "plan_sha256", "reasons",
+        "registry_lineage_passed", "result_id", "result_sha256", "reviewer_ref",
+        "reviewer_signature_ref", "reviewer_signature_sha256", "schema_version",
+        "status", "system_ref", "system_version", "tenant_ref"
+      ],
+      "properties": {
+        "artifact_continuity_passed": { "type": "boolean" },
+        "assessed_at": { "$ref": "#/$defs/timestamp" },
+        "assessment_id": { "type": "string", "pattern": "^DRA-[0-9A-F]{32}$" },
+        "assessment_sha256": { "$ref": "#/$defs/sha256" },
+        "backup_age_seconds": { "type": "integer", "minimum": 0 },
+        "backup_manifest_id": { "type": "string", "pattern": "^DRB-[0-9A-F]{32}$" },
+        "backup_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "event_continuity_passed": { "type": "boolean" },
+        "evidence_continuity_passed": { "type": "boolean" },
+        "gap_ids": {
+          "type": "array",
+          "maxItems": 4096,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^DRG-[0-9A-F]{32}$" }
+        },
+        "key_binding_passed": { "type": "boolean" },
+        "kind": { "const": "sunderkey.disaster-recovery-readiness-assessment.v1" },
+        "objective_id": { "type": "string", "pattern": "^DRO-[0-9A-F]{32}$" },
+        "objective_sha256": { "$ref": "#/$defs/sha256" },
+        "observed_rpo_seconds": { "type": "integer", "minimum": 0 },
+        "observed_rto_seconds": { "type": "integer", "minimum": 0 },
+        "plan_id": { "type": "string", "pattern": "^DRP-[0-9A-F]{32}$" },
+        "plan_sha256": { "$ref": "#/$defs/sha256" },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 2, "maxLength": 200 }
+        },
+        "registry_lineage_passed": { "type": "boolean" },
+        "result_id": { "type": "string", "pattern": "^DRR-[0-9A-F]{32}$" },
+        "result_sha256": { "$ref": "#/$defs/sha256" },
+        "reviewer_ref": { "$ref": "#/$defs/reference" },
+        "reviewer_signature_ref": { "$ref": "#/$defs/reference" },
+        "reviewer_signature_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "status": { "enum": ["not_ready", "contract_ready_unverified"] },
+        "system_ref": { "$ref": "#/$defs/reference" },
+        "system_version": { "$ref": "#/$defs/version" },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    }
+  }
+}

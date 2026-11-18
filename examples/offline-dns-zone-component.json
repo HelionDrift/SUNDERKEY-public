@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "single-declared-zone-lookup-v1",
+      "zone": {
+        "apex": "example.test.",
+        "complete": true,
+        "rrsets": [
+          {
+            "owner": "api.example.test.",
+            "rrtype": "A",
+            "rdata": [
+              "192.0.2.10"
+            ]
+          },
+          {
+            "owner": "alias.example.test.",
+            "rrtype": "CNAME",
+            "rdata": [
+              "api.example.test."
+            ]
+          },
+          {
+            "owner": "*.example.test.",
+            "rrtype": "A",
+            "rdata": [
+              "192.0.2.20"
+            ]
+          },
+          {
+            "owner": "child.example.test.",
+            "rrtype": "A",
+            "rdata": [
+              "192.0.2.99"
+            ]
+          }
+        ],
+        "ordinary_data_owners": [
+          {
+            "owner": "example.test.",
+            "rrtypes": [
+              "SOA",
+              "NS"
+            ]
+          },
+          {
+            "owner": "owned.example.test.",
+            "rrtypes": [
+              "TXT"
+            ]
+          }
+        ],
+        "delegations": [
+          {
+            "owner": "child.example.test.",
+            "nameservers": [
+              "ns.child.example.test."
+            ]
+          }
+        ]
+      },
+      "queries": [
+        {
+          "query_id": "query:alias",
+          "qname": "alias.example.test.",
+          "qtype": "A"
+        },
+        {
+          "query_id": "query:wildcard",
+          "qname": "ghost.example.test.",
+          "qtype": "A"
+        },
+        {
+          "query_id": "query:cut",
+          "qname": "child.example.test.",
+          "qtype": "A"
+        },
+        {
+          "query_id": "query:ordinary",
+          "qname": "owned.example.test.",
+          "qtype": "AAAA"
+        }
+      ]
+    }
+  }
+}

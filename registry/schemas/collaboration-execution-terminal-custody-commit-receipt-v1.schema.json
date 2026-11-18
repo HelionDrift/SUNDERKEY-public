@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-terminal-custody-commit-receipt-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Terminal Custody Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "custody_plan",
+    "committed_at",
+    "participant_commits",
+    "commit_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "custody_plan": {
+      "$ref": "collaboration-execution-terminal-custody-plan-v1.schema.json"
+    },
+    "committed_at": {"$ref": "#/$defs/timestamp"},
+    "participant_commits": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/participantCommit"}
+    },
+    "commit_status": {"const": "committed_terminal_custody"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "participantCommit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_index",
+        "role",
+        "authentication_id",
+        "issuer",
+        "assertion_id",
+        "assertion_sha256",
+        "ledger_entry_sha256"
+      ],
+      "properties": {
+        "participant_index": {"type": "integer", "minimum": 0, "maximum": 3},
+        "role": {
+          "enum": [
+            "control_plane_requester",
+            "source_worker",
+            "target_worker",
+            "independent_control"
+          ]
+        },
+        "authentication_id": {
+          "type": "string",
+          "pattern": "^(ERA|EAA|ETA)-[0-9A-F]{32}$"
+        },
+        "issuer": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+        },
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "ledger_entry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

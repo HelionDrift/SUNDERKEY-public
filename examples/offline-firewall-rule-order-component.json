@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S05",
+  "component_id": "network_supplied_firewall_rule_order",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:firewall-source",
+      "policy_id": "synthetic:policy-one",
+      "policy_complete": true,
+      "order_complete": true,
+      "match_semantics_complete": true,
+      "default_action": "deny",
+      "rules": [
+        {
+          "rule_id": "synthetic:deny-admin",
+          "ingress_zone_id": "synthetic:guest",
+          "egress_zone_id": "synthetic:service",
+          "protocol": "tcp",
+          "destination_port_min": 8443,
+          "destination_port_max": 8443,
+          "action": "deny"
+        },
+        {
+          "rule_id": "synthetic:allow-web",
+          "ingress_zone_id": "synthetic:guest",
+          "egress_zone_id": "synthetic:service",
+          "protocol": "tcp",
+          "destination_port_min": 8000,
+          "destination_port_max": 9000,
+          "action": "allow"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "synthetic:admin",
+          "ingress_zone_id": "synthetic:guest",
+          "egress_zone_id": "synthetic:service",
+          "protocol": "tcp",
+          "destination_port": 8443
+        },
+        {
+          "query_id": "synthetic:web",
+          "ingress_zone_id": "synthetic:guest",
+          "egress_zone_id": "synthetic:service",
+          "protocol": "tcp",
+          "destination_port": 8080
+        },
+        {
+          "query_id": "synthetic:other",
+          "ingress_zone_id": "synthetic:guest",
+          "egress_zone_id": "synthetic:service",
+          "protocol": "udp",
+          "destination_port": 8080
+        }
+      ]
+    }
+  }
+}

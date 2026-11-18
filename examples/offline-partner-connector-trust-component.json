@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S16",
+  "component_id": "api_supplied_partner_connector_trust_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "connectors": [
+        {
+          "connector_id": "b2b-orders",
+          "connector_kind": "b2b_exchange",
+          "partner_id": "partner-a",
+          "bound_identity": "connector-orders",
+          "allowed_scopes": ["orders.read"],
+          "allowed_data_classes": ["internal"],
+          "enabled": true,
+          "policy_complete": true
+        }
+      ],
+      "transfers": [
+        {
+          "transfer_id": "allowed-contradiction",
+          "connector_id": "b2b-orders",
+          "direction": "outbound",
+          "presented_identity": "connector-orders",
+          "destination_partner_id": "partner-b",
+          "required_scope": "orders.read",
+          "data_class": "internal",
+          "context_complete": true,
+          "observed_outcome": "allowed",
+          "observation_complete": true
+        },
+        {
+          "transfer_id": "exact-match",
+          "connector_id": "b2b-orders",
+          "direction": "outbound",
+          "presented_identity": "connector-orders",
+          "destination_partner_id": "partner-a",
+          "required_scope": "orders.read",
+          "data_class": "internal",
+          "context_complete": true,
+          "observed_outcome": "allowed",
+          "observation_complete": true
+        },
+        {
+          "transfer_id": "unknown-context",
+          "connector_id": "b2b-orders",
+          "direction": "outbound",
+          "presented_identity": "unknown",
+          "destination_partner_id": "partner-a",
+          "required_scope": "orders.read",
+          "data_class": "internal",
+          "context_complete": false,
+          "observed_outcome": "unknown",
+          "observation_complete": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-rpc-observations",
+      "context_complete": true,
+      "observations": [
+        {"observation_id": "observation-one", "chain_id": "chain-a", "block_ref": "finalized-height-10", "block_finalized": true, "method_id": "read-state", "params_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "result_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222", "endpoint_id": "node-a"},
+        {"observation_id": "observation-two", "chain_id": "chain-a", "block_ref": "finalized-height-10", "block_finalized": true, "method_id": "read-state", "params_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "result_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333", "endpoint_id": "node-b"}
+      ]
+    }
+  }
+}

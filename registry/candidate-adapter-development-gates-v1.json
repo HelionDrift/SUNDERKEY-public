@@ -1,0 +1,570 @@
+{
+  "adapter_catalog_sha256": "sha256:74c86f463e81ecffaf39784f28deabe37079e03f1e45557d139a2fd474ab4e5a",
+  "candidate_summaries": [
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GA-D01-S01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GB-D06-S09"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GA-D03-S14"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GC-D14-S01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GC-D11-S08"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blocked_gate_count": 1,
+      "passed_gate_count": 5,
+      "phase158_admission": "blocked",
+      "profile_id": "AOE-GD-D19-S01"
+    }
+  ],
+  "catalog_id": "sunderkey-candidate-development-gates-v1",
+  "catalog_sha256": "sha256:7d846df6165cd52594268a789acc609717c8d4c0785046019ce14feda6f6e6c4",
+  "catalog_version": "0.1.0",
+  "coverage_summary": {
+    "blocked_gate_count": 6,
+    "candidate_count": 6,
+    "gate_record_count": 36,
+    "passed_reference_gate_count": 30,
+    "phase158_ready_candidate_count": 0
+  },
+  "deployment_effect": "none",
+  "gate_records": [
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:c239c27855e1015dea8db0abbd04404555655c6b15211bf6511cf07aed1f7c38",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:31c7bea5de6f2c78efaa413ce2839bcbae28e29dda8adddceb87899b5e5c1475",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:fa3bf122ac63cd10e7277cf6829df191ae2c06e230797a70d59c43f566b2873d",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:b62706e812c3350e94f5941294b2ce0f9606af4dfc7cee22860a7f7dfbd93a6a",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:eb0dfa2fca3c4e37dd918f19bc5f926f2b89057c07f5f94717ef6fb7299fbc31",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:3a015bf35b705b26145e0f9ddc11448238622cb0666e7a6074569d5790016ff2",
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "profile_id": "AOE-GA-D01-S01",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:5660a0df1e9949d5746e0540a078cd9ab88d6489e49d78f751febcc5b0c8bfbc",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:58ce848339da9f7fb2235df0fd9442e194bb1080f1bed88c29582758377a6d96",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:83ee7124d502c729df198ff018cf632bedca4ca2b2ac6c341e84ed7e06a57893",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:9a9bddd5ec58fb672bd791f780037f2e5c9d57f4589c8245829273d876222190",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:0b7aff80c2307f178f35d11d897efcf805787524523513dbe5cd7de154942bd3",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:967a64bfe54b3ce17cff10e2a6efaee7bb6ade17e3be849b2927c47d03dfc5bf",
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "profile_id": "AOE-GB-D06-S09",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:e6ef07075a17fb644867ac02b72d271ea42adc8e9d105e62f1e0d372f7e8d1a5",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:a052c549adde763ec21b853824a3d7c3b32fa720414448a3dbab9b8b09eec94e",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:a38cfacd77dd3a00cd91bb5f837173d7703739358db2ef9e543ce8cbf3030262",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:9fe89d67164178f77131f2c716aa7b8614ffd5f35f040c85143c365459e75577",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:81623a7a482f317d242484e3c2a95636d5cc664e90c981628bf5619165ab1997",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:1aa0d848c47775dbe5eef6081b84d07abc10afe5a22b077fa5351f58813eb92c",
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "profile_id": "AOE-GA-D03-S14",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:e18b4b09be67391e6238bcc00deb1e2b01b9410eab1a1d48f00c3362eb6306fe",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:91af86d3ca979a4292abb8d1bf60c0821d8e776fbf79cc2e276f74784eac0302",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:6599aeb415ae1d9daab232ad726d6ee46c31e4dd4db0059639c91df05108abf3",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:083bfd417409b7c64d95a0574494acf1561272fad381bc1d48f5599576f882b1",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:cecc7787b096fe95f774115ec63e138879fa9c2c921ea6df81ee026394c5f49c",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:fe9937f720e8b9513dd7d157bcfab1f26a83827706b443e6365616c8ca2dbfd6",
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "profile_id": "AOE-GC-D14-S01",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:e62ab86341a338a7650c2841db9cdbd822ae6df205116185076cd275ee6f33bb",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:ba7fc70a5a41df33aa31ac64af4aa994241483c37e6e6f2d6f84ed512cb818c2",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:bf313dbbbe21b82855802041d7e1636054d1dc556c9a44caf70e1d069d67caa8",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:27f25d71eb5f3d1a603eb39503d94bfcd510111c1b00a3da96d114fe1859ab83",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:9a797185eb7b5e36d5107719754b728afef4a23f16bbc7c0e7f59cb20ecfb83c",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:710bc80676da9192e06369d97ba51b5a3f39e94316a7755a8d950484567118f6",
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "profile_id": "AOE-GC-D11-S08",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:17cd7fece8254a4f68c992308d4fd7453a85f31f863b4dcbff11e967efd9e666",
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3"
+      ],
+      "gate_sha256": "sha256:17bc564557d5eb28317b268e9dad3364f4a53e2248543a4a428209c71d58dac6",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "static_analysis",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:9756cf99aa774e55c9b3d9006a69e60ebdcad1f03214daebd45a539d0f86b1d1",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "unit",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:e96f39a2ef2649af1e1b57d06ebf46fac70f95700761027d27f20307023a6cac",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "integration",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [
+        "external_backend_not_installed",
+        "backend_conformance_receipt_missing"
+      ],
+      "evidence_sha256": [
+        "sha256:72859abf1e396b5a8ab9e971545ea1d1ce12e069e367a87589f13e343047fbc3",
+        "sha256:2c410be4e0ceaf5b1846360da1bc00569da569dc31b3a610083415d536a85c0e"
+      ],
+      "gate_sha256": "sha256:2536829e05fb132a4d46968849c27fb0fff55fce14d22ea6f30ac8bc910c93fe",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "containment",
+      "status": "blocked_pending_backend_conformance"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:075c65fc10a2eb96968049832501fae6e4300b5d1e119d770a6db554b3ded05d",
+        "sha256:9fc9893ea394e48a10b8fa295fdf91b565a56b22a13ddaabf1595390126df076"
+      ],
+      "gate_sha256": "sha256:372309a805539b06517ed47cfa930e3ad7144e878b0d72f39970c201fccfea84",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "evidence",
+      "status": "passed_reference_nonqualifying"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "blockers": [],
+      "evidence_sha256": [
+        "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18",
+        "sha256:95b10b0138cb3fc105798caa4fb292e1ab52eb0f7edc789abca0d970239a99d7"
+      ],
+      "gate_sha256": "sha256:06a025f1424d1e8dc3428198b856a446a0ede698a89f963000bd7683535ac12e",
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "profile_id": "AOE-GD-D19-S01",
+      "stage": "restoration",
+      "status": "passed_reference_nonqualifying"
+    }
+  ],
+  "limitations": [
+    "Reference gate passes are development evidence, not qualification decisions.",
+    "Containment remains blocked until a concrete backend passes conformance.",
+    "No gate record grants mission, target, routing, or deployment authority.",
+    "The remaining 385 specialist candidates are outside this reference slice."
+  ],
+  "phase158_admission_status": "blocked",
+  "qualification_effect": "none",
+  "required_stages": [
+    "static_analysis",
+    "unit",
+    "integration",
+    "containment",
+    "evidence",
+    "restoration"
+  ],
+  "routing_effect": "none",
+  "schema_version": 1
+}

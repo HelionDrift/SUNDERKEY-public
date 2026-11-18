@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D25-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-vehicle-diagnostic-policy",
+      "inventory_complete": true,
+      "policy": {
+        "allowed_actor_roles": ["maintenance"],
+        "allowed_session_labels": ["inspection"],
+        "allowed_target_ids": ["simulated-module-a"],
+        "allowed_service_classes": ["observation"],
+        "required_controls": ["approved_scope", "supervised"]
+      },
+      "declarations": [{
+        "declaration_id": "synthetic-declaration-a",
+        "actor_role": "maintenance",
+        "session_label": "inspection",
+        "target_id": "simulated-module-a",
+        "service_class": "observation",
+        "context_tags": ["can", "uds"],
+        "controls": ["approved_scope"],
+        "expected_policy_match": true
+      }]
+    }
+  }
+}

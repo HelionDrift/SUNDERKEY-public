@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S07",
+  "component_id": "kubernetes_supplied_service_endpoint_consistency",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "service": {
+        "namespace": "demo", "name": "api", "uid": "service-api-uid", "type": "ClusterIP",
+        "cluster_ip": "10.96.0.10", "ip_family": "IPv4", "selector": {"app": "api"},
+        "ports": [{"name": "http", "protocol": "TCP", "port": 80, "target_port": "web"}],
+        "publish_not_ready_addresses": false
+      },
+      "pods": [
+        {"namespace": "demo", "name": "api-a", "uid": "uid-demo-api-a", "labels": {"app": "api"}, "phase": "Running", "terminating": false, "ip": "10.0.0.1", "ready": true, "container_ports": [{"name": "web", "protocol": "TCP", "port": 8080}]},
+        {"namespace": "demo", "name": "api-b", "uid": "uid-demo-api-b", "labels": {"app": "api"}, "phase": "Running", "terminating": false, "ip": "10.0.0.2", "ready": false, "container_ports": [{"name": "web", "protocol": "TCP", "port": 9090}]},
+        {"namespace": "other", "name": "api-c", "uid": "uid-other-api-c", "labels": {"app": "api"}, "phase": "Running", "terminating": false, "ip": "10.0.0.3", "ready": true, "container_ports": [{"name": "web", "protocol": "TCP", "port": 8080}]}
+      ],
+      "endpoint_slices": [
+        {
+          "namespace": "demo", "name": "slice-a", "uid": "uid-slice-a", "address_type": "IPv4",
+          "service_name": "api", "managed_by": "endpointslice-controller.k8s.io",
+          "owner": {"api_version": "v1", "kind": "Service", "name": "api", "uid": "service-api-uid", "controller": true},
+          "ports": [{"name": "http", "protocol": "TCP", "port": 8080}],
+          "endpoints": [{"addresses": ["10.0.0.1"], "target_ref": {"kind": "Pod", "namespace": "demo", "name": "api-a", "uid": "uid-demo-api-a"}, "conditions": {"ready": true, "serving": true, "terminating": false}}]
+        },
+        {
+          "namespace": "demo", "name": "slice-b", "uid": "uid-slice-b", "address_type": "IPv4",
+          "service_name": "api", "managed_by": "endpointslice-controller.k8s.io",
+          "owner": {"api_version": "v1", "kind": "Service", "name": "api", "uid": "service-api-uid", "controller": true},
+          "ports": [{"name": "http", "protocol": "TCP", "port": 9090}],
+          "endpoints": [{"addresses": ["10.0.0.2"], "target_ref": {"kind": "Pod", "namespace": "demo", "name": "api-b", "uid": "uid-demo-api-b"}, "conditions": {"ready": false, "serving": false, "terminating": false}}]
+        }
+      ],
+      "coverage": {"pods_complete": true, "endpoint_slices_complete": true},
+      "unsupported_features": []
+    }
+  }
+}

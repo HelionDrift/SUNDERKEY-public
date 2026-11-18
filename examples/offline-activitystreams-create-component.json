@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D02-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-activitystreams-create",
+      "synthetic_fixture": true,
+      "expected_actor_id": "https://social.example.test/actors/alex",
+      "activity": {
+        "@context": "https://www.w3.org/ns/activitystreams",
+        "id": "https://social.example.test/activities/one",
+        "type": "Create",
+        "actor": "https://social.example.test/actors/alex",
+        "object": {
+          "id": "https://social.example.test/notes/one",
+          "type": "Note",
+          "attributedTo": "https://social.example.test/actors/alex"
+        }
+      }
+    }
+  }
+}

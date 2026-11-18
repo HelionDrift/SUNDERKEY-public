@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-schedules",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "policies": [{
+      "policy_id": "maintenance",
+      "allowed_source_ids": ["systemd_timer"],
+      "allowed_artifact_ids": ["approved-job"]
+    }],
+    "schedules": [{
+      "schedule_id": "task-a",
+      "policy_id": "maintenance",
+      "source_id": "cron",
+      "artifact_id": "other-job",
+      "enabled_declared": true
+    }]
+  }}
+}

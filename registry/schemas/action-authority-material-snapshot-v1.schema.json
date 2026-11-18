@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/action-authority-material-snapshot-v1.schema.json",
+  "title": "SUNDERKEY action authority material snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "material_snapshot_id", "material_snapshot_sha256", "tenant_id", "mission_id", "plan_id", "proposal_import_id", "proposal_import_sha256", "catalog", "parameters", "target", "resolver_profile_id", "resolver_subject", "context", "worker_session", "credential_lease", "health", "budget", "evidence_obligations", "stop_conditions", "restoration_duties", "resolved_at", "approved_at", "quorum_expires_at", "requested_at", "expires_at", "credential_lease_sha256", "health_observation_sha256", "executor_deployment_sha256", "monitor_observation_sha256", "observed_at", "valid_until", "effects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"const": "action_authority_material_snapshot"},
+    "material_snapshot_id": {"type": "string", "pattern": "^AAM-[0-9A-F]{32}$"},
+    "material_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "plan_id": {"$ref": "#/$defs/identifier"},
+    "proposal_import_id": {"$ref": "#/$defs/identifier"},
+    "proposal_import_sha256": {"$ref": "#/$defs/sha256"},
+    "catalog": {"$ref": "#/$defs/catalog"},
+    "parameters": {"$ref": "#/$defs/parameters"},
+    "target": {"$ref": "#/$defs/target"},
+    "resolver_profile_id": {"$ref": "#/$defs/identifier"},
+    "resolver_subject": {"$ref": "#/$defs/identifier"},
+    "context": {"$ref": "#/$defs/context"},
+    "worker_session": {"$ref": "#/$defs/worker"},
+    "credential_lease": {"$ref": "#/$defs/credential"},
+    "health": {"$ref": "#/$defs/health"},
+    "budget": {"$ref": "#/$defs/budget"},
+    "evidence_obligations": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/evidence"}},
+    "stop_conditions": {"$ref": "#/$defs/stop"},
+    "restoration_duties": {"$ref": "#/$defs/restoration"},
+    "resolved_at": {"$ref": "#/$defs/timestamp"},
+    "approved_at": {"$ref": "#/$defs/timestamp"},
+    "quorum_expires_at": {"$ref": "#/$defs/timestamp"},
+    "requested_at": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "credential_lease_sha256": {"$ref": "#/$defs/sha256"},
+    "health_observation_sha256": {"$ref": "#/$defs/sha256"},
+    "executor_deployment_sha256": {"$ref": "#/$defs/sha256"},
+    "monitor_observation_sha256": {"$ref": "#/$defs/sha256"},
+    "observed_at": {"$ref": "#/$defs/timestamp"},
+    "valid_until": {"$ref": "#/$defs/timestamp"},
+    "effects": {"$ref": "#/$defs/effects"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]{0,255}$"},
+    "version": {"type": "string", "maxLength": 128, "pattern": "^(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+\\-]{0,127}$", "not": {"enum": ["auto", "current", "default", "latest", "stable"]}},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "tier": {"type": "string", "enum": ["R0", "R1", "R2", "R3", "R4"]},
+    "effects": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorization_effect", "model_call_performed", "network_call_performed", "qualification_effect", "target_action_performed", "tool_effect"],
+      "properties": {"authorization_effect": {"const": "none"}, "model_call_performed": {"const": false}, "network_call_performed": {"const": false}, "qualification_effect": {"const": "none"}, "target_action_performed": {"const": false}, "tool_effect": {"const": "none"}}
+    },
+    "resolution_effects": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorization_effect", "dispatch_performed", "model_call_performed", "network_call_performed", "qualification_effect", "target_action_performed", "tool_effect"],
+      "properties": {"authorization_effect": {"const": "none"}, "dispatch_performed": {"const": false}, "model_call_performed": {"const": false}, "network_call_performed": {"const": false}, "qualification_effect": {"const": "none"}, "target_action_performed": {"const": false}, "tool_effect": {"const": "none"}}
+    },
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["artifact_ref", "artifact_sha256", "exact_version"],
+      "properties": {"artifact_ref": {"$ref": "#/$defs/identifier"}, "artifact_sha256": {"$ref": "#/$defs/sha256"}, "exact_version": {"$ref": "#/$defs/version"}}
+    },
+    "parameter_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "required", "value_type"],
+      "properties": {"name": {"$ref": "#/$defs/identifier"}, "required": {"type": "boolean"}, "value_type": {"enum": ["string", "identifier", "sha256", "integer", "boolean", "string_array"]}}
+    },
+    "catalog_entry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_type", "executor_supported", "maximum_action_tier", "parameter_contract", "parameter_contract_sha256", "r4_executor_supported", "supported_environments", "tool_artifact_ref", "tool_artifact_sha256", "tool_exact_version"],
+      "properties": {
+        "action_type": {"$ref": "#/$defs/identifier"}, "executor_supported": {"type": "boolean"}, "maximum_action_tier": {"$ref": "#/$defs/tier"},
+        "parameter_contract": {"type": "array", "maxItems": 128, "uniqueItems": true, "items": {"$ref": "#/$defs/parameter_contract"}},
+        "parameter_contract_sha256": {"$ref": "#/$defs/sha256"}, "r4_executor_supported": {"type": "boolean"},
+        "supported_environments": {"type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["sandbox", "replica", "live"]}},
+        "tool_artifact_ref": {"$ref": "#/$defs/identifier"}, "tool_artifact_sha256": {"$ref": "#/$defs/sha256"}, "tool_exact_version": {"$ref": "#/$defs/version"}
+      }
+    },
+    "catalog": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "kind", "effects", "catalog_id", "catalog_sha256", "catalog_name", "catalog_version", "registry_sha256", "entries"],
+      "properties": {
+        "schema_version": {"const": 1}, "kind": {"const": "executable_action_catalog"}, "effects": {"$ref": "#/$defs/resolution_effects"},
+        "catalog_id": {"$ref": "#/$defs/identifier"}, "catalog_sha256": {"$ref": "#/$defs/sha256"}, "catalog_name": {"$ref": "#/$defs/identifier"}, "catalog_version": {"$ref": "#/$defs/version"}, "registry_sha256": {"$ref": "#/$defs/sha256"},
+        "entries": {"type": "array", "minItems": 1, "maxItems": 4096, "uniqueItems": true, "items": {"$ref": "#/$defs/catalog_entry"}}
+      }
+    },
+    "parameter_value": {
+      "oneOf": [
+        {"type": "boolean"},
+        {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+        {"type": "string", "minLength": 1, "maxLength": 16384, "pattern": "^[\\x20-\\x7E]*$"},
+        {"type": "array", "maxItems": 128, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 16384, "pattern": "^[\\x20-\\x7E]*$"}}
+      ]
+    },
+    "parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "kind", "effects", "parameter_set_id", "parameter_set_sha256", "catalog_id", "catalog_sha256", "catalog_version", "action_type", "parameter_contract_sha256", "parameters"],
+      "properties": {
+        "schema_version": {"const": 1}, "kind": {"const": "action_parameter_set"}, "effects": {"$ref": "#/$defs/resolution_effects"},
+        "parameter_set_id": {"$ref": "#/$defs/identifier"}, "parameter_set_sha256": {"$ref": "#/$defs/sha256"}, "catalog_id": {"$ref": "#/$defs/identifier"}, "catalog_sha256": {"$ref": "#/$defs/sha256"}, "catalog_version": {"$ref": "#/$defs/version"}, "action_type": {"$ref": "#/$defs/identifier"}, "parameter_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "parameters": {"type": "object", "maxProperties": 128, "propertyNames": {"$ref": "#/$defs/identifier"}, "additionalProperties": {"$ref": "#/$defs/parameter_value"}}
+      }
+    },
+    "target": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "kind", "effects", "descriptor_id", "descriptor_sha256", "tenant_id", "mission_id", "target_scope_sha256", "authority_snapshot_sha256", "target_id", "target_sha256", "environment"],
+      "properties": {
+        "schema_version": {"const": 1}, "kind": {"const": "target_action_descriptor"}, "effects": {"$ref": "#/$defs/resolution_effects"}, "descriptor_id": {"$ref": "#/$defs/identifier"}, "descriptor_sha256": {"$ref": "#/$defs/sha256"}, "tenant_id": {"$ref": "#/$defs/identifier"}, "mission_id": {"$ref": "#/$defs/identifier"}, "target_scope_sha256": {"$ref": "#/$defs/sha256"}, "authority_snapshot_sha256": {"$ref": "#/$defs/sha256"}, "target_id": {"$ref": "#/$defs/identifier"}, "target_sha256": {"$ref": "#/$defs/sha256"}, "environment": {"enum": ["sandbox", "replica", "live"]}
+      }
+    },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mission_id", "policy", "scope_id", "scope_sha256", "tenant_id"],
+      "properties": {"mission_id": {"$ref": "#/$defs/identifier"}, "policy": {"$ref": "#/$defs/artifact"}, "scope_id": {"$ref": "#/$defs/identifier"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "tenant_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "worker": {
+      "type": "object", "additionalProperties": false,
+      "required": ["expires_at", "fence_token_sha256", "issued_at", "leader_epoch", "mission_id", "session_id", "tenant_id", "worker_id", "worker_profile_id"],
+      "properties": {"expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "issued_at": {"$ref": "#/$defs/timestamp"}, "leader_epoch": {"type": "integer", "minimum": 1}, "mission_id": {"$ref": "#/$defs/identifier"}, "session_id": {"$ref": "#/$defs/identifier"}, "tenant_id": {"$ref": "#/$defs/identifier"}, "worker_id": {"$ref": "#/$defs/identifier"}, "worker_profile_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "credential": {
+      "type": "object", "additionalProperties": false,
+      "required": ["credential_ref_sha256", "expires_at", "fence_token_sha256", "issued_at", "leader_epoch", "lease_id", "mission_id", "permitted_action_sha256", "revoked", "scope_sha256", "session_id", "tenant_id", "worker_id"],
+      "properties": {"credential_ref_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "issued_at": {"$ref": "#/$defs/timestamp"}, "leader_epoch": {"type": "integer", "minimum": 1}, "lease_id": {"$ref": "#/$defs/identifier"}, "mission_id": {"$ref": "#/$defs/identifier"}, "permitted_action_sha256": {"$ref": "#/$defs/sha256"}, "revoked": {"type": "boolean"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "session_id": {"$ref": "#/$defs/identifier"}, "tenant_id": {"$ref": "#/$defs/identifier"}, "worker_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "health": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_sha256", "expires_at", "fence_token_sha256", "leader_epoch", "observed_at", "session_id", "status", "worker_id"],
+      "properties": {"evidence_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "fence_token_sha256": {"$ref": "#/$defs/sha256"}, "leader_epoch": {"type": "integer", "minimum": 1}, "observed_at": {"$ref": "#/$defs/timestamp"}, "session_id": {"$ref": "#/$defs/identifier"}, "status": {"enum": ["healthy", "degraded", "unhealthy"]}, "worker_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "budget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_cost_microunits", "action_request_cost", "action_token_cost", "budget_sha256", "cost_limit_microunits", "cost_used_microunits", "mission_id", "request_limit", "requests_used", "tenant_id", "token_limit", "tokens_used"],
+      "properties": {"action_cost_microunits": {"type": "integer", "minimum": 0}, "action_request_cost": {"type": "integer", "minimum": 0}, "action_token_cost": {"type": "integer", "minimum": 0}, "budget_sha256": {"$ref": "#/$defs/sha256"}, "cost_limit_microunits": {"type": "integer", "minimum": 0}, "cost_used_microunits": {"type": "integer", "minimum": 0}, "mission_id": {"$ref": "#/$defs/identifier"}, "request_limit": {"type": "integer", "minimum": 0}, "requests_used": {"type": "integer", "minimum": 0}, "tenant_id": {"$ref": "#/$defs/identifier"}, "token_limit": {"type": "integer", "minimum": 0}, "tokens_used": {"type": "integer", "minimum": 0}}
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_sha256", "evidence_kind", "evidence_sha256", "expires_at", "issued_at", "mission_id", "producer_id", "scope_sha256", "target_sha256", "tenant_id"],
+      "properties": {"action_sha256": {"$ref": "#/$defs/sha256"}, "evidence_kind": {"enum": ["custody", "observability", "restoration_readiness", "safety_review", "scope_authority", "stop_readiness", "target_authority"]}, "evidence_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "issued_at": {"$ref": "#/$defs/timestamp"}, "mission_id": {"$ref": "#/$defs/identifier"}, "producer_id": {"$ref": "#/$defs/identifier"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "target_sha256": {"$ref": "#/$defs/sha256"}, "tenant_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "stop": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_sha256", "expires_at", "maximum_impact_events", "monitor_session_id", "monitor_worker_id", "scope_sha256", "stop_contract_sha256", "stop_deadline_at", "target_sha256"],
+      "properties": {"action_sha256": {"$ref": "#/$defs/sha256"}, "expires_at": {"$ref": "#/$defs/timestamp"}, "maximum_impact_events": {"type": "integer", "minimum": 1}, "monitor_session_id": {"$ref": "#/$defs/identifier"}, "monitor_worker_id": {"$ref": "#/$defs/identifier"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "stop_contract_sha256": {"$ref": "#/$defs/sha256"}, "stop_deadline_at": {"$ref": "#/$defs/timestamp"}, "target_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "restoration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["action_sha256", "completion_evidence_required", "owner_profile_id", "required", "restoration_plan_sha256", "scope_sha256", "target_sha256", "verifier_profile_id"],
+      "properties": {"action_sha256": {"$ref": "#/$defs/sha256"}, "completion_evidence_required": {"const": true}, "owner_profile_id": {"$ref": "#/$defs/identifier"}, "required": {"const": true}, "restoration_plan_sha256": {"$ref": "#/$defs/sha256"}, "scope_sha256": {"$ref": "#/$defs/sha256"}, "target_sha256": {"$ref": "#/$defs/sha256"}, "verifier_profile_id": {"$ref": "#/$defs/identifier"}}
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-zone-plan",
+      "topology_complete": true,
+      "assets": [
+        {"asset_id": "historian", "zone_id": "enterprise"},
+        {"asset_id": "controller", "zone_id": "control"}
+      ],
+      "conduits": [],
+      "flows": [{
+        "flow_id": "historian-to-controller",
+        "source_asset": "historian",
+        "destination_asset": "controller",
+        "service_id": "telemetry",
+        "expected_allowed": true
+      }]
+    }
+  }
+}

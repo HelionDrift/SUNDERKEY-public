@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/api-release-role-response-review-v1.schema.json",
+  "title": "Offline API release role-response review",
+  "description": "Supplied response associations only, with no authorization verdict, release approval or target effect.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "release_id", "release_artifact_sha256", "release_at", "tenant_id",
+    "context_id", "context_sha256", "scope_id", "scope_sha256", "baseline_snapshot_at",
+    "current_snapshot_at", "baseline_inventory_sha256", "current_inventory_sha256",
+    "baseline_matrix_sha256", "current_matrix_sha256", "inventory_delta_sha256",
+    "inventory_delta_gate_status", "inventory_delta_review_reasons", "new_associations",
+    "not_reobserved_associations", "reobserved_count", "review_reasons", "gate_status",
+    "effects", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "release_id": {"$ref": "#/$defs/identifier"},
+    "release_artifact_sha256": {"$ref": "#/$defs/digest"},
+    "release_at": {"$ref": "#/$defs/timestamp"},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "context_id": {"$ref": "#/$defs/identifier"},
+    "context_sha256": {"$ref": "#/$defs/digest"},
+    "scope_id": {"$ref": "#/$defs/identifier"},
+    "scope_sha256": {"$ref": "#/$defs/digest"},
+    "baseline_snapshot_at": {"$ref": "#/$defs/timestamp"},
+    "current_snapshot_at": {"$ref": "#/$defs/timestamp"},
+    "baseline_inventory_sha256": {"$ref": "#/$defs/digest"},
+    "current_inventory_sha256": {"$ref": "#/$defs/digest"},
+    "baseline_matrix_sha256": {"$ref": "#/$defs/digest"},
+    "current_matrix_sha256": {"$ref": "#/$defs/digest"},
+    "inventory_delta_sha256": {"$ref": "#/$defs/digest"},
+    "inventory_delta_gate_status": {"enum": ["review_required", "inconclusive"]},
+    "inventory_delta_review_reasons": {
+      "type": "array", "minItems": 1, "maxItems": 7, "uniqueItems": true,
+      "items": {"enum": ["new_endpoint_observed", "prior_endpoint_not_reobserved", "new_role_observed", "new_status_observed", "contract_mapping_changed", "contract_bundle_changed", "no_difference_observed_without_coverage_proof"]}
+    },
+    "new_associations": {"$ref": "#/$defs/associations"},
+    "not_reobserved_associations": {"$ref": "#/$defs/associations"},
+    "reobserved_count": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "review_reasons": {
+      "type": "array", "minItems": 1, "maxItems": 9, "uniqueItems": true,
+      "items": {"enum": ["new_endpoint_observed", "prior_endpoint_not_reobserved", "new_role_observed", "new_status_observed", "contract_mapping_changed", "contract_bundle_changed", "no_difference_observed_without_coverage_proof", "new_role_status_association_observed", "prior_role_status_association_not_reobserved"]}
+    },
+    "gate_status": {"enum": ["review_required", "inconclusive"]},
+    "effects": {"const": {
+      "authority": "none", "authorization_verdict": "none", "deployment": "none",
+      "execution": "none", "finding_publication": "none", "network": "none",
+      "qualification": "none", "release_approval": "none", "routing": "none", "scheduler": "none"
+    }},
+    "review_sha256": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "associations": {"type": "array", "maxItems": 10000, "uniqueItems": true, "items": {"$ref": "#/$defs/association"}},
+    "association": {
+      "type": "object", "additionalProperties": false,
+      "required": ["origin", "method", "path_shape", "role_ref", "status_code"],
+      "properties": {
+        "origin": {"type": "string", "pattern": "^https://[^/?#:@]+$"},
+        "method": {"enum": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]},
+        "path_shape": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^/"},
+        "role_ref": {"type": "string", "pattern": "^(anonymous|role:[A-Za-z0-9._:/-]*)$", "maxLength": 128},
+        "status_code": {"type": "integer", "minimum": 100, "maximum": 599}
+      }
+    }
+  }
+}

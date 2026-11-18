@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/qualification-observation-set.schema.json",
+  "title": "SUNDERKEY Qualification Observation Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_set_id",
+    "observation_set_version",
+    "advisory_only",
+    "suite_id",
+    "suite_version",
+    "suite_sha256",
+    "profile_id",
+    "candidate",
+    "observations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "observation_set_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "observation_set_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "advisory_only": {
+      "const": true
+    },
+    "suite_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "suite_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "suite_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "candidate": {
+      "$ref": "#/$defs/candidate"
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/observation"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "candidate_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "candidate_version": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "candidate_artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "outcome",
+        "critical_failure",
+        "result_sha256",
+        "evidence_manifest_sha256"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "pattern": "^QCASE-[A-Z0-9-]{8,96}$"
+        },
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "critical_failure": {
+          "type": "boolean"
+        },
+        "result_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "evidence_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

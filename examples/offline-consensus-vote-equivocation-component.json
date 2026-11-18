@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-validator-votes",
+      "context_complete": true,
+      "votes": [
+        {"vote_id": "vote-one", "validator_id": "validator-a", "chain_id": "chain-a", "height": 10, "round": 0, "step_id": "commit", "block_id": "block-one"},
+        {"vote_id": "vote-two", "validator_id": "validator-a", "chain_id": "chain-a", "height": 10, "round": 0, "step_id": "commit", "block_id": "block-two"}
+      ]
+    }
+  }
+}

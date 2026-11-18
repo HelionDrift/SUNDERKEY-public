@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-boundary-map",
+      "inventory_complete": true,
+      "nodes": [
+        {"node_id": "workload-a", "boundary_label": "workload"},
+        {"node_id": "container-a", "boundary_label": "container_boundary"},
+        {"node_id": "sandbox-a", "boundary_label": "sandbox_boundary"},
+        {"node_id": "platform-a", "boundary_label": "target_platform"}
+      ],
+      "edges": [
+        {
+          "edge_id": "boundary-one", "from_id": "workload-a", "to_id": "container-a",
+          "exposure_state": "declared_present", "prerequisite_state": "declared_met",
+          "containment_state": "declared_ineffective"
+        },
+        {
+          "edge_id": "boundary-two", "from_id": "container-a", "to_id": "sandbox-a",
+          "exposure_state": "declared_present", "prerequisite_state": "declared_met",
+          "containment_state": "declared_effective"
+        },
+        {
+          "edge_id": "boundary-three", "from_id": "sandbox-a", "to_id": "platform-a",
+          "exposure_state": "declared_present", "prerequisite_state": "declared_met",
+          "containment_state": "declared_ineffective"
+        }
+      ],
+      "paths": [
+        {
+          "path_id": "declared-platform-path", "entry_id": "workload-a",
+          "destination_id": "platform-a",
+          "edge_ids": ["boundary-one", "boundary-two", "boundary-three"],
+          "context_complete": true, "claimed_reaches_platform": true
+        }
+      ]
+    }
+  }
+}

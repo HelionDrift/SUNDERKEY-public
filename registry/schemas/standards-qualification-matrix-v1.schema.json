@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/standards-qualification-matrix-v1.schema.json",
+  "title": "SUNDERKEY Standards Qualification Matrix v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "matrix_id",
+    "matrix_sha256",
+    "release_id",
+    "as_of_date",
+    "max_review_age_days",
+    "pins",
+    "mappings",
+    "expected",
+    "coverage_metrics",
+    "gaps",
+    "effects"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "matrix_id": { "type": "string", "pattern": "^SQM-[0-9A-F]{32}$" },
+    "matrix_sha256": { "$ref": "#/$defs/sha256" },
+    "release_id": { "$ref": "#/$defs/identifier" },
+    "as_of_date": { "$ref": "#/$defs/date" },
+    "max_review_age_days": { "type": "integer", "minimum": 1, "maximum": 3650 },
+    "pins": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/pin" }
+    },
+    "mappings": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/mapping" }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["standard_ids", "technique_ids", "specialist_profile_ids"],
+      "properties": {
+        "standard_ids": { "$ref": "#/$defs/identifier_array" },
+        "technique_ids": { "$ref": "#/$defs/identifier_array" },
+        "specialist_profile_ids": { "$ref": "#/$defs/identifier_array" }
+      }
+    },
+    "coverage_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_standard_count",
+        "pinned_standard_count",
+        "fresh_standard_count",
+        "expected_technique_count",
+        "complete_technique_count",
+        "partial_technique_count",
+        "gap_technique_count",
+        "expected_specialist_count",
+        "covered_specialist_count",
+        "technique_coverage_basis_points"
+      ],
+      "properties": {
+        "expected_standard_count": { "$ref": "#/$defs/count" },
+        "pinned_standard_count": { "$ref": "#/$defs/count" },
+        "fresh_standard_count": { "$ref": "#/$defs/count" },
+        "expected_technique_count": { "$ref": "#/$defs/count" },
+        "complete_technique_count": { "$ref": "#/$defs/count" },
+        "partial_technique_count": { "$ref": "#/$defs/count" },
+        "gap_technique_count": { "$ref": "#/$defs/count" },
+        "expected_specialist_count": { "$ref": "#/$defs/count" },
+        "covered_specialist_count": { "$ref": "#/$defs/count" },
+        "technique_coverage_basis_points": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "maxItems": 8192,
+      "items": { "$ref": "#/$defs/gap" }
+    },
+    "effects": { "$ref": "#/$defs/effects" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "count": { "type": "integer", "minimum": 0 },
+    "identifier_array": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pin_id",
+        "pin_sha256",
+        "standard_id",
+        "release_id",
+        "publication_date",
+        "reviewed_on",
+        "artifact_sha256"
+      ],
+      "properties": {
+        "pin_id": { "type": "string", "pattern": "^SRP-[0-9A-F]{32}$" },
+        "pin_sha256": { "$ref": "#/$defs/sha256" },
+        "standard_id": { "$ref": "#/$defs/identifier" },
+        "release_id": { "$ref": "#/$defs/identifier" },
+        "publication_date": { "$ref": "#/$defs/date" },
+        "reviewed_on": { "$ref": "#/$defs/date" },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "standard_control_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["standard_id", "control_ids"],
+      "properties": {
+        "standard_id": { "$ref": "#/$defs/identifier" },
+        "control_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "prerequisite_ids",
+        "safe_proof_ids",
+        "negative_control_ids",
+        "restoration_ids",
+        "evidence_requirement_ids",
+        "validator_ids"
+      ],
+      "properties": {
+        "scenario_id": { "$ref": "#/$defs/identifier" },
+        "prerequisite_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "safe_proof_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "negative_control_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "restoration_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "evidence_requirement_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "validator_ids": { "$ref": "#/$defs/nonempty_identifier_array" }
+      }
+    },
+    "nonempty_identifier_array": {
+      "allOf": [
+        { "$ref": "#/$defs/identifier_array" },
+        { "minItems": 1 }
+      ]
+    },
+    "dimension": {
+      "enum": [
+        "standard_controls",
+        "prerequisites",
+        "safe_proof",
+        "negative_controls",
+        "restoration",
+        "evidence",
+        "validators",
+        "scenarios"
+      ]
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mapping_id",
+        "mapping_sha256",
+        "technique_id",
+        "specialist_profile_ids",
+        "standard_controls",
+        "prerequisite_ids",
+        "safe_proof_ids",
+        "negative_control_ids",
+        "restoration_ids",
+        "evidence_requirement_ids",
+        "validator_ids",
+        "scenarios",
+        "coverage_status",
+        "missing_dimensions"
+      ],
+      "properties": {
+        "mapping_id": { "type": "string", "pattern": "^TQM-[0-9A-F]{32}$" },
+        "mapping_sha256": { "$ref": "#/$defs/sha256" },
+        "technique_id": { "$ref": "#/$defs/identifier" },
+        "specialist_profile_ids": { "$ref": "#/$defs/nonempty_identifier_array" },
+        "standard_controls": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/standard_control_reference" }
+        },
+        "prerequisite_ids": { "$ref": "#/$defs/identifier_array" },
+        "safe_proof_ids": { "$ref": "#/$defs/identifier_array" },
+        "negative_control_ids": { "$ref": "#/$defs/identifier_array" },
+        "restoration_ids": { "$ref": "#/$defs/identifier_array" },
+        "evidence_requirement_ids": { "$ref": "#/$defs/identifier_array" },
+        "validator_ids": { "$ref": "#/$defs/identifier_array" },
+        "scenarios": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/scenario" }
+        },
+        "coverage_status": { "enum": ["complete", "partial", "gap"] },
+        "missing_dimensions": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/dimension" }
+        }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap_type", "subject_id", "reason_code", "missing_dimensions"],
+      "properties": {
+        "gap_type": { "enum": ["standard", "technique", "specialist"] },
+        "subject_id": { "$ref": "#/$defs/identifier" },
+        "reason_code": {
+          "enum": [
+            "explicit_mapping_gap",
+            "incomplete_mapping",
+            "missing_mapping",
+            "missing_release_pin",
+            "stale_release_review"
+          ]
+        },
+        "missing_dimensions": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/dimension" }
+        }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "execution", "network", "qualification", "routing"],
+      "properties": {
+        "authority": { "const": "none" },
+        "execution": { "const": "none" },
+        "network": { "const": "none" },
+        "qualification": { "const": "none" },
+        "routing": { "const": "none" }
+      }
+    }
+  }
+}

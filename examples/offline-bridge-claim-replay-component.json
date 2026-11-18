@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-bridge-claims",
+      "context_complete": true,
+      "messages": [
+        {
+          "source_chain_id": "chain-a",
+          "message_id": "message-one",
+          "payload_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "finalized": true,
+          "claims": [
+            {"claim_id": "claim-one", "destination_chain_id": "chain-b", "outcome": "accepted"},
+            {"claim_id": "claim-two", "destination_chain_id": "chain-b", "outcome": "accepted"},
+            {"claim_id": "claim-three", "destination_chain_id": "chain-c", "outcome": "rejected"}
+          ]
+        }
+      ]
+    }
+  }
+}

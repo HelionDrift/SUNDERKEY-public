@@ -1,0 +1,1187 @@
+{
+  "$defs": {
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$",
+      "type": "string"
+    },
+    "profileId": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_effect": {
+      "const": "none"
+    },
+    "catalog_id": {
+      "const": "sunderkey-army-v2-expert-runtime-packs"
+    },
+    "catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "catalog_status": {
+      "const": "compiled_uninstantiated"
+    },
+    "catalog_version": {
+      "const": "1.0.0"
+    },
+    "coverage_summary": {
+      "additionalProperties": false,
+      "properties": {
+        "commander_child_aggregate_binding_count": {
+          "const": 125
+        },
+        "commander_exact_profile_command_policy_binding_count": {
+          "const": 25
+        },
+        "domain_commander_pack_count": {
+          "const": 25
+        },
+        "model_call_count": {
+          "const": 0
+        },
+        "network_call_count": {
+          "const": 0
+        },
+        "runtime_pack_count": {
+          "const": 416
+        },
+        "specialist_exact_binding_count": {
+          "const": 2346
+        },
+        "specialist_pack_count": {
+          "const": 391
+        }
+      },
+      "required": [
+        "runtime_pack_count",
+        "specialist_pack_count",
+        "domain_commander_pack_count",
+        "specialist_exact_binding_count",
+        "commander_exact_profile_command_policy_binding_count",
+        "commander_child_aggregate_binding_count",
+        "network_call_count",
+        "model_call_count"
+      ],
+      "type": "object"
+    },
+    "execution_effect": {
+      "const": "none"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "routing_effect": {
+      "const": "none"
+    },
+    "runtime_packs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "authorization_effect": {
+            "const": "none"
+          },
+          "command_id": {
+            "pattern": "^AOE-G[A-E]-D[0-9]{2}$",
+            "type": "string"
+          },
+          "command_member_profile_ids": {
+            "items": {
+              "$ref": "#/$defs/profileId"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "command_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "context_policy": {
+            "additionalProperties": false,
+            "properties": {
+              "maximum_context_items": {
+                "const": 48
+              },
+              "maximum_context_tokens": {
+                "const": 24000
+              },
+              "maximum_tokens_per_item": {
+                "const": 4000
+              },
+              "overflow_policy": {
+                "const": "reject_before_model_invocation"
+              },
+              "reserved_output_tokens": {
+                "const": 8000
+              },
+              "selection_order": {
+                "items": {
+                  "enum": [
+                    "target_content",
+                    "retrieved_context",
+                    "tool_output",
+                    "expert_work_product",
+                    "operator_context"
+                  ]
+                },
+                "maxItems": 5,
+                "minItems": 5,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "total_token_ceiling": {
+                "const": 32000
+              },
+              "untrusted_text_policy": {
+                "const": "data_only_never_instruction"
+              }
+            },
+            "required": [
+              "maximum_context_items",
+              "maximum_context_tokens",
+              "maximum_tokens_per_item",
+              "reserved_output_tokens",
+              "total_token_ceiling",
+              "selection_order",
+              "overflow_policy",
+              "untrusted_text_policy"
+            ],
+            "type": "object"
+          },
+          "execution_effect": {
+            "const": "none"
+          },
+          "instruction_contract": {
+            "additionalProperties": false,
+            "properties": {
+              "allowed_product_types": {
+                "items": {
+                  "enum": [
+                    "observation",
+                    "negative_evidence",
+                    "hypothesis",
+                    "finding",
+                    "clarification_question",
+                    "action_proposal",
+                    "blocker",
+                    "abstention",
+                    "commander_synthesis"
+                  ]
+                },
+                "minItems": 8,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "authorization_effect": {
+                "const": "none"
+              },
+              "may": {
+                "items": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                  "type": "string"
+                },
+                "maxItems": 256,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "may_not": {
+                "items": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                  "type": "string"
+                },
+                "maxItems": 256,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "mission": {
+                "$ref": "#/$defs/text"
+              },
+              "model_output_effect": {
+                "const": "advisory_only"
+              },
+              "required_operating_rules": {
+                "items": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                  "type": "string"
+                },
+                "maxItems": 256,
+                "minItems": 6,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "role": {
+                "enum": [
+                  "specialist",
+                  "domain_commander"
+                ]
+              },
+              "stop_conditions": {
+                "items": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                  "type": "string"
+                },
+                "maxItems": 256,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "tool_effect": {
+                "const": "none"
+              }
+            },
+            "required": [
+              "role",
+              "mission",
+              "may",
+              "may_not",
+              "stop_conditions",
+              "required_operating_rules",
+              "allowed_product_types",
+              "model_output_effect",
+              "tool_effect",
+              "authorization_effect"
+            ],
+            "type": "object"
+          },
+          "model_call_performed": {
+            "const": false
+          },
+          "network_call_performed": {
+            "const": false
+          },
+          "profile_id": {
+            "$ref": "#/$defs/profileId"
+          },
+          "profile_kind": {
+            "enum": [
+              "specialist",
+              "domain_commander"
+            ]
+          },
+          "profile_name": {
+            "$ref": "#/$defs/text"
+          },
+          "profile_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "qualification_effect": {
+            "const": "none"
+          },
+          "registry_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "role_contract": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "allowed_action_tiers": {
+                    "items": {
+                      "enum": [
+                        "R0",
+                        "R1",
+                        "R2",
+                        "R3",
+                        "R4",
+                        "R5"
+                      ]
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "cleanup_and_restoration": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "collaboration_contract": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "contract_kind": {
+                    "const": "specialist"
+                  },
+                  "control_requirements": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "critical_failures": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "evaluation_objective": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "expected_evidence": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "implementation_package_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "implementation_status": {
+                    "const": "scheduled_unassigned"
+                  },
+                  "independent_validator_id": {
+                    "$ref": "#/$defs/profileId"
+                  },
+                  "input_contract": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "known_blind_spots": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "output_contract": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "platforms_and_protocols": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "prerequisites_and_observations": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "primary_capability_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "required_gate_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "restoration_contract": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "scenario_family_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "supporting_capability_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "technical_focus": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "tools_and_credentials": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "vector_description": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "vector_id": {
+                    "$ref": "#/$defs/text"
+                  }
+                },
+                "required": [
+                  "contract_kind",
+                  "vector_id",
+                  "technical_focus",
+                  "vector_description",
+                  "platforms_and_protocols",
+                  "prerequisites_and_observations",
+                  "allowed_action_tiers",
+                  "tools_and_credentials",
+                  "expected_evidence",
+                  "cleanup_and_restoration",
+                  "known_blind_spots",
+                  "primary_capability_ids",
+                  "supporting_capability_ids",
+                  "independent_validator_id",
+                  "scenario_family_id",
+                  "evaluation_objective",
+                  "required_gate_ids",
+                  "critical_failures",
+                  "input_contract",
+                  "output_contract",
+                  "control_requirements",
+                  "restoration_contract",
+                  "collaboration_contract",
+                  "implementation_package_id",
+                  "implementation_status"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "collaboration_contract": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "command_boundary": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "command_inputs": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "command_mission": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "command_outputs": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "contract_kind": {
+                    "const": "domain_commander"
+                  },
+                  "specialist_profile_ids": {
+                    "items": {
+                      "$ref": "#/$defs/profileId"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "synthesis_requirements": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 4,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "contract_kind",
+                  "command_mission",
+                  "command_inputs",
+                  "command_outputs",
+                  "collaboration_contract",
+                  "command_boundary",
+                  "specialist_profile_ids",
+                  "synthesis_requirements"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "routing_effect": {
+            "const": "none"
+          },
+          "runtime_pack_id": {
+            "pattern": "^ERP-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "runtime_pack_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "runtime_status": {
+            "const": "compiled_uninstantiated"
+          },
+          "schema_version": {
+            "const": 1
+          },
+          "source_bindings": {
+            "additionalProperties": false,
+            "properties": {
+              "attack_vectors": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              },
+              "candidate_blueprints": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              },
+              "capability_catalog": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              },
+              "expert_registry": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              },
+              "implementation_work_packages": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              },
+              "qualification_plans": {
+                "additionalProperties": false,
+                "properties": {
+                  "binding_kind": {
+                    "enum": [
+                      "exact_profile_command_and_policy",
+                      "exact_specialist_record",
+                      "exact_command_member_aggregate_no_direct_commander_record"
+                    ]
+                  },
+                  "binding_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_id": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "catalog_sha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "catalog_version": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "item_digests": {
+                    "items": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "item_ids": {
+                    "items": {
+                      "maxLength": 4096,
+                      "minLength": 1,
+                      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 256,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "catalog_id",
+                  "catalog_version",
+                  "catalog_sha256",
+                  "binding_kind",
+                  "item_ids",
+                  "item_digests",
+                  "binding_sha256"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "expert_registry",
+              "attack_vectors",
+              "capability_catalog",
+              "qualification_plans",
+              "candidate_blueprints",
+              "implementation_work_packages"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "schema_version",
+          "profile_id",
+          "profile_sha256",
+          "profile_kind",
+          "profile_name",
+          "command_id",
+          "command_sha256",
+          "command_member_profile_ids",
+          "registry_sha256",
+          "source_bindings",
+          "instruction_contract",
+          "role_contract",
+          "context_policy",
+          "runtime_status",
+          "network_call_performed",
+          "model_call_performed",
+          "qualification_effect",
+          "routing_effect",
+          "execution_effect",
+          "authorization_effect",
+          "runtime_pack_id",
+          "runtime_pack_sha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 416,
+      "minItems": 416,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "source_catalogs": {
+      "additionalProperties": false,
+      "properties": {
+        "attack_vectors": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        },
+        "candidate_blueprints": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        },
+        "capability_catalog": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        },
+        "expert_registry": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        },
+        "implementation_work_packages": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        },
+        "qualification_plans": {
+          "additionalProperties": false,
+          "properties": {
+            "catalog_id": {
+              "$ref": "#/$defs/text"
+            },
+            "catalog_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "catalog_version": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "catalog_version",
+            "catalog_sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "expert_registry",
+        "attack_vectors",
+        "capability_catalog",
+        "qualification_plans",
+        "candidate_blueprints",
+        "implementation_work_packages"
+      ],
+      "type": "object"
+    },
+    "source_gaps": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "affected_profile_ids": {
+            "items": {
+              "$ref": "#/$defs/profileId"
+            },
+            "maxItems": 25,
+            "minItems": 25,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "affected_source_catalogs": {
+            "items": {
+              "enum": [
+                "attack_vectors",
+                "capability_catalog",
+                "qualification_plans",
+                "candidate_blueprints",
+                "implementation_work_packages"
+              ]
+            },
+            "maxItems": 5,
+            "minItems": 5,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "direct_binding_status": {
+            "const": "not_available_in_checked_sources"
+          },
+          "gap_id": {
+            "const": "commander-direct-specialist-artifacts-not-defined"
+          },
+          "implemented_binding": {
+            "const": "exact_command_policy_records_and_child_specialist_aggregate"
+          },
+          "required_future_artifact": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "required": [
+          "gap_id",
+          "affected_profile_ids",
+          "affected_source_catalogs",
+          "direct_binding_status",
+          "implemented_binding",
+          "required_future_artifact"
+        ],
+        "type": "object"
+      },
+      "maxItems": 1,
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "catalog_status",
+    "source_catalogs",
+    "runtime_packs",
+    "source_gaps",
+    "coverage_summary",
+    "qualification_effect",
+    "routing_effect",
+    "execution_effect",
+    "authorization_effect",
+    "catalog_sha256"
+  ],
+  "type": "object"
+}

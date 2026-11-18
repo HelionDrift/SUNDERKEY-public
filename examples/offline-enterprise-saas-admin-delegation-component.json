@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-saas-admin",
+      "product_family": "salesforce",
+      "tenant_id": "tenant-one",
+      "external_privileged_delegation_allowed": false,
+      "delegations": [
+        {"delegation_id": "external-admin", "principal_scope": "external", "privileged": true, "active": true, "context_complete": true},
+        {"delegation_id": "internal-reader", "principal_scope": "internal", "privileged": false, "active": true, "context_complete": true}
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-autostarts",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "approved_artifact_ids": ["approved-task"],
+    "artifacts": [{
+      "artifact_id": "unapproved-task",
+      "mechanism": "scheduled_task",
+      "enabled_declared": true
+    }]
+  }}
+}

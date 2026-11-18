@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-digest-vectors",
+    "synthetic_fixture": true,
+    "vector_inventory_complete": true,
+    "vectors": [
+      {
+        "vector_id": "empty-sha256",
+        "algorithm": "sha256",
+        "input_hex": "",
+        "claimed_digest_hex": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "vector_id": "abc-sha3",
+        "algorithm": "sha3_256",
+        "input_hex": "616263",
+        "claimed_digest_hex": "3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532"
+      }
+    ]
+  }}
+}

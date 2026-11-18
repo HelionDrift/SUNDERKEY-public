@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-channel-authentication-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Channel Authentication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authentication_id",
+    "authentication_sha256",
+    "channel_policy",
+    "mission_owner",
+    "independent_control",
+    "authenticated_at",
+    "authentication_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "authentication_id": {"type": "string", "pattern": "^ECA-[0-9A-F]{32}$"},
+    "authentication_sha256": {"$ref": "#/$defs/sha256"},
+    "channel_policy": {
+      "$ref": "collaboration-execution-channel-policy-v1.schema.json"
+    },
+    "mission_owner": {"$ref": "#/$defs/principal"},
+    "independent_control": {"$ref": "#/$defs/principal"},
+    "authenticated_at": {"$ref": "#/$defs/timestamp"},
+    "authentication_status": {"const": "authenticated_dual_control"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "assertion_sha256",
+        "subject",
+        "profile_id",
+        "issuer",
+        "key_id",
+        "key_sha256",
+        "policy_id",
+        "policy_version",
+        "policy_sha256",
+        "scope_grant_id",
+        "scope_grant_sha256",
+        "audience",
+        "store_id",
+        "mission_id",
+        "operation",
+        "operation_intent_sha256",
+        "authenticated_at",
+        "expires_at"
+      ],
+      "properties": {
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "subject": {"$ref": "#/$defs/identifier"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "issuer": {"$ref": "#/$defs/identifier"},
+        "key_id": {"$ref": "#/$defs/identifier"},
+        "key_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_id": {"$ref": "#/$defs/identifier"},
+        "policy_version": {"type": "integer", "minimum": 1},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_grant_id": {"type": "string", "pattern": "^SGR-[0-9A-F]{32}$"},
+        "scope_grant_sha256": {"$ref": "#/$defs/sha256"},
+        "audience": {"$ref": "#/$defs/identifier"},
+        "store_id": {"type": "string", "pattern": "^STR-[0-9A-F]{32}$"},
+        "mission_id": {"$ref": "#/$defs/identifier"},
+        "operation": {
+          "enum": [
+            "sunderkey.collaboration.execution-channel.policy.owner-authorize.v1",
+            "sunderkey.collaboration.execution-channel.policy.control-approve.v1"
+          ]
+        },
+        "operation_intent_sha256": {"$ref": "#/$defs/sha256"},
+        "authenticated_at": {"$ref": "#/$defs/timestamp"},
+        "expires_at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  }
+}

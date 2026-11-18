@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-storage-layout",
+      "prior_contract_id": "revision-one",
+      "next_contract_id": "revision-two",
+      "layout_family": "linear_slot_map",
+      "declaration_complete": true,
+      "prior_fields": [
+        {"field_id": "owner", "slot": 0, "offset_bytes": 0, "size_bytes": 20, "type_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+        {"field_id": "balance", "slot": 1, "offset_bytes": 0, "size_bytes": 32, "type_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"}
+      ],
+      "next_fields": [
+        {"field_id": "owner", "slot": 0, "offset_bytes": 0, "size_bytes": 20, "type_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+        {"field_id": "balance", "slot": 2, "offset_bytes": 0, "size_bytes": 32, "type_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+        {"field_id": "nonce", "slot": 1, "offset_bytes": 0, "size_bytes": 8, "type_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"}
+      ]
+    }
+  }
+}

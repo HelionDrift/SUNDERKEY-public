@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-sample-sequence",
+    "sample_sequence_complete": true,
+    "bit_width": 8,
+    "samples": [
+      {"sample_id": "s1", "value_hex": "01"},
+      {"sample_id": "s2", "value_hex": "02"},
+      {"sample_id": "s3", "value_hex": "01"}
+    ]
+  }}
+}

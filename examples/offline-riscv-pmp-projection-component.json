@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D24-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-pmp-intervals",
+      "entries_complete": true,
+      "entries": [
+        {
+          "entry_id": "pmp0",
+          "priority": 0,
+          "range_start": 4096,
+          "range_end_exclusive": 8192,
+          "permissions": ["read", "write"]
+        }
+      ],
+      "accesses": [
+        {
+          "access_id": "write-a",
+          "address": 4352,
+          "byte_count": 4,
+          "mode": "S",
+          "operation": "write",
+          "expected_decision": "deny"
+        }
+      ]
+    }
+  }
+}

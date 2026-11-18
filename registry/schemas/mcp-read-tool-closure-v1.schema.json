@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/mcp-read-tool-closure-v1.schema.json",
+  "title": "SUNDERKEY Offline MCP Read Tool Closure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "protocol_revision", "manifest_sha256",
+    "binding_plan_sha256", "schema_byte_preflight_sha256",
+    "semantic_preflight_sha256", "reference_closure_sha256",
+    "header_preflight_sha256", "tool_count", "tools", "review_status",
+    "api_argument_mapping_verified", "api_response_mapping_verified",
+    "principal_authenticated", "tenant_scope_enforced",
+    "live_server_schema_verified", "qualification_effect", "effects",
+    "closure_id", "closure_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "protocol_revision": {"type": "string", "minLength": 1},
+    "manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "binding_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_byte_preflight_sha256": {"$ref": "#/$defs/sha256"},
+    "semantic_preflight_sha256": {"$ref": "#/$defs/sha256"},
+    "reference_closure_sha256": {"$ref": "#/$defs/sha256"},
+    "header_preflight_sha256": {"$ref": "#/$defs/sha256"},
+    "tool_count": {"type": "integer", "minimum": 1, "maximum": 64},
+    "tools": {
+      "type": "array", "minItems": 1, "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "tool_name", "api_operation", "input_schema_sha256",
+          "output_schema_sha256", "input_local_reference_count",
+          "output_local_reference_count", "input_header_count"
+        ],
+        "properties": {
+          "tool_name": {"type": "string", "minLength": 1},
+          "api_operation": {
+            "enum": ["get_status", "list_evidence", "list_findings", "get_report"]
+          },
+          "input_schema_sha256": {"$ref": "#/$defs/sha256"},
+          "output_schema_sha256": {"$ref": "#/$defs/sha256"},
+          "input_local_reference_count": {
+            "type": "integer", "minimum": 0, "maximum": 10000
+          },
+          "output_local_reference_count": {
+            "type": "integer", "minimum": 0, "maximum": 10000
+          },
+          "input_header_count": {
+            "type": "integer", "minimum": 0, "maximum": 10000
+          }
+        }
+      }
+    },
+    "review_status": {"const": "read_declarations_source_replayed_only"},
+    "api_argument_mapping_verified": {"const": false},
+    "api_response_mapping_verified": {"const": false},
+    "principal_authenticated": {"const": false},
+    "tenant_scope_enforced": {"const": false},
+    "live_server_schema_verified": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "api_call": "none", "authorization": "none",
+        "catalog_publication": "none", "mcp_server": "none",
+        "network": "none", "qualification": "none",
+        "target_interaction": "none", "tool_execution": "none"
+      }
+    },
+    "closure_id": {"type": "string", "pattern": "^MRC-[0-9A-F]{32}$"},
+    "closure_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

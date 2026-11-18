@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-registry-revision-review-v1.json",
+  "title": "SUNDERKEY Qualification Registry Revision Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "revision_id",
+    "policy",
+    "base_registry",
+    "proposed_registry",
+    "status_binding_sha256",
+    "profile_id",
+    "reviewer_credential",
+    "reviewer_id",
+    "reviewer_role",
+    "conclusion",
+    "reason_sha256",
+    "reviewed_at",
+    "algorithm",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^QRV-[0-9A-F]{32}$"
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^QRR-[0-9A-F]{32}$"
+    },
+    "policy": {
+      "$ref": "#/$defs/policyBinding"
+    },
+    "base_registry": {
+      "$ref": "#/$defs/registryBinding"
+    },
+    "proposed_registry": {
+      "$ref": "#/$defs/registryBinding"
+    },
+    "status_binding_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/profileId"
+    },
+    "reviewer_credential": {
+      "$ref": "#/$defs/credentialBinding"
+    },
+    "reviewer_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "reviewer_role": {
+      "enum": [
+        "independent_assurance",
+        "independent_control"
+      ]
+    },
+    "conclusion": {
+      "const": "approve_registry_revision"
+    },
+    "reason_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "reviewed_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "algorithm": {
+      "const": "Ed25519"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "policyBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_version",
+        "sha256"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "pattern": "^QTP-[0-9A-F]{32}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "registryBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_id",
+        "catalog_version",
+        "sha256"
+      ],
+      "properties": {
+        "catalog_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "catalog_version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "credentialBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^QRC-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

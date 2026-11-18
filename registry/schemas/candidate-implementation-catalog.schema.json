@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/candidate-implementation-catalog.schema.json",
+  "title": "SUNDERKEY Candidate Implementation Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_catalog_id",
+    "candidate_catalog_version",
+    "expert_catalog_id",
+    "expert_catalog_version",
+    "capability_catalog_id",
+    "capability_catalog_version",
+    "capability_catalog_sha256",
+    "qualification_standard_id",
+    "qualification_standard_version",
+    "qualification_standard_sha256",
+    "qualification_plan_catalog_id",
+    "qualification_plan_catalog_version",
+    "qualification_plan_catalog_sha256",
+    "candidate_blueprint_catalog_id",
+    "candidate_blueprint_catalog_version",
+    "candidate_blueprint_catalog_sha256",
+    "candidates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "candidate_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "candidate_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "expert_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "expert_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_standard_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_standard_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_standard_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_plan_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_plan_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_plan_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "candidate_blueprint_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "candidate_blueprint_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "candidate_blueprint_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "profile_id",
+        "lifecycle",
+        "implementation_kind",
+        "candidate_blueprint_sha256",
+        "behavior_contract_sha256",
+        "instruction_bundle_sha256",
+        "knowledge_manifest_sha256",
+        "runtime_manifest_sha256",
+        "tool_policy_sha256",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+        },
+        "candidate_version": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "lifecycle": {
+          "enum": [
+            "contract_fixture",
+            "development",
+            "evaluation_candidate",
+            "retired"
+          ]
+        },
+        "implementation_kind": {
+          "enum": [
+            "agent_bundle",
+            "human_runbook",
+            "hybrid_bundle"
+          ]
+        },
+        "candidate_blueprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "behavior_contract_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "instruction_bundle_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "knowledge_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "runtime_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "tool_policy_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "candidate_artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

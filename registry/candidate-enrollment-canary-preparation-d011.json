@@ -1,0 +1,194 @@
+{
+  "accepted_release_outcome_schemas": {
+    "normal_completion": {
+      "schema_id": "https://schemas.sunderkey.dev/candidate-enrollment-release-completion-receipt-v1.json",
+      "sha256": "sha256:a8e58029b2d2bb58839910c1ff8c539bf0ec91ea535d13fb1d321063dc37ce78"
+    },
+    "recovery_completion": {
+      "schema_id": "https://schemas.sunderkey.dev/candidate-enrollment-release-recovery-receipt-v1.json",
+      "sha256": "sha256:24e587ce5d08bd3cf54e4fc9ee1ee36a900cfbca34928e14b334ac7cb4b20489"
+    }
+  },
+  "activation_gates": [
+    "all_external_inputs_present_and_content_addressed",
+    "phase72_receipt_and_catalog_reverified",
+    "controlled_release_receipt_verified",
+    "checkpoint_and_ledger_tail_match_release",
+    "platform_acl_and_durability_provider_verified",
+    "append_only_ledger_provider_verified",
+    "content_addressed_repository_provider_verified",
+    "exactly_one_current_nonrevoked_enrollment_selected",
+    "rollback_revocation_corruption_and_interruption_drills_passed",
+    "observation_stop_and_deactivation_plan_approved",
+    "deployment_owner_and_independent_control_go_decisions_match"
+  ],
+  "authorized_next_action": "collect_inputs_and_record_separate_canary_go_no_go",
+  "canary_scope": {
+    "activation_mode": "single_candidate_canary",
+    "automatic_expansion_allowed": false,
+    "live_evidence_before_activation_allowed": false,
+    "maximum_candidate_count": 1
+  },
+  "critical_stop_conditions": [
+    "any_digest_or_identifier_binding_mismatch",
+    "checkpoint_missing_corrupt_stale_or_ambiguous",
+    "ledger_missing_forked_gapped_or_not_append_only",
+    "catalog_missing_expired_revoked_or_not_current",
+    "release_outcome_not_completed_or_recovered_same_digest",
+    "more_or_less_than_one_candidate_selected",
+    "acl_or_directory_durability_not_proven",
+    "rollback_revocation_or_partial_failure_drill_failure",
+    "owner_and_control_decisions_missing_stale_or_disagreeing",
+    "unexpected_network_target_tool_or_evidence_activity"
+  ],
+  "d011_decision": {
+    "record_id": "CAR-786706306502CBA601BF44563E114B19",
+    "sha256": "sha256:786706306502cba601bf44563e114b19567b16563f05ff6d368a9684c900bbc1"
+  },
+  "limitations": [
+    "does_not_select_a_deployment_service_identity_or_candidate",
+    "does_not_supply_a_production_acl_ledger_or_repository_adapter",
+    "does_not_create_or_accept_a_release_outcome",
+    "does_not_activate_enrollment_or_accept_live_evidence",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_qualify_a_specialist_or_change_routing",
+    "does_not_mutate_sqlite_runtime_checkpoint_or_ledger_state"
+  ],
+  "network_call_performed": false,
+  "packet_id": "CAP-7DD087F0CB4534F965889790D2FA5260",
+  "packet_sha256": "sha256:7dd087f0cb4534f965889790d2fa5260b336b4846aae86db37070dba4ba38241",
+  "preparation_status": "awaiting_external_inputs_and_explicit_go_no_go",
+  "qualification_effect": "none",
+  "registry_effect": "none",
+  "release_policy": {
+    "policy_id": "CRP-CB268855D98EC59A1C8D758550848EF5",
+    "sha256": "sha256:cb268855d98ec59a1c8d758550848ef5b5e2f0170d2e9f69d855bc7247a6bdde"
+  },
+  "required_external_inputs": [
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "platform_custodian"
+      ],
+      "input_id": "select_production_deployment_and_service_identity",
+      "required_evidence": [
+        "deployment_identifier",
+        "service_identity_identifier",
+        "service_identity_ownership_record"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "platform_custodian",
+        "independent_control"
+      ],
+      "input_id": "verify_platform_checkpoint_acl_and_durability_provider",
+      "required_evidence": [
+        "provider_implementation_digest",
+        "service_identity_acl_test",
+        "directory_durability_test",
+        "symbolic_link_and_replacement_attack_test"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "release_ledger_custodian",
+        "independent_control"
+      ],
+      "input_id": "verify_append_only_release_ledger_provider",
+      "required_evidence": [
+        "provider_implementation_digest",
+        "append_compare_and_swap_test",
+        "fork_and_sequence_gap_rejection_test",
+        "checkpoint_artifact_retrieval_test",
+        "retention_policy_binding"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "catalog_repository_custodian",
+        "independent_control"
+      ],
+      "input_id": "verify_content_addressed_catalog_repository_provider",
+      "required_evidence": [
+        "logical_repository_identifier",
+        "provider_implementation_digest",
+        "same_digest_idempotency_test",
+        "digest_collision_rejection_test",
+        "retention_policy_binding"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "enrollment_release_operator",
+        "independent_control"
+      ],
+      "input_id": "supply_verified_controlled_release_outcome",
+      "required_evidence": [
+        "release_completion_or_recovery_receipt",
+        "receipt_schema_validation",
+        "phase72_reverification_record",
+        "current_checkpoint_binding",
+        "current_release_ledger_tail_binding"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "candidate_owner"
+      ],
+      "input_id": "select_exact_single_candidate_enrollment",
+      "required_evidence": [
+        "profile_identifier",
+        "candidate_identifier",
+        "enrollment_identifier",
+        "candidate_artifact_sha256",
+        "candidate_owner_public_key_sha256",
+        "logical_evidence_repository_identifier"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "independent_control",
+        "independent_assurance"
+      ],
+      "input_id": "complete_rollback_revocation_and_partial_failure_drills",
+      "required_evidence": [
+        "rollback_rejection_result",
+        "same_version_digest_replacement_rejection_result",
+        "revocation_distribution_result",
+        "checkpoint_corruption_result",
+        "promotion_interruption_recovery_result",
+        "ledger_fork_rejection_result"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "independent_control"
+      ],
+      "input_id": "define_canary_observation_and_stop_plan",
+      "required_evidence": [
+        "observation_window",
+        "health_and_security_signals",
+        "named_stop_authority",
+        "candidate_deactivation_procedure",
+        "incident_evidence_custody_plan"
+      ]
+    },
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "independent_control"
+      ],
+      "input_id": "record_explicit_canary_go_no_go_decision",
+      "required_evidence": [
+        "deployment_owner_decision",
+        "independent_control_decision",
+        "exact_input_bundle_sha256",
+        "decision_timestamp"
+      ]
+    }
+  ],
+  "schema_version": 1
+}

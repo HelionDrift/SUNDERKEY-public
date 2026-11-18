@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D16-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-rmm-control",
+    "inventory_complete": true,
+    "fleets": [{
+      "fleet_id": "fleet_a",
+      "remote_control_enabled": true,
+      "operator_scope": "broad",
+      "approval_required": false,
+      "agent_inventory_complete": false,
+      "policy_assertions_complete": true
+    }]
+  }}
+}

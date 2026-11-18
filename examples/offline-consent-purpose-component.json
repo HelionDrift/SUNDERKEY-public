@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S11",
+  "component_id": "supplied_consent_purpose_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-consent-purpose-timeline-v1",
+      "subject_ref": "subject:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "purposes": ["analytics", "marketing"],
+      "events": [
+        {"event_id": "e1", "purpose_id": "marketing", "action": "grant", "declared_active_after": true, "source_id": "fixture"},
+        {"event_id": "e2", "purpose_id": "marketing", "action": "process", "declared_active_after": true, "source_id": "fixture"},
+        {"event_id": "e3", "purpose_id": "marketing", "action": "withdraw", "declared_active_after": false, "source_id": "fixture"},
+        {"event_id": "e4", "purpose_id": "marketing", "action": "process", "declared_active_after": false, "source_id": "fixture"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/execution-control-receipt-v1.schema.json",
+  "title": "SUNDERKEY execution control receipt version 1",
+  "description": "Content-addressed admission or execution evidence for the injected execution-control adapter boundary.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/admissionReceipt"
+    },
+    {
+      "$ref": "#/$defs/executionReceipt"
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nullableDigest": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "admissionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enforcement_boundary",
+        "kind",
+        "monotonic_tick",
+        "observed_at",
+        "policy_id",
+        "policy_sha256",
+        "reason",
+        "receipt_id",
+        "receipt_sha256",
+        "request_id",
+        "request_sha256",
+        "schema_version",
+        "state_after_sha256",
+        "state_before_sha256",
+        "status"
+      ],
+      "properties": {
+        "enforcement_boundary": {
+          "const": "injected_adapter_boundary_only"
+        },
+        "kind": {
+          "const": "execution_control_admission_receipt"
+        },
+        "monotonic_tick": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "policy_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "reason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "attempt_budget_exhausted",
+                "binding_mismatch",
+                "byte_budget_exhausted",
+                "canceled",
+                "emergency_stop",
+                "health_paused",
+                "health_unhealthy",
+                "idempotency_rebinding",
+                "lease_expired",
+                "outside_allowed_window",
+                "rate_exhausted",
+                "sequential_conflict",
+                "session_limit_exhausted",
+                "stale_fence",
+                "state_repository_failure",
+                "state_tampering",
+                "time_rollback"
+              ]
+            }
+          ]
+        },
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^ECAR-[A-F0-9]{32}$"
+        },
+        "receipt_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "request_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "request_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "state_after_sha256": {
+          "$ref": "#/$defs/nullableDigest"
+        },
+        "state_before_sha256": {
+          "$ref": "#/$defs/nullableDigest"
+        },
+        "status": {
+          "enum": [
+            "admitted",
+            "blocked"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "admitted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "state_after_sha256": {
+                "$ref": "#/$defs/digest"
+              },
+              "state_before_sha256": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "executionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_receipt_id",
+        "admission_receipt_sha256",
+        "cleanup_required",
+        "cleanup_status",
+        "completed_at",
+        "completion_state_sha256",
+        "enforcement_boundary",
+        "kind",
+        "monotonic_tick",
+        "receipt_id",
+        "receipt_sha256",
+        "request_id",
+        "request_sha256",
+        "reservation_state_sha256",
+        "response_sha256",
+        "response_size_bytes",
+        "retry_disposition",
+        "schema_version",
+        "status",
+        "transport_called",
+        "transport_failure_code",
+        "transport_succeeded"
+      ],
+      "properties": {
+        "admission_receipt_id": {
+          "type": "string",
+          "pattern": "^ECAR-[A-F0-9]{32}$"
+        },
+        "admission_receipt_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "cleanup_required": {
+          "type": "boolean"
+        },
+        "cleanup_status": {
+          "enum": [
+            "not_required",
+            "pending_external_verification"
+          ]
+        },
+        "completed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "completion_state_sha256": {
+          "$ref": "#/$defs/nullableDigest"
+        },
+        "enforcement_boundary": {
+          "const": "injected_adapter_boundary_only"
+        },
+        "kind": {
+          "const": "execution_control_execution_receipt"
+        },
+        "monotonic_tick": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^ECER-[A-F0-9]{32}$"
+        },
+        "receipt_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "request_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "request_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "reservation_state_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "response_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "response_size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retry_disposition": {
+          "enum": [
+            "failure_not_retryable",
+            "not_applicable",
+            "retry_exhausted",
+            "retry_permitted"
+          ]
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "status": {
+          "enum": [
+            "completion_failed",
+            "succeeded",
+            "transport_failed"
+          ]
+        },
+        "transport_called": {
+          "const": true
+        },
+        "transport_failure_code": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+            }
+          ]
+        },
+        "transport_succeeded": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "transport_succeeded": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "transport_failure_code": {
+                "type": "string"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "transport_failure_code": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "completion_failed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "completion_state_sha256": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "completion_state_sha256": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

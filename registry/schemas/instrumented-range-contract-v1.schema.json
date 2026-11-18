@@ -1,0 +1,393 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.local/instrumented-range-contract-v1.schema.json",
+  "title": "SUNDERKEY instrumented range contract version 1",
+  "oneOf": [
+    { "$ref": "#/$defs/application" },
+    { "$ref": "#/$defs/scenario" },
+    { "$ref": "#/$defs/observation" },
+    { "$ref": "#/$defs/assessment" }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "container_start",
+        "exploit_execution",
+        "live_readiness_claim",
+        "network",
+        "secret_resolution",
+        "state_change"
+      ],
+      "properties": {
+        "container_start": { "const": "none" },
+        "exploit_execution": { "const": "none" },
+        "live_readiness_claim": { "const": "none" },
+        "network": { "const": "none" },
+        "secret_resolution": { "const": "none" },
+        "state_change": { "const": "none" }
+      }
+    },
+    "stringArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["build_sha256", "component_id", "image_reference", "source_sha256"],
+      "properties": {
+        "build_sha256": { "$ref": "#/$defs/sha256" },
+        "component_id": { "$ref": "#/$defs/identifier" },
+        "image_reference": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._/-]{0,254}@sha256:[0-9a-f]{64}$"
+        },
+        "source_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "vulnerability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component_id",
+        "disposition",
+        "ground_truth_sha256",
+        "vulnerability_id",
+        "weakness_id"
+      ],
+      "properties": {
+        "component_id": { "$ref": "#/$defs/identifier" },
+        "disposition": { "enum": ["exploitable", "not_exploitable"] },
+        "ground_truth_sha256": { "$ref": "#/$defs/sha256" },
+        "vulnerability_id": { "$ref": "#/$defs/identifier" },
+        "weakness_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "negativeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_sha256", "component_id", "control_id"],
+      "properties": {
+        "claim_sha256": { "$ref": "#/$defs/sha256" },
+        "component_id": { "$ref": "#/$defs/identifier" },
+        "control_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "seededData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["data_set_id", "fixture_sha256", "record_count"],
+      "properties": {
+        "data_set_id": { "$ref": "#/$defs/identifier" },
+        "fixture_sha256": { "$ref": "#/$defs/sha256" },
+        "record_count": { "type": "integer", "minimum": 1, "maximum": 10000000 }
+      }
+    },
+    "opaqueReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "provider_id", "reference_id", "version_id"],
+      "properties": {
+        "kind": { "enum": ["seeded_secret", "canary"] },
+        "provider_id": { "$ref": "#/$defs/identifier" },
+        "reference_id": { "$ref": "#/$defs/identifier" },
+        "version_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "networkBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary_id",
+        "destination_zone",
+        "direction",
+        "policy_sha256",
+        "source_zone"
+      ],
+      "properties": {
+        "boundary_id": { "$ref": "#/$defs/identifier" },
+        "destination_zone": { "$ref": "#/$defs/identifier" },
+        "direction": { "enum": ["ingress", "egress", "internal"] },
+        "policy_sha256": { "$ref": "#/$defs/sha256" },
+        "source_zone": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "resourceQuota": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpu_millicores", "memory_mebibytes", "process_limit", "storage_mebibytes"],
+      "properties": {
+        "cpu_millicores": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "memory_mebibytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "process_limit": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "storage_mebibytes": { "type": "integer", "minimum": 1, "maximum": 1000000000 }
+      }
+    },
+    "telemetryChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_id", "collector_id", "correlation_fields", "kind", "schema_sha256"],
+      "properties": {
+        "channel_id": { "$ref": "#/$defs/identifier" },
+        "collector_id": { "$ref": "#/$defs/identifier" },
+        "correlation_fields": { "$ref": "#/$defs/stringArray" },
+        "kind": { "enum": ["application", "audit", "identity", "network", "system"] },
+        "schema_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "healthProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_id", "expectation_sha256", "probe_id", "probe_kind"],
+      "properties": {
+        "component_id": { "$ref": "#/$defs/identifier" },
+        "expectation_sha256": { "$ref": "#/$defs/sha256" },
+        "probe_id": { "$ref": "#/$defs/identifier" },
+        "probe_kind": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_state_sha256",
+        "data_state_sha256",
+        "snapshot_id",
+        "snapshot_sha256"
+      ],
+      "properties": {
+        "application_state_sha256": { "$ref": "#/$defs/sha256" },
+        "data_state_sha256": { "$ref": "#/$defs/sha256" },
+        "snapshot_id": { "$ref": "#/$defs/identifier" },
+        "snapshot_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "reset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_snapshot_id",
+        "baseline_snapshot_sha256",
+        "procedure_sha256",
+        "required_restoration_check_ids",
+        "reset_id"
+      ],
+      "properties": {
+        "baseline_snapshot_id": { "$ref": "#/$defs/identifier" },
+        "baseline_snapshot_sha256": { "$ref": "#/$defs/sha256" },
+        "procedure_sha256": { "$ref": "#/$defs/sha256" },
+        "required_restoration_check_ids": { "$ref": "#/$defs/stringArray" },
+        "reset_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "restorationCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "expected_sha256", "matched", "observed_sha256"],
+      "properties": {
+        "check_id": { "$ref": "#/$defs/identifier" },
+        "expected_sha256": { "$ref": "#/$defs/sha256" },
+        "matched": { "type": "boolean" },
+        "observed_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "booleanMap": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 512,
+      "propertyNames": { "$ref": "#/$defs/identifier" },
+      "additionalProperties": { "type": "boolean" }
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_id",
+        "baseline_snapshot",
+        "build_sha256",
+        "effects",
+        "ground_truth_vulnerabilities",
+        "health_probes",
+        "images",
+        "manifest_id",
+        "manifest_sha256",
+        "manifest_type",
+        "negative_controls",
+        "network_boundaries",
+        "opaque_references",
+        "resource_quota",
+        "schema_version",
+        "seeded_data_sets",
+        "source_sha256",
+        "telemetry_channels"
+      ],
+      "properties": {
+        "application_id": { "$ref": "#/$defs/identifier" },
+        "baseline_snapshot": { "$ref": "#/$defs/snapshot" },
+        "build_sha256": { "$ref": "#/$defs/sha256" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "ground_truth_vulnerabilities": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/vulnerability" }
+        },
+        "health_probes": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/healthProbe" }
+        },
+        "images": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/image" }
+        },
+        "manifest_id": { "$ref": "#/$defs/identifier" },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "manifest_type": { "const": "synthetic_application" },
+        "negative_controls": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/negativeControl" }
+        },
+        "network_boundaries": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/networkBoundary" }
+        },
+        "opaque_references": {
+          "type": "array", "minItems": 2, "maxItems": 512, "items": { "$ref": "#/$defs/opaqueReference" }
+        },
+        "resource_quota": { "$ref": "#/$defs/resourceQuota" },
+        "schema_version": { "const": 1 },
+        "seeded_data_sets": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/seededData" }
+        },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "telemetry_channels": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/telemetryChannel" }
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_id",
+        "application_manifest_sha256",
+        "effects",
+        "expected_negative_control_ids",
+        "expected_vulnerability_ids",
+        "manifest_id",
+        "manifest_sha256",
+        "manifest_type",
+        "required_health_probe_ids",
+        "required_telemetry_channel_ids",
+        "reset_manifest",
+        "scenario_id",
+        "scenario_source_sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "application_id": { "$ref": "#/$defs/identifier" },
+        "application_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "expected_negative_control_ids": { "$ref": "#/$defs/stringArray" },
+        "expected_vulnerability_ids": { "$ref": "#/$defs/stringArray" },
+        "manifest_id": { "$ref": "#/$defs/identifier" },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "manifest_type": { "const": "range_scenario" },
+        "required_health_probe_ids": { "$ref": "#/$defs/stringArray" },
+        "required_telemetry_channel_ids": { "$ref": "#/$defs/stringArray" },
+        "reset_manifest": { "$ref": "#/$defs/reset" },
+        "scenario_id": { "$ref": "#/$defs/identifier" },
+        "scenario_source_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_id",
+        "application_manifest_sha256",
+        "contamination_detected",
+        "effects",
+        "evidence_sha256",
+        "health_probe_results",
+        "observation_id",
+        "observation_sha256",
+        "observed_at",
+        "observed_snapshot_id",
+        "observed_snapshot_sha256",
+        "reset_completed_at",
+        "reset_id",
+        "restoration_checks",
+        "scenario_id",
+        "scenario_manifest_sha256",
+        "schema_version",
+        "telemetry_channel_results"
+      ],
+      "properties": {
+        "application_id": { "$ref": "#/$defs/identifier" },
+        "application_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "contamination_detected": { "type": "boolean" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "health_probe_results": { "$ref": "#/$defs/booleanMap" },
+        "observation_id": { "$ref": "#/$defs/identifier" },
+        "observation_sha256": { "$ref": "#/$defs/sha256" },
+        "observed_at": { "$ref": "#/$defs/timestamp" },
+        "observed_snapshot_id": { "$ref": "#/$defs/identifier" },
+        "observed_snapshot_sha256": { "$ref": "#/$defs/sha256" },
+        "reset_completed_at": { "$ref": "#/$defs/timestamp" },
+        "reset_id": { "$ref": "#/$defs/identifier" },
+        "restoration_checks": {
+          "type": "array", "minItems": 1, "maxItems": 512, "items": { "$ref": "#/$defs/restorationCheck" }
+        },
+        "scenario_id": { "$ref": "#/$defs/identifier" },
+        "scenario_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "telemetry_channel_results": { "$ref": "#/$defs/booleanMap" }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "application_manifest_sha256",
+        "assessment_id",
+        "assessment_sha256",
+        "effects",
+        "evaluated_at",
+        "maximum_observation_age_seconds",
+        "observation_sha256",
+        "reason_codes",
+        "scenario_manifest_sha256",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "application_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "assessment_id": { "$ref": "#/$defs/identifier" },
+        "assessment_sha256": { "$ref": "#/$defs/sha256" },
+        "effects": { "$ref": "#/$defs/effects" },
+        "evaluated_at": { "$ref": "#/$defs/timestamp" },
+        "maximum_observation_age_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "observation_sha256": { "$ref": "#/$defs/sha256" },
+        "reason_codes": {
+          "type": "array", "maxItems": 512, "uniqueItems": true, "items": { "$ref": "#/$defs/identifier" }
+        },
+        "scenario_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "schema_version": { "const": 1 },
+        "status": { "enum": ["ready", "not_ready"] }
+      }
+    }
+  }
+}

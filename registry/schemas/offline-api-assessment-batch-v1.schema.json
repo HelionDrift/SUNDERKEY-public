@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/offline-api-assessment-batch-v1.schema.json",
+  "title": "Offline synthetic API assessment rollup",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "scope_id",
+    "manifest_sha256",
+    "cases",
+    "disposition_counts",
+    "review_candidate_case_ids",
+    "mixed_observation_binding_sha256s",
+    "effects",
+    "batch_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "scope_id": {"$ref": "#/$defs/identifier"},
+    "manifest_sha256": {"$ref": "#/$defs/digest"},
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "target_id",
+          "result_sha256",
+          "disposition",
+          "binding_sha256"
+        ],
+        "properties": {
+          "case_id": {"$ref": "#/$defs/identifier"},
+          "target_id": {"$ref": "#/$defs/identifier"},
+          "result_sha256": {"$ref": "#/$defs/digest"},
+          "disposition": {"$ref": "#/$defs/disposition"},
+          "binding_sha256": {
+            "anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+          }
+        }
+      }
+    },
+    "disposition_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "corroborated_synthetic_signal",
+        "negative_synthetic_result",
+        "review_required",
+        "abstained"
+      ],
+      "properties": {
+        "corroborated_synthetic_signal": {"type": "integer", "minimum": 0, "maximum": 64},
+        "negative_synthetic_result": {"type": "integer", "minimum": 0, "maximum": 64},
+        "review_required": {"type": "integer", "minimum": 0, "maximum": 64},
+        "abstained": {"type": "integer", "minimum": 0, "maximum": 64}
+      }
+    },
+    "review_candidate_case_ids": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "mixed_observation_binding_sha256s": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/digest"}
+    },
+    "effects": {
+      "const": {
+        "authority": "none",
+        "deployment": "none",
+        "finding_publication": "none",
+        "network": "none",
+        "qualification": "none",
+        "target_execution": "none"
+      }
+    },
+    "batch_sha256": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "disposition": {
+      "enum": [
+        "corroborated_synthetic_signal",
+        "negative_synthetic_result",
+        "review_required",
+        "abstained"
+      ]
+    }
+  }
+}

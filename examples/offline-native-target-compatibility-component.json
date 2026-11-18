@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-native-targets",
+    "inventory_complete": true,
+    "artifacts": [{
+      "artifact_id": "artifact_a",
+      "ecosystem": "cargo",
+      "package_id": "sample",
+      "release_id": "release_1",
+      "requested_target_id": "linux_x86_64",
+      "supported_target_ids": ["windows_x86_64"],
+      "target_list_complete": true,
+      "pinned_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "artifact_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }]
+  }}
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/candidate-evaluation-submission.schema.json",
+  "title": "SUNDERKEY Candidate Evaluation Submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "submission_id",
+    "submission_version",
+    "submission_mode",
+    "advisory_only",
+    "profile_id",
+    "candidate",
+    "candidate_blueprint_sha256",
+    "candidate_component_catalog",
+    "candidate_onboarding_report",
+    "qualification_suite",
+    "requested_gate_ids",
+    "review_requirements",
+    "reviewer_assignment_state",
+    "evidence_manifest_state",
+    "submission_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "submission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+    },
+    "submission_version": {"$ref": "#/$defs/asciiText"},
+    "submission_mode": {"const": "synthetic_contract_fixture"},
+    "advisory_only": {"const": true},
+    "profile_id": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "candidate": {"$ref": "#/$defs/candidate"},
+    "candidate_blueprint_sha256": {"$ref": "#/$defs/sha256"},
+    "candidate_component_catalog": {"$ref": "#/$defs/artifactBinding"},
+    "candidate_onboarding_report": {"$ref": "#/$defs/reportBinding"},
+    "qualification_suite": {"$ref": "#/$defs/artifactBinding"},
+    "requested_gate_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/asciiText"}
+    },
+    "review_requirements": {"$ref": "#/$defs/reviewRequirements"},
+    "reviewer_assignment_state": {"const": "not_performed"},
+    "evidence_manifest_state": {"const": "not_provided"},
+    "submission_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "candidate_id": {"$ref": "#/$defs/asciiText"},
+        "candidate_version": {"$ref": "#/$defs/asciiText"},
+        "candidate_artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/asciiText"},
+        "version": {"$ref": "#/$defs/asciiText"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reportBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "pattern": "^ONR-[0-9A-F]{32}$"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reviewRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_distinct_evaluators",
+        "require_independent_control_review",
+        "require_independent_assurance_review",
+        "allow_self_attestation",
+        "qualification_validity_days"
+      ],
+      "properties": {
+        "minimum_distinct_evaluators": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "require_independent_control_review": {"type": "boolean"},
+        "require_independent_assurance_review": {"type": "boolean"},
+        "allow_self_attestation": {"type": "boolean"},
+        "qualification_validity_days": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

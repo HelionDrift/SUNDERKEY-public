@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-oracle-prices",
+      "market_id": "pool-one",
+      "spot_price_micro": 1500000,
+      "minimum_deviation_basis_points": 1000,
+      "sequence_complete": true,
+      "same_market": true,
+      "reference_independent": true,
+      "twap_samples": [
+        {"sample_id": "window-one", "price_micro": 1000000, "duration_seconds": 60},
+        {"sample_id": "window-two", "price_micro": 1000000, "duration_seconds": 60}
+      ]
+    }
+  }
+}

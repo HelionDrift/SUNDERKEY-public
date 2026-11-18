@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D04-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-path-review",
+      "synthetic_fixture": true,
+      "graph_model": {
+        "schema_version": 1,
+        "source_id": "synthetic-graph-model",
+        "graph_complete": true,
+        "evidence_sources": [
+          {
+            "source_id": "synthetic-inventory",
+            "provenance_kind": "synthetic_fixture"
+          },
+          {
+            "source_id": "synthetic-relationships",
+            "provenance_kind": "synthetic_fixture"
+          }
+        ],
+        "nodes": [
+          {
+            "node_id": "entry-a",
+            "kind": "entry",
+            "source_id": "synthetic-inventory"
+          },
+          {
+            "node_id": "boundary-b",
+            "kind": "intermediate",
+            "source_id": "synthetic-inventory"
+          },
+          {
+            "node_id": "boundary-c",
+            "kind": "intermediate",
+            "source_id": "synthetic-inventory"
+          },
+          {
+            "node_id": "objective-d",
+            "kind": "objective",
+            "source_id": "synthetic-inventory"
+          },
+          {
+            "node_id": "objective-e",
+            "kind": "objective",
+            "source_id": "synthetic-inventory"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "edge-ab",
+            "from_id": "entry-a",
+            "to_id": "boundary-b",
+            "relation": "declared_access",
+            "status": "supported",
+            "source_id": "synthetic-relationships"
+          },
+          {
+            "edge_id": "edge-bd",
+            "from_id": "boundary-b",
+            "to_id": "objective-d",
+            "relation": "declared_trust",
+            "status": "supported",
+            "source_id": "synthetic-relationships"
+          },
+          {
+            "edge_id": "edge-bc",
+            "from_id": "boundary-b",
+            "to_id": "boundary-c",
+            "relation": "declared_dependency",
+            "status": "hypothesized",
+            "source_id": "synthetic-relationships"
+          },
+          {
+            "edge_id": "edge-ce",
+            "from_id": "boundary-c",
+            "to_id": "objective-e",
+            "relation": "declared_access",
+            "status": "supported",
+            "source_id": "synthetic-relationships"
+          }
+        ]
+      },
+      "review_node_ids": [
+        "boundary-b"
+      ]
+    }
+  }
+}

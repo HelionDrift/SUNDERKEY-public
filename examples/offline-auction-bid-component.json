@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S08",
+  "component_id": "supplied_auction_bid_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-auction-bid-timeline-v1",
+      "listing_ref": "listing:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "currency_label": "TST",
+      "reserve_minor": 100,
+      "minimum_increment_minor": 10,
+      "events": [
+        {"event_id": "e1", "bidder_ref": "bidder:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bid_minor": 100, "result": "accepted", "declared_leader_ref": "bidder:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "declared_leading_bid_minor": 100},
+        {"event_id": "e2", "bidder_ref": "bidder:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "bid_minor": 105, "result": "accepted", "declared_leader_ref": "bidder:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "declared_leading_bid_minor": 105}
+      ]
+    }
+  }
+}

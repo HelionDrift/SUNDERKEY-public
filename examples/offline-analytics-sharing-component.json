@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S12",
+  "component_id": "supplied_analytics_sharing",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-analytics-sharing-v1",
+      "sharing_complete": false,
+      "principals": [
+        {"principal_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+      ],
+      "workspaces": [
+        {"workspace_ref": "workspace:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "tenant_ref": "tenant:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+      ],
+      "data_sources": [
+        {"source_ref": "source:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "tenant_ref": "tenant:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+      ],
+      "dashboards": [
+        {"dashboard_ref": "dashboard:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "workspace_ref": "workspace:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "source_refs": ["source:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"]}
+      ],
+      "shares": [
+        {"share_id": "declared-share-1", "principal_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "dashboard_ref": "dashboard:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "permission": "view", "state": "declared_granted"}
+      ],
+      "objectives": [
+        {"principal_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "dashboard_ref": "dashboard:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "permission": "view"}
+      ]
+    }
+  }
+}

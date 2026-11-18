@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "manifest_id": "sunderkey.passive-osint.tools",
+  "manifest_version": "1.0.0",
+  "profile_id": "AOE-GA-D01-S01",
+  "admission_mode": "deny_all",
+  "tools": [],
+  "allowed_tool_count": 0,
+  "credential_access": false,
+  "target_access": false,
+  "network_access": false,
+  "execution_allowed": false,
+  "reason": "Tool selection and target interaction remain outside this development package."
+}

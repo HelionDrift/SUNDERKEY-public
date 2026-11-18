@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S19",
+  "component_id": "agent_supplied_plan_revision_integrity",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-plan-model",
+      "evidence_sources": [
+        {"source_id": "synthetic-baseline", "provenance_kind": "synthetic_fixture"},
+        {"source_id": "synthetic-revisions", "provenance_kind": "synthetic_fixture"}
+      ],
+      "baseline": {
+        "source_id": "synthetic-baseline",
+        "goal_id": "goal-review",
+        "step_ids": ["step-inventory", "step-summarize"]
+      },
+      "revisions": [
+        {
+          "revision_id": "revision-denied-applied",
+          "previous_goal_id": "goal-review",
+          "previous_step_ids": ["step-inventory", "step-summarize"],
+          "proposed_goal_id": "goal-expand",
+          "proposed_step_ids": ["step-inventory", "step-expand"],
+          "origin": "external",
+          "approval_state": "denied",
+          "application_state": "applied",
+          "context_complete": true,
+          "observation_complete": true,
+          "source_id": "synthetic-revisions"
+        },
+        {
+          "revision_id": "revision-rejected",
+          "previous_goal_id": "goal-review",
+          "previous_step_ids": ["step-inventory", "step-summarize"],
+          "proposed_goal_id": "goal-expand",
+          "proposed_step_ids": ["step-inventory", "step-expand"],
+          "origin": "agent",
+          "approval_state": "denied",
+          "application_state": "rejected",
+          "context_complete": true,
+          "observation_complete": true,
+          "source_id": "synthetic-revisions"
+        },
+        {
+          "revision_id": "revision-unknown",
+          "previous_goal_id": "goal-review",
+          "previous_step_ids": ["step-inventory", "step-summarize"],
+          "proposed_goal_id": "goal-expand",
+          "proposed_step_ids": ["step-inventory", "step-expand"],
+          "origin": "unknown",
+          "approval_state": "unknown",
+          "application_state": "unknown",
+          "context_complete": false,
+          "observation_complete": false,
+          "source_id": "synthetic-revisions"
+        }
+      ]
+    }
+  }
+}

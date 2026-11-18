@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sunderkey:schema:operator-console-contract-v1",
+  "title": "SUNDERKEY Operator Console Contract v1",
+  "oneOf": [
+    {"$ref": "#/$defs/projection"},
+    {"$ref": "#/$defs/intent"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "utc": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"},
+    "token": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "reference": {"type": "string", "pattern": "^(approvalref|assessmentref|evidref|findingref|graphref|reportref|schedref|scoperef|statusref|taskref|workerref):[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$"},
+    "no_effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization", "control", "credentials", "execution", "mission_mutation", "network", "persistence", "worker_mutation"],
+      "properties": {
+        "authorization": {"const": "external"},
+        "control": {"const": "none"},
+        "credentials": {"const": "none"},
+        "execution": {"const": "none"},
+        "mission_mutation": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "worker_mutation": {"const": "none"}
+      }
+    },
+    "counter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["consumed", "limit", "remaining"],
+      "properties": {
+        "consumed": {"type": "integer", "minimum": 0},
+        "limit": {"type": "integer", "minimum": 1},
+        "remaining": {"type": "integer", "minimum": 0}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cost_units", "requests", "storage_bytes", "tokens", "tool_calls", "worker_minutes"],
+      "properties": {
+        "cost_units": {"$ref": "#/$defs/counter"},
+        "requests": {"$ref": "#/$defs/counter"},
+        "storage_bytes": {"$ref": "#/$defs/counter"},
+        "tokens": {"$ref": "#/$defs/counter"},
+        "tool_calls": {"$ref": "#/$defs/counter"},
+        "worker_minutes": {"$ref": "#/$defs/counter"}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocked", "completed", "completion_basis_points", "queued", "running", "total"],
+      "properties": {
+        "blocked": {"type": "integer", "minimum": 0},
+        "completed": {"type": "integer", "minimum": 0},
+        "completion_basis_points": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "queued": {"type": "integer", "minimum": 0},
+        "running": {"type": "integer", "minimum": 0},
+        "total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "worker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_task_ref", "health", "heartbeat_at", "specialist_profile_id", "state", "worker_ref"],
+      "properties": {
+        "current_task_ref": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^taskref:"}]},
+        "health": {"enum": ["healthy", "degraded", "unhealthy", "unknown"]},
+        "heartbeat_at": {"$ref": "#/$defs/utc"},
+        "specialist_profile_id": {"$ref": "#/$defs/identifier"},
+        "state": {"enum": ["pending", "starting", "running", "paused", "stopping", "terminal"]},
+        "worker_ref": {"type": "string", "pattern": "^workerref:"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_kind", "action_tier", "approval_ref", "expires_at", "state"],
+      "properties": {
+        "action_kind": {"$ref": "#/$defs/token"},
+        "action_tier": {"enum": ["R0", "R1", "R2", "R3", "R4"]},
+        "approval_ref": {"type": "string", "pattern": "^approvalref:"},
+        "expires_at": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/utc"}]},
+        "state": {"$ref": "#/$defs/token"}
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocker_id", "code", "detail", "owner_role", "severity"],
+      "properties": {
+        "blocker_id": {"$ref": "#/$defs/identifier"},
+        "code": {"$ref": "#/$defs/token"},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 512},
+        "owner_role": {"$ref": "#/$defs/token"},
+        "severity": {"enum": ["info", "warning", "critical"]}
+      }
+    },
+    "graph_change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["changed_at", "conflicts", "edges_added", "graph_ref", "nodes_added", "nodes_updated"],
+      "properties": {
+        "changed_at": {"$ref": "#/$defs/utc"},
+        "conflicts": {"type": "integer", "minimum": 0},
+        "edges_added": {"type": "integer", "minimum": 0},
+        "graph_ref": {"type": "string", "pattern": "^graphref:"},
+        "nodes_added": {"type": "integer", "minimum": 0},
+        "nodes_updated": {"type": "integer", "minimum": 0}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvals", "assessment_ref", "assessment_version", "blockers", "budget", "coverage", "emergency_stop_recorded", "evidence_refs", "finding_refs", "graph_changes", "health", "mission_state", "observed_at", "report_refs", "schedule_sha256", "scope_sha256", "status_sha256", "workers"],
+      "properties": {
+        "approvals": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/approval"}},
+        "assessment_ref": {"type": "string", "pattern": "^assessmentref:"},
+        "assessment_version": {"type": "integer", "minimum": 1},
+        "blockers": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/blocker"}},
+        "budget": {"$ref": "#/$defs/budget"},
+        "coverage": {"$ref": "#/$defs/coverage"},
+        "emergency_stop_recorded": {"type": "boolean"},
+        "evidence_refs": {"type": "array", "maxItems": 8192, "uniqueItems": true, "items": {"type": "string", "pattern": "^evidref:"}},
+        "finding_refs": {"type": "array", "maxItems": 8192, "uniqueItems": true, "items": {"type": "string", "pattern": "^findingref:"}},
+        "graph_changes": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/graph_change"}},
+        "health": {"enum": ["healthy", "degraded", "unhealthy", "unknown"]},
+        "mission_state": {"enum": ["draft", "pending_scope", "ready", "running", "paused", "stopping", "completed", "failed", "cancelled"]},
+        "observed_at": {"$ref": "#/$defs/utc"},
+        "report_refs": {"type": "array", "maxItems": 8192, "uniqueItems": true, "items": {"type": "string", "pattern": "^reportref:"}},
+        "schedule_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "status_sha256": {"$ref": "#/$defs/sha256"},
+        "workers": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/worker"}}
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["available_intents", "controls_require_external_authorization", "no_effects", "projection_id", "projection_sha256", "redacted_sections", "schema_version", "source", "view_role", "visible_sections"],
+      "properties": {
+        "available_intents": {"type": "array", "maxItems": 6, "uniqueItems": true, "items": {"enum": ["request_pause", "request_resume", "request_cancel", "request_emergency_stop", "request_approval_review", "acknowledge_blocker"]}},
+        "controls_require_external_authorization": {"const": true},
+        "no_effects": {"$ref": "#/$defs/no_effects"},
+        "projection_id": {"type": "string", "pattern": "^OCP-[0-9A-F]{32}$"},
+        "projection_sha256": {"$ref": "#/$defs/sha256"},
+        "redacted_sections": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/token"}},
+        "schema_version": {"const": 1},
+        "source": {"$ref": "#/$defs/source"},
+        "view_role": {"enum": ["assessment_operator", "independent_control", "independent_assurance", "evidence_custodian", "executive_observer", "incident_responder"]},
+        "visible_sections": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/token"}}
+      }
+    },
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assessment_ref", "authorization_status", "effect", "expected_assessment_version", "idempotency_key", "intent_id", "intent_kind", "intent_sha256", "no_effects", "principal_id", "rationale", "requested_at", "schema_version"],
+      "properties": {
+        "assessment_ref": {"type": "string", "pattern": "^assessmentref:"},
+        "authorization_status": {"const": "external_required"},
+        "effect": {"const": "none"},
+        "expected_assessment_version": {"type": "integer", "minimum": 1},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "intent_id": {"type": "string", "pattern": "^OCI-[0-9A-F]{32}$"},
+        "intent_kind": {"enum": ["request_pause", "request_resume", "request_cancel", "request_emergency_stop", "request_approval_review", "acknowledge_blocker"]},
+        "intent_sha256": {"$ref": "#/$defs/sha256"},
+        "no_effects": {"$ref": "#/$defs/no_effects"},
+        "principal_id": {"$ref": "#/$defs/identifier"},
+        "rationale": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "requested_at": {"$ref": "#/$defs/utc"},
+        "schema_version": {"const": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S12",
+  "component_id": "web_supplied_route_authorization",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:web-route",
+      "source": {
+        "schema_version": "v1",
+        "facts_complete": true,
+        "policy_complete": true,
+        "principals": [
+          {"principal_id": "alice", "tenant_id": "tenant-a", "roles": ["admin"]},
+          {"principal_id": "bob", "tenant_id": "tenant-b", "roles": ["admin"]}
+        ],
+        "routes": [
+          {
+            "route_id": "tenant-admin",
+            "route_path": "/workspace/settings",
+            "access": "role",
+            "required_role": "admin",
+            "tenant_scope": "same_tenant"
+          }
+        ],
+        "observations": [
+          {
+            "observation_id": "obs-owner",
+            "principal_id": "alice",
+            "route_id": "tenant-admin",
+            "resource_tenant_id": "tenant-a",
+            "ui_visibility": "visible",
+            "server_outcome": "allowed"
+          },
+          {
+            "observation_id": "obs-cross-tenant",
+            "principal_id": "bob",
+            "route_id": "tenant-admin",
+            "resource_tenant_id": "tenant-a",
+            "ui_visibility": "visible",
+            "server_outcome": "allowed"
+          },
+          {
+            "observation_id": "obs-anonymous",
+            "principal_id": null,
+            "route_id": "tenant-admin",
+            "resource_tenant_id": "tenant-a",
+            "ui_visibility": "hidden",
+            "server_outcome": "denied"
+          }
+        ]
+      }
+    }
+  }
+}

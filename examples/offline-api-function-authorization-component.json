@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S10",
+  "component_id": "api_supplied_function_authorization_differential",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "roles": ["reader", "writer"],
+      "subjects": [
+        {
+          "subject_id": "guest",
+          "role_ids": ["reader"],
+          "roles_complete": true
+        },
+        {
+          "subject_id": "editor",
+          "role_ids": ["writer"],
+          "roles_complete": true
+        }
+      ],
+      "functions": [
+        {
+          "function_id": "publish",
+          "role_permissions": {
+            "reader": "deny",
+            "writer": "allow"
+          },
+          "matrix_complete": true
+        }
+      ],
+      "invocations": [
+        {
+          "invocation_id": "synthetic-deny-mismatch",
+          "subject_id": "guest",
+          "function_id": "publish",
+          "outcome": "allowed",
+          "observation_complete": true
+        },
+        {
+          "invocation_id": "synthetic-allow-match",
+          "subject_id": "editor",
+          "function_id": "publish",
+          "outcome": "allowed",
+          "observation_complete": true
+        },
+        {
+          "invocation_id": "synthetic-unknown",
+          "subject_id": "guest",
+          "function_id": "publish",
+          "outcome": "unknown",
+          "observation_complete": false
+        }
+      ]
+    }
+  }
+}

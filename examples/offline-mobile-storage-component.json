@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-mobile-storage",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "policies": [{
+      "policy_id": "sensitive-local", "data_class": "sensitive",
+      "encrypted_at_rest": true, "excluded_from_backup": true,
+      "user_presence_required": false
+    }],
+    "artifacts": [{
+      "artifact_id": "cached-profile", "policy_id": "sensitive-local",
+      "storage_kind": "database", "encrypted_at_rest": true,
+      "excluded_from_backup": false, "user_presence_required": false
+    }]
+  }}
+}

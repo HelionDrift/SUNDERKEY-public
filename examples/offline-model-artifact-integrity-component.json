@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S08",
+  "component_id": "model_supplied_artifact_integrity",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-model-release",
+      "release_id": "synthetic-release-one",
+      "artifacts": [
+        {
+          "artifact_id": "pickle-risky",
+          "blob_base64": "Y2J1aWx0aW5zCmxpc3QKLg==",
+          "expected_sha256": "sha256:427824781b5db80f10fa8d01c6237c2185f40f8a3b13822d44b7847af8c37f46",
+          "declared_origin": "approved"
+        },
+        {
+          "artifact_id": "digest-mismatch",
+          "blob_base64": "STEKLg==",
+          "expected_sha256": "sha256:427824781b5db80f10fa8d01c6237c2185f40f8a3b13822d44b7847af8c37f46",
+          "declared_origin": "approved"
+        },
+        {
+          "artifact_id": "unapproved-origin",
+          "blob_base64": "STEKLg==",
+          "expected_sha256": "sha256:cc66bee727b213ac18904f695480abb823bf246e5c06359834934e3d99d741a3",
+          "declared_origin": "unapproved"
+        },
+        {
+          "artifact_id": "unknown-expected",
+          "blob_base64": "STEKLg==",
+          "expected_sha256": "unknown",
+          "declared_origin": "unknown"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-report-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Report Custody",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_custody_id",
+    "report_custody_sha256",
+    "invocation_preparation",
+    "provider_acknowledgement",
+    "received_at",
+    "report_status",
+    "authentication_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_custody_id": {"pattern": "^EPR-[0-9A-F]{32}$"},
+    "report_custody_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+    "invocation_preparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_id",
+        "attempt_sha256",
+        "prepared_at",
+        "dispatch_id",
+        "dispatch_sha256",
+        "operation",
+        "operation_sequence",
+        "session_id",
+        "session_sha256",
+        "fence_generation",
+        "adapter_id",
+        "adapter_version",
+        "adapter_build_sha256"
+      ],
+      "properties": {
+        "attempt_id": {"pattern": "^EIP-[0-9A-F]{32}$"},
+        "attempt_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+        "prepared_at": {"type": "string", "minLength": 1},
+        "dispatch_id": {"pattern": "^EXD-[0-9A-F]{32}$"},
+        "dispatch_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+        "operation": {
+          "enum": [
+            "start", "action", "evidence", "heartbeat",
+            "pause", "resume", "stop", "destroy"
+          ]
+        },
+        "operation_sequence": {"type": "integer", "minimum": 1},
+        "session_id": {"type": "string", "minLength": 1},
+        "session_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+        "fence_generation": {"type": "integer", "minimum": 1},
+        "adapter_id": {"type": "string", "minLength": 1},
+        "adapter_version": {"type": "string", "minLength": 1},
+        "adapter_build_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "provider_acknowledgement": {
+      "$ref": "collaboration-executor-acknowledgement-v1.schema.json"
+    },
+    "received_at": {"type": "string", "minLength": 1},
+    "report_status": {
+      "const": "complete_report_captured_pending_authentication"
+    },
+    "authentication_status": {"const": "not_authenticated"},
+    "external_effect_status": {
+      "const": "provider_report_pending_authentication"
+    },
+    "runtime_effect": {"const": "none"}
+  }
+}

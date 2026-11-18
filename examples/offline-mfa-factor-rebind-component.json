@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S02",
+  "component_id": "identity_supplied_mfa_factor_rebind",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:factor-rebind",
+      "account_id": "synthetic:account-one",
+      "policy_complete": true,
+      "events_complete": true,
+      "order_complete": true,
+      "approval_required_for_rebind": true,
+      "initial_factor_ids": ["synthetic:factor-old"],
+      "events": [
+        {
+          "event_id": "synthetic:use-old",
+          "factor_id": "synthetic:factor-old",
+          "at_tick": 1,
+          "event_type": "factor_used",
+          "reported_outcome": "accepted"
+        },
+        {
+          "event_id": "synthetic:bind-new",
+          "factor_id": "synthetic:factor-new",
+          "at_tick": 2,
+          "event_type": "factor_bound",
+          "reported_outcome": "none"
+        },
+        {
+          "event_id": "synthetic:revoke-old",
+          "factor_id": "synthetic:factor-old",
+          "at_tick": 3,
+          "event_type": "factor_revoked",
+          "reported_outcome": "none"
+        },
+        {
+          "event_id": "synthetic:use-revoked",
+          "factor_id": "synthetic:factor-old",
+          "at_tick": 4,
+          "event_type": "factor_used",
+          "reported_outcome": "accepted"
+        }
+      ]
+    }
+  }
+}

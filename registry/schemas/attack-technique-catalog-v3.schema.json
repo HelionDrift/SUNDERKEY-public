@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/attack-technique-catalog-v3.schema.json",
+  "title": "SUNDERKEY Attack Technique Reference Catalog v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "catalog_sha256",
+    "catalog_status",
+    "reference_profiles",
+    "standards_sources",
+    "techniques",
+    "coverage_summary",
+    "authority_effect",
+    "qualification_effect",
+    "routing_effect",
+    "execution_effect",
+    "deployment_effect",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 3
+    },
+    "catalog_id": {
+      "const": "sunderkey-attack-techniques-reference-v3"
+    },
+    "catalog_version": {
+      "const": "3.0.0"
+    },
+    "catalog_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "catalog_status": {
+      "const": "infrastructure_independent_reference"
+    },
+    "reference_profiles": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "standards_sources": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "minItems": 18,
+      "maxItems": 18,
+      "items": {
+        "$ref": "#/$defs/technique"
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_profile_count",
+        "technique_count",
+        "profiles_with_multiple_techniques",
+        "standards_source_count",
+        "mapped_technique_count",
+        "unique_mechanic_count",
+        "non_operational_technique_count"
+      ],
+      "properties": {
+        "reference_profile_count": {
+          "const": 6
+        },
+        "technique_count": {
+          "const": 18
+        },
+        "profiles_with_multiple_techniques": {
+          "const": 6
+        },
+        "standards_source_count": {
+          "const": 3
+        },
+        "mapped_technique_count": {
+          "const": 18
+        },
+        "unique_mechanic_count": {
+          "const": 18
+        },
+        "non_operational_technique_count": {
+          "const": 18
+        }
+      }
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "routing_effect": {
+      "const": "none"
+    },
+    "execution_effect": {
+      "const": "none"
+    },
+    "deployment_effect": {
+      "const": "none"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[ -~]*[!-~][ -~]*$"
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_name",
+        "vector_id",
+        "family"
+      ],
+      "properties": {
+        "profile_id": {
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$",
+          "type": "string"
+        },
+        "profile_name": {
+          "$ref": "#/$defs/text"
+        },
+        "vector_id": {
+          "pattern": "^AV-G[A-E]-D[0-9]{2}-S[0-9]{2}-01$",
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "title",
+        "publisher",
+        "source_version",
+        "release_date",
+        "url",
+        "reference_ids"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/text"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "publisher": {
+          "$ref": "#/$defs/text"
+        },
+        "source_version": {
+          "$ref": "#/$defs/text"
+        },
+        "release_date": {
+          "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://",
+          "type": "string"
+        },
+        "reference_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_version",
+        "source_release_date",
+        "reference_id",
+        "relationship",
+        "rationale"
+      ],
+      "properties": {
+        "source_id": {
+          "enum": [
+            "iec-62443-3-3",
+            "mitre-attack-enterprise",
+            "owasp-api-security"
+          ]
+        },
+        "source_version": {
+          "$ref": "#/$defs/text"
+        },
+        "source_release_date": {
+          "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$",
+          "type": "string"
+        },
+        "reference_id": {
+          "$ref": "#/$defs/text"
+        },
+        "relationship": {
+          "enum": [
+            "control_alignment",
+            "exact_risk",
+            "related_technique"
+          ]
+        },
+        "rationale": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "technique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technique_id",
+        "profile_id",
+        "vector_id",
+        "name",
+        "family",
+        "record_kind",
+        "mechanic",
+        "description",
+        "prerequisites",
+        "observables",
+        "safe_proof",
+        "negative_controls",
+        "cleanup_and_restoration",
+        "blind_spots",
+        "standards_mappings",
+        "authority_effect",
+        "qualification_effect",
+        "routing_effect",
+        "execution_effect",
+        "deployment_effect",
+        "technique_sha256"
+      ],
+      "properties": {
+        "technique_id": {
+          "pattern": "^AT3-G[A-E]-D[0-9]{2}-S[0-9]{2}-[0-9]{2}$",
+          "type": "string"
+        },
+        "profile_id": {
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$",
+          "type": "string"
+        },
+        "vector_id": {
+          "pattern": "^AV-G[A-E]-D[0-9]{2}-S[0-9]{2}-01$",
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "family": {
+          "$ref": "#/$defs/text"
+        },
+        "record_kind": {
+          "enum": [
+            "path",
+            "technique"
+          ]
+        },
+        "mechanic": {
+          "$ref": "#/$defs/text"
+        },
+        "description": {
+          "$ref": "#/$defs/text"
+        },
+        "prerequisites": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "observables": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "safe_proof": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "negative_controls": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "cleanup_and_restoration": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "blind_spots": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "standards_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/mapping"
+          }
+        },
+        "authority_effect": {
+          "const": "none"
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "routing_effect": {
+          "const": "none"
+        },
+        "execution_effect": {
+          "const": "none"
+        },
+        "deployment_effect": {
+          "const": "none"
+        },
+        "technique_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

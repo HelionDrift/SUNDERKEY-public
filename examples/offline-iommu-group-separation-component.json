@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D24-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-iommu-groups",
+      "inventory_complete": true,
+      "iommu_declared_enabled": true,
+      "devices": [
+        {"device_id": "dma-a", "group_id": "group-7", "security_role": "untrusted_dma"},
+        {"device_id": "protected-a", "group_id": "group-7", "security_role": "protected"}
+      ]
+    }
+  }
+}

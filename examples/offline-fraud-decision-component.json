@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S10",
+  "component_id": "supplied_fraud_decision_review",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-fraud-decision-review-v1",
+      "policy_ref": "policy:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "minimum_action_by_band": {"low": "allow", "medium": "challenge", "high": "block"},
+      "events": [
+        {"event_id": "e1", "subject_ref": "subject:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "risk_band": "low", "declared_minimum_action": "allow", "decision": "allow"},
+        {"event_id": "e2", "subject_ref": "subject:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "risk_band": "high", "declared_minimum_action": "block", "decision": "block"}
+      ]
+    }
+  }
+}

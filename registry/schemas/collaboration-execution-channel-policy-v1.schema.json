@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-channel-policy-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Channel Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "channel_policy_id",
+    "channel_policy_sha256",
+    "authority_policy",
+    "mission_policy",
+    "policy_version",
+    "previous_channel_policy_sha256",
+    "mission_id",
+    "collaboration_plan_id",
+    "collaboration_plan_sha256",
+    "acknowledgement_timeout_seconds",
+    "protocol_controls",
+    "approval_bindings",
+    "effective_at",
+    "expires_at",
+    "authentication_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "channel_policy_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+    "channel_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "authority_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "policy_sha256"],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^RAP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "mission_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "policy_sha256"],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^MRP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "policy_version": {"type": "integer", "minimum": 1},
+    "previous_channel_policy_sha256": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+    },
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "collaboration_plan_id": {"$ref": "#/$defs/identifier"},
+    "collaboration_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "acknowledgement_timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+    "protocol_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_revocation_before_successor_activation",
+        "external_acknowledger_distinct_from_control_plane_requester",
+        "explicit_release_acknowledgement_required",
+        "fail_closed_on_timeout",
+        "session_fence_required",
+        "transfer_not_inferred_from_control_plane_state"
+      ],
+      "properties": {
+        "credential_revocation_before_successor_activation": {"const": true},
+        "external_acknowledger_distinct_from_control_plane_requester": {"const": true},
+        "explicit_release_acknowledgement_required": {"const": true},
+        "fail_closed_on_timeout": {"const": true},
+        "session_fence_required": {"const": true},
+        "transfer_not_inferred_from_control_plane_state": {"const": true}
+      }
+    },
+    "approval_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mission_owner", "independent_control"],
+      "properties": {
+        "mission_owner": {"$ref": "#/$defs/approval"},
+        "independent_control": {"$ref": "#/$defs/approval"}
+      }
+    },
+    "effective_at": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "authentication_status": {"const": "assertions_pending_verification"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "assertion_id", "assertion_sha256"],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

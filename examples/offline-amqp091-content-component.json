@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "direction": "client_to_server",
+      "frames_base64": "AQABAAAACwA8ACgAAAF4AWEAzgEAAgAAAAsAPAAoAAABeQFiAc4CAAEAAAAOADwAAAAAAAAAAAADAADOAgACAAAADgA8AAAAAAAAAAAAAwAAzgMAAQAAAAFhzgMAAgAAAAN4eXrOAwABAAAAAmJjzg==",
+      "schema_version": 1,
+      "source_id": "synthetic-amqp-publish-content"
+    }
+  }
+}

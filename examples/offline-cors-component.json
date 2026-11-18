@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "cases": [
+        {
+          "case_id": "synthetic-cors",
+          "request": {
+            "source_id": "synthetic-request",
+            "serialized_origin": "https://client.invalid",
+            "credentials_mode": "omit",
+            "method": "PUT",
+            "unsafe_header_names": [
+              "X-Synthetic"
+            ],
+            "preflight_required": true,
+            "use_cors_preflight": false,
+            "projection_complete": true
+          },
+          "preflight_response": {
+            "source_id": "synthetic-preflight",
+            "status": 204,
+            "cors_fields": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "PUT"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "X-Synthetic"
+              }
+            ],
+            "headers_complete": true
+          },
+          "actual_response": {
+            "source_id": "synthetic-actual",
+            "status": 403,
+            "cors_fields": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Expose-Headers",
+                "value": "X-Synthetic-Result"
+              }
+            ],
+            "response_header_names": [
+              "Access-Control-Allow-Origin",
+              "Access-Control-Expose-Headers",
+              "Content-Type",
+              "X-Synthetic-Result",
+              "Set-Cookie"
+            ],
+            "headers_complete": true
+          }
+        }
+      ]
+    }
+  }
+}

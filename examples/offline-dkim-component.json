@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-dkim-arithmetic",
+      "message_base64": "REtJTS1TaWduYXR1cmU6IHY9MTsgYT1yc2Etc2hhMjU2OyBjPXJlbGF4ZWQvcmVsYXhlZDsgZD1leGFtcGxlLnRlc3Q7IHM9b2ZmbGluZTsNCgloPWZyb206eC1ub3RlOngtbm90ZTp4LW1pc3Npbmc7IGJoPTQ3REVRcGo4SEJTYSsvVEltVys1SkNldVFlUmttNU5NcEpXWkczaFN1RlU9OyBiPUFRPT07DQpGcm9tOiBzZW5kZXJAZXhhbXBsZS50ZXN0DQpYLU5vdGU6IG9sZGVyDQpYLU5vdGU6IG5ld2VyDQoNCg==",
+      "dkim_header_index": 0
+    }
+  }
+}

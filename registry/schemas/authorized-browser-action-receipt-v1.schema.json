@@ -1,0 +1,600 @@
+{
+  "$id": "https://sunderkey.invalid/schemas/authorized-browser-action-receipt-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "budget_reservation_id": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "budget_reservation_id"
+        ]
+      },
+      "then": {
+        "properties": {
+          "budget_completion_sha256": {
+            "type": "null"
+          },
+          "budget_reservation_sha256": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "budget_reservation_sha256": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "budget_reservation_sha256"
+        ]
+      },
+      "then": {
+        "properties": {
+          "budget_completion_sha256": {
+            "type": "null"
+          },
+          "budget_reservation_id": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "driver_called": {
+            "const": false
+          }
+        },
+        "required": [
+          "driver_called"
+        ]
+      },
+      "then": {
+        "properties": {
+          "browser_action_performed": {
+            "const": false
+          },
+          "post_origin": {
+            "type": "null"
+          },
+          "post_session_attestation_sha256": {
+            "type": "null"
+          },
+          "post_url": {
+            "type": "null"
+          },
+          "pre_origin": {
+            "type": "null"
+          },
+          "pre_session_attestation_sha256": {
+            "type": "null"
+          },
+          "pre_url": {
+            "type": "null"
+          },
+          "status": {
+            "const": "rejected_before_driver"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "driver_called": {
+            "const": true
+          }
+        },
+        "required": [
+          "driver_called"
+        ]
+      },
+      "then": {
+        "properties": {
+          "budget_reservation_id": {
+            "pattern": "^BBR-[0-9A-F]{32}$",
+            "type": "string"
+          },
+          "budget_reservation_sha256": {
+            "$ref": "#/$defs/digest"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "driver_called": {
+                "const": true
+              }
+            },
+            "required": [
+              "driver_called"
+            ]
+          },
+          {
+            "not": {
+              "properties": {
+                "status": {
+                  "const": "driver_failed"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "browser_action_performed": {
+            "const": true
+          },
+          "post_origin": {
+            "$ref": "#/$defs/origin"
+          },
+          "post_session_attestation_sha256": {
+            "$ref": "#/$defs/digest"
+          },
+          "post_url": {
+            "$ref": "#/$defs/httpsUrl"
+          },
+          "pre_origin": {
+            "$ref": "#/$defs/origin"
+          },
+          "pre_session_attestation_sha256": {
+            "$ref": "#/$defs/digest"
+          },
+          "pre_url": {
+            "$ref": "#/$defs/httpsUrl"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "budget_completion_sha256": {
+            "$ref": "#/$defs/digest"
+          },
+          "reason": {
+            "const": "completed"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "driver_failed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "browser_action_performed": {
+            "const": false
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "action": {
+      "enum": [
+        "click_selector",
+        "fill_reference",
+        "navigate",
+        "read_metadata",
+        "screenshot_reference",
+        "submit",
+        "wait_condition"
+      ]
+    },
+    "admission_receipt_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "admission_receipt_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "binding": {
+      "$ref": "#/$defs/executionBinding"
+    },
+    "binding_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "browser_action_performed": {
+      "type": "boolean"
+    },
+    "budget_completion_sha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "budget_reservation_id": {
+      "anyOf": [
+        {
+          "pattern": "^BBR-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "budget_reservation_sha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "driver_called": {
+      "type": "boolean"
+    },
+    "elapsed_milliseconds": {
+      "maximum": 600000,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "enforcement_boundary": {
+      "const": "injected_authorized_browser_driver_only"
+    },
+    "evidence_reference": {
+      "anyOf": [
+        {
+          "pattern": "^(?:evidref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}|sha256:[0-9a-f]{64})$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "execution_request_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "execution_request_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "intent_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "intended_origin": {
+      "$ref": "#/$defs/origin"
+    },
+    "kind": {
+      "const": "authorized_browser_action_receipt"
+    },
+    "observed_bytes": {
+      "maximum": 100000000,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "policy_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "policy_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "post_origin": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/origin"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "post_session_attestation_sha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "post_url": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pre_origin": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/origin"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pre_session_attestation_sha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pre_url": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "principal_label": {
+      "$ref": "#/$defs/identifier"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "reason": {
+      "pattern": "^[a-z][a-z0-9_.-]{1,63}$",
+      "type": "string"
+    },
+    "receipt_id": {
+      "pattern": "^ABR-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "scope_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "scope_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "screenshots_captured": {
+      "maximum": 1000000,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "session_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "driver_failed",
+        "postcondition_failed",
+        "rejected_before_driver"
+      ]
+    },
+    "transcript": {
+      "items": {
+        "$ref": "#/$defs/transcriptEvent"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "type": "array"
+    },
+    "transcript_id": {
+      "pattern": "^ABT-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "transcript_sha256": {
+      "$ref": "#/$defs/digest"
+    }
+  },
+  "required": [
+    "action",
+    "admission_receipt_id",
+    "admission_receipt_sha256",
+    "authority_effect",
+    "binding",
+    "binding_sha256",
+    "browser_action_performed",
+    "budget_completion_sha256",
+    "budget_reservation_id",
+    "budget_reservation_sha256",
+    "driver_called",
+    "elapsed_milliseconds",
+    "enforcement_boundary",
+    "evidence_reference",
+    "execution_request_id",
+    "execution_request_sha256",
+    "intent_sha256",
+    "intended_origin",
+    "kind",
+    "observed_bytes",
+    "policy_id",
+    "policy_sha256",
+    "post_origin",
+    "post_session_attestation_sha256",
+    "post_url",
+    "pre_origin",
+    "pre_session_attestation_sha256",
+    "pre_url",
+    "principal_label",
+    "qualification_effect",
+    "reason",
+    "receipt_id",
+    "receipt_sha256",
+    "schema_version",
+    "scope_id",
+    "scope_sha256",
+    "screenshots_captured",
+    "session_id",
+    "status",
+    "transcript",
+    "transcript_id",
+    "transcript_sha256"
+  ],
+  "title": "SUNDERKEY Authorized Browser Action Receipt v1",
+  "type": "object",
+  "$defs": {
+    "digest": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "executionBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "context_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "fence_epoch": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "lease_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "scope_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "scope_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "session_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "tenant_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "context_id",
+        "context_sha256",
+        "fence_epoch",
+        "lease_id",
+        "scope_id",
+        "scope_sha256",
+        "session_id",
+        "target_id",
+        "target_sha256",
+        "tenant_id"
+      ],
+      "type": "object"
+    },
+    "httpsUrl": {
+      "maxLength": 2048,
+      "pattern": "^https://[^#]+$",
+      "type": "string"
+    },
+    "identifier": {
+      "maxLength": 256,
+      "minLength": 2,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]+$",
+      "type": "string"
+    },
+    "origin": {
+      "maxLength": 512,
+      "pattern": "^https://[^/#]+$",
+      "type": "string"
+    },
+    "transcriptEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "detail_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "event_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "monotonic_tick": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "observed_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "previous_event_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence": {
+          "maximum": 64,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "stage": {
+          "pattern": "^[a-z][a-z0-9_.-]{1,63}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "detail_sha256",
+        "event_sha256",
+        "monotonic_tick",
+        "observed_at",
+        "previous_event_sha256",
+        "sequence",
+        "stage"
+      ],
+      "type": "object"
+    }
+  }
+}

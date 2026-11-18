@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S18",
+  "component_id": "agent_supplied_resource_budget",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-agent-budget",
+      "budget": {
+        "maximum_requests": 2,
+        "maximum_tokens": 5,
+        "maximum_cost_micro_usd": 5
+      },
+      "rates": [
+        {
+          "model_id": "model-one",
+          "input_micro_usd_per_million": 1000000,
+          "output_micro_usd_per_million": 2000000
+        }
+      ],
+      "events": [
+        {
+          "request_id": "first",
+          "model_id": "model-one",
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "request_id": "second",
+          "model_id": "model-one",
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "request_id": "rejected",
+          "model_id": "model-one",
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "admission": "rejected",
+          "context_complete": true
+        },
+        {
+          "request_id": "unknown",
+          "model_id": "model-one",
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "admission": "unknown",
+          "context_complete": true
+        },
+        {
+          "request_id": "after-unknown",
+          "model_id": "model-one",
+          "input_tokens": 1,
+          "output_tokens": 1,
+          "admission": "accepted",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

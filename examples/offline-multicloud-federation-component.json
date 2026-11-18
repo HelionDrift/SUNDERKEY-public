@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S09",
+  "component_id": "cloud_supplied_multicloud_federation_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "trusts": [
+        {
+          "trust_id": "aws-to-gcp",
+          "source_provider": "aws",
+          "source_tenant": "aws-account-a",
+          "target_provider": "gcp",
+          "target_tenant": "gcp-project-b",
+          "issuer_id": "issuer-a",
+          "audience_id": "audience-b",
+          "subject_id": "workload-a",
+          "role_id": "reader",
+          "enabled": true,
+          "contract_complete": true
+        }
+      ],
+      "exchanges": [
+        {
+          "exchange_id": "deny-issued",
+          "trust_id": "aws-to-gcp",
+          "source_provider": "aws",
+          "source_tenant": "aws-account-a",
+          "target_provider": "gcp",
+          "target_tenant": "gcp-project-b",
+          "issuer_id": "issuer-a",
+          "audience_id": "audience-other",
+          "subject_id": "workload-a",
+          "role_id": "reader",
+          "assertion_disposition": "declared_verified",
+          "context_complete": true,
+          "supplied_outcome": "issued",
+          "observation_complete": true
+        },
+        {
+          "exchange_id": "exact-match",
+          "trust_id": "aws-to-gcp",
+          "source_provider": "aws",
+          "source_tenant": "aws-account-a",
+          "target_provider": "gcp",
+          "target_tenant": "gcp-project-b",
+          "issuer_id": "issuer-a",
+          "audience_id": "audience-b",
+          "subject_id": "workload-a",
+          "role_id": "reader",
+          "assertion_disposition": "declared_verified",
+          "context_complete": true,
+          "supplied_outcome": "issued",
+          "observation_complete": true
+        },
+        {
+          "exchange_id": "unknown-context",
+          "trust_id": "aws-to-gcp",
+          "source_provider": "aws",
+          "source_tenant": "aws-account-a",
+          "target_provider": "gcp",
+          "target_tenant": "gcp-project-b",
+          "issuer_id": "issuer-a",
+          "audience_id": "audience-b",
+          "subject_id": "workload-a",
+          "role_id": "reader",
+          "assertion_disposition": "unknown",
+          "context_complete": false,
+          "supplied_outcome": "unknown",
+          "observation_complete": false
+        }
+      ]
+    }
+  }
+}

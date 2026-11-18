@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S04",
+  "component_id": "oauth_supplied_code_pkce_transcript",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-oauth-transcript",
+      "authorization_request": {
+        "source_id": "synthetic-authorization-request",
+        "complete": true,
+        "response_type": "code",
+        "client_id": "client.invalid",
+        "redirect_uri_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "state_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "code_challenge_method": "S256",
+        "code_challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "authorization_response": {
+        "source_id": "synthetic-authorization-response",
+        "complete": true,
+        "callback_redirect_target_declared": true,
+        "callback_redirect_uri_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "state_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "code_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "token_request": {
+        "source_id": "synthetic-token-request",
+        "complete": true,
+        "grant_type": "authorization_code",
+        "client_id": "client.invalid",
+        "redirect_uri_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "code_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "code_verifier_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  }
+}

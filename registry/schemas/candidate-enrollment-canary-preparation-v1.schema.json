@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-canary-preparation-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Canary Preparation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "packet_sha256",
+    "d011_decision",
+    "release_policy",
+    "accepted_release_outcome_schemas",
+    "preparation_status",
+    "canary_scope",
+    "required_external_inputs",
+    "activation_gates",
+    "critical_stop_conditions",
+    "authorized_next_action",
+    "limitations",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "packet_id": {"type": "string", "pattern": "^CAP-[0-9A-F]{32}$"},
+    "packet_sha256": {"$ref": "#/$defs/sha256"},
+    "d011_decision": {"$ref": "#/$defs/decisionBinding"},
+    "release_policy": {"$ref": "#/$defs/policyBinding"},
+    "accepted_release_outcome_schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["normal_completion", "recovery_completion"],
+      "properties": {
+        "normal_completion": {"$ref": "#/$defs/schemaBinding"},
+        "recovery_completion": {"$ref": "#/$defs/schemaBinding"}
+      }
+    },
+    "preparation_status": {"const": "awaiting_external_inputs_and_explicit_go_no_go"},
+    "canary_scope": {
+      "const": {
+        "activation_mode": "single_candidate_canary",
+        "automatic_expansion_allowed": false,
+        "live_evidence_before_activation_allowed": false,
+        "maximum_candidate_count": 1
+      }
+    },
+    "required_external_inputs": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["input_id", "accountable_roles", "required_evidence"],
+        "properties": {
+          "input_id": {"type": "string", "pattern": "^[a-z0-9_]{16,128}$"},
+          "accountable_roles": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"}
+          },
+          "required_evidence": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 6,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+          }
+        }
+      }
+    },
+    "activation_gates": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "critical_stop_conditions": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "authorized_next_action": {"const": "collect_inputs_and_record_separate_canary_go_no_go"},
+    "limitations": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,128}$"}
+    },
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "decisionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "policyBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "sha256"],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^CRP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "schemaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "sha256"],
+      "properties": {
+        "schema_id": {"type": "string", "pattern": "^https://schemas\\.sunderkey\\.dev/[A-Za-z0-9._/-]+$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

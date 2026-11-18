@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D25-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ais-position-report",
+      "synthetic_fixture": true,
+      "report_base64": "BB1vNFfgP/M8jWA0EhQOEP/4AAAA"
+    }
+  }
+}

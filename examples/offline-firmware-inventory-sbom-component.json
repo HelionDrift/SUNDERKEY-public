@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "inventory_source_id": "synthetic-firmware-inventory",
+      "sbom_source_id": "synthetic-sbom-claims",
+      "inventory_complete": true,
+      "sbom_complete": true,
+      "firmware_inventory": [
+        {
+          "component_id": "controller-runtime",
+          "version": "2.0",
+          "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      ],
+      "sbom_claims": [
+        {
+          "component_id": "controller-runtime",
+          "version": "1.9",
+          "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      ]
+    }
+  }
+}

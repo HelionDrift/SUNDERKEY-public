@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-mobile-protection",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "variant_ids": ["debug", "release"],
+    "modules": [{
+      "module_id": "payment", "required_kinds": ["obfuscation", "integrity_check"]
+    }],
+    "protections": [{
+      "protection_id": "obfuscate-payment", "kind": "obfuscation",
+      "module_ids": ["payment"], "variant_ids": ["release"]
+    }]
+  }}
+}

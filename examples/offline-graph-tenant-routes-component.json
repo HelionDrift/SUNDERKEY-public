@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S03",
+  "component_id": "supplied_graph_tenant_routes",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-graph-tenant-routes-v1",
+      "tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "start_node_ref": "node:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "graph_complete": false,
+      "nodes": [
+        {"node_ref": "node:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+        {"node_ref": "node:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "tenant_ref": "tenant:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+      ],
+      "edges": [
+        {"edge_id": "declared-link-1", "from_node_ref": "node:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "to_node_ref": "node:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "traversal": "declared_open"}
+      ],
+      "objectives": [
+        {"target_node_ref": "node:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}
+      ]
+    }
+  }
+}

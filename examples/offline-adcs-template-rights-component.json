@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-adcs-template-rights",
+      "inventory_complete": true,
+      "policy": {
+        "require_read_with_enrollment": true,
+        "require_enroll_with_autoenroll": true
+      },
+      "templates": [
+        {
+          "template_id": "synthetic-user-template",
+          "allowed_enrollment_principal_refs": [
+            "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "principal_rights": [
+            {
+              "principal_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "allow_right_labels": ["read", "enroll"]
+            },
+            {
+              "principal_ref": "principal:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "allow_right_labels": ["autoenroll"]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

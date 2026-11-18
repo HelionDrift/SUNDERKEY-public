@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S06",
+  "component_id": "identity_supplied_kerberos_realm_path",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:kerberos-realm-path",
+      "policy_complete": true,
+      "tickets_complete": true,
+      "realms_complete": true,
+      "order_complete": true,
+      "trusted_realms": ["synthetic:home-realm"],
+      "tickets": [
+        {
+          "ticket_id": "synthetic:ticket-one",
+          "client_realm": "synthetic:home-realm",
+          "service_realm": "synthetic:service-realm",
+          "service_id": "synthetic:service-one",
+          "transited_realms": ["synthetic:transit-realm"],
+          "starts_at": 10,
+          "ends_at": 40
+        }
+      ],
+      "observations": [
+        {
+          "observation_id": "synthetic:ticket-observed",
+          "ticket_id": "synthetic:ticket-one",
+          "expected_service_realm": "synthetic:service-realm",
+          "expected_service_id": "synthetic:service-one",
+          "at_tick": 20,
+          "reported_outcome": "accepted"
+        }
+      ]
+    }
+  }
+}

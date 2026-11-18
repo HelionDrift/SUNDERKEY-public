@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-debug-export",
+      "inventory_complete": true,
+      "interfaces": [
+        {
+          "interface_id": "board-a-jtag",
+          "interface_kind": "JTAG",
+          "expected_enabled": false,
+          "declared_enabled": true,
+          "context_complete": true
+        },
+        {
+          "interface_id": "board-a-uart",
+          "interface_kind": "UART",
+          "expected_enabled": false,
+          "declared_enabled": false,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

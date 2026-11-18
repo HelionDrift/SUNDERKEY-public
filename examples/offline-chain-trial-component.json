@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S18",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-chain-trials",
+    "trial_inventory_complete": true,
+    "stage_ids": ["prepare", "exercise", "restore"],
+    "trials": [
+      {"trial_id": "t1", "environment_id": "fixture_a", "stage_outcomes": [true, true, true]},
+      {"trial_id": "t2", "environment_id": "fixture_a", "stage_outcomes": [true, false, null]},
+      {"trial_id": "t3", "environment_id": "fixture_b", "stage_outcomes": [false, null, null]}
+    ]
+  }}
+}

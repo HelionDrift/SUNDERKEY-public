@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/synthetic-blast-radius-review-v1.schema.json",
+  "title": "SUNDERKEY Offline Synthetic Blast Radius Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "scenario_id", "scenario_kind", "tenant_id",
+    "scope_sha256", "request_sha256", "consent_sha256", "plan_sha256",
+    "graph_sha256", "closure_sha256", "review_at",
+    "declared_reachable_node_count", "declared_impact_paths",
+    "declared_blocked_edge_count", "unknown_edge_count", "cleanup_due",
+    "disclosure_due", "consent_authenticated", "path_outcomes_verified",
+    "cleanup_verified", "disclosure_verified", "custody_verified",
+    "source_provenance", "review_status", "qualification_effect", "effects",
+    "review_id", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "scenario_id": {"type": "string", "minLength": 1},
+    "scenario_kind": {
+      "enum": ["synthetic_phishing_impact", "synthetic_insider_start_position"]
+    },
+    "tenant_id": {"type": "string", "minLength": 1},
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "request_sha256": {"$ref": "#/$defs/sha256"},
+    "consent_sha256": {"$ref": "#/$defs/sha256"},
+    "plan_sha256": {"$ref": "#/$defs/sha256"},
+    "graph_sha256": {"$ref": "#/$defs/sha256"},
+    "closure_sha256": {"$ref": "#/$defs/sha256"},
+    "review_at": {"$ref": "#/$defs/utc"},
+    "declared_reachable_node_count": {
+      "type": "integer", "minimum": 1, "maximum": 64
+    },
+    "declared_impact_paths": {
+      "type": "array", "maxItems": 63,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "node_ref", "impact_class", "declared_path", "path_evidence_sha256"
+        ],
+        "properties": {
+          "node_ref": {"$ref": "#/$defs/resource"},
+          "impact_class": {
+            "enum": [
+              "synthetic_service_access", "synthetic_data_canary_reach",
+              "synthetic_recovery_canary_reach"
+            ]
+          },
+          "declared_path": {
+            "type": "array", "minItems": 2, "maxItems": 64,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "path_evidence_sha256": {
+            "type": "array", "minItems": 1, "maxItems": 63,
+            "items": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "declared_blocked_edge_count": {
+      "type": "integer", "minimum": 0, "maximum": 256
+    },
+    "unknown_edge_count": {"type": "integer", "minimum": 0, "maximum": 256},
+    "cleanup_due": {"type": "boolean"},
+    "disclosure_due": {"type": "boolean"},
+    "consent_authenticated": {"const": false},
+    "path_outcomes_verified": {"const": false},
+    "cleanup_verified": {"const": false},
+    "disclosure_verified": {"const": false},
+    "custody_verified": {"const": false},
+    "source_provenance": {"const": "caller_asserted_not_authenticated"},
+    "review_status": {"const": "independent_review_required"},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "authority": "none", "credential_collection": "none",
+        "delivery": "none", "execution": "none", "network": "none",
+        "qualification": "none", "target_interaction": "none"
+      }
+    },
+    "review_id": {"type": "string", "pattern": "^SBR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "resource": {
+      "type": "string", "pattern": "^synthetic-resource:sha256:[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

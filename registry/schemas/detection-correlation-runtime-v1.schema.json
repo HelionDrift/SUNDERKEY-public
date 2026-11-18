@@ -1,0 +1,435 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/detection-correlation-runtime-v1.schema.json",
+  "title": "SUNDERKEY Detection Correlation Runtime v1",
+  "oneOf": [
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/bundle"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "reference": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 320,
+      "pattern": "^[a-z][a-z0-9_-]{1,63}:[A-Za-z0-9][A-Za-z0-9._~:/+-]{0,255}$"
+    },
+    "code": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "effects": {
+      "const": {
+        "correlation": "reference_only",
+        "network": "none",
+        "provider_calls": "none",
+        "qualification": "none",
+        "siem_query": "none",
+        "source_write": "none",
+        "target_action": "none"
+      }
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["application_api", "cloud", "endpoint", "identity", "network", "siem"]
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_control_results",
+        "maximum_derived_findings",
+        "maximum_expected_detections",
+        "maximum_false_positive_controls",
+        "maximum_negative_controls",
+        "maximum_observed_signals",
+        "maximum_signal_age_seconds",
+        "maximum_window_seconds"
+      ],
+      "properties": {
+        "maximum_control_results": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_derived_findings": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_expected_detections": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_false_positive_controls": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_negative_controls": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_observed_signals": {"type": "integer", "minimum": 1, "maximum": 512},
+        "maximum_signal_age_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000},
+        "maximum_window_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000}
+      }
+    },
+    "executionReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_sha256",
+        "artifact_ref",
+        "artifact_sha256",
+        "completed_at",
+        "custody_policy_sha256",
+        "custody_sha256",
+        "custody_status",
+        "engagement_ref",
+        "evidence_manifest_sha256",
+        "execution_result_id",
+        "execution_result_sha256",
+        "kind",
+        "reference_id",
+        "reference_sha256",
+        "schema_version",
+        "scope_sha256",
+        "started_at",
+        "tenant_ref"
+      ],
+      "properties": {
+        "action_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_ref": {"$ref": "#/$defs/reference"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "completed_at": {"$ref": "#/$defs/timestamp"},
+        "custody_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_status": {"const": "durable_verified"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "evidence_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_result_id": {"type": "string", "pattern": "^ERE-[0-9A-F]{32}$"},
+        "execution_result_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.execution-evidence-reference.v1"},
+        "reference_id": {"type": "string", "pattern": "^EER-[0-9A-F]{32}$"},
+        "reference_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "started_at": {"$ref": "#/$defs/timestamp"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "signalReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_ref",
+        "custody_policy_sha256",
+        "custody_sha256",
+        "custody_status",
+        "engagement_ref",
+        "kind",
+        "normalized_at",
+        "normalized_event_id",
+        "normalized_event_sha256",
+        "occurred_at",
+        "operation_code",
+        "outcome",
+        "raw_event_sha256",
+        "redacted",
+        "schema_version",
+        "scope_sha256",
+        "severity",
+        "signal_id",
+        "signal_sha256",
+        "source_binding_id",
+        "source_binding_sha256",
+        "source_event_ref",
+        "telemetry_domain",
+        "tenant_ref"
+      ],
+      "properties": {
+        "artifact_ref": {"$ref": "#/$defs/reference"},
+        "custody_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_status": {"const": "durable_verified"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "kind": {"const": "sunderkey.normalized-signal-reference.v1"},
+        "normalized_at": {"$ref": "#/$defs/timestamp"},
+        "normalized_event_id": {"type": "string", "pattern": "^NTE-[0-9A-F]{32}$"},
+        "normalized_event_sha256": {"$ref": "#/$defs/sha256"},
+        "occurred_at": {"$ref": "#/$defs/timestamp"},
+        "operation_code": {"$ref": "#/$defs/code"},
+        "outcome": {"enum": ["allowed", "blocked", "failure", "success", "unknown"]},
+        "raw_event_sha256": {"$ref": "#/$defs/sha256"},
+        "redacted": {"const": true},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "severity": {"enum": ["critical", "high", "informational", "low", "medium", "unknown"]},
+        "signal_id": {"type": "string", "pattern": "^NSR-[0-9A-F]{32}$"},
+        "signal_sha256": {"$ref": "#/$defs/sha256"},
+        "source_binding_id": {"type": "string", "pattern": "^TSB-[0-9A-F]{32}$"},
+        "source_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "source_event_ref": {"$ref": "#/$defs/reference"},
+        "telemetry_domain": {"enum": ["application_api", "cloud", "endpoint", "identity", "network", "siem"]},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "expectedDetection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_outcomes",
+        "closes_at",
+        "control_ref",
+        "expectation_ref",
+        "minimum_signal_count",
+        "opens_at",
+        "operation_code",
+        "telemetry_domains"
+      ],
+      "properties": {
+        "accepted_outcomes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["allowed", "blocked", "failure", "success", "unknown"]}
+        },
+        "closes_at": {"$ref": "#/$defs/timestamp"},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "expectation_ref": {"$ref": "#/$defs/reference"},
+        "minimum_signal_count": {"type": "integer", "minimum": 1, "maximum": 512},
+        "opens_at": {"$ref": "#/$defs/timestamp"},
+        "operation_code": {"$ref": "#/$defs/code"},
+        "telemetry_domains": {"$ref": "#/$defs/domains"}
+      }
+    },
+    "negativeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closes_at",
+        "control_ref",
+        "maximum_signal_count",
+        "opens_at",
+        "operation_code",
+        "telemetry_domains"
+      ],
+      "properties": {
+        "closes_at": {"$ref": "#/$defs/timestamp"},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "maximum_signal_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "opens_at": {"$ref": "#/$defs/timestamp"},
+        "operation_code": {"$ref": "#/$defs/code"},
+        "telemetry_domains": {"$ref": "#/$defs/domains"}
+      }
+    },
+    "falsePositiveControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_evidence_sha256",
+        "closes_at",
+        "control_ref",
+        "maximum_signal_count",
+        "opens_at",
+        "operation_code",
+        "telemetry_domains"
+      ],
+      "properties": {
+        "baseline_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "closes_at": {"$ref": "#/$defs/timestamp"},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "maximum_signal_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "opens_at": {"$ref": "#/$defs/timestamp"},
+        "operation_code": {"$ref": "#/$defs/code"},
+        "telemetry_domains": {"$ref": "#/$defs/domains"}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget",
+        "custody_policy_sha256",
+        "effects",
+        "engagement_ref",
+        "evaluated_at",
+        "execution",
+        "expected_detections",
+        "false_positive_controls",
+        "kind",
+        "negative_controls",
+        "prior_consumed_event_sha256s",
+        "qualification_effect",
+        "request_id",
+        "request_sha256",
+        "runtime_status",
+        "schema_version",
+        "scope_sha256",
+        "signals",
+        "tenant_ref"
+      ],
+      "properties": {
+        "budget": {"$ref": "#/$defs/budget"},
+        "custody_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "evaluated_at": {"$ref": "#/$defs/timestamp"},
+        "execution": {"$ref": "#/$defs/executionReference"},
+        "expected_detections": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/expectedDetection"}},
+        "false_positive_controls": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/falsePositiveControl"}},
+        "kind": {"const": "sunderkey.detection-correlation-request.v1"},
+        "negative_controls": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/negativeControl"}},
+        "prior_consumed_event_sha256s": {"type": "array", "maxItems": 512, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "qualification_effect": {"const": "none"},
+        "request_id": {"type": "string", "pattern": "^DCR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_status": {"const": "repository_only_nonqualified"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "signals": {"type": "array", "maxItems": 512, "items": {"$ref": "#/$defs/signalReference"}},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "validationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_kind",
+        "control_ref",
+        "kind",
+        "matched_signal_ids",
+        "observed_count",
+        "reason_code",
+        "result_id",
+        "result_sha256",
+        "schema_version",
+        "state",
+        "threshold_count"
+      ],
+      "properties": {
+        "control_kind": {"enum": ["expected_detection", "false_positive_control", "negative_control"]},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "kind": {"const": "sunderkey.control-validation-result.v1"},
+        "matched_signal_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^NSR-[0-9A-F]{32}$"}},
+        "observed_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "reason_code": {"$ref": "#/$defs/code"},
+        "result_id": {"type": "string", "pattern": "^CVR-[0-9A-F]{32}$"},
+        "result_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "state": {"enum": ["failed", "passed"]},
+        "threshold_count": {"type": "integer", "minimum": 0, "maximum": 512}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "control_ref",
+        "evidence_signal_ids",
+        "finding_id",
+        "finding_sha256",
+        "finding_type",
+        "kind",
+        "priority",
+        "schema_version"
+      ],
+      "properties": {
+        "code": {"$ref": "#/$defs/code"},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "evidence_signal_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^NSR-[0-9A-F]{32}$"}},
+        "finding_id": {"type": "string", "pattern": "^DCF-[0-9A-F]{32}$"},
+        "finding_sha256": {"$ref": "#/$defs/sha256"},
+        "finding_type": {"enum": ["coverage_gap", "root_cause_hypothesis", "tuning_recommendation"]},
+        "kind": {"const": "sunderkey.detection-correlation-derived-finding.v1"},
+        "priority": {"enum": ["critical", "high", "low", "medium"]},
+        "schema_version": {"const": 1}
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_id",
+        "assessment_sha256",
+        "consumed_event_sha256s",
+        "coverage_gaps",
+        "effects",
+        "kind",
+        "overall_state",
+        "qualification_effect",
+        "request_id",
+        "request_sha256",
+        "root_cause_hypotheses",
+        "runtime_status",
+        "schema_version",
+        "tuning_recommendations",
+        "validation_results"
+      ],
+      "properties": {
+        "assessment_id": {"type": "string", "pattern": "^DCA-[0-9A-F]{32}$"},
+        "assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "consumed_event_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "coverage_gaps": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "effects": {"$ref": "#/$defs/effects"},
+        "kind": {"const": "sunderkey.detection-correlation-assessment.v1"},
+        "overall_state": {"enum": ["failed", "passed"]},
+        "qualification_effect": {"const": "none"},
+        "request_id": {"type": "string", "pattern": "^DCR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "root_cause_hypotheses": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "runtime_status": {"const": "repository_only_nonqualified"},
+        "schema_version": {"const": 1},
+        "tuning_recommendations": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "validation_results": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/validationResult"}}
+      }
+    },
+    "reviewPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_id",
+        "assessment_sha256",
+        "execution_reference_sha256",
+        "kind",
+        "plan_id",
+        "plan_sha256",
+        "qualification_effect",
+        "request_id",
+        "request_sha256",
+        "required_reviewer_roles",
+        "review_status",
+        "schema_version"
+      ],
+      "properties": {
+        "assessment_id": {"type": "string", "pattern": "^DCA-[0-9A-F]{32}$"},
+        "assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_reference_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.detection-correlation-review-plan.v1"},
+        "plan_id": {"type": "string", "pattern": "^DRP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_effect": {"const": "none"},
+        "request_id": {"type": "string", "pattern": "^DCR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "required_reviewer_roles": {"const": ["independent_assurance", "independent_control"]},
+        "review_status": {"const": "pending_independent_review"},
+        "schema_version": {"const": 1}
+      }
+    },
+    "bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment",
+        "bundle_id",
+        "bundle_sha256",
+        "effects",
+        "kind",
+        "qualification_effect",
+        "request",
+        "review_plan",
+        "runtime_status",
+        "schema_version"
+      ],
+      "properties": {
+        "assessment": {"$ref": "#/$defs/assessment"},
+        "bundle_id": {"type": "string", "pattern": "^DCB-[0-9A-F]{32}$"},
+        "bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "kind": {"const": "sunderkey.detection-correlation-bundle.v1"},
+        "qualification_effect": {"const": "none"},
+        "request": {"$ref": "#/$defs/request"},
+        "review_plan": {"$ref": "#/$defs/reviewPlan"},
+        "runtime_status": {"const": "repository_only_nonqualified"},
+        "schema_version": {"const": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S03",
+  "component_id": "kubernetes_supplied_api_authentication_context",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-api-auth",
+      "inventory_complete": true,
+      "credentials": [
+        {
+          "credential_id": "sa-token-ref",
+          "credential_kind": "service_account_token",
+          "principal_id": "team-a-sa",
+          "audience_id": "api-a",
+          "validity": "expired",
+          "metadata_complete": true
+        }
+      ],
+      "requests": [
+        {
+          "request_id": "declared-expired-credential",
+          "credential_id": "sa-token-ref",
+          "expected_principal_id": "team-a-sa",
+          "audience_id": "api-a",
+          "supplied_outcome": "authenticated",
+          "context_complete": true,
+          "observation_complete": true
+        }
+      ]
+    }
+  }
+}

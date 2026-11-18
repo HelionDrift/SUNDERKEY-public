@@ -1,0 +1,599 @@
+{
+  "counts": {
+    "baseline": {
+      "commands": 23,
+      "domain_commanders": 23,
+      "groups": 5,
+      "pilot_specialists": 20,
+      "shared_profiles": 32,
+      "specialists": 348,
+      "total_profiles": 403
+    },
+    "delta": {
+      "commands": 2,
+      "domain_commanders": 2,
+      "groups": 0,
+      "pilot_specialists": 0,
+      "shared_profiles": 3,
+      "specialists": 43,
+      "total_profiles": 48
+    },
+    "target": {
+      "commands": 25,
+      "domain_commanders": 25,
+      "groups": 5,
+      "pilot_specialists": 20,
+      "shared_profiles": 35,
+      "specialists": 391,
+      "total_profiles": 451
+    }
+  },
+  "existing_command_additions": [
+    {
+      "command_id": "AOE-GA-D02",
+      "group_id": "GA",
+      "name": "Human and Physical Access",
+      "specialists": [
+        {
+          "name": "Insider, contractor and trusted-operator abuse",
+          "profile_id": "AOE-GA-D02-S13"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GA-D03",
+      "group_id": "GA",
+      "name": "Identity and Trust",
+      "specialists": [
+        {
+          "name": "Biometric identity, liveness and presentation attacks",
+          "profile_id": "AOE-GA-D03-S17"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GA-D04",
+      "group_id": "GA",
+      "name": "Campaign Engineering and Adversary Emulation",
+      "specialists": [
+        {
+          "name": "Third-party, MSP and trusted-relationship compromise",
+          "profile_id": "AOE-GA-D04-S17"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GB-D08",
+      "group_id": "GB",
+      "name": "Mobile and Thick Client",
+      "specialists": [
+        {
+          "name": "Windows native desktop clients",
+          "profile_id": "AOE-GB-D08-S15"
+        },
+        {
+          "name": "macOS native desktop clients",
+          "profile_id": "AOE-GB-D08-S16"
+        },
+        {
+          "name": "Linux native desktop clients",
+          "profile_id": "AOE-GB-D08-S17"
+        },
+        {
+          "name": "Electron and hybrid desktop clients",
+          "profile_id": "AOE-GB-D08-S18"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GC-D13",
+      "group_id": "GC",
+      "name": "Network, Wireless and Telecom",
+      "specialists": [
+        {
+          "name": "Open RAN, carrier NFV and mobile-core control planes",
+          "profile_id": "AOE-GC-D13-S19"
+        },
+        {
+          "name": "SIM, eSIM, UICC, IMS and subscriber provisioning",
+          "profile_id": "AOE-GC-D13-S20"
+        },
+        {
+          "name": "SASE, SD-WAN and zero-trust network fabrics",
+          "profile_id": "AOE-GC-D13-S21"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GC-D14",
+      "group_id": "GC",
+      "name": "Cloud Provider and SaaS Control Plane",
+      "specialists": [
+        {
+          "name": "Google Workspace tenant and collaboration control plane",
+          "profile_id": "AOE-GC-D14-S19"
+        },
+        {
+          "name": "Workforce IdP control planes",
+          "profile_id": "AOE-GC-D14-S20"
+        },
+        {
+          "name": "Data-cloud control planes",
+          "profile_id": "AOE-GC-D14-S21"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GD-D19",
+      "group_id": "GD",
+      "name": "OT, ICS and Cyber-Physical",
+      "specialists": [
+        {
+          "name": "Building automation, BACnet and KNX",
+          "profile_id": "AOE-GD-D19-S17"
+        },
+        {
+          "name": "Robotics, ROS 2 and DDS",
+          "profile_id": "AOE-GD-D19-S18"
+        },
+        {
+          "name": "Power-grid protection and IEC 61850-class protocols",
+          "profile_id": "AOE-GD-D19-S19"
+        },
+        {
+          "name": "Industrial Ethernet and vendor control protocols",
+          "profile_id": "AOE-GD-D19-S20"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GD-D20",
+      "group_id": "GD",
+      "name": "AI, ML, GenAI and Agentic Systems",
+      "specialists": [
+        {
+          "name": "Agent goal and plan hijacking",
+          "profile_id": "AOE-GD-D20-S19"
+        },
+        {
+          "name": "Multi-agent trust, cascading failure and rogue coordination",
+          "profile_id": "AOE-GD-D20-S20"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GE-D21",
+      "group_id": "GE",
+      "name": "Vulnerability Research and Exploit Engineering",
+      "specialists": [
+        {
+          "name": "Managed runtimes, JIT and WebAssembly exploitation",
+          "profile_id": "AOE-GE-D21-S19"
+        },
+        {
+          "name": "Malware unpacking, configuration extraction and anti-analysis",
+          "profile_id": "AOE-GE-D21-S20"
+        }
+      ]
+    }
+  ],
+  "group_targets": [
+    {
+      "added_specialists": 3,
+      "baseline_specialists": 56,
+      "group_id": "GA",
+      "target_specialists": 59
+    },
+    {
+      "added_specialists": 4,
+      "baseline_specialists": 86,
+      "group_id": "GB",
+      "target_specialists": 90
+    },
+    {
+      "added_specialists": 6,
+      "baseline_specialists": 108,
+      "group_id": "GC",
+      "target_specialists": 114
+    },
+    {
+      "added_specialists": 28,
+      "baseline_specialists": 50,
+      "group_id": "GD",
+      "target_specialists": 78
+    },
+    {
+      "added_specialists": 2,
+      "baseline_specialists": 48,
+      "group_id": "GE",
+      "target_specialists": 50
+    }
+  ],
+  "limitations": [
+    "This roadmap does not create legal authority or expand any target scope.",
+    "This roadmap does not qualify, deploy, route to or execute any specialist.",
+    "Taxonomy references are planning inputs and must be version-pinned when vector records are generated.",
+    "Defined profiles are design records, not evidence that a capable implementation exists.",
+    "Real-environment operations require separate mission, target, identity, action-tier, monitoring and cleanup authority.",
+    "Production deployment decisions remain separate from the Army v2 catalog migration."
+  ],
+  "migration": {
+    "activation_policy": "qualified_only_with_separate_routing_authority",
+    "source_catalog": "registry/army-v1.json",
+    "stable_id_policy": "preserve_all_v1_profile_ids",
+    "strategy": "parallel_versioned_migration",
+    "target_catalog": "registry/army-v2.json"
+  },
+  "migration_rules": [
+    "Do not modify or delete the trusted v1 registry during v2 construction.",
+    "Preserve every existing profile ID and make additions only through unused command and specialist numbers.",
+    "Treat broad v1 specialists as integration owners until explicit retirement evidence exists.",
+    "Create every new profile in defined status with pilot false and no implied qualification.",
+    "Keep production routing bound to qualified profiles and separately authorized routing policy versions.",
+    "Require independent control and assurance for qualification, canary and retirement decisions.",
+    "Require restoration evidence for any controlled action that changes an approved target."
+  ],
+  "new_commands": [
+    {
+      "command_id": "AOE-GD-D24",
+      "commander_profile_id": "AOE-GD-D24-CMD",
+      "group_id": "GD",
+      "name": "Platform Firmware, Peripheral and Accelerator Security",
+      "specialists": [
+        {
+          "name": "Platform firmware: UEFI, BIOS, SMM and ACPI",
+          "profile_id": "AOE-GD-D24-S01"
+        },
+        {
+          "name": "BMC, IPMI and Redfish",
+          "profile_id": "AOE-GD-D24-S02"
+        },
+        {
+          "name": "USB, HID and removable-device protocols",
+          "profile_id": "AOE-GD-D24-S03"
+        },
+        {
+          "name": "PCIe, Thunderbolt, DMA and IOMMU",
+          "profile_id": "AOE-GD-D24-S04"
+        },
+        {
+          "name": "GPU drivers, kernels and management planes",
+          "profile_id": "AOE-GD-D24-S05"
+        },
+        {
+          "name": "AI accelerator and multi-tenant compute isolation",
+          "profile_id": "AOE-GD-D24-S06"
+        },
+        {
+          "name": "RISC-V and heterogeneous SoC security",
+          "profile_id": "AOE-GD-D24-S07"
+        },
+        {
+          "name": "Platform measured boot and remote attestation",
+          "profile_id": "AOE-GD-D24-S08"
+        },
+        {
+          "name": "Peripheral and multifunction-device firmware",
+          "profile_id": "AOE-GD-D24-S09"
+        },
+        {
+          "name": "Chipset, management engine and platform controllers",
+          "profile_id": "AOE-GD-D24-S10"
+        }
+      ]
+    },
+    {
+      "command_id": "AOE-GD-D25",
+      "commander_profile_id": "AOE-GD-D25-CMD",
+      "group_id": "GD",
+      "name": "Transportation, Space and Clinical Systems",
+      "specialists": [
+        {
+          "name": "Connected vehicle architecture, gateways and telematics",
+          "profile_id": "AOE-GD-D25-S01"
+        },
+        {
+          "name": "Automotive diagnostics, CAN, UDS and DoIP",
+          "profile_id": "AOE-GD-D25-S02"
+        },
+        {
+          "name": "Automotive Ethernet and SOME/IP",
+          "profile_id": "AOE-GD-D25-S03"
+        },
+        {
+          "name": "V2X, vehicle PKI and EV charging",
+          "profile_id": "AOE-GD-D25-S04"
+        },
+        {
+          "name": "Rail signaling, control and rolling stock",
+          "profile_id": "AOE-GD-D25-S05"
+        },
+        {
+          "name": "Avionics, aircraft networks and ground support",
+          "profile_id": "AOE-GD-D25-S06"
+        },
+        {
+          "name": "Maritime bridge, engine, cargo and communications systems",
+          "profile_id": "AOE-GD-D25-S07"
+        },
+        {
+          "name": "Space systems, satellite control and ground segments",
+          "profile_id": "AOE-GD-D25-S08"
+        },
+        {
+          "name": "GNSS, PNT and satellite communications",
+          "profile_id": "AOE-GD-D25-S09"
+        },
+        {
+          "name": "UAS, drones and autonomous systems",
+          "profile_id": "AOE-GD-D25-S10"
+        },
+        {
+          "name": "Medical devices, implantables and wearables",
+          "profile_id": "AOE-GD-D25-S11"
+        },
+        {
+          "name": "Clinical networks, DICOM, HL7 and FHIR",
+          "profile_id": "AOE-GD-D25-S12"
+        }
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "completion_gate": "Roadmap rebuilds deterministically and validates all approved counts, identities and dependencies.",
+      "dependency_phase_ids": [],
+      "objective": "Bind exact additions, migration rules, standards sources and delivery gates.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase150",
+      "required_artifacts": [
+        "registry/army-expansion-roadmap-v1.json",
+        "registry/schemas/army-expansion-roadmap-v1.schema.json"
+      ],
+      "title": "Army expansion roadmap"
+    },
+    {
+      "completion_gate": "The v2 registry contains 391 specialists, 25 commanders and 35 shared profiles, with all new profiles defined and inactive.",
+      "dependency_phase_ids": [
+        "Phase150"
+      ],
+      "objective": "Create a parallel v2 registry with all approved commands and profiles while retaining every v1 identifier.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase151",
+      "required_artifacts": [
+        "registry/army-v2.json",
+        "registry/schemas/registry-v2.schema.json"
+      ],
+      "title": "Army registry v2"
+    },
+    {
+      "completion_gate": "Every vector has ownership, evidence, safeguards, cleanup, qualification and blind-spot fields.",
+      "dependency_phase_ids": [
+        "Phase151"
+      ],
+      "objective": "Define the machine-readable vector graph and crosswalk it to authoritative external taxonomies.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase152",
+      "required_artifacts": [
+        "registry/attack-vectors-v2.json",
+        "registry/schemas/attack-vector-catalog-v2.schema.json"
+      ],
+      "title": "Atomic attack-vector taxonomy"
+    },
+    {
+      "completion_gate": "Every specialist has meaningful capability edges and every vector has primary and supporting coverage.",
+      "dependency_phase_ids": [
+        "Phase151",
+        "Phase152"
+      ],
+      "objective": "Replace name-restatement capabilities with primary, supporting and validation relationships for every specialist.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase153",
+      "required_artifacts": [
+        "registry/capabilities-army-v2.json",
+        "registry/schemas/capability-catalog-v2.schema.json"
+      ],
+      "title": "Capability graph v2"
+    },
+    {
+      "completion_gate": "Every v2 specialist has a non-generic qualification plan with independent validation requirements.",
+      "dependency_phase_ids": [
+        "Phase152",
+        "Phase153"
+      ],
+      "objective": "Generate vector-specific scenarios, expected evidence, critical failures and action-tier boundaries.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase154",
+      "required_artifacts": [
+        "registry/qualification-plans-army-v2.json"
+      ],
+      "title": "Qualification plans v2"
+    },
+    {
+      "completion_gate": "Every v2 specialist has an implementation-ready, fail-closed blueprint.",
+      "dependency_phase_ids": [
+        "Phase153",
+        "Phase154"
+      ],
+      "objective": "Define implementable inputs, tools, adapters, outputs, controls and evidence contracts for all v2 specialists.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase155",
+      "required_artifacts": [
+        "registry/candidate-blueprints-army-v2.json"
+      ],
+      "title": "Candidate blueprints v2"
+    },
+    {
+      "completion_gate": "All candidate builds are ordered by risk, dependency, coverage gain and verification capacity.",
+      "dependency_phase_ids": [
+        "Phase151",
+        "Phase153",
+        "Phase154",
+        "Phase155"
+      ],
+      "objective": "Generate dependency-ordered implementation packages and commander review queues.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase156",
+      "required_artifacts": [
+        "registry/specialist-implementation-roadmap-v2.json",
+        "registry/implementation-work-packages-v2.json"
+      ],
+      "title": "Commander work packages v2"
+    },
+    {
+      "completion_gate": "Each candidate passes static, unit, integration, containment and evidence-contract checks.",
+      "dependency_phase_ids": [
+        "Phase156"
+      ],
+      "objective": "Implement bounded candidates in prioritized waves without granting qualification or routing authority.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase157",
+      "required_artifacts": [
+        "registry/candidate-components-v2.json",
+        "implementation evidence packets"
+      ],
+      "title": "Candidate implementation waves"
+    },
+    {
+      "completion_gate": "Only candidates with complete evidence and no unresolved critical failures become qualified.",
+      "dependency_phase_ids": [
+        "Phase157"
+      ],
+      "objective": "Run signed, reproducible scenario packs with independent control and assurance review.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase158",
+      "required_artifacts": [
+        "qualification evidence manifests",
+        "signed qualification decisions"
+      ],
+      "title": "Independent qualification waves"
+    },
+    {
+      "completion_gate": "Routing changes remain non-production until coverage, correctness and safety thresholds are met.",
+      "dependency_phase_ids": [
+        "Phase158"
+      ],
+      "objective": "Exercise qualified specialists on mirrored missions and score their handoffs, conflicts and coverage.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase159",
+      "required_artifacts": [
+        "shadow-routing reports",
+        "collaboration scorecards"
+      ],
+      "title": "Shadow routing and collaboration"
+    },
+    {
+      "completion_gate": "Each canary has explicit target authority, action tier, monitoring, stop conditions, evidence custody and restoration proof.",
+      "dependency_phase_ids": [
+        "Phase159"
+      ],
+      "objective": "Authorize bounded live canaries for selected qualified profiles in approved real environments.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase160",
+      "required_artifacts": [
+        "canary authorization packets",
+        "provider receipts",
+        "cleanup verification"
+      ],
+      "title": "Controlled canaries"
+    },
+    {
+      "completion_gate": "No v1 route is retired without a qualified replacement, successful canary evidence and a tested rollback path.",
+      "dependency_phase_ids": [
+        "Phase160"
+      ],
+      "objective": "Retire superseded v1 ownership only after v2 equivalence and operational evidence are independently verified.",
+      "operational_effect": "none_without_separate_authority",
+      "phase_id": "Phase161",
+      "required_artifacts": [
+        "v1-to-v2 equivalence report",
+        "retirement decisions",
+        "rollback plan"
+      ],
+      "title": "Migration completion"
+    }
+  ],
+  "program": "SUNDERKEY",
+  "roadmap_id": "AER-9F5AAA0A51F3D32373D5E9FCE6757B75",
+  "roadmap_sha256": "sha256:9f5aaa0a51f3d32373d5e9fce6757b75661dab5ea1d85a18b78452d145b29475",
+  "schema_version": 1,
+  "shared_profile_additions": [
+    {
+      "name": "Target Restoration and Cleanup Verifier",
+      "profile_id": "AOE-HQ-33"
+    },
+    {
+      "name": "Evidence Redaction and Hostile-Content Examiner",
+      "profile_id": "AOE-HQ-34"
+    },
+    {
+      "name": "Cross-System Effect Reconciliation Steward",
+      "profile_id": "AOE-HQ-35"
+    }
+  ],
+  "standards_sources": [
+    {
+      "source_id": "mitre-attack",
+      "url": "https://attack.mitre.org/resources/versions/",
+      "use": "Enterprise, Mobile and ICS tactic and technique coverage",
+      "version": "19.2"
+    },
+    {
+      "source_id": "mitre-capec",
+      "url": "https://capec.mitre.org/data/downloads",
+      "use": "Attack mechanism and pattern coverage",
+      "version": "3.9"
+    },
+    {
+      "source_id": "mitre-cwe",
+      "url": "https://cwe.mitre.org/data/index.html",
+      "use": "Weakness-class ownership and validation design",
+      "version": "rolling"
+    },
+    {
+      "source_id": "owasp-api-security",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+      "use": "API abuse and authorization coverage",
+      "version": "2023"
+    },
+    {
+      "source_id": "owasp-wstg",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/",
+      "use": "Web application test coverage",
+      "version": "stable"
+    },
+    {
+      "source_id": "owasp-agentic",
+      "url": "https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/",
+      "use": "Agentic and language-model application coverage",
+      "version": "2026"
+    },
+    {
+      "source_id": "nist-ai-100-2e2025",
+      "url": "https://csrc.nist.gov/pubs/ai/100/2/e2025/final",
+      "use": "Adversarial machine-learning taxonomy and terminology",
+      "version": "2025"
+    },
+    {
+      "source_id": "mitre-atlas",
+      "url": "https://atlas.mitre.org/",
+      "use": "AI-system adversary behavior crosswalk",
+      "version": "rolling"
+    }
+  ],
+  "vector_contract_fields": [
+    "vector_id",
+    "standards_mappings",
+    "platforms_and_protocols",
+    "primary_specialist_id",
+    "supporting_specialist_ids",
+    "independent_validator_id",
+    "prerequisites_and_observations",
+    "allowed_action_tiers",
+    "tools_and_credentials",
+    "expected_evidence",
+    "cleanup_and_restoration",
+    "qualification_scenario_id",
+    "known_blind_spots"
+  ]
+}

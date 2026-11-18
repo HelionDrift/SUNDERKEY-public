@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S19",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-workspace-grants",
+      "internal_domain_id": "internal.example",
+      "scopes": [
+        {
+          "scope_id": "scope-one",
+          "external_sharing_allowed": false,
+          "context_complete": true,
+          "grants": [
+            {"grant_id": "grant-one", "document_id": "document-one", "recipient_domain_id": "external.example", "role": "viewer", "active": true},
+            {"grant_id": "grant-two", "document_id": "document-two", "recipient_domain_id": "internal.example", "role": "editor", "active": true}
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,855 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/target-health-custody-v1.schema.json",
+  "title": "SUNDERKEY target-health custody contracts version 1",
+  "oneOf": [
+    {"$ref": "#/$defs/trust_root"},
+    {"$ref": "#/$defs/collector_policy"},
+    {"$ref": "#/$defs/policy_revocation"},
+    {"$ref": "#/$defs/custody_envelope"},
+    {"$ref": "#/$defs/signing_context"},
+    {"$ref": "#/$defs/verification_result"},
+    {"$ref": "#/$defs/custody_receipt"},
+    {"$ref": "#/$defs/custody_event"},
+    {"$ref": "#/$defs/custody_head_binding"},
+    {"$ref": "#/$defs/current_head_inspection"}
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$",
+      "maxLength": 256
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "public_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "trust_root_id": {
+      "type": "string",
+      "pattern": "^THRT-[0-9A-F]{32}$"
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^THCP-[0-9A-F]{32}$"
+    },
+    "chain_id": {
+      "type": "string",
+      "pattern": "^THCH-[0-9A-F]{32}$"
+    },
+    "envelope_id": {
+      "type": "string",
+      "pattern": "^THCE-[0-9A-F]{32}$"
+    },
+    "verification_id": {
+      "type": "string",
+      "pattern": "^THVR-[0-9A-F]{32}$"
+    },
+    "revocation_id": {
+      "type": "string",
+      "pattern": "^THRV-[0-9A-F]{32}$"
+    },
+    "custody_receipt_id": {
+      "type": "string",
+      "pattern": "^THCR-[0-9A-F]{32}$"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^THCV-[0-9A-F]{32}$"
+    },
+    "head_binding_id": {
+      "type": "string",
+      "pattern": "^THHB-[0-9A-F]{32}$"
+    },
+    "inspection_id": {
+      "type": "string",
+      "pattern": "^THCI-[0-9A-F]{32}$"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_id",
+        "context_sha256",
+        "fence_epoch",
+        "lease_id",
+        "scope_id",
+        "scope_sha256",
+        "session_id",
+        "target_id",
+        "target_sha256",
+        "tenant_id"
+      ],
+      "properties": {
+        "context_id": {"$ref": "#/$defs/identifier"},
+        "context_sha256": {"$ref": "#/$defs/digest"},
+        "fence_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+        "lease_id": {"$ref": "#/$defs/identifier"},
+        "scope_id": {"$ref": "#/$defs/identifier"},
+        "scope_sha256": {"$ref": "#/$defs/digest"},
+        "session_id": {"$ref": "#/$defs/identifier"},
+        "target_id": {"$ref": "#/$defs/identifier"},
+        "target_sha256": {"$ref": "#/$defs/digest"},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "no_effects": {
+      "type": "object",
+      "required": [
+        "authority_effect",
+        "collection_effect",
+        "network_call_performed",
+        "pause_effect",
+        "qualification_effect",
+        "resume_effect",
+        "target_effect_performed"
+      ],
+      "properties": {
+        "authority_effect": {"const": "none"},
+        "collection_effect": {"const": "none"},
+        "network_call_performed": {"const": false},
+        "pause_effect": {"const": "none"},
+        "qualification_effect": {"const": "none"},
+        "resume_effect": {"const": "none"},
+        "target_effect_performed": {"const": false}
+      }
+    },
+    "inspection_effects": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": ["control_effect", "reservation_effect"],
+          "properties": {
+            "control_effect": {"const": "none"},
+            "reservation_effect": {"const": "none"}
+          }
+        }
+      ]
+    },
+    "trust_root": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "deployment_attestation_id",
+            "deployment_attestation_sha256",
+            "effective_at",
+            "expires_at",
+            "kind",
+            "mission_id",
+            "root_key_id",
+            "root_public_key",
+            "root_public_key_sha256",
+            "schema_version",
+            "tenant_id",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256"
+          ],
+          "properties": {
+            "deployment_attestation_id": {"$ref": "#/$defs/identifier"},
+            "deployment_attestation_sha256": {"$ref": "#/$defs/digest"},
+            "effective_at": {"$ref": "#/$defs/utc"},
+            "expires_at": {"$ref": "#/$defs/utc"},
+            "kind": {"const": "sunderkey.target-health-trust-root.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "root_key_id": {"$ref": "#/$defs/identifier"},
+            "root_public_key": {"$ref": "#/$defs/public_key"},
+            "root_public_key_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"const": 1},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "collector_policy": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding",
+            "binding_sha256",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "collector_key_id",
+            "collector_public_key",
+            "collector_public_key_sha256",
+            "deployment_attestation_id",
+            "deployment_attestation_sha256",
+            "effective_at",
+            "expires_at",
+            "issued_at",
+            "kind",
+            "maximum_future_skew_seconds",
+            "maximum_observation_age_seconds",
+            "mission_id",
+            "policy_id",
+            "policy_revision",
+            "policy_sha256",
+            "policy_status",
+            "predecessor_policy_id",
+            "predecessor_policy_sha256",
+            "prior_epoch_head_envelope_id",
+            "prior_epoch_head_envelope_sha256",
+            "revoked",
+            "root_signature",
+            "runtime_policy_id",
+            "runtime_policy_sha256",
+            "schema_version",
+            "signature_algorithm",
+            "tenant_id",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256"
+          ],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "collector_key_id": {"$ref": "#/$defs/identifier"},
+            "collector_public_key": {"$ref": "#/$defs/public_key"},
+            "collector_public_key_sha256": {"$ref": "#/$defs/digest"},
+            "deployment_attestation_id": {"$ref": "#/$defs/identifier"},
+            "deployment_attestation_sha256": {"$ref": "#/$defs/digest"},
+            "effective_at": {"$ref": "#/$defs/utc"},
+            "expires_at": {"$ref": "#/$defs/utc"},
+            "issued_at": {"$ref": "#/$defs/utc"},
+            "kind": {"const": "sunderkey.target-health-collector-policy-revision.v2"},
+            "maximum_future_skew_seconds": {"type": "integer", "minimum": 0, "maximum": 300},
+            "maximum_observation_age_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "policy_status": {"const": "active"},
+            "predecessor_policy_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/policy_id"}]},
+            "predecessor_policy_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "prior_epoch_head_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+            "prior_epoch_head_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "revoked": {"const": false},
+            "root_signature": {"$ref": "#/$defs/signature"},
+            "runtime_policy_id": {"$ref": "#/$defs/identifier"},
+            "runtime_policy_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"const": 1},
+            "signature_algorithm": {"const": "Ed25519"},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "policy_revocation": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding",
+            "binding_sha256",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "kind",
+            "mission_id",
+            "policy_id",
+            "policy_revision",
+            "policy_sha256",
+            "revocation_id",
+            "revocation_reason",
+            "revocation_sha256",
+            "revoked",
+            "revoked_at",
+            "root_signature",
+            "schema_version",
+            "signature_algorithm",
+            "tenant_id",
+            "terminal",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256"
+          ],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "kind": {"const": "sunderkey.target-health-collector-policy-revocation.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "revocation_id": {"$ref": "#/$defs/revocation_id"},
+            "revocation_reason": {"$ref": "#/$defs/identifier"},
+            "revocation_sha256": {"$ref": "#/$defs/digest"},
+            "revoked": {"const": true},
+            "revoked_at": {"$ref": "#/$defs/utc"},
+            "root_signature": {"$ref": "#/$defs/signature"},
+            "schema_version": {"const": 1},
+            "signature_algorithm": {"const": "Ed25519"},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "terminal": {"const": true},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "custody_envelope": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding",
+            "binding_sha256",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "collector_key_id",
+            "collector_public_key",
+            "collector_public_key_sha256",
+            "collector_signature",
+            "deployment_attestation_id",
+            "deployment_attestation_sha256",
+            "envelope_id",
+            "envelope_sha256",
+            "kind",
+            "mission_id",
+            "observed_at",
+            "policy_id",
+            "policy_revision",
+            "policy_sha256",
+            "predecessor_envelope_id",
+            "predecessor_envelope_sha256",
+            "receipt",
+            "receipt_id",
+            "receipt_sha256",
+            "runtime_policy_id",
+            "runtime_policy_sha256",
+            "schema_version",
+            "sequence",
+            "signature_algorithm",
+            "tenant_id"
+          ],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "collector_key_id": {"$ref": "#/$defs/identifier"},
+            "collector_public_key": {"$ref": "#/$defs/public_key"},
+            "collector_public_key_sha256": {"$ref": "#/$defs/digest"},
+            "collector_signature": {"$ref": "#/$defs/signature"},
+            "deployment_attestation_id": {"$ref": "#/$defs/identifier"},
+            "deployment_attestation_sha256": {"$ref": "#/$defs/digest"},
+            "envelope_id": {"$ref": "#/$defs/envelope_id"},
+            "envelope_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.signed-target-health-custody-envelope.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "observed_at": {"$ref": "#/$defs/utc"},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "predecessor_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+            "predecessor_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "receipt": {"$ref": "https://sunderkey.local/schemas/authorized-target-health-observation-v1.schema.json"},
+            "receipt_id": {"$ref": "#/$defs/identifier"},
+            "receipt_sha256": {"$ref": "#/$defs/digest"},
+            "runtime_policy_id": {"$ref": "#/$defs/identifier"},
+            "runtime_policy_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"const": 1},
+            "sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "signature_algorithm": {"const": "Ed25519"},
+            "tenant_id": {"$ref": "#/$defs/identifier"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "signing_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_effect",
+        "binding_sha256",
+        "chain_id",
+        "collector_epoch",
+        "collector_id",
+        "current_head_envelope_id",
+        "current_head_envelope_sha256",
+        "current_head_sequence",
+        "kind",
+        "mission_id",
+        "next_sequence",
+        "policy_id",
+        "policy_revision",
+        "policy_sha256",
+        "prepared_at",
+        "previous_envelope_id",
+        "previous_envelope_sha256",
+        "reservation_effect",
+        "schema_version",
+        "tenant_id"
+      ],
+      "properties": {
+        "authority_effect": {"const": "none"},
+        "binding_sha256": {"$ref": "#/$defs/digest"},
+        "chain_id": {"$ref": "#/$defs/chain_id"},
+        "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+        "collector_id": {"$ref": "#/$defs/identifier"},
+        "current_head_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+        "current_head_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+        "current_head_sequence": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+        "kind": {"const": "sunderkey.target-health-signing-context.v2"},
+        "mission_id": {"$ref": "#/$defs/identifier"},
+        "next_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+        "policy_id": {"$ref": "#/$defs/policy_id"},
+        "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+        "policy_sha256": {"$ref": "#/$defs/digest"},
+        "prepared_at": {"$ref": "#/$defs/utc"},
+        "previous_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+        "previous_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+        "reservation_effect": {"const": "none"},
+        "schema_version": {"const": 1},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "verification_result": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding",
+            "binding_sha256",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "current_head_verified",
+            "current_policy_verified",
+            "envelope_id",
+            "envelope_observed_at",
+            "envelope_sha256",
+            "evidence_current_verified",
+            "kind",
+            "mission_id",
+            "mode",
+            "policy_id",
+            "policy_revision",
+            "policy_revocation_id",
+            "policy_revocation_sha256",
+            "policy_sha256",
+            "predecessor_envelope_id",
+            "predecessor_envelope_sha256",
+            "receipt_id",
+            "receipt_sha256",
+            "schema_version",
+            "sequence",
+            "signatures_verified",
+            "tenant_id",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256",
+            "verification_id",
+            "verification_sha256",
+            "verified_at"
+          ],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "current_head_verified": {"type": "boolean"},
+            "current_policy_verified": {"type": "boolean"},
+            "envelope_id": {"$ref": "#/$defs/envelope_id"},
+            "envelope_observed_at": {"$ref": "#/$defs/utc"},
+            "envelope_sha256": {"$ref": "#/$defs/digest"},
+            "evidence_current_verified": {"type": "boolean"},
+            "kind": {"const": "sunderkey.target-health-custody-verification-result.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "mode": {"enum": ["historical", "current"]},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_revocation_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/revocation_id"}]},
+            "policy_revocation_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "predecessor_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+            "predecessor_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "receipt_id": {"$ref": "#/$defs/identifier"},
+            "receipt_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"const": 1},
+            "sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "signatures_verified": {"const": true},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"},
+            "verification_id": {"$ref": "#/$defs/verification_id"},
+            "verification_sha256": {"$ref": "#/$defs/digest"},
+            "verified_at": {"$ref": "#/$defs/utc"}
+          },
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "policy_revocation_id": {"type": "null"},
+                    "policy_revocation_sha256": {"type": "null"}
+                  }
+                },
+                {
+                  "properties": {
+                    "policy_revocation_id": {"$ref": "#/$defs/revocation_id"},
+                    "policy_revocation_sha256": {"$ref": "#/$defs/digest"}
+                  }
+                }
+              ]
+            },
+            {
+              "if": {"properties": {"mode": {"const": "historical"}}},
+              "then": {
+                "properties": {
+                  "current_head_verified": {"const": false},
+                  "current_policy_verified": {"const": false},
+                  "evidence_current_verified": {"const": false}
+                }
+              },
+              "else": {
+                "properties": {
+                  "current_head_verified": {"const": true},
+                  "current_policy_verified": {"const": true},
+                  "evidence_current_verified": {"const": true}
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "custody_receipt": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding",
+            "binding_sha256",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "custody_receipt_id",
+            "custody_receipt_sha256",
+            "envelope_id",
+            "envelope_observed_at",
+            "envelope_sha256",
+            "kind",
+            "mission_id",
+            "policy_id",
+            "policy_revision",
+            "policy_revocation_id",
+            "policy_revocation_sha256",
+            "policy_sha256",
+            "predecessor_envelope_id",
+            "predecessor_envelope_sha256",
+            "receipt_id",
+            "receipt_sha256",
+            "recorded_at",
+            "schema_version",
+            "sequence",
+            "tenant_id",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256",
+            "verification_id",
+            "verification_mode",
+            "verification_sha256",
+            "verified_at"
+          ],
+          "properties": {
+            "binding": {"$ref": "#/$defs/binding"},
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "custody_receipt_id": {"$ref": "#/$defs/custody_receipt_id"},
+            "custody_receipt_sha256": {"$ref": "#/$defs/digest"},
+            "envelope_id": {"$ref": "#/$defs/envelope_id"},
+            "envelope_observed_at": {"$ref": "#/$defs/utc"},
+            "envelope_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-custody-receipt.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_revocation_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/revocation_id"}]},
+            "policy_revocation_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "predecessor_envelope_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/envelope_id"}]},
+            "predecessor_envelope_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "receipt_id": {"$ref": "#/$defs/identifier"},
+            "receipt_sha256": {"$ref": "#/$defs/digest"},
+            "recorded_at": {"$ref": "#/$defs/utc"},
+            "schema_version": {"const": 1},
+            "sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"},
+            "verification_id": {"$ref": "#/$defs/verification_id"},
+            "verification_mode": {"const": "current"},
+            "verification_sha256": {"$ref": "#/$defs/digest"},
+            "verified_at": {"$ref": "#/$defs/utc"}
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "policy_revocation_id": {"type": "null"},
+                "policy_revocation_sha256": {"type": "null"}
+              }
+            },
+            {
+              "properties": {
+                "policy_revocation_id": {"$ref": "#/$defs/revocation_id"},
+                "policy_revocation_sha256": {"$ref": "#/$defs/digest"}
+              }
+            }
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "custody_event": {
+      "allOf": [
+        {"$ref": "#/$defs/no_effects"},
+        {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "custody_receipt_id",
+            "custody_receipt_sha256",
+            "envelope_id",
+            "envelope_sha256",
+            "event_id",
+            "event_kind",
+            "event_sequence",
+            "event_sha256",
+            "kind",
+            "mission_id",
+            "predecessor_event_id",
+            "predecessor_event_sha256",
+            "recorded_at",
+            "schema_version",
+            "tenant_id"
+          ],
+          "properties": {
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "custody_receipt_id": {"$ref": "#/$defs/custody_receipt_id"},
+            "custody_receipt_sha256": {"$ref": "#/$defs/digest"},
+            "envelope_id": {"$ref": "#/$defs/envelope_id"},
+            "envelope_sha256": {"$ref": "#/$defs/digest"},
+            "event_id": {"$ref": "#/$defs/event_id"},
+            "event_kind": {"const": "target_health_custody_recorded"},
+            "event_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "event_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-custody-event.v2"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "predecessor_event_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/event_id"}]},
+            "predecessor_event_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "recorded_at": {"$ref": "#/$defs/utc"},
+            "schema_version": {"const": 1},
+            "tenant_id": {"$ref": "#/$defs/identifier"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "custody_head_binding": {
+      "allOf": [
+        {"$ref": "#/$defs/inspection_effects"},
+        {
+          "type": "object",
+          "required": [
+            "binding_sha256",
+            "chain_head_custody_receipt_id",
+            "chain_head_custody_receipt_sha256",
+            "chain_head_envelope_id",
+            "chain_head_envelope_sha256",
+            "chain_head_policy_id",
+            "chain_head_policy_sha256",
+            "chain_head_sequence",
+            "chain_head_transition_sequence",
+            "chain_id",
+            "collector_epoch",
+            "collector_id",
+            "event_head_event_id",
+            "event_head_event_sha256",
+            "event_head_sequence",
+            "global_transition_sequence",
+            "head_binding_id",
+            "head_binding_sha256",
+            "kind",
+            "mission_id",
+            "policy_collector_epoch",
+            "policy_head_transition_sequence",
+            "policy_id",
+            "policy_revocation_id",
+            "policy_revocation_sha256",
+            "policy_revocation_transition_sequence",
+            "policy_revoked_at",
+            "policy_revision",
+            "policy_sha256",
+            "schema_version",
+            "store_application_id",
+            "store_migration_id",
+            "store_migration_sha256",
+            "store_migration_version",
+            "store_schema_manifest_sha256",
+            "store_schema_version",
+            "tenant_id",
+            "trust_root_id",
+            "trust_root_revision",
+            "trust_root_sha256"
+          ],
+          "properties": {
+            "binding_sha256": {"$ref": "#/$defs/digest"},
+            "chain_head_custody_receipt_id": {"$ref": "#/$defs/custody_receipt_id"},
+            "chain_head_custody_receipt_sha256": {"$ref": "#/$defs/digest"},
+            "chain_head_envelope_id": {"$ref": "#/$defs/envelope_id"},
+            "chain_head_envelope_sha256": {"$ref": "#/$defs/digest"},
+            "chain_head_policy_id": {"$ref": "#/$defs/policy_id"},
+            "chain_head_policy_sha256": {"$ref": "#/$defs/digest"},
+            "chain_head_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "chain_head_transition_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "collector_id": {"$ref": "#/$defs/identifier"},
+            "event_head_event_id": {"$ref": "#/$defs/event_id"},
+            "event_head_event_sha256": {"$ref": "#/$defs/digest"},
+            "event_head_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "global_transition_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "head_binding_id": {"$ref": "#/$defs/head_binding_id"},
+            "head_binding_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-custody-head-binding.v1"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "policy_collector_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_head_transition_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_id": {"$ref": "#/$defs/policy_id"},
+            "policy_revocation_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/revocation_id"}]},
+            "policy_revocation_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+            "policy_revocation_transition_sequence": {"oneOf": [{"type": "null"}, {"type": "integer", "minimum": 1, "maximum": 9223372036854775807}]},
+            "policy_revoked_at": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/utc"}]},
+            "policy_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "policy_sha256": {"$ref": "#/$defs/digest"},
+            "schema_version": {"const": 1},
+            "store_application_id": {"const": 1398032451},
+            "store_migration_id": {"const": "sunderkey.target-health-custody.sqlite.v1"},
+            "store_migration_sha256": {"const": "sha256:6e63e569b2f5a35050964e81721124540a46b3f04a832ecb2c7adf247ea20335"},
+            "store_migration_version": {"const": 1},
+            "store_schema_manifest_sha256": {"const": "sha256:2c2ed03b3aac3a772e8318cb8ed8077ffde88f27033d8e51abd2cf078fe0fde3"},
+            "store_schema_version": {"const": 1},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root_id": {"$ref": "#/$defs/trust_root_id"},
+            "trust_root_revision": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+            "trust_root_sha256": {"$ref": "#/$defs/digest"}
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "policy_revocation_id": {"type": "null"},
+                "policy_revocation_sha256": {"type": "null"},
+                "policy_revocation_transition_sequence": {"type": "null"},
+                "policy_revoked_at": {"type": "null"}
+              }
+            },
+            {
+              "properties": {
+                "policy_revocation_id": {"$ref": "#/$defs/revocation_id"},
+                "policy_revocation_sha256": {"$ref": "#/$defs/digest"},
+                "policy_revocation_transition_sequence": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+                "policy_revoked_at": {"$ref": "#/$defs/utc"}
+              }
+            }
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "current_head_inspection": {
+      "allOf": [
+        {"$ref": "#/$defs/inspection_effects"},
+        {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "current_material_sha256",
+            "current_policy",
+            "custody_event",
+            "custody_receipt",
+            "envelope",
+            "head_binding",
+            "inspected_at",
+            "inspection_id",
+            "inspection_sha256",
+            "kind",
+            "mission_id",
+            "policy_revocation",
+            "schema_version",
+            "tenant_id",
+            "trust_root",
+            "verification"
+          ],
+          "properties": {
+            "chain_id": {"$ref": "#/$defs/chain_id"},
+            "current_material_sha256": {"$ref": "#/$defs/digest"},
+            "current_policy": {"$ref": "#/$defs/collector_policy"},
+            "custody_event": {"$ref": "#/$defs/custody_event"},
+            "custody_receipt": {"$ref": "#/$defs/custody_receipt"},
+            "envelope": {"$ref": "#/$defs/custody_envelope"},
+            "head_binding": {"$ref": "#/$defs/custody_head_binding"},
+            "inspected_at": {"$ref": "#/$defs/utc"},
+            "inspection_id": {"$ref": "#/$defs/inspection_id"},
+            "inspection_sha256": {"$ref": "#/$defs/digest"},
+            "inspection_context_sha256": {"$ref": "#/$defs/digest"},
+            "kind": {"const": "sunderkey.target-health-current-head-inspection.v1"},
+            "mission_id": {"$ref": "#/$defs/identifier"},
+            "policy_revocation": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/policy_revocation"}]},
+            "schema_version": {"const": 1},
+            "tenant_id": {"$ref": "#/$defs/identifier"},
+            "trust_root": {"$ref": "#/$defs/trust_root"},
+            "verification": {"$ref": "#/$defs/verification_result"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

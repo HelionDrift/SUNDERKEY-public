@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/service-contract-endpoint-bundle-v1.schema.json",
+  "title": "SUNDERKEY Offline Service Contract Endpoint Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "bundle_sha256",
+    "source",
+    "document_kind",
+    "document_version",
+    "endpoints",
+    "endpoint_count",
+    "extraction_status",
+    "offline_only",
+    "target_authority_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "bundle_id": {"type": "string", "pattern": "^SCEB-[0-9A-F]{32}$"},
+    "bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "source": {"$ref": "#/$defs/source"},
+    "document_kind": {"enum": ["openapi", "swagger", "wsdl"]},
+    "document_version": {"$ref": "#/$defs/text"},
+    "endpoints": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/endpoint"}
+    },
+    "endpoint_count": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "extraction_status": {"enum": ["complete", "complete_empty"]},
+    "offline_only": {"const": true},
+    "target_authority_effect": {"const": "none"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"document_kind": {"const": "openapi"}}},
+      "then": {
+        "properties": {
+          "document_version": {
+            "type": "string",
+            "pattern": "^3\\.[0-9]+(?:\\.[0-9]+)?(?:[-+][A-Za-z0-9.-]+)?$"
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"document_kind": {"const": "swagger"}}},
+      "then": {"properties": {"document_version": {"const": "2.0"}}}
+    },
+    {
+      "if": {"properties": {"document_kind": {"const": "wsdl"}}},
+      "then": {"properties": {"document_version": {"enum": ["1.1", "2.0"]}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^[^\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]+$"
+    },
+    "nullableText": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/text"}
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "media_type", "byte_size", "content_sha256", "provenance"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/text"},
+        "media_type": {
+          "enum": [
+            "application/json",
+            "application/openapi+json",
+            "application/yaml",
+            "application/x-yaml",
+            "text/yaml",
+            "application/openapi+yaml",
+            "application/xml",
+            "text/xml",
+            "application/wsdl+xml"
+          ]
+        },
+        "byte_size": {"type": "integer", "minimum": 1, "maximum": 2097152},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "provenance": {
+          "type": "object",
+          "maxProperties": 64,
+          "propertyNames": {"pattern": "^[a-z][a-z0-9_]{0,63}$"},
+          "additionalProperties": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "securityScheme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "scopes"],
+      "properties": {
+        "name": {"$ref": "#/$defs/text"},
+        "scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "securityRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemes"],
+      "properties": {
+        "schemes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/securityScheme"}
+        }
+      }
+    },
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_kind",
+        "transport",
+        "address",
+        "server",
+        "path",
+        "method",
+        "operation_id",
+        "service",
+        "port",
+        "binding",
+        "soap_action",
+        "security_requirements",
+        "endpoint_sha256"
+      ],
+      "properties": {
+        "document_kind": {"enum": ["openapi", "swagger", "wsdl"]},
+        "transport": {"enum": ["http", "https", "soap11", "soap12", "unspecified"]},
+        "address": {"$ref": "#/$defs/text"},
+        "server": {
+          "type": "string",
+          "maxLength": 16384,
+          "pattern": "^[^\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 16384,
+          "pattern": "^[^\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        },
+        "method": {
+          "oneOf": [
+            {"type": "null"},
+            {"enum": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT", "TRACE"]}
+          ]
+        },
+        "operation_id": {"$ref": "#/$defs/nullableText"},
+        "service": {"$ref": "#/$defs/nullableText"},
+        "port": {"$ref": "#/$defs/nullableText"},
+        "binding": {"$ref": "#/$defs/nullableText"},
+        "soap_action": {"$ref": "#/$defs/nullableText"},
+        "security_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/securityRequirement"}
+        },
+        "endpoint_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

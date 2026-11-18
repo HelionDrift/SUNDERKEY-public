@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S14",
+  "component_id": "identity_supplied_entitlement_toxic_combination",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:entitlements",
+      "source": {
+        "schema_version": "v1",
+        "graph_complete": true,
+        "assignments_complete": true,
+        "grants_complete": true,
+        "toxic_policy_complete": true,
+        "dynamic_entitlements_absent": true,
+        "roles": [
+          {
+            "role_id": "approver",
+            "inherits": ["reader"],
+            "permissions": ["payment.approve"]
+          },
+          {
+            "role_id": "editor",
+            "inherits": ["reader"],
+            "permissions": ["payment.create"]
+          },
+          {
+            "role_id": "reader",
+            "inherits": [],
+            "permissions": ["payment.read"]
+          }
+        ],
+        "principals": [
+          {"principal_id": "alice", "role_ids": ["approver", "editor"]},
+          {"principal_id": "bob", "role_ids": ["reader"]}
+        ],
+        "toxic_pairs": [
+          {
+            "pair_id": "create-approve",
+            "permission_a": "payment.create",
+            "permission_b": "payment.approve"
+          }
+        ]
+      }
+    }
+  }
+}

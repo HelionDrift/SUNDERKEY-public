@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "catalog_id": "sunderkey-pilot-capabilities",
+  "catalog_version": "1.0.0",
+  "expert_catalog_id": "sunderkey-offensive-expert-army",
+  "expert_catalog_version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "ai.indirect-prompt-injection",
+      "name": "Indirect prompt injection"
+    },
+    {
+      "id": "api.authorization.function-level",
+      "name": "API function-level authorization"
+    },
+    {
+      "id": "api.authorization.object-level",
+      "name": "API object-level authorization"
+    },
+    {
+      "id": "attack-path.graph-modeling",
+      "name": "Attack-graph modeling"
+    },
+    {
+      "id": "business-logic.workflow-state-machine",
+      "name": "Workflow and state-machine abuse"
+    },
+    {
+      "id": "campaign.threat-scenario-design",
+      "name": "Threat-scenario design"
+    },
+    {
+      "id": "cloud.workload-identity-metadata",
+      "name": "Cloud metadata and workload identity"
+    },
+    {
+      "id": "container.kubernetes.rbac-service-account",
+      "name": "Kubernetes RBAC and service accounts"
+    },
+    {
+      "id": "crypto.pki-x509-validation",
+      "name": "PKI and X.509 validation"
+    },
+    {
+      "id": "data.relational-database",
+      "name": "Relational databases"
+    },
+    {
+      "id": "enterprise.active-directory.path-analysis",
+      "name": "Active Directory path analysis"
+    },
+    {
+      "id": "enterprise.entra-id",
+      "name": "Microsoft Entra ID"
+    },
+    {
+      "id": "host.linux.local-privilege-escalation",
+      "name": "Linux local privilege escalation"
+    },
+    {
+      "id": "identity.authorization.rbac-abac-rebac",
+      "name": "RBAC, ABAC and ReBAC authorization-model design"
+    },
+    {
+      "id": "identity.oauth-oidc",
+      "name": "OAuth and OIDC"
+    },
+    {
+      "id": "network.boundary.firewall-proxy-vpn",
+      "name": "Firewalls, NAT, proxies and VPNs"
+    },
+    {
+      "id": "pattern.confused-deputy-trust-boundary",
+      "name": "Confused deputy and trust boundaries"
+    },
+    {
+      "id": "supply-chain.ci-runner-workflow",
+      "name": "CI runners and workflows"
+    },
+    {
+      "id": "web.access-control.multitenancy",
+      "name": "Web-route, UI access control and multitenancy enforcement"
+    },
+    {
+      "id": "web.browser-auth-session",
+      "name": "Browser authentication, sessions and cookies"
+    }
+  ],
+  "profile_assignments": [
+    {
+      "profile_id": "AOE-GA-D01-S11",
+      "primary_capability_ids": [
+        "attack-path.graph-modeling"
+      ],
+      "supporting_capability_ids": [
+        "campaign.threat-scenario-design"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D03-S04",
+      "primary_capability_ids": [
+        "identity.oauth-oidc"
+      ],
+      "supporting_capability_ids": [
+        "web.browser-auth-session"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D03-S13",
+      "primary_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ],
+      "supporting_capability_ids": [
+        "api.authorization.function-level",
+        "api.authorization.object-level",
+        "web.access-control.multitenancy"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D04-S01",
+      "primary_capability_ids": [
+        "campaign.threat-scenario-design"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D05-S11",
+      "primary_capability_ids": [
+        "web.browser-auth-session"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D05-S12",
+      "primary_capability_ids": [
+        "web.access-control.multitenancy"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D06-S09",
+      "primary_capability_ids": [
+        "api.authorization.object-level"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac",
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D06-S10",
+      "primary_capability_ids": [
+        "api.authorization.function-level"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D07-S01",
+      "primary_capability_ids": [
+        "data.relational-database"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S01",
+      "primary_capability_ids": [
+        "business-logic.workflow-state-machine"
+      ],
+      "supporting_capability_ids": [
+        "campaign.threat-scenario-design"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D11-S01",
+      "primary_capability_ids": [
+        "enterprise.active-directory.path-analysis"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling",
+        "enterprise.entra-id"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D11-S14",
+      "primary_capability_ids": [
+        "enterprise.entra-id"
+      ],
+      "supporting_capability_ids": [
+        "enterprise.active-directory.path-analysis",
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D12-S01",
+      "primary_capability_ids": [
+        "host.linux.local-privilege-escalation"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D13-S05",
+      "primary_capability_ids": [
+        "network.boundary.firewall-proxy-vpn"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S10",
+      "primary_capability_ids": [
+        "cloud.workload-identity-metadata"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc",
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D15-S04",
+      "primary_capability_ids": [
+        "container.kubernetes.rbac-service-account"
+      ],
+      "supporting_capability_ids": [
+        "cloud.workload-identity-metadata",
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D17-S02",
+      "primary_capability_ids": [
+        "supply-chain.ci-runner-workflow"
+      ],
+      "supporting_capability_ids": [
+        "business-logic.workflow-state-machine"
+      ]
+    },
+    {
+      "profile_id": "AOE-GD-D20-S10",
+      "primary_capability_ids": [
+        "ai.indirect-prompt-injection"
+      ],
+      "supporting_capability_ids": [
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GE-D22-S03",
+      "primary_capability_ids": [
+        "crypto.pki-x509-validation"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GE-D23-S14",
+      "primary_capability_ids": [
+        "pattern.confused-deputy-trust-boundary"
+      ],
+      "supporting_capability_ids": [
+        "api.authorization.object-level",
+        "cloud.workload-identity-metadata",
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    }
+  ]
+}

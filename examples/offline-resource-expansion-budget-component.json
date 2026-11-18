@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S11",
+  "component_id": "supplied_resource_expansion_budget",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-finite-expansion-budget-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {
+        "declaration_complete": true,
+        "reject_over_capacity": true,
+        "capacity_units": 50
+      },
+      "operations": [
+        {
+          "operation_id": "operation-1",
+          "input_units": 2,
+          "fanout": 3,
+          "depth": 3,
+          "capture_complete": true,
+          "declared_outcome": "accepted"
+        }
+      ]
+    }
+  }
+}

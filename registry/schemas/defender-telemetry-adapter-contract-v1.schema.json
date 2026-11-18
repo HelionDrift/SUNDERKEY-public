@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/defender-telemetry-adapter-contract-v1.schema.json",
+  "title": "SUNDERKEY Defender Telemetry Adapter Contract v1",
+  "oneOf": [
+    {"$ref": "#/$defs/sourceBinding"},
+    {"$ref": "#/$defs/envelope"},
+    {"$ref": "#/$defs/normalizedEvent"},
+    {"$ref": "#/$defs/ingestBatch"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "reference": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 320,
+      "pattern": "^[a-z][a-z0-9_-]{1,63}:[A-Za-z0-9][A-Za-z0-9._~:/+-]{0,255}$"
+    },
+    "code": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$"},
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+(?:\\.[0-9]+){1,3}(?:[-+][A-Za-z0-9.]+)?$"
+    },
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "domain": {
+      "enum": ["application_api", "cloud", "endpoint", "identity", "network", "siem"]
+    },
+    "eventCategory": {
+      "enum": [
+        "authentication",
+        "authorization",
+        "configuration",
+        "data_access",
+        "execution",
+        "network_flow",
+        "resource_change",
+        "security_alert"
+      ]
+    },
+    "outcome": {"enum": ["allowed", "blocked", "failure", "success", "unknown"]},
+    "severity": {
+      "enum": ["critical", "high", "informational", "low", "medium", "unknown"]
+    },
+    "freshnessPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_event_age_seconds",
+        "maximum_future_skew_seconds",
+        "maximum_ingest_delay_seconds",
+        "replay_window_seconds"
+      ],
+      "properties": {
+        "maximum_event_age_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000},
+        "maximum_future_skew_seconds": {"type": "integer", "minimum": 0, "maximum": 31536000},
+        "maximum_ingest_delay_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000},
+        "replay_window_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000}
+      }
+    },
+    "sourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "adapter_version",
+        "binding_id",
+        "binding_sha256",
+        "custody_policy_sha256",
+        "effective_at",
+        "engagement_ref",
+        "expires_at",
+        "freshness_policy",
+        "kind",
+        "mapping_sha256",
+        "processing_region",
+        "schema_version",
+        "scope_sha256",
+        "source_ref",
+        "source_schema_sha256",
+        "telemetry_domain",
+        "tenant_ref"
+      ],
+      "properties": {
+        "adapter_ref": {"$ref": "#/$defs/reference"},
+        "adapter_version": {"$ref": "#/$defs/version"},
+        "binding_id": {"type": "string", "pattern": "^TSB-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "effective_at": {"$ref": "#/$defs/timestamp"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "freshness_policy": {"$ref": "#/$defs/freshnessPolicy"},
+        "kind": {"const": "sunderkey.telemetry-source-binding.v1"},
+        "mapping_sha256": {"$ref": "#/$defs/sha256"},
+        "processing_region": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "source_ref": {"$ref": "#/$defs/reference"},
+        "source_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "telemetry_domain": {"$ref": "#/$defs/domain"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_ref",
+        "binding_id",
+        "binding_sha256",
+        "custody_sha256",
+        "custody_status",
+        "engagement_ref",
+        "envelope_id",
+        "envelope_sha256",
+        "kind",
+        "occurred_at",
+        "raw_event_sha256",
+        "received_at",
+        "redacted",
+        "schema_version",
+        "scope_sha256",
+        "source_event_ref",
+        "source_ref",
+        "source_sequence",
+        "telemetry_domain",
+        "tenant_ref"
+      ],
+      "properties": {
+        "artifact_ref": {"$ref": "#/$defs/reference"},
+        "binding_id": {"type": "string", "pattern": "^TSB-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_status": {"const": "durable_verified"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "envelope_id": {"type": "string", "pattern": "^TER-[0-9A-F]{32}$"},
+        "envelope_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.telemetry-envelope-reference.v1"},
+        "occurred_at": {"$ref": "#/$defs/timestamp"},
+        "raw_event_sha256": {"$ref": "#/$defs/sha256"},
+        "received_at": {"$ref": "#/$defs/timestamp"},
+        "redacted": {"const": true},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "source_event_ref": {"$ref": "#/$defs/reference"},
+        "source_ref": {"$ref": "#/$defs/reference"},
+        "source_sequence": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+        "telemetry_domain": {"$ref": "#/$defs/domain"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value_ref"],
+      "properties": {
+        "name": {"$ref": "#/$defs/code"},
+        "value_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "normalizedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_ref",
+        "attributes",
+        "binding_id",
+        "binding_sha256",
+        "engagement_ref",
+        "envelope_id",
+        "envelope_sha256",
+        "event_category",
+        "event_id",
+        "event_sha256",
+        "kind",
+        "mapping_sha256",
+        "normalized_at",
+        "occurred_at",
+        "operation_code",
+        "outcome",
+        "raw_event_sha256",
+        "received_at",
+        "resource_ref",
+        "schema_version",
+        "scope_sha256",
+        "severity",
+        "source_event_ref",
+        "source_ref",
+        "source_sequence",
+        "subject_ref",
+        "telemetry_domain",
+        "tenant_ref"
+      ],
+      "properties": {
+        "actor_ref": {"$ref": "#/$defs/reference"},
+        "attributes": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/attribute"}
+        },
+        "binding_id": {"type": "string", "pattern": "^TSB-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "envelope_id": {"type": "string", "pattern": "^TER-[0-9A-F]{32}$"},
+        "envelope_sha256": {"$ref": "#/$defs/sha256"},
+        "event_category": {"$ref": "#/$defs/eventCategory"},
+        "event_id": {"type": "string", "pattern": "^NTE-[0-9A-F]{32}$"},
+        "event_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.normalized-telemetry-event.v1"},
+        "mapping_sha256": {"$ref": "#/$defs/sha256"},
+        "normalized_at": {"$ref": "#/$defs/timestamp"},
+        "occurred_at": {"$ref": "#/$defs/timestamp"},
+        "operation_code": {"$ref": "#/$defs/code"},
+        "outcome": {"$ref": "#/$defs/outcome"},
+        "raw_event_sha256": {"$ref": "#/$defs/sha256"},
+        "received_at": {"$ref": "#/$defs/timestamp"},
+        "resource_ref": {"$ref": "#/$defs/reference"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "severity": {"$ref": "#/$defs/severity"},
+        "source_event_ref": {"$ref": "#/$defs/reference"},
+        "source_ref": {"$ref": "#/$defs/reference"},
+        "source_sequence": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+        "subject_ref": {"$ref": "#/$defs/reference"},
+        "telemetry_domain": {"$ref": "#/$defs/domain"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "replayMarker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_at",
+        "binding_id",
+        "binding_sha256",
+        "engagement_ref",
+        "expires_at",
+        "raw_event_sha256",
+        "scope_sha256",
+        "source_event_ref",
+        "tenant_ref"
+      ],
+      "properties": {
+        "accepted_at": {"$ref": "#/$defs/timestamp"},
+        "binding_id": {"type": "string", "pattern": "^TSB-[0-9A-F]{32}$"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "raw_event_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "source_event_ref": {"$ref": "#/$defs/reference"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "collection",
+        "network",
+        "persistence",
+        "qualification",
+        "source_write",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "collection": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "qualification": {"const": "none"},
+        "source_write": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "ingestBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batch_id",
+        "batch_sha256",
+        "binding",
+        "effects",
+        "envelopes",
+        "events",
+        "imported_at",
+        "kind",
+        "replay_markers",
+        "schema_version"
+      ],
+      "properties": {
+        "batch_id": {"type": "string", "pattern": "^TIB-[0-9A-F]{32}$"},
+        "batch_sha256": {"$ref": "#/$defs/sha256"},
+        "binding": {"$ref": "#/$defs/sourceBinding"},
+        "effects": {"$ref": "#/$defs/noEffects"},
+        "envelopes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/envelope"}
+        },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/normalizedEvent"}
+        },
+        "imported_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.telemetry-ingest-batch.v1"},
+        "replay_markers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/replayMarker"}
+        },
+        "schema_version": {"const": 1}
+      }
+    }
+  }
+}

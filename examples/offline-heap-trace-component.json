@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-heap-trace",
+    "trace_complete": true,
+    "events": [
+      {"event_id": "alloc_a", "kind": "allocate", "allocation_id": "a", "base_address": 100, "size": 16},
+      {"event_id": "alloc_b", "kind": "allocate", "allocation_id": "b", "base_address": 108, "size": 16},
+      {"event_id": "access_a", "kind": "access", "allocation_id": "a", "offset": 15, "length": 2, "mode": "read"},
+      {"event_id": "free_a", "kind": "free", "allocation_id": "a"},
+      {"event_id": "access_freed_a", "kind": "access", "allocation_id": "a", "offset": 0, "length": 1, "mode": "write"},
+      {"event_id": "free_again_a", "kind": "free", "allocation_id": "a"}
+    ]
+  }}
+}

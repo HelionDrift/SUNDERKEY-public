@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S15",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-path-conditions",
+    "path_conditions_complete": true,
+    "variables": [
+      {"name": "x", "domain": [0, 1, 2, 3]},
+      {"name": "y", "domain": [0, 1]}
+    ],
+    "constraints": [
+      {"coefficients": {"x": 1, "y": 1}, "constant": -3, "operator": "eq"},
+      {"coefficients": {"x": 1}, "constant": -2, "operator": "ge"}
+    ]
+  }}
+}

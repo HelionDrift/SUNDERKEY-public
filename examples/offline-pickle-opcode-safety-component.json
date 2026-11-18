@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S07",
+  "component_id": "model_supplied_pickle_opcode_safety",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-model-artifacts",
+      "artifacts": [
+        {
+          "artifact_id": "integer-only",
+          "blob_base64": "STEKLg==",
+          "declared_loader_policy": "allowed"
+        },
+        {
+          "artifact_id": "global-allowed",
+          "blob_base64": "Y2J1aWx0aW5zCmxpc3QKLg==",
+          "declared_loader_policy": "allowed"
+        },
+        {
+          "artifact_id": "global-denied",
+          "blob_base64": "Y2J1aWx0aW5zCmxpc3QKLg==",
+          "declared_loader_policy": "denied"
+        },
+        {
+          "artifact_id": "truncated",
+          "blob_base64": "STEK",
+          "declared_loader_policy": "unknown"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S06",
+  "component_id": "supplied_dns_scope_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-dns-scope-timeline-v1",
+      "hostname": "service.example.test",
+      "snapshots": [
+        {"snapshot_id": "before", "sequence": 1, "addresses": ["8.8.8.8"]},
+        {"snapshot_id": "after", "sequence": 2, "addresses": ["127.0.0.1"]}
+      ]
+    }
+  }
+}

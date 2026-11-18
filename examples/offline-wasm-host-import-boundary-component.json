@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-wasm-imports",
+      "modules": [
+        {
+          "module_id": "module-one",
+          "context_complete": true,
+          "allowed_imports": [{"namespace_id": "safe-host", "function_id": "read-state"}],
+          "imports": [
+            {"import_id": "import-one", "namespace_id": "safe-host", "function_id": "read-state"},
+            {"import_id": "import-two", "namespace_id": "extra-host", "function_id": "write-state"}
+          ]
+        }
+      ]
+    }
+  }
+}

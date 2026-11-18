@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-invocation-recovery-assessment-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Invocation Recovery Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "assessment_sha256",
+    "invocation_preparation",
+    "terminal_resolution",
+    "observed_at",
+    "knowledge_state",
+    "recovery_disposition",
+    "retry_authority",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "assessment_id": {"pattern": "^EIA-[0-9A-F]{32}$"},
+    "assessment_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+    "invocation_preparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_id",
+        "attempt_sha256",
+        "prepared_at",
+        "idempotency_status"
+      ],
+      "properties": {
+        "attempt_id": {"pattern": "^EIP-[0-9A-F]{32}$"},
+        "attempt_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+        "prepared_at": {"type": "string", "minLength": 1},
+        "idempotency_status": {
+          "enum": ["absent", "declared_unverified", "verified"]
+        }
+      }
+    },
+    "terminal_resolution": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resolution_id",
+            "resolution_sha256",
+            "attempt_id",
+            "attempt_sha256",
+            "outcome",
+            "resolved_at",
+            "retry_disposition",
+            "external_effect_status"
+          ],
+          "properties": {
+            "resolution_id": {"pattern": "^EIR-[0-9A-F]{32}$"},
+            "resolution_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+            "attempt_id": {"pattern": "^EIP-[0-9A-F]{32}$"},
+            "attempt_sha256": {"pattern": "^sha256:[0-9a-f]{64}$"},
+            "outcome": {
+              "enum": [
+                "failed_before_invocation",
+                "provider_report_received",
+                "outcome_uncertain"
+              ]
+            },
+            "resolved_at": {"type": "string", "minLength": 1},
+            "retry_disposition": {
+              "enum": [
+                "retry_allowed_no_external_effect",
+                "complete_provider_report_pending_authentication",
+                "retry_allowed_verified_idempotency",
+                "retry_forbidden_uncertain_effect"
+              ]
+            },
+            "external_effect_status": {
+              "enum": [
+                "not_started",
+                "provider_report_pending_authentication",
+                "outcome_uncertain"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "observed_at": {"type": "string", "minLength": 1},
+    "knowledge_state": {
+      "enum": [
+        "unresolved_after_preparation",
+        "terminal_resolution_recorded"
+      ]
+    },
+    "recovery_disposition": {
+      "enum": [
+        "manual_reconciliation_required",
+        "terminal_retry_disposition_requires_reauthorization",
+        "provider_report_authentication_required"
+      ]
+    },
+    "retry_authority": {
+      "enum": ["not_authorized", "separate_reauthorization_required"]
+    },
+    "external_effect_status": {
+      "enum": [
+        "not_started",
+        "provider_report_pending_authentication",
+        "outcome_uncertain"
+      ]
+    },
+    "runtime_effect": {"const": "none"}
+  }
+}

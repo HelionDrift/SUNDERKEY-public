@@ -1,0 +1,95 @@
+{
+  "$defs": {
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$",
+      "type": "string"
+    },
+    "profileId": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "$id": "https://sunderkey.dev/schemas/expert-workspace-acceptance-receipt-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acceptance_id": {
+      "pattern": "^EWA-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "attempt_number": {
+      "maximum": 8,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "authorization_effect": {
+      "const": "none"
+    },
+    "fencing_token": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "product_id": {
+      "pattern": "^EWP-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "product_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "product_type": {
+      "$ref": "#/$defs/identifier"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "review_status": {
+      "const": "not_reviewed"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "tool_effect": {
+      "const": "none"
+    },
+    "work_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "workspace_id": {
+      "pattern": "^EWS-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "workspace_revision": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "workspace_status": {
+      "enum": [
+        "active",
+        "products_complete_pending_review",
+        "completed"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "acceptance_id",
+    "workspace_id",
+    "work_id",
+    "attempt_number",
+    "fencing_token",
+    "product_id",
+    "product_sha256",
+    "product_type",
+    "workspace_revision",
+    "workspace_status",
+    "review_status",
+    "qualification_effect",
+    "authorization_effect",
+    "tool_effect"
+  ],
+  "type": "object"
+}

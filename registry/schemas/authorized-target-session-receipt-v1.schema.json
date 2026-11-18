@@ -1,0 +1,325 @@
+{
+  "$id": "https://sunderkey.invalid/schemas/authorized-target-session-receipt-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admission_receipt_id": { "$ref": "#/$defs/identifier" },
+    "admission_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "authentication_attempts": { "maximum": 1, "minimum": 0, "type": "integer" },
+    "authority_effect": { "const": "none" },
+    "binding": { "$ref": "#/$defs/binding" },
+    "cleanup_obligation_ref": { "$ref": "#/$defs/obligationReference" },
+    "cleanup_status": {
+      "enum": ["not_required_before_provider", "pending_external_verification"]
+    },
+    "credential_material_observed": { "const": false },
+    "enforcement_boundary": { "const": "injected_credential_session_provider_only" },
+    "execution_policy_id": { "$ref": "#/$defs/identifier" },
+    "execution_policy_sha256": { "$ref": "#/$defs/digest" },
+    "execution_request_id": { "$ref": "#/$defs/identifier" },
+    "execution_request_sha256": { "$ref": "#/$defs/digest" },
+    "intent_sha256": { "$ref": "#/$defs/digest" },
+    "kind": { "const": "authorized_target_session_receipt" },
+    "lease_id": { "$ref": "#/$defs/identifier" },
+    "lease_binding_sha256": { "$ref": "#/$defs/digest" },
+    "lease_sha256": { "$ref": "#/$defs/digest" },
+    "lease_source_kind": { "enum": ["credential_lease", "opaque_exact_binding"] },
+    "lease_use_completion_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "lease_use_number": { "maximum": 100, "minimum": 1, "type": "integer" },
+    "lease_use_reservation_id": { "$ref": "#/$defs/nullableReservationIdentifier" },
+    "lease_use_reservation_key_sha256": { "$ref": "#/$defs/digest" },
+    "lease_use_reservation_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "lease_use_reservation_status": {
+      "enum": ["not_reserved", "completed", "completion_failed"]
+    },
+    "principal_attestation_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "principal_label": { "$ref": "#/$defs/nullablePrincipalReference" },
+    "provider_called": { "type": "boolean" },
+    "qualification_effect": { "const": "none" },
+    "reason": { "$ref": "#/$defs/code" },
+    "receipt_id": { "pattern": "^ASR-[0-9A-F]{32}$", "type": "string" },
+    "receipt_sha256": { "$ref": "#/$defs/digest" },
+    "revocation_evidence_sha256": {
+      "items": { "$ref": "#/$defs/digest" },
+      "maxItems": 2,
+      "minItems": 0,
+      "type": "array"
+    },
+    "revocation_obligation_ref": { "$ref": "#/$defs/obligationReference" },
+    "revocation_status": {
+      "enum": [
+        "not_checked",
+        "checked_not_revoked",
+        "checked_not_revoked_after_authentication",
+        "revoked",
+        "check_failed"
+      ]
+    },
+    "runtime_policy_id": { "pattern": "^ATSP-[0-9A-F]{32}$", "type": "string" },
+    "runtime_policy_sha256": { "$ref": "#/$defs/digest" },
+    "schema_version": { "const": 1 },
+    "scope_id": { "$ref": "#/$defs/identifier" },
+    "scope_sha256": { "$ref": "#/$defs/digest" },
+    "session_attestation_sha256": { "$ref": "#/$defs/nullableDigest" },
+    "session_expires_at": { "$ref": "#/$defs/nullableTimestamp" },
+    "session_id": { "$ref": "#/$defs/nullableIdentifier" },
+    "status": {
+      "enum": [
+        "rejected_before_authentication",
+        "provider_failed",
+        "postcondition_rejected",
+        "completed"
+      ]
+    },
+    "transcript": {
+      "items": { "$ref": "#/$defs/event" },
+      "maxItems": 32,
+      "minItems": 1,
+      "type": "array"
+    },
+    "transcript_id": { "pattern": "^AST-[0-9A-F]{32}$", "type": "string" },
+    "transcript_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "required": [
+    "admission_receipt_id",
+    "admission_receipt_sha256",
+    "authentication_attempts",
+    "authority_effect",
+    "binding",
+    "cleanup_obligation_ref",
+    "cleanup_status",
+    "credential_material_observed",
+    "enforcement_boundary",
+    "execution_policy_id",
+    "execution_policy_sha256",
+    "execution_request_id",
+    "execution_request_sha256",
+    "intent_sha256",
+    "kind",
+    "lease_id",
+    "lease_binding_sha256",
+    "lease_sha256",
+    "lease_source_kind",
+    "lease_use_completion_sha256",
+    "lease_use_number",
+    "lease_use_reservation_id",
+    "lease_use_reservation_key_sha256",
+    "lease_use_reservation_sha256",
+    "lease_use_reservation_status",
+    "principal_attestation_sha256",
+    "principal_label",
+    "provider_called",
+    "qualification_effect",
+    "reason",
+    "receipt_id",
+    "receipt_sha256",
+    "revocation_evidence_sha256",
+    "revocation_obligation_ref",
+    "revocation_status",
+    "runtime_policy_id",
+    "runtime_policy_sha256",
+    "schema_version",
+    "scope_id",
+    "scope_sha256",
+    "session_attestation_sha256",
+    "session_expires_at",
+    "session_id",
+    "status",
+    "transcript",
+    "transcript_id",
+    "transcript_sha256"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "provider_called": { "const": false } } },
+      "then": {
+        "properties": {
+          "authentication_attempts": { "const": 0 },
+          "cleanup_status": { "const": "not_required_before_provider" },
+          "status": { "const": "rejected_before_authentication" }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "lease_use_completion_sha256": { "type": "null" },
+              "lease_use_reservation_id": { "type": "null" },
+              "lease_use_reservation_sha256": { "type": "null" },
+              "lease_use_reservation_status": { "const": "not_reserved" }
+            }
+          },
+          {
+            "properties": {
+              "lease_use_completion_sha256": { "$ref": "#/$defs/digest" },
+              "lease_use_reservation_id": { "$ref": "#/$defs/reservationIdentifier" },
+              "lease_use_reservation_sha256": { "$ref": "#/$defs/digest" },
+              "lease_use_reservation_status": { "const": "completed" }
+            }
+          },
+          {
+            "properties": {
+              "lease_use_completion_sha256": { "type": "null" },
+              "lease_use_reservation_id": { "$ref": "#/$defs/reservationIdentifier" },
+              "lease_use_reservation_sha256": { "$ref": "#/$defs/digest" },
+              "lease_use_reservation_status": { "const": "completion_failed" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": { "properties": { "provider_called": { "const": true } } },
+      "then": {
+        "properties": {
+          "authentication_attempts": { "const": 1 },
+          "cleanup_status": { "const": "pending_external_verification" },
+          "lease_use_reservation_id": { "$ref": "#/$defs/reservationIdentifier" },
+          "lease_use_reservation_sha256": { "$ref": "#/$defs/digest" },
+          "lease_use_reservation_status": {
+            "enum": ["completed", "completion_failed"]
+          },
+          "status": {
+            "enum": ["provider_failed", "postcondition_rejected", "completed"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "lease_use_reservation_status": { "const": "completed" } }
+      },
+      "then": {
+        "properties": {
+          "lease_use_completion_sha256": { "$ref": "#/$defs/digest" }
+        }
+      },
+      "else": {
+        "properties": { "lease_use_completion_sha256": { "type": "null" } }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "completed" } } },
+      "then": {
+        "properties": {
+          "lease_use_completion_sha256": { "$ref": "#/$defs/digest" },
+          "lease_use_reservation_status": { "const": "completed" },
+          "principal_attestation_sha256": { "$ref": "#/$defs/digest" },
+          "principal_label": { "$ref": "#/$defs/principalReference" },
+          "provider_called": { "const": true },
+          "reason": { "const": "completed" },
+          "revocation_status": {
+            "const": "checked_not_revoked_after_authentication"
+          },
+          "revocation_evidence_sha256": {
+            "items": { "$ref": "#/$defs/digest" },
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array"
+          },
+          "session_attestation_sha256": { "$ref": "#/$defs/digest" },
+          "session_expires_at": { "$ref": "#/$defs/timestamp" },
+          "session_id": { "$ref": "#/$defs/identifier" }
+        }
+      },
+      "else": {
+        "properties": {
+          "principal_attestation_sha256": { "type": "null" },
+          "principal_label": { "type": "null" },
+          "session_attestation_sha256": { "type": "null" },
+          "session_expires_at": { "type": "null" },
+          "session_id": { "type": "null" }
+        }
+      }
+    }
+  ],
+  "title": "Authorized target session receipt version 1",
+  "type": "object",
+  "$defs": {
+    "binding": {
+      "additionalProperties": false,
+      "properties": {
+        "context_id": { "$ref": "#/$defs/identifier" },
+        "context_sha256": { "$ref": "#/$defs/digest" },
+        "fence_epoch": { "minimum": 1, "type": "integer" },
+        "lease_id": { "$ref": "#/$defs/identifier" },
+        "scope_id": { "$ref": "#/$defs/identifier" },
+        "scope_sha256": { "$ref": "#/$defs/digest" },
+        "session_id": { "$ref": "#/$defs/identifier" },
+        "target_id": { "$ref": "#/$defs/identifier" },
+        "target_sha256": { "$ref": "#/$defs/digest" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      },
+      "required": [
+        "context_id",
+        "context_sha256",
+        "fence_epoch",
+        "lease_id",
+        "scope_id",
+        "scope_sha256",
+        "session_id",
+        "target_id",
+        "target_sha256",
+        "tenant_id"
+      ],
+      "type": "object"
+    },
+    "code": { "pattern": "^[a-z][a-z0-9_.-]{1,63}$", "type": "string" },
+    "digest": { "pattern": "^sha256:[0-9a-f]{64}$", "type": "string" },
+    "event": {
+      "additionalProperties": false,
+      "properties": {
+        "detail_sha256": { "$ref": "#/$defs/digest" },
+        "event_sha256": { "$ref": "#/$defs/digest" },
+        "monotonic_tick": { "minimum": 1, "type": "integer" },
+        "observed_at": { "$ref": "#/$defs/timestamp" },
+        "previous_event_sha256": { "$ref": "#/$defs/nullableDigest" },
+        "sequence": { "maximum": 32, "minimum": 1, "type": "integer" },
+        "stage": { "$ref": "#/$defs/code" }
+      },
+      "required": [
+        "detail_sha256",
+        "event_sha256",
+        "monotonic_tick",
+        "observed_at",
+        "previous_event_sha256",
+        "sequence",
+        "stage"
+      ],
+      "type": "object"
+    },
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$",
+      "type": "string"
+    },
+    "nullableDigest": {
+      "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }]
+    },
+    "nullableIdentifier": {
+      "anyOf": [{ "$ref": "#/$defs/identifier" }, { "type": "null" }]
+    },
+    "nullablePrincipalReference": {
+      "anyOf": [{ "$ref": "#/$defs/principalReference" }, { "type": "null" }]
+    },
+    "nullableReservationIdentifier": {
+      "anyOf": [{ "$ref": "#/$defs/reservationIdentifier" }, { "type": "null" }]
+    },
+    "nullableTimestamp": {
+      "anyOf": [{ "$ref": "#/$defs/timestamp" }, { "type": "null" }]
+    },
+    "obligationReference": {
+      "pattern": "^obligationref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$",
+      "type": "string"
+    },
+    "principalReference": {
+      "pattern": "^principalref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$",
+      "type": "string"
+    },
+    "reservationIdentifier": {
+      "pattern": "^LUR-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "timestamp": {
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "type": "string"
+    }
+  }
+}

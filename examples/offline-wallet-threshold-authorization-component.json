@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-custody-policy",
+      "policies": [
+        {
+          "policy_id": "policy-one",
+          "threshold": 2,
+          "eligible_signer_ids": ["signer-a", "signer-b", "signer-c"],
+          "actions": [
+            {"action_id": "action-one", "approval_signer_ids": ["signer-a", "signer-a"], "declared_authorized": true, "approvals_complete": true, "policy_current": true},
+            {"action_id": "action-two", "approval_signer_ids": ["signer-a", "signer-b"], "declared_authorized": true, "approvals_complete": true, "policy_current": true}
+          ]
+        }
+      ]
+    }
+  }
+}

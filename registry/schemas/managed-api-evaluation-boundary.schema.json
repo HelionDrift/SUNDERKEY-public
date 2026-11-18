@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/managed-api-evaluation-boundary-v1.json",
+  "title": "SUNDERKEY Managed API Evaluation Boundary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "boundary_id",
+    "boundary_sha256",
+    "decision_id",
+    "decision_status",
+    "decision_effect",
+    "approval_basis",
+    "selected_architecture",
+    "candidate",
+    "evaluation_suite",
+    "data_boundary",
+    "worker_boundary",
+    "runtime_binding",
+    "readiness",
+    "authorized_next_steps",
+    "prohibited_effects"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "boundary_id": {
+      "type": "string",
+      "pattern": "^MAB-[0-9A-F]{32}$"
+    },
+    "boundary_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D010"},
+    "decision_status": {"const": "approved"},
+    "decision_effect": {"const": "contract_implementation_authorized"},
+    "approval_basis": {
+      "const": {
+        "approval_channel": "explicit_owner_decision",
+        "authority_role": "repository_owner",
+        "recording_mechanism": "reviewed_versioned_repository_record"
+      }
+    },
+    "selected_architecture": {
+      "const": "managed_model_api_isolated_evaluation_worker"
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256",
+        "profile_id"
+      ],
+      "properties": {
+        "candidate_id": {"const": "development.passive-osint"},
+        "candidate_version": {"const": "1.0.0"},
+        "candidate_artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_id": {"const": "AOE-GA-D01-S01"}
+      }
+    },
+    "evaluation_suite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "suite_id",
+        "suite_version",
+        "suite_sha256",
+        "case_count",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "suite_id": {"const": "development.passive-osint.qualification"},
+        "suite_version": {"const": "1.0.0"},
+        "suite_sha256": {"$ref": "#/$defs/sha256"},
+        "case_count": {"const": 29},
+        "candidate_artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "data_boundary": {
+      "const": {
+        "allowed_data_classes": [
+          "synthetic_evaluation_scenario",
+          "reviewed_instruction_bundle"
+        ],
+        "credential_data_allowed": false,
+        "retrieval_allowed": false,
+        "target_data_allowed": false,
+        "tool_calls_allowed": false,
+        "unreviewed_context_allowed": false
+      }
+    },
+    "worker_boundary": {
+      "const": {
+        "automatic_retries": 0,
+        "maximum_parallel_requests": 1,
+        "network_default": "deny",
+        "process_isolation_required": true,
+        "provider_endpoint_allowlist": "unselected",
+        "raw_logging": "disabled",
+        "response_handling": "content_address_before_review",
+        "server_side_tools_allowed": false
+      }
+    },
+    "runtime_binding": {
+      "const": {
+        "api_protocol": "unselected",
+        "credential_reference_id": "unselected",
+        "hosting_region": "unselected",
+        "model_id": "unselected",
+        "model_revision": "unselected",
+        "provider_id": "unselected",
+        "retention_policy_id": "unselected"
+      }
+    },
+    "readiness": {
+      "const": {
+        "execution_enabled": false,
+        "missing_bindings": [
+          "provider_id",
+          "model_id",
+          "model_revision",
+          "api_protocol",
+          "hosting_region",
+          "retention_policy_id",
+          "credential_reference_id",
+          "provider_endpoint_allowlist"
+        ],
+        "status": "blocked_pending_exact_runtime_binding"
+      }
+    },
+    "authorized_next_steps": {
+      "const": [
+        "select_exact_provider_model_and_revision",
+        "review_region_and_retention_policy",
+        "define_external_secret_reference",
+        "define_provider_endpoint_allowlist",
+        "implement_provider_adapter_behind_boundary",
+        "run_synthetic_cases_after_independent_review"
+      ]
+    },
+    "prohibited_effects": {
+      "const": [
+        "does_not_enable_network_access",
+        "does_not_store_or_accept_api_credentials",
+        "does_not_select_a_provider_model_endpoint_or_region",
+        "does_not_enable_tools_retrieval_or_target_access",
+        "does_not_run_the_candidate_or_evaluation_suite",
+        "does_not_create_observations_results_or_evidence",
+        "does_not_qualify_a_candidate_or_change_routing",
+        "does_not_mutate_mission_work_or_sqlite_state"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

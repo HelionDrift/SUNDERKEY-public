@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-plan-replacement-readiness-v1.json",
+  "title": "SUNDERKEY Collaboration Plan Replacement Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "readiness_id",
+    "readiness_sha256",
+    "observed_at",
+    "store_id",
+    "mission_id",
+    "mission_revision",
+    "active_head",
+    "prior_plan",
+    "replacement_plan",
+    "mission_policy",
+    "authority_policy",
+    "trust_high_water",
+    "scope_high_water",
+    "principal_ledger_high_water",
+    "replacement_replay_high_water",
+    "source_snapshot_hashes",
+    "mapping_intents",
+    "work_state",
+    "preflight",
+    "required_authority_operations",
+    "required_assertion_count",
+    "required_replay_key_count",
+    "drain_blockers",
+    "required_drain_operations",
+    "readiness_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "readiness_id": {"type": "string", "pattern": "^RRA-[0-9A-F]{32}$"},
+    "readiness_sha256": {"$ref": "#/$defs/sha256"},
+    "observed_at": {"$ref": "#/$defs/timestamp"},
+    "store_id": {"type": "string", "pattern": "^STR-[0-9A-F]{32}$"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "mission_revision": {"type": "integer", "minimum": 0},
+    "active_head": {"$ref": "#/$defs/activeHead"},
+    "prior_plan": {
+      "$ref": "https://schemas.sunderkey.local/collaboration-plan/v1"
+    },
+    "replacement_plan": {
+      "$ref": "https://schemas.sunderkey.local/collaboration-plan/v1"
+    },
+    "mission_policy": {
+      "$ref": "https://schemas.sunderkey.dev/collaboration-mission-reconfiguration-policy-v1.json"
+    },
+    "authority_policy": {
+      "$ref": "https://schemas.sunderkey.dev/collaboration-reconfiguration-authority-policy-v1.json"
+    },
+    "trust_high_water": {"$ref": "#/$defs/trustHighWater"},
+    "scope_high_water": {"$ref": "#/$defs/scopeHighWater"},
+    "principal_ledger_high_water": {"$ref": "#/$defs/principalHighWater"},
+    "replacement_replay_high_water": {"$ref": "#/$defs/replayHighWater"},
+    "source_snapshot_hashes": {"$ref": "#/$defs/sourceSnapshots"},
+    "mapping_intents": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/mappingIntent"}
+    },
+    "work_state": {
+      "type": "object",
+      "maxProperties": 10000,
+      "additionalProperties": {"$ref": "#/$defs/workState"}
+    },
+    "preflight": {
+      "$ref": "https://schemas.sunderkey.dev/collaboration-plan-replacement-preflight-v1.json"
+    },
+    "required_authority_operations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4100,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/authorityOperation"}
+    },
+    "required_assertion_count": {"type": "integer", "minimum": 1, "maximum": 4100},
+    "required_replay_key_count": {"type": "integer", "minimum": 1, "maximum": 4100},
+    "drain_blockers": {
+      "type": "array",
+      "maxItems": 20000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/drainBlocker"}
+    },
+    "required_drain_operations": {
+      "type": "array",
+      "maxItems": 20000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/drainOperation"}
+    },
+    "readiness_status": {
+      "enum": ["ready_for_signed_authority", "blocked_pending_drain"]
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 256},
+    "nullableIdentifier": {
+      "anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]
+    },
+    "activeHead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan_id", "plan_sha256", "plan_version"],
+      "properties": {
+        "plan_id": {"$ref": "#/$defs/identifier"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "plan_version": {"type": "integer", "minimum": 1}
+      }
+    },
+    "trustHighWater": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "policy_version", "policy_sha256", "applied_at"],
+      "properties": {
+        "policy_id": {"$ref": "#/$defs/identifier"},
+        "policy_version": {"type": "integer", "minimum": 1},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "applied_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "scopeHighWater": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_grant_count",
+        "revocation_count",
+        "revocation_head_sha256",
+        "scope_state_sha256"
+      ],
+      "properties": {
+        "accepted_grant_count": {"type": "integer", "minimum": 0},
+        "revocation_count": {"type": "integer", "minimum": 0},
+        "revocation_head_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_state_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "principalHighWater": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_count",
+        "head_sha256",
+        "expert_review_consumed_count",
+        "expert_review_consumed_sha256"
+      ],
+      "properties": {
+        "assertion_count": {"type": "integer", "minimum": 0},
+        "head_sha256": {"$ref": "#/$defs/sha256"},
+        "expert_review_consumed_count": {"type": "integer", "minimum": 0},
+        "expert_review_consumed_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "replayHighWater": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["consumed_count", "consumed_replay_keys_sha256"],
+      "properties": {
+        "consumed_count": {"type": "integer", "minimum": 0},
+        "consumed_replay_keys_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sourceSnapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ownership_snapshot_sha256",
+        "work_snapshot_sha256",
+        "cancellation_snapshot_sha256",
+        "execution_session_snapshot_sha256",
+        "terminal_custody_snapshot_sha256"
+      ],
+      "properties": {
+        "ownership_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "work_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "cancellation_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_session_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_custody_snapshot_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "crossCommandEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_catalog_sha256",
+        "capability_revalidation_sha256",
+        "proposed_owner_qualification_sha256",
+        "source_command_review_sha256",
+        "destination_command_review_sha256"
+      ],
+      "properties": {
+        "capability_catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "capability_revalidation_sha256": {"$ref": "#/$defs/sha256"},
+        "proposed_owner_qualification_sha256": {"$ref": "#/$defs/sha256"},
+        "source_command_review_sha256": {"$ref": "#/$defs/sha256"},
+        "destination_command_review_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "mappingIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_work_item_id",
+        "replacement_work_item_id",
+        "cross_command_evidence"
+      ],
+      "properties": {
+        "source_work_item_id": {"$ref": "#/$defs/identifier"},
+        "replacement_work_item_id": {"$ref": "#/$defs/identifier"},
+        "cross_command_evidence": {
+          "anyOf": [{"type": "null"}, {"$ref": "#/$defs/crossCommandEvidence"}]
+        }
+      }
+    },
+    "workState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "latest_transition_id",
+        "latest_transition_kind",
+        "completed_result_sha256"
+      ],
+      "properties": {
+        "state": {"enum": ["completed", "not_completed"]},
+        "latest_transition_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "latest_transition_kind": {"$ref": "#/$defs/nullableIdentifier"},
+        "completed_result_sha256": {
+          "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        }
+      }
+    },
+    "authorityOperation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "operation", "role", "authority_id", "work_item_id"],
+      "properties": {
+        "requirement_id": {"$ref": "#/$defs/identifier"},
+        "operation": {"type": "string", "pattern": "^sunderkey\\..+\\.v1$"},
+        "role": {"$ref": "#/$defs/identifier"},
+        "authority_id": {"$ref": "#/$defs/identifier"},
+        "work_item_id": {"$ref": "#/$defs/nullableIdentifier"}
+      }
+    },
+    "drainBlocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocker_code", "subject_id", "work_item_id", "detail"],
+      "properties": {
+        "blocker_code": {
+          "enum": [
+            "active_work_lease",
+            "active_execution_session",
+            "terminal_custody_missing",
+            "mission_not_active"
+          ]
+        },
+        "subject_id": {"$ref": "#/$defs/identifier"},
+        "work_item_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 512}
+      }
+    },
+    "drainOperation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "subject_id", "work_item_id", "required_generation"],
+      "properties": {
+        "operation": {
+          "enum": [
+            "terminalize_work_lease",
+            "revoke_execution_session",
+            "commit_terminal_custody"
+          ]
+        },
+        "subject_id": {"$ref": "#/$defs/identifier"},
+        "work_item_id": {"$ref": "#/$defs/identifier"},
+        "required_generation": {
+          "anyOf": [{"type": "integer", "minimum": 1}, {"type": "null"}]
+        }
+      }
+    }
+  }
+}

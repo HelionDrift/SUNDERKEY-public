@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S16",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-supply-export",
+      "inventory_complete": true,
+      "components": [
+        {
+          "component_id": "board-a-module",
+          "expected_provenance_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supplied_provenance_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "expected_seal_intact": true,
+          "declared_seal_state": "broken",
+          "context_complete": true
+        },
+        {
+          "component_id": "board-b-module",
+          "expected_provenance_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "supplied_provenance_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "expected_seal_intact": true,
+          "declared_seal_state": "intact",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

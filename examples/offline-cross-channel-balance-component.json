@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S12",
+  "component_id": "supplied_cross_channel_balance",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-cross-channel-balance-v1",
+      "account_ref": "account:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "currency_label": "TST",
+      "opening_balance_minor": 100,
+      "events": [
+        {"event_id": "e1", "channel_id": "web", "transaction_ref": "transaction:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "kind": "debit", "amount_minor": 30, "result": "accepted", "declared_balance_minor": 70},
+        {"event_id": "e2", "channel_id": "mobile", "transaction_ref": "transaction:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "kind": "debit", "amount_minor": 30, "result": "rejected", "declared_balance_minor": 70},
+        {"event_id": "e3", "channel_id": "partner", "transaction_ref": "transaction:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "kind": "credit", "amount_minor": 20, "result": "accepted", "declared_balance_minor": 90}
+      ]
+    }
+  }
+}

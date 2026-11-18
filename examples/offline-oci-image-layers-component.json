@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-oci-image",
+      "inventory_complete": true,
+      "manifest": {
+        "schema_version": 2,
+        "media_type": "application/vnd.oci.image.manifest.v1+json",
+        "config": {
+          "media_type": "application/vnd.oci.image.config.v1+json",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "size": 512
+        },
+        "layers": [
+          {
+            "media_type": "application/vnd.oci.image.layer.v1.tar+gzip",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "size": 1024
+          }
+        ]
+      },
+      "configuration": {
+        "media_type": "application/vnd.oci.image.config.v1+json",
+        "rootfs_type": "layers",
+        "diff_ids": [
+          "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        ],
+        "history": [
+          {"empty_layer": false},
+          {"empty_layer": true}
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/attack-surface-discovery-report-v1.schema.json",
+  "title": "SUNDERKEY Attack Surface Discovery Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assets",
+    "conflicts",
+    "context",
+    "endpoints",
+    "evidence_level",
+    "gaps",
+    "generated_at",
+    "limits",
+    "no_effects",
+    "observation_batch_sha256",
+    "operational_status",
+    "parent_report_sha256",
+    "qualification_effect",
+    "report_id",
+    "report_sha256",
+    "revalidation_plans",
+    "schema_version",
+    "services",
+    "temporal_links"
+  ],
+  "properties": {
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entity" }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/conflict" }
+    },
+    "context": { "$ref": "#/$defs/context" },
+    "endpoints": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entity" }
+    },
+    "evidence_level": { "const": "repository_only" },
+    "gaps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/gap" }
+    },
+    "generated_at": { "$ref": "#/$defs/utc" },
+    "limits": { "$ref": "#/$defs/limits" },
+    "no_effects": { "$ref": "#/$defs/noEffects" },
+    "observation_batch_sha256": { "$ref": "#/$defs/sha256" },
+    "operational_status": { "const": "nonqualified" },
+    "parent_report_sha256": {
+      "oneOf": [
+        { "$ref": "#/$defs/sha256" },
+        { "type": "null" }
+      ]
+    },
+    "qualification_effect": { "const": "none" },
+    "report_id": { "type": "string", "pattern": "^ADS-[0-9A-F]{32}$" },
+    "report_sha256": { "$ref": "#/$defs/sha256" },
+    "revalidation_plans": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/revalidation" }
+    },
+    "schema_version": { "const": 1 },
+    "services": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entity" }
+    },
+    "temporal_links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/temporalLink" }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "surfaceKind": {
+      "enum": ["api", "cloud", "code", "identity", "network", "third_party", "web"]
+    },
+    "referenceArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "digestArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/sha256" }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context_id", "owner_refs", "scope_binding_sha256", "scope_refs", "tenant_id"],
+      "properties": {
+        "context_id": { "$ref": "#/$defs/identifier" },
+        "owner_refs": { "$ref": "#/$defs/referenceArray" },
+        "scope_binding_sha256": { "$ref": "#/$defs/sha256" },
+        "scope_refs": { "$ref": "#/$defs/referenceArray" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_assets",
+        "max_collectors",
+        "max_conflicts",
+        "max_endpoints",
+        "max_gaps",
+        "max_observations",
+        "max_revalidation_plans",
+        "max_services"
+      ],
+      "properties": {
+        "max_assets": { "type": "integer", "minimum": 1, "maximum": 20000 },
+        "max_collectors": { "type": "integer", "minimum": 1, "maximum": 128 },
+        "max_conflicts": { "type": "integer", "minimum": 1, "maximum": 20000 },
+        "max_endpoints": { "type": "integer", "minimum": 1, "maximum": 50000 },
+        "max_gaps": { "type": "integer", "minimum": 1, "maximum": 50000 },
+        "max_observations": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "max_revalidation_plans": { "type": "integer", "minimum": 1, "maximum": 50000 },
+        "max_services": { "type": "integer", "minimum": 1, "maximum": 50000 }
+      }
+    },
+    "noEffects": {
+      "const": {
+        "active_scan": "none",
+        "authority": "none",
+        "cloud": "none",
+        "credential_access": "none",
+        "dns": "none",
+        "execution": "none",
+        "network": "none",
+        "scheduler": "none"
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "confidence",
+        "conflict_ids",
+        "entity_id",
+        "entity_kind",
+        "entity_sha256",
+        "observation_sha256s",
+        "owner_refs",
+        "parent_entity_id",
+        "provenance_sha256s",
+        "scope_refs",
+        "stable_key_sha256",
+        "state",
+        "surface_kinds"
+      ],
+      "properties": {
+        "confidence": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "conflict_ids": { "$ref": "#/$defs/referenceArray" },
+        "entity_id": { "type": "string", "pattern": "^(ASA|ASS|ASE)-[0-9A-F]{32}$" },
+        "entity_kind": { "enum": ["asset", "endpoint", "service"] },
+        "entity_sha256": { "$ref": "#/$defs/sha256" },
+        "observation_sha256s": { "$ref": "#/$defs/digestArray" },
+        "owner_refs": { "$ref": "#/$defs/referenceArray" },
+        "parent_entity_id": {
+          "oneOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "provenance_sha256s": { "$ref": "#/$defs/digestArray" },
+        "scope_refs": { "$ref": "#/$defs/referenceArray" },
+        "stable_key_sha256": { "$ref": "#/$defs/sha256" },
+        "state": { "enum": ["conflicted", "current", "stale"] },
+        "surface_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/surfaceKind" }
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_values",
+        "conflict_id",
+        "conflict_kind",
+        "conflict_sha256",
+        "key_sha256",
+        "observation_sha256s"
+      ],
+      "properties": {
+        "claim_values": { "$ref": "#/$defs/referenceArray" },
+        "conflict_id": { "type": "string", "pattern": "^ADF-[0-9A-F]{32}$" },
+        "conflict_kind": { "$ref": "#/$defs/identifier" },
+        "conflict_sha256": { "$ref": "#/$defs/sha256" },
+        "key_sha256": { "$ref": "#/$defs/sha256" },
+        "observation_sha256s": { "$ref": "#/$defs/digestArray" }
+      }
+    },
+    "temporalLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "change",
+        "current_entity_sha256",
+        "entity_id",
+        "entity_kind",
+        "link_id",
+        "link_sha256",
+        "prior_entity_sha256",
+        "surface_kind"
+      ],
+      "properties": {
+        "change": { "enum": ["added", "changed", "missing", "unchanged"] },
+        "current_entity_sha256": {
+          "oneOf": [
+            { "$ref": "#/$defs/sha256" },
+            { "type": "null" }
+          ]
+        },
+        "entity_id": { "$ref": "#/$defs/identifier" },
+        "entity_kind": { "enum": ["asset", "endpoint", "service"] },
+        "link_id": { "type": "string", "pattern": "^ADT-[0-9A-F]{32}$" },
+        "link_sha256": { "$ref": "#/$defs/sha256" },
+        "prior_entity_sha256": {
+          "oneOf": [
+            { "$ref": "#/$defs/sha256" },
+            { "type": "null" }
+          ]
+        },
+        "surface_kind": { "$ref": "#/$defs/surfaceKind" }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "evidence_refs",
+        "gap_id",
+        "gap_kind",
+        "gap_sha256",
+        "priority",
+        "reason_code",
+        "surface_kind"
+      ],
+      "properties": {
+        "entity_id": {
+          "oneOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "evidence_refs": { "$ref": "#/$defs/referenceArray" },
+        "gap_id": { "type": "string", "pattern": "^ADG-[0-9A-F]{32}$" },
+        "gap_kind": {
+          "enum": [
+            "coverage",
+            "identity_conflict",
+            "low_confidence",
+            "missing_ownership",
+            "missing_scope",
+            "stale_evidence",
+            "temporal_missing",
+            "uncorrelated_service"
+          ]
+        },
+        "gap_sha256": { "$ref": "#/$defs/sha256" },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "reason_code": { "$ref": "#/$defs/identifier" },
+        "surface_kind": { "$ref": "#/$defs/surfaceKind" }
+      }
+    },
+    "revalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_scan_permitted",
+        "gap_id",
+        "network_access_permitted",
+        "priority",
+        "record_limit",
+        "requested_collector_ids",
+        "revalidation_id",
+        "revalidation_sha256",
+        "status"
+      ],
+      "properties": {
+        "active_scan_permitted": { "const": false },
+        "gap_id": { "$ref": "#/$defs/identifier" },
+        "network_access_permitted": { "const": false },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "record_limit": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "requested_collector_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "revalidation_id": { "type": "string", "pattern": "^ADV-[0-9A-F]{32}$" },
+        "revalidation_sha256": { "$ref": "#/$defs/sha256" },
+        "status": { "const": "proposal_only" }
+      }
+    }
+  }
+}

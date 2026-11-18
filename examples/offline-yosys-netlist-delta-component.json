@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-yosys-netlist-delta",
+      "synthetic_fixture": true,
+      "top_module_id": "top",
+      "approved_cell_type_ids": ["$not"],
+      "baseline_netlist": {
+        "creator": "Yosys synthetic fixture",
+        "modules": {
+          "top": {
+            "ports": {
+              "A": {"direction": "input", "bits": [2]},
+              "Y": {"direction": "output", "bits": [3]}
+            },
+            "cells": {
+              "u_not": {
+                "type": "$not",
+                "connections": {"A": [2], "Y": [3]},
+                "port_directions": {"A": "input", "Y": "output"}
+              }
+            }
+          }
+        }
+      },
+      "candidate_netlist": {
+        "creator": "Yosys synthetic fixture",
+        "modules": {
+          "top": {
+            "ports": {
+              "A": {"direction": "input", "bits": [2]},
+              "Y": {"direction": "output", "bits": [3]}
+            },
+            "cells": {
+              "u_not": {
+                "type": "$not",
+                "connections": {"A": [2], "Y": [3]},
+                "port_directions": {"A": "input", "Y": "output"}
+              },
+              "u_xor": {
+                "type": "$xor",
+                "connections": {"A": [2], "B": ["1"], "Y": [3]},
+                "port_directions": {"A": "input", "B": "input", "Y": "output"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

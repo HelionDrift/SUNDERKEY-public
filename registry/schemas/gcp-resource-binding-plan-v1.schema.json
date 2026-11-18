@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/gcp-resource-binding-plan-v1.schema.json",
+  "title": "SUNDERKEY GCP declared resource binding plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "schema_version",
+    "plan_id",
+    "plan_sha256",
+    "provider",
+    "primary_region",
+    "recovery_region",
+    "source_bindings",
+    "projects",
+    "service_accounts",
+    "kms_key_versions",
+    "gcs_buckets",
+    "cloud_sql_instances",
+    "validation_scope",
+    "identity_assurance",
+    "effects"
+  ],
+  "properties": {
+    "kind": {
+      "const": "sunderkey.gcp-resource-binding-plan.v1"
+    },
+    "schema_version": {
+      "const": 1,
+      "type": "integer"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^GRP-[0-9A-F]{32}$"
+    },
+    "plan_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "provider": {
+      "const": "gcp"
+    },
+    "primary_region": {
+      "const": "us-west3"
+    },
+    "recovery_region": {
+      "type": "null"
+    },
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "d014_dossier",
+        "deployment_profile",
+        "regional_binding"
+      ],
+      "properties": {
+        "d014_dossier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "sha256"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^PDD-[0-9A-F]{32}$"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "deployment_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "sha256"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^DPC-[0-9A-F]{32}$"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "regional_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "sha256"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^TRB-[0-9A-F]{32}$"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/project"
+      }
+    },
+    "service_accounts": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/serviceAccount"
+      }
+    },
+    "kms_key_versions": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/keyVersion"
+      }
+    },
+    "gcs_buckets": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/bucket"
+      }
+    },
+    "cloud_sql_instances": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/database"
+      }
+    },
+    "validation_scope": {
+      "const": "declared_coordinates_only"
+    },
+    "identity_assurance": {
+      "const": "operator_asserted_unsigned"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_access",
+        "deployment",
+        "network",
+        "qualification",
+        "signature_generation",
+        "storage_mutation",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {
+          "const": "none"
+        },
+        "credential_access": {
+          "const": "none"
+        },
+        "deployment": {
+          "const": "none"
+        },
+        "network": {
+          "const": "none"
+        },
+        "qualification": {
+          "const": "none"
+        },
+        "signature_generation": {
+          "const": "none"
+        },
+        "storage_mutation": {
+          "const": "none"
+        },
+        "target_action": {
+          "const": "none"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^(?!.*(?:google|ssl|null|undefined))[a-z][a-z0-9-]{4,28}[a-z0-9]$"
+    },
+    "number": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,29}$"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_id",
+        "project_number"
+      ],
+      "properties": {
+        "project_id": {
+          "$ref": "#/$defs/projectId"
+        },
+        "project_number": {
+          "$ref": "#/$defs/number"
+        }
+      }
+    },
+    "serviceAccount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service_identity_ref",
+        "project_id",
+        "account_id",
+        "unique_id"
+      ],
+      "properties": {
+        "service_identity_ref": {
+          "type": "string",
+          "maxLength": 205,
+          "pattern": "^principalref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "project_id": {
+          "$ref": "#/$defs/projectId"
+        },
+        "account_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{4,28}[a-z0-9]$"
+        },
+        "unique_id": {
+          "$ref": "#/$defs/number"
+        }
+      }
+    },
+    "keyVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key_ref",
+        "resource_name",
+        "purpose",
+        "algorithm",
+        "protection_level"
+      ],
+      "properties": {
+        "key_ref": {
+          "type": "string",
+          "maxLength": 205,
+          "pattern": "^keyref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "resource_name": {
+          "type": "string",
+          "pattern": "^projects/[a-z][a-z0-9-]{4,28}[a-z0-9]/locations/us-west3/keyRings/[A-Za-z0-9_-]{1,63}/cryptoKeys/[A-Za-z0-9_-]{1,63}/cryptoKeyVersions/[1-9][0-9]{0,29}$"
+        },
+        "purpose": {
+          "enum": [
+            "ENCRYPT_DECRYPT",
+            "ASYMMETRIC_SIGN"
+          ]
+        },
+        "algorithm": {
+          "enum": [
+            "GOOGLE_SYMMETRIC_ENCRYPTION",
+            "EC_SIGN_ED25519"
+          ]
+        },
+        "protection_level": {
+          "enum": [
+            "SOFTWARE",
+            "HSM"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "purpose": {
+              "const": "ENCRYPT_DECRYPT"
+            },
+            "algorithm": {
+              "const": "GOOGLE_SYMMETRIC_ENCRYPTION"
+            }
+          }
+        },
+        {
+          "properties": {
+            "purpose": {
+              "const": "ASYMMETRIC_SIGN"
+            },
+            "algorithm": {
+              "const": "EC_SIGN_ED25519"
+            },
+            "protection_level": {
+              "const": "SOFTWARE"
+            }
+          }
+        }
+      ]
+    },
+    "bucket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "storage_ref",
+        "project_id",
+        "bucket_name",
+        "location",
+        "encryption_key_ref"
+      ],
+      "properties": {
+        "storage_ref": {
+          "type": "string",
+          "maxLength": 205,
+          "pattern": "^storeref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "project_id": {
+          "$ref": "#/$defs/projectId"
+        },
+        "bucket_name": {
+          "type": "string",
+          "pattern": "^(?!goog)(?!.*(?:google|g00gle))[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$"
+        },
+        "location": {
+          "const": "us-west3"
+        },
+        "encryption_key_ref": {
+          "type": "string",
+          "maxLength": 205,
+          "pattern": "^keyref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "database_ref",
+        "project_id",
+        "instance_id",
+        "region",
+        "primary_zone",
+        "secondary_zone"
+      ],
+      "properties": {
+        "database_ref": {
+          "type": "string",
+          "maxLength": 205,
+          "pattern": "^componentref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "project_id": {
+          "$ref": "#/$defs/projectId"
+        },
+        "instance_id": {
+          "type": "string",
+          "pattern": "^(?:[a-z][a-z0-9-]{0,95}[a-z0-9]|[a-z])$"
+        },
+        "region": {
+          "const": "us-west3"
+        },
+        "primary_zone": {
+          "enum": [
+            "us-west3-a",
+            "us-west3-b",
+            "us-west3-c"
+          ]
+        },
+        "secondary_zone": {
+          "enum": [
+            null,
+            "us-west3-a",
+            "us-west3-b",
+            "us-west3-c"
+          ]
+        }
+      }
+    }
+  }
+}

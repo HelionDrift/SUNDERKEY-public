@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S10",
+  "component_id": "agent_supplied_indirect_prompt_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-prompt-boundary",
+      "content_sources": [
+        {"content_id": "retrieval-one", "channel": "retrieval", "trust": "untrusted"},
+        {"content_id": "tool-two", "channel": "tool_result", "trust": "unknown"}
+      ],
+      "contexts": [
+        {"context_id": "instruction-one", "role": "instruction"},
+        {"context_id": "data-one", "role": "data"}
+      ],
+      "promotions": [
+        {
+          "promotion_id": "promoted-one",
+          "content_id": "retrieval-one",
+          "context_id": "instruction-one",
+          "boundary": "promoted",
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "promotion_id": "data-only",
+          "content_id": "retrieval-one",
+          "context_id": "data-one",
+          "boundary": "preserved",
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "promotion_id": "uncertain-one",
+          "content_id": "tool-two",
+          "context_id": "instruction-one",
+          "boundary": "promoted",
+          "admission": "accepted",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

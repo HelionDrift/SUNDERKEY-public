@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S04",
+  "component_id": "supplied_payment_reversal_ledger",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-payment-reversal-ledger-v1",
+      "payment_ref": "payment:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "currency_label": "TST",
+      "captured_minor": 100,
+      "events": [
+        {"event_id": "e1", "kind": "refund", "amount_minor": 40, "result": "accepted", "declared_remaining_minor": 60},
+        {"event_id": "e2", "kind": "chargeback", "amount_minor": 50, "result": "accepted", "declared_remaining_minor": 10}
+      ]
+    }
+  }
+}

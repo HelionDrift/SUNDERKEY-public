@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/candidate-blueprint-catalog.schema.json",
+  "title": "SUNDERKEY Candidate Blueprint Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "blueprint_catalog_id",
+    "blueprint_catalog_version",
+    "expert_catalog_id",
+    "expert_catalog_version",
+    "capability_catalog_id",
+    "capability_catalog_version",
+    "capability_catalog_sha256",
+    "qualification_standard_id",
+    "qualification_standard_version",
+    "qualification_standard_sha256",
+    "qualification_plan_catalog_id",
+    "qualification_plan_catalog_version",
+    "qualification_plan_catalog_sha256",
+    "required_component_ids",
+    "blueprints"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "blueprint_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "blueprint_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "expert_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "expert_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_standard_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_standard_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_standard_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_plan_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_plan_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "qualification_plan_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "required_component_ids": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "prefixItems": [
+        {
+          "const": "behavior_contract"
+        },
+        {
+          "const": "instruction_bundle"
+        },
+        {
+          "const": "knowledge_manifest"
+        },
+        {
+          "const": "runtime_manifest"
+        },
+        {
+          "const": "tool_policy"
+        }
+      ]
+    },
+    "blueprints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/blueprint"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "textList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    },
+    "capabilityList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+      }
+    },
+    "blueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_version",
+        "name",
+        "group_id",
+        "command_id",
+        "category",
+        "mission",
+        "policy_template_id",
+        "allowed_actions",
+        "prohibited_actions",
+        "stop_conditions",
+        "maximum_autonomous_action_tier",
+        "minimum_evidence_level",
+        "primary_capability_ids",
+        "supporting_capability_ids",
+        "scenario_family_id",
+        "evaluation_objective",
+        "required_gate_ids",
+        "command_mission",
+        "expected_inputs",
+        "expected_outputs",
+        "collaboration_contract",
+        "command_boundary",
+        "blueprint_sha256"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "profile_version": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "group_id": {
+          "type": "string",
+          "pattern": "^G[A-E]$"
+        },
+        "command_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}$"
+        },
+        "category": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "policy_template_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+        },
+        "allowed_actions": {
+          "$ref": "#/$defs/textList"
+        },
+        "prohibited_actions": {
+          "$ref": "#/$defs/textList"
+        },
+        "stop_conditions": {
+          "$ref": "#/$defs/textList"
+        },
+        "maximum_autonomous_action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        },
+        "minimum_evidence_level": {
+          "enum": [
+            "E0",
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ]
+        },
+        "primary_capability_ids": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/capabilityList"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "supporting_capability_ids": {
+          "$ref": "#/$defs/capabilityList"
+        },
+        "scenario_family_id": {
+          "type": "string",
+          "pattern": "^qualification\\.aoe-g[a-e]-d[0-9]{2}-s[0-9]{2}$"
+        },
+        "evaluation_objective": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "required_gate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^qualification\\.gate\\.[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+          }
+        },
+        "command_mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "expected_inputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "expected_outputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "collaboration_contract": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "command_boundary": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "blueprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

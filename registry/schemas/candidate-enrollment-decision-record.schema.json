@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/candidate-enrollment-decision-record-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Decision Record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "record_sha256",
+    "decision_id",
+    "decision_status",
+    "decision_effect",
+    "source_dossier",
+    "approval",
+    "selected_options",
+    "recommendation_alignment",
+    "nonnegotiable_contract",
+    "authorized_next_steps",
+    "prohibited_effects",
+    "implementation_status",
+    "qualification_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"type": "string", "pattern": "^CER-[0-9A-F]{32}$"},
+    "record_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D009"},
+    "decision_status": {"const": "approved_operator_asserted_unsigned"},
+    "decision_effect": {"const": "contract_implementation_authorized"},
+    "source_dossier": {"$ref": "#/$defs/source_dossier"},
+    "approval": {"$ref": "#/$defs/approval"},
+    "selected_options": {"$ref": "#/$defs/selected_options"},
+    "recommendation_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_option_count",
+        "selected_recommended_option_count",
+        "all_recommended_options_selected"
+      ],
+      "properties": {
+        "selected_option_count": {"const": 9},
+        "selected_recommended_option_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "all_recommended_options_selected": {"type": "boolean"}
+      }
+    },
+    "nonnegotiable_contract": {
+      "const": {
+        "live_evidence_acceptance_before_implementation": false,
+        "offline_verification_required": true,
+        "private_key_storage_in_sunderkey": false,
+        "repository_credentials_in_enrollment": false
+      }
+    },
+    "authorized_next_steps": {
+      "const": [
+        "define_candidate_enrollment_catalog_schema",
+        "define_separated_enrollment_signer_key_use",
+        "define_owner_key_and_repository_identity_bindings",
+        "define_rotation_and_revocation_record_schemas",
+        "implement_signature_scope_expiry_and_rollback_verification",
+        "integrate_verified_enrollment_with_evidence_manifest_verification",
+        "add_adversarial_rotation_revocation_and_migration_tests"
+      ]
+    },
+    "prohibited_effects": {
+      "const": [
+        "does_not_create_generate_import_or_enroll_keys",
+        "does_not_enroll_a_candidate_owner_or_repository",
+        "does_not_accept_a_repository_or_evidence_manifest",
+        "does_not_issue_reviewer_credentials",
+        "does_not_create_signatures_or_attestations",
+        "does_not_qualify_a_candidate_or_specialist",
+        "does_not_change_registry_status_or_routing_eligibility",
+        "does_not_make_network_provider_tool_retrieval_or_target_requests",
+        "does_not_mutate_runtime_or_sqlite_state"
+      ]
+    },
+    "implementation_status": {"const": "not_started"},
+    "qualification_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_dossier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {"type": "string", "pattern": "^CED-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_status",
+        "authority_role",
+        "approver_id",
+        "approved_at",
+        "rationale",
+        "identity_assurance"
+      ],
+      "properties": {
+        "decision_status": {"const": "approved"},
+        "authority_role": {"const": "repository_owner"},
+        "approver_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[ -~]+$"
+        },
+        "approved_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^[ -~]+$"
+        },
+        "identity_assurance": {"const": "operator_asserted_unsigned"}
+      }
+    },
+    "selected_options": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enrollment_authority_model",
+        "owner_key_scope",
+        "repository_identity",
+        "enrollment_review",
+        "rotation_model",
+        "revocation_distribution",
+        "freshness_and_rollback",
+        "enrollment_lifetime",
+        "repository_locator_policy"
+      ],
+      "properties": {
+        "enrollment_authority_model": {
+          "enum": [
+            "organization_signed_enrollment_catalog",
+            "enterprise_pki_artifact_registry_binding",
+            "external_supply_chain_attestation_authority",
+            "deployment_local_static_allowlist"
+          ]
+        },
+        "owner_key_scope": {
+          "enum": [
+            "exact_candidate_identity",
+            "bounded_candidate_namespace",
+            "specialist_profile_identity"
+          ]
+        },
+        "repository_identity": {
+          "enum": [
+            "organization_logical_repository_id",
+            "enterprise_artifact_registry_identity",
+            "external_evidence_service_identity"
+          ]
+        },
+        "enrollment_review": {
+          "enum": [
+            "independent_control_and_assurance",
+            "enterprise_pki_approval_only",
+            "external_authority_approval_only"
+          ]
+        },
+        "rotation_model": {
+          "enum": [
+            "signed_predecessor_successor_overlap",
+            "immediate_replacement_without_overlap",
+            "provider_managed_rotation"
+          ]
+        },
+        "revocation_distribution": {
+          "enum": [
+            "signed_catalog_record_and_release",
+            "online_revocation_feed",
+            "deployment_local_removal"
+          ]
+        },
+        "freshness_and_rollback": {
+          "enum": [
+            "monotonic_version_expiry_and_last_seen_digest",
+            "online_current_state_lookup",
+            "operator_managed_version_pin"
+          ]
+        },
+        "enrollment_lifetime": {
+          "enum": [
+            "time_bounded_with_reviewed_renewal",
+            "indefinite_until_revoked",
+            "single_manifest_only"
+          ]
+        },
+        "repository_locator_policy": {
+          "enum": [
+            "logical_id_and_content_address_scheme_only",
+            "network_endpoint_without_credentials",
+            "provider_specific_connection_profile"
+          ]
+        }
+      }
+    }
+  }
+}

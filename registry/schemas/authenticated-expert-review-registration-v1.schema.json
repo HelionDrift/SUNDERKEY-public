@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "effects": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "model_call_performed": {
+          "const": false
+        },
+        "network_call_performed": {
+          "const": false
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "target_action_performed": {
+          "const": false
+        },
+        "tool_effect": {
+          "const": "none"
+        }
+      },
+      "required": [
+        "authorization_effect",
+        "model_call_performed",
+        "network_call_performed",
+        "qualification_effect",
+        "target_action_performed",
+        "tool_effect"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://sunderkey.example/schemas/authenticated-expert-review-registration-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active_plan_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "active_plan_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "active_plan_version": {
+      "maximum": 9223372036854775807,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "assertion_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "assertion_issuer": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "assertion_key_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "assertion_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "authority_snapshot_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "canonical_replay_key_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "domain_request_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "effects": {
+      "$ref": "#/$defs/effects"
+    },
+    "evidence_snapshot_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "kind": {
+      "const": "authenticated_expert_review_registration"
+    },
+    "mission_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "mission_revision": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "operation_intent_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "registered_at": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "registrar_profile_id": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "registrar_subject": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "registration_id": {
+      "pattern": "^ERRG-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "registration_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "registry_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "runtime_catalog_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "runtime_catalog_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "runtime_catalog_version": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "scope_grant_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "target_scope_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "trust_policy_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "workspace_event_count": {
+      "maximum": 9223372036854775807,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "workspace_event_head_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "workspace_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+      "type": "string"
+    },
+    "workspace_revision": {
+      "maximum": 9223372036854775807,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "workspace_schema_version": {
+      "maximum": 9223372036854775807,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "workspace_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "effects",
+    "registration_id",
+    "registration_sha256",
+    "snapshot_id",
+    "snapshot_sha256",
+    "mission_id",
+    "tenant_id",
+    "active_plan_id",
+    "active_plan_sha256",
+    "active_plan_version",
+    "mission_revision",
+    "workspace_id",
+    "workspace_sha256",
+    "workspace_schema_version",
+    "workspace_revision",
+    "workspace_event_count",
+    "workspace_event_head_sha256",
+    "runtime_catalog_id",
+    "runtime_catalog_version",
+    "runtime_catalog_sha256",
+    "registry_sha256",
+    "target_scope_sha256",
+    "authority_snapshot_sha256",
+    "evidence_snapshot_sha256",
+    "registrar_profile_id",
+    "registrar_subject",
+    "assertion_issuer",
+    "assertion_id",
+    "assertion_sha256",
+    "assertion_key_sha256",
+    "trust_policy_sha256",
+    "scope_grant_sha256",
+    "operation_intent_sha256",
+    "canonical_replay_key_sha256",
+    "domain_request_sha256",
+    "registered_at"
+  ],
+  "title": "SUNDERKEY Authenticated Expert Review Registration v1",
+  "type": "object"
+}

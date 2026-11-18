@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-evidence-verification-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Evidence Verification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "verification_id",
+    "verification_sha256",
+    "report_authentication_id",
+    "report_authentication_sha256",
+    "report_custody_id",
+    "report_custody_sha256",
+    "attempt_id",
+    "acknowledgement_id",
+    "acknowledgement_sha256",
+    "provider_evidence_sha256",
+    "evidence_size_bytes",
+    "evidence_media_type",
+    "verified_at",
+    "evidence_verification_status",
+    "media_type_status",
+    "semantic_verification_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "verification_id": {
+      "type": "string",
+      "pattern": "^EPV-[0-9A-F]{32}$"
+    },
+    "verification_sha256": {"$ref": "#/$defs/sha256"},
+    "report_authentication_id": {
+      "type": "string",
+      "pattern": "^EPA-[0-9A-F]{32}$"
+    },
+    "report_authentication_sha256": {"$ref": "#/$defs/sha256"},
+    "report_custody_id": {
+      "type": "string",
+      "pattern": "^EPR-[0-9A-F]{32}$"
+    },
+    "report_custody_sha256": {"$ref": "#/$defs/sha256"},
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^EIP-[0-9A-F]{32}$"
+    },
+    "acknowledgement_id": {
+      "type": "string",
+      "pattern": "^EXA-[0-9A-F]{32}$"
+    },
+    "acknowledgement_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "evidence_size_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16777216
+    },
+    "evidence_media_type": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]*/[a-z0-9][a-z0-9!#$&^_.+-]*$"
+    },
+    "verified_at": {"$ref": "#/$defs/timestamp"},
+    "evidence_verification_status": {
+      "const": "provider_evidence_digest_verified"
+    },
+    "media_type_status": {"const": "caller_declared_unverified"},
+    "semantic_verification_status": {"const": "not_performed"},
+    "external_effect_status": {
+      "const": "authenticated_report_evidence_digest_verified_effect_unverified"
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

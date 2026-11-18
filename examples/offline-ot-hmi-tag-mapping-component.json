@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-hmi-project",
+      "inventory_complete": true,
+      "tag_bindings": [
+        {
+          "tag_id": "tag-a",
+          "baseline_point_ref": "point-a",
+          "project_point_ref": "point-b",
+          "baseline_access_mode": "read_only",
+          "project_access_mode": "read_write",
+          "context_complete": true
+        },
+        {
+          "tag_id": "tag-b",
+          "baseline_point_ref": "point-c",
+          "project_point_ref": "point-c",
+          "baseline_access_mode": "read_only",
+          "project_access_mode": "read_only",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

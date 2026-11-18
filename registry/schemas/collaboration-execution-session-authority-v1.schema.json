@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-session-authority-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Session Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_authority_id",
+    "session_authority_sha256",
+    "authority_kind",
+    "authorization_basis",
+    "activation_evidence",
+    "session",
+    "effective_at",
+    "expires_at",
+    "authority_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "session_authority_id": {"type": "string", "pattern": "^ESA-[0-9A-F]{32}$"},
+    "session_authority_sha256": {"$ref": "#/$defs/sha256"},
+    "authority_kind": {"enum": ["initial_activation", "handoff_activation"]},
+    "authorization_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis_kind", "basis_id", "basis_sha256"],
+      "properties": {
+        "basis_kind": {"enum": ["activated_plan", "completed_terminal_custody"]},
+        "basis_id": {
+          "type": "string",
+          "pattern": "^(CLP-[0-9A-F]{24}|ECT-[0-9A-F]{32})$"
+        },
+        "basis_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "activation_evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evidence_kind", "request_authentication", "source_session"],
+          "properties": {
+            "evidence_kind": {"const": "planned_owner"},
+            "request_authentication": {"type": "null"},
+            "source_session": {"type": "null"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evidence_kind", "request_authentication", "source_session"],
+          "properties": {
+            "evidence_kind": {"const": "completed_transfer"},
+            "request_authentication": {
+              "$ref": "collaboration-execution-transfer-request-authentication-v1.schema.json"
+            },
+            "source_session": {
+              "$ref": "collaboration-fenced-worker-session-v1.schema.json"
+            }
+          }
+        }
+      ]
+    },
+    "session": {
+      "$ref": "collaboration-fenced-worker-session-v1.schema.json"
+    },
+    "effective_at": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "authority_status": {"const": "pending_atomic_commit"},
+    "runtime_effect": {"const": "none"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"authority_kind": {"const": "initial_activation"}},
+        "required": ["authority_kind"]
+      },
+      "then": {
+        "properties": {
+          "authorization_basis": {
+            "properties": {
+              "basis_kind": {"const": "activated_plan"},
+              "basis_id": {"pattern": "^CLP-[0-9A-F]{24}$"}
+            }
+          },
+          "activation_evidence": {
+            "properties": {"evidence_kind": {"const": "planned_owner"}}
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "authorization_basis": {
+            "properties": {
+              "basis_kind": {"const": "completed_terminal_custody"},
+              "basis_id": {"pattern": "^ECT-[0-9A-F]{32}$"}
+            }
+          },
+          "activation_evidence": {
+            "properties": {"evidence_kind": {"const": "completed_transfer"}}
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

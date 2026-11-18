@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/mcp-read-tool-list-preview-v1.schema.json",
+  "title": "SUNDERKEY Offline MCP Read Tool List Preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "protocol_revision", "read_closure_sha256",
+    "tenant_ref", "scope_sha256", "tool_count", "list_result_preview",
+    "preview_status", "api_argument_mapping_verified",
+    "api_response_mapping_verified", "principal_authenticated", "tenant_scope_enforced",
+    "tool_list_served", "qualification_effect", "effects",
+    "preview_id", "preview_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "protocol_revision": {"const": "2026-07-28"},
+    "read_closure_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_ref": {"type": "string", "pattern": "^tenantref:"},
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "tool_count": {"type": "integer", "minimum": 1, "maximum": 64},
+    "list_result_preview": {
+      "type": "object", "additionalProperties": false,
+      "required": ["resultType", "tools", "ttlMs", "cacheScope"],
+      "properties": {
+        "resultType": {"const": "complete"},
+        "tools": {
+          "type": "array", "minItems": 1, "maxItems": 64,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["name", "inputSchema", "outputSchema"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "inputSchema": {"type": "object"},
+              "outputSchema": {"type": ["object", "boolean"]}
+            }
+          }
+        },
+        "ttlMs": {"const": 0},
+        "cacheScope": {"const": "private"}
+      }
+    },
+    "preview_status": {"const": "unserved_read_tool_list_shape_only"},
+    "api_argument_mapping_verified": {"const": false},
+    "api_response_mapping_verified": {"const": false},
+    "principal_authenticated": {"const": false},
+    "tenant_scope_enforced": {"const": false},
+    "tool_list_served": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "api_call": "none", "authorization": "none",
+        "catalog_publication": "none", "mcp_server": "none",
+        "network": "none", "qualification": "none",
+        "target_interaction": "none", "tool_execution": "none"
+      }
+    },
+    "preview_id": {"type": "string", "pattern": "^MLP-[0-9A-F]{32}$"},
+    "preview_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

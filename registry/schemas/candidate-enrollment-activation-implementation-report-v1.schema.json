@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-activation-implementation-report-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Activation Implementation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "decision",
+    "release_policy",
+    "canary_preparation",
+    "implementation_status",
+    "implemented_steps",
+    "implemented_security_properties",
+    "production_prerequisites",
+    "live_activation_status",
+    "authorized_next_action",
+    "prohibited_effects",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^CAI-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "release_policy": {"$ref": "#/$defs/policy"},
+    "canary_preparation": {"$ref": "#/$defs/canary"},
+    "implementation_status": {
+      "const": "approved_bundle_contract_implementation_complete"
+    },
+    "implemented_steps": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/step"}
+    },
+    "implemented_security_properties": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "production_prerequisites": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "live_activation_status": {
+      "const": "blocked_pending_production_inputs_and_go_no_go"
+    },
+    "authorized_next_action": {
+      "const": "select_production_custody_and_deployment_inputs"
+    },
+    "prohibited_effects": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,160}$"}
+    },
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "sha256"],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^CRP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "canary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^CAP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step_id", "phase", "artifacts"],
+      "properties": {
+        "step_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+        "phase": {"type": "integer", "minimum": 75, "maximum": 79},
+        "artifacts": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9_./-]{8,180}$"}
+        }
+      }
+    }
+  }
+}

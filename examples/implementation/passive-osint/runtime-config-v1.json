@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "config_id": "sunderkey.passive-osint.runtime",
+  "config_version": "1.0.0",
+  "profile_id": "AOE-GA-D01-S01",
+  "runtime_class": "model_agent",
+  "provider_neutral": true,
+  "provider_selection": "unselected",
+  "model_selection": "unselected",
+  "hosting_selection": "unselected",
+  "execution_enabled": false,
+  "network_access": false,
+  "process_access": false,
+  "environment_inputs": [],
+  "reason": "Runtime selection and execution remain outside this development package."
+}

@@ -1,0 +1,291 @@
+{
+  "deployment_id": null,
+  "inputs": [
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "approved_issuer_identifier"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "approved_audience_identifier"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "approved_logical_catalog_identifier"
+        }
+      ],
+      "input_id": "select_organization_issuer_audience_and_catalog_identity",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_control"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "root_key_identifier"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "ed25519_public_key"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "independent_fingerprint_verification_record"
+        }
+      ],
+      "input_id": "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "offline_root_custodian"
+        },
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "separated_signer_public_key"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "signed_signer_authorization"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "authorization_validity_and_key_separation_review"
+        }
+      ],
+      "input_id": "issue_root_signed_enrollment_signer_authorization",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "offline_root_custodian"
+        },
+        {
+          "principal_id": null,
+          "role": "enrollment_release_operator"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "control_reviewer_credential"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "assurance_reviewer_credential"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "reviewer_identity_and_key_separation_review"
+        }
+      ],
+      "input_id": "issue_role_scoped_control_and_assurance_reviewer_credentials",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "qualification_credential_issuer"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_control"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_assurance"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "exact_profile_and_candidate_binding"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "candidate_owner_identifier"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "candidate_owner_ed25519_public_key"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "candidate_artifact_sha256"
+        }
+      ],
+      "input_id": "select_exact_candidate_owner_identity_and_public_key",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "candidate_owner"
+        },
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "logical_repository_identifier"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "sha256_content_addressing_confirmation"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "credential_and_endpoint_exclusion_review"
+        }
+      ],
+      "input_id": "select_organization_logical_evidence_repository_identity",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "evidence_custodian"
+        },
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "signed_control_release_review"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "signed_assurance_release_review"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "signed_enrollment_catalog"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "offline_verification_receipt"
+        }
+      ],
+      "input_id": "produce_independently_reviewed_and_signed_enrollment_catalog",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "enrollment_release_operator"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_control"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_assurance"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "content_addressed_catalog_release"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "revocation_distribution_procedure"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "consumer_verification_instructions"
+        }
+      ],
+      "input_id": "distribute_catalog_and_revocations_through_reviewed_release_process",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "enrollment_release_operator"
+        },
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        }
+      ]
+    },
+    {
+      "completed_at": null,
+      "completion_evidence": [
+        {
+          "artifact_sha256": null,
+          "evidence_id": "checkpoint_custodian_assignment"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "protected_storage_and_recovery_procedure"
+        },
+        {
+          "artifact_sha256": null,
+          "evidence_id": "rollback_response_procedure"
+        }
+      ],
+      "input_id": "protect_last_seen_catalog_checkpoint_against_rollback",
+      "role_assignments": [
+        {
+          "principal_id": null,
+          "role": "deployment_owner"
+        },
+        {
+          "principal_id": null,
+          "role": "independent_control"
+        }
+      ]
+    }
+  ],
+  "preparation_packet": {
+    "packet_id": "CDP-C0D97BCF4BD9F24EF4E4F3D388DEFB2A",
+    "sha256": "sha256:c0d97bcf4bd9f24ef4e4f3d388defb2ab5d7a26d86624bc605f9039245fe235f"
+  },
+  "prepared_at": null,
+  "prepared_by": null,
+  "prohibited_content": [
+    "private_keys",
+    "private_key_references",
+    "repository_credentials",
+    "repository_connection_profiles",
+    "network_endpoints",
+    "provider_credentials"
+  ],
+  "schema_version": 1,
+  "template_id": "CDT-24BECD939568B31ACFBE418C16410DF4",
+  "template_sha256": "sha256:24becd939568b31acfbe418c16410df4bd38ea94c0c69dd8dcef966be841ce3e",
+  "worksheet_effect": "planning_only"
+}

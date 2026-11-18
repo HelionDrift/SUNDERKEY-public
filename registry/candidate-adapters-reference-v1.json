@@ -1,0 +1,404 @@
+{
+  "blueprint_catalog_sha256": "sha256:450e625ff8fea6529ae99e129e41498d7eb20be8ecc1fb327e9b3be17559a966",
+  "catalog_id": "sunderkey-candidate-adapters-v1",
+  "catalog_sha256": "sha256:74c86f463e81ecffaf39784f28deabe37079e03f1e45557d139a2fd474ab4e5a",
+  "catalog_version": "0.1.0",
+  "coverage_summary": {
+    "deny_all_resource_policy_count": 6,
+    "microvm_required_count": 3,
+    "oci_required_count": 3,
+    "offline_synthetic_only_count": 6,
+    "profile_count": 6,
+    "reference_adapter_count": 6
+  },
+  "deployment_effect": "none",
+  "development_mode": "offline_synthetic_only",
+  "execution_effect": "none",
+  "limitations": [
+    "Only the six-profile reference slice has SDK-bound manifests.",
+    "No adapter is qualified, routable, deployed, or authorized for a real target.",
+    "OCI and microVM isolation are declared requirements, not deployed infrastructure.",
+    "The remaining 385 specialist implementations remain backlog work."
+  ],
+  "manifests": [
+    {
+      "adapter_id": "adapter.aoe-ga-d01-s01.passive",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:a5a66609b1ce38c3eda866d62be0fef89711f0d5aa7470ca9f24323f5c2ec09b",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-ga-d01-s01.passive/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-ga-d01-s01.passive/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-ga-d01-s01.passive/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-ga-d01-s01.passive/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:9d21f8c83d2ba5e000707bb6bd27eb4a741fe92cce4ac992389e55ae865da721",
+      "primary_capability_id": "army.ga.d01.s01",
+      "profile_id": "AOE-GA-D01-S01",
+      "profile_name": "Passive OSINT",
+      "qualification_effect": "none",
+      "reference_role": "passive",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "oci_container"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GA-D01-S01-01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gb-d06-s09.api",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:bf67472eda0c3cbe9102c5557638b2576b3a9c95d9d4ff773dcc0a3644983148",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-gb-d06-s09.api/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-gb-d06-s09.api/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-gb-d06-s09.api/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-gb-d06-s09.api/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:10c4bb73f0060dba6ba5637fa163951ac78cb7dba638ff38e240f44726569d70",
+      "primary_capability_id": "api.authorization.object-level",
+      "profile_id": "AOE-GB-D06-S09",
+      "profile_name": "API object-level authorization",
+      "qualification_effect": "none",
+      "reference_role": "api",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "oci_container"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GB-D06-S09-01"
+    },
+    {
+      "adapter_id": "adapter.aoe-ga-d03-s14.identity",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:9c948b7552d0265cd727ecacf94cef63b20c5284e805830a2d97dd1bf2b97486",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-ga-d03-s14.identity/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-ga-d03-s14.identity/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-ga-d03-s14.identity/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-ga-d03-s14.identity/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:d8a48cffcb538136cadfda5dc527f1f095b73786cccabb1967c9b4f7d1be46ed",
+      "primary_capability_id": "army.ga.d03.s14",
+      "profile_id": "AOE-GA-D03-S14",
+      "profile_name": "Entitlement graphs and toxic combinations",
+      "qualification_effect": "none",
+      "reference_role": "identity",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "oci_container"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GA-D03-S14-01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d14-s01.cloud",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:b78ed5726b54b4189b10890e3ac8e0b3ba10d6341513a23c1761a952d6f1fad5",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-gc-d14-s01.cloud/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-gc-d14-s01.cloud/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-gc-d14-s01.cloud/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-gc-d14-s01.cloud/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:1f4f0cf7c45462b58615026b13081d643b5984a8329afa5dafc3fe553f3e93e4",
+      "primary_capability_id": "army.gc.d14.s01",
+      "profile_id": "AOE-GC-D14-S01",
+      "profile_name": "AWS IAM and Organizations",
+      "qualification_effect": "none",
+      "reference_role": "cloud",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "microvm"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GC-D14-S01-01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gc-d11-s08.endpoint",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:fe9c4c7933c95d70f21a86b87cf88bfe13a14d2b5373e93ac250a8ff9b3f1439",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-gc-d11-s08.endpoint/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-gc-d11-s08.endpoint/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-gc-d11-s08.endpoint/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-gc-d11-s08.endpoint/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:7a4696b009b6564fc5d84d2fa85397f19683cc6816ec3bb98f6b0213a192b624",
+      "primary_capability_id": "army.gc.d11.s08",
+      "profile_id": "AOE-GC-D11-S08",
+      "profile_name": "Windows local privilege escalation",
+      "qualification_effect": "none",
+      "reference_role": "endpoint",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "microvm"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GC-D11-S08-01"
+    },
+    {
+      "adapter_id": "adapter.aoe-gd-d19-s01.high-consequence-restoration",
+      "adapter_version": "0.1.0",
+      "blueprint_sha256": "sha256:f66620f1afa4c871a84f8bb2fc47492f53e831c07c3b088246d34f4fc58cbe0f",
+      "contracts": {
+        "evidence": "sunderkey://candidate-adapters/adapter.aoe-gd-d19-s01.high-consequence-restoration/v1/evidence",
+        "input": "sunderkey://candidate-adapters/adapter.aoe-gd-d19-s01.high-consequence-restoration/v1/input",
+        "output": "sunderkey://candidate-adapters/adapter.aoe-gd-d19-s01.high-consequence-restoration/v1/output",
+        "restoration": "sunderkey://candidate-adapters/adapter.aoe-gd-d19-s01.high-consequence-restoration/v1/restoration"
+      },
+      "deployment_effect": "none",
+      "evidence_semantics": [
+        "Every conclusion cites deterministic input evidence identifiers.",
+        "Verified findings, negative results, hypotheses, and abstentions remain distinct.",
+        "Input, output, adapter, blueprint, and restoration digests are preserved."
+      ],
+      "execution_effect": "none",
+      "hooks": {
+        "cancellation": true,
+        "cleanup_result": true,
+        "dry_run": true,
+        "rate_limit": true,
+        "structured_evidence": true,
+        "timeout": true
+      },
+      "implementation": "reference_adapter",
+      "implementation_status": "sdk_bound_pending_qualification",
+      "known_limitations": [
+        "The reference adapter accepts offline synthetic inputs only.",
+        "The reference adapter does not establish qualification or target authority.",
+        "Active execution requires a later isolated runner and separate authority."
+      ],
+      "manifest_sha256": "sha256:902d3ab6d0f0629cea07c8f0aaab8f1460311a1756ea9728a7132f44e0fe2592",
+      "primary_capability_id": "army.gd.d19.s01",
+      "profile_id": "AOE-GD-D19-S01",
+      "profile_name": "ICS zones and conduits",
+      "qualification_effect": "none",
+      "reference_role": "high_consequence_restoration",
+      "resource_policy": {
+        "credential": [],
+        "filesystem": [],
+        "network": [],
+        "process": []
+      },
+      "routing_effect": "none",
+      "runtime": {
+        "development_mode": "offline_synthetic_only",
+        "initial_host": "linux",
+        "language": "python_3_11_or_newer",
+        "maximum_action_tier": "R0",
+        "required_isolation": "microvm"
+      },
+      "source_provenance": {
+        "external_dependencies": [],
+        "kind": "sunderkey_native_python",
+        "license": "LicenseRef-SUNDERKEY-All-Rights-Reserved",
+        "repository_path": "src/sunderkey/reference_adapters.py",
+        "source_sha256": "sha256:c977ea099ddafb7c7bf078992ce6430e63df1c9db858d10821a005ba766bfa18"
+      },
+      "vector_id": "AV-GD-D19-S01-01"
+    }
+  ],
+  "qualification_effect": "none",
+  "reference_slice": [
+    "AOE-GA-D01-S01",
+    "AOE-GB-D06-S09",
+    "AOE-GA-D03-S14",
+    "AOE-GC-D14-S01",
+    "AOE-GC-D11-S08",
+    "AOE-GD-D19-S01"
+  ],
+  "routing_effect": "none",
+  "schema_version": 1,
+  "strategy_id": "CIS-956EA1C0F87FCB4D0445A8860FB0189D",
+  "strategy_sha256": "sha256:956ea1c0f87fcb4d0445a8860fb0189dc54a85be35bcbb0c6c58b44ca0092387"
+}

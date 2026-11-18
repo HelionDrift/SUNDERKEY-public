@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-executor-acknowledgement-v1.json",
+  "title": "SUNDERKEY Collaboration Executor Acknowledgement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "acknowledgement_id", "acknowledgement_sha256",
+    "dispatch", "provider", "worker", "session", "credential", "outcome",
+    "provider_worker_state", "provider_evidence_sha256", "acknowledged_at",
+    "authentication_status", "external_effect_status", "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "acknowledgement_id": {"type": "string", "pattern": "^EXA-[0-9A-F]{32}$"},
+    "acknowledgement_sha256": {"$ref": "#/$defs/sha256"},
+    "dispatch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dispatch_id", "dispatch_sha256", "operation", "operation_sequence"],
+      "properties": {
+        "dispatch_id": {"type": "string", "pattern": "^EXD-[0-9A-F]{32}$"},
+        "dispatch_sha256": {"$ref": "#/$defs/sha256"},
+        "operation": {"enum": ["start", "action", "evidence", "heartbeat", "pause", "resume", "stop", "destroy"]},
+        "operation_sequence": {"type": "integer", "minimum": 1}
+      }
+    },
+    "provider": {
+      "type": "object", "additionalProperties": false,
+      "required": ["adapter_id", "adapter_version", "adapter_build_sha256"],
+      "properties": {
+        "adapter_id": {"$ref": "#/$defs/identifier"},
+        "adapter_version": {"$ref": "#/$defs/identifier"},
+        "adapter_build_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "worker": {
+      "type": "object", "additionalProperties": false,
+      "required": ["worker_principal_id", "runtime_instance_id", "fence_generation"],
+      "properties": {
+        "worker_principal_id": {"$ref": "#/$defs/identifier"},
+        "runtime_instance_id": {"$ref": "#/$defs/identifier"},
+        "fence_generation": {"type": "integer", "minimum": 1}
+      }
+    },
+    "session": {
+      "type": "object", "additionalProperties": false,
+      "required": ["session_id", "session_sha256"],
+      "properties": {
+        "session_id": {"$ref": "#/$defs/identifier"},
+        "session_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "credential": {
+      "type": "object", "additionalProperties": false,
+      "required": ["credential_reference_id", "credential_sha256"],
+      "properties": {
+        "credential_reference_id": {"$ref": "#/$defs/identifier"},
+        "credential_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "outcome": {"enum": ["accepted", "rejected", "failed"]},
+    "provider_worker_state": {"enum": ["ready", "active", "paused", "stopped", "destroyed", "unchanged", "rejected", "failed", "unavailable"]},
+    "provider_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "acknowledged_at": {"$ref": "#/$defs/timestamp"},
+    "authentication_status": {"const": "provider_assertion_unverified"},
+    "external_effect_status": {"const": "provider_report_only"},
+    "runtime_effect": {"const": "none"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "rejected"}}},
+      "then": {"properties": {"provider_worker_state": {"const": "rejected"}}}
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "failed"}}},
+      "then": {"properties": {"provider_worker_state": {"enum": ["failed", "unavailable"]}}}
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"}
+  }
+}

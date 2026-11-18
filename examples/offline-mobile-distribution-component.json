@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-mobile-distribution",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "channels": [{
+      "channel_id": "managed", "minimum_build": 20,
+      "expected_signer_sha256_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }],
+    "releases": [{
+      "release_id": "r21", "channel_id": "managed", "build": 21,
+      "signer_sha256_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }],
+    "assignments": [{
+      "cohort_id": "pilot", "channel_id": "managed", "release_id": "r21"
+    }]
+  }}
+}

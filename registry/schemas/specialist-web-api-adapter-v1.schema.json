@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/specialist-web-api-adapter-v1.schema.json",
+  "title": "SUNDERKEY Specialist Web and API Adapter Contract",
+  "oneOf": [
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/receipt" }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "utc": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|missionref|scoperef|targetref|workerref|actionref|approvalref|evidenceref|sessionref|principalref|authctxref|toolref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "operation": {
+      "enum": [
+        "http_request_construction",
+        "http_proxy_cache_parser",
+        "auth_login_session",
+        "auth_refresh_logout_mfa_recovery",
+        "oauth_redirect_claim_audience_scope",
+        "oauth_exchange_federation",
+        "authz_object_function_field",
+        "authz_tenant_role",
+        "business_state_order_limit",
+        "business_concurrency_workflow",
+        "api_rest_graphql_async",
+        "api_file_serialization",
+        "input_parser_template",
+        "input_injection_ssrf_deserialization"
+      ]
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_grant", "credential_resolution", "network_client", "qualification", "remote_execution", "tool_implementation"],
+      "properties": {
+        "authority_grant": { "const": "none" },
+        "credential_resolution": { "const": "none" },
+        "network_client": { "const": "not_included" },
+        "qualification": { "const": "none" },
+        "remote_execution": { "const": "injected_adapter_only" },
+        "tool_implementation": { "const": "not_included" }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tenant_ref", "mission_ref", "scope_ref", "target_ref", "worker_ref", "action_ref", "action_admission_sha256"],
+      "properties": {
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "mission_ref": { "$ref": "#/$defs/reference" },
+        "scope_ref": { "$ref": "#/$defs/reference" },
+        "target_ref": { "$ref": "#/$defs/reference" },
+        "worker_ref": { "$ref": "#/$defs/reference" },
+        "action_ref": { "$ref": "#/$defs/reference" },
+        "action_admission_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approval_ref", "approval_sha256", "context_sha256", "operation", "maximum_tier", "issued_at", "expires_at"],
+      "properties": {
+        "approval_ref": { "$ref": "#/$defs/reference" },
+        "approval_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "operation": { "$ref": "#/$defs/operation" },
+        "maximum_tier": { "enum": ["R0", "R1", "R2", "R3", "R4", "R5"] },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_ref", "principal_ref", "authenticated_context_ref", "authenticated_context_sha256", "context_sha256", "issued_at", "expires_at"],
+      "properties": {
+        "session_ref": { "$ref": "#/$defs/reference" },
+        "principal_ref": { "$ref": "#/$defs/reference" },
+        "authenticated_context_ref": { "$ref": "#/$defs/reference" },
+        "authenticated_context_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_operations", "max_request_bytes", "max_response_bytes", "max_evidence_items", "max_redirects"],
+      "properties": {
+        "max_operations": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "max_request_bytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "max_response_bytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "max_evidence_items": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "max_redirects": { "type": "integer", "minimum": 0, "maximum": 32 }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_id", "family", "minimum_tier", "authenticated_session_required", "minimum_principals"],
+      "properties": {
+        "package_id": { "pattern": "^A2\\.(5|6|7|8|9|10|11)$" },
+        "family": { "enum": ["http_protocol", "authentication", "oauth_federation", "authorization", "business_logic", "api_technology", "input_service_interaction"] },
+        "minimum_tier": { "enum": ["R1", "R2"] },
+        "authenticated_session_required": { "type": "boolean" },
+        "minimum_principals": { "type": "integer", "minimum": 0, "maximum": 2 }
+      }
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "version", "supported_operations"],
+      "properties": {
+        "adapter_id": { "type": "string", "pattern": "^adapter:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$" },
+        "version": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$" },
+        "supported_operations": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/operation" } }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_sha256", "kind", "schema_version", "effects", "context", "operation", "policy", "requested_tier", "approval", "sessions", "evidence_refs", "tool_input_ref", "tool_input_sha256", "idempotency_key", "budget", "issued_at", "expires_at"],
+      "properties": {
+        "request_id": { "type": "string", "pattern": "^SAR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "specialist_action_request" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "context": { "$ref": "#/$defs/context" },
+        "operation": { "$ref": "#/$defs/operation" },
+        "policy": { "$ref": "#/$defs/policy" },
+        "requested_tier": { "enum": ["R0", "R1", "R2", "R3", "R4", "R5"] },
+        "approval": { "$ref": "#/$defs/approval" },
+        "sessions": { "type": "array", "maxItems": 8, "items": { "$ref": "#/$defs/session" } },
+        "evidence_refs": { "type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/reference" } },
+        "tool_input_ref": { "$ref": "#/$defs/reference" },
+        "tool_input_sha256": { "$ref": "#/$defs/sha256" },
+        "idempotency_key": { "type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._/-]{7,190}$" },
+        "budget": { "$ref": "#/$defs/budget" },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "receipt_sha256", "kind", "schema_version", "effects", "request_id", "request_sha256", "context_sha256", "adapter", "state", "operations_performed", "request_bytes", "response_bytes", "redirect_count", "evidence_refs", "evidence_sha256", "observed_at"],
+      "properties": {
+        "receipt_id": { "type": "string", "pattern": "^SRR-[0-9A-F]{32}$" },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "specialist_action_receipt" },
+        "schema_version": { "const": 1 },
+        "effects": { "$ref": "#/$defs/effects" },
+        "request_id": { "type": "string", "pattern": "^SAR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "adapter": { "$ref": "#/$defs/adapter" },
+        "state": { "enum": ["completed", "blocked", "stopped"] },
+        "operations_performed": { "type": "integer", "minimum": 0, "maximum": 64 },
+        "request_bytes": { "type": "integer", "minimum": 0, "maximum": 100000000 },
+        "response_bytes": { "type": "integer", "minimum": 0, "maximum": 100000000 },
+        "redirect_count": { "type": "integer", "minimum": 0, "maximum": 32 },
+        "evidence_refs": { "type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true, "items": { "$ref": "#/$defs/reference" } },
+        "evidence_sha256": { "type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true, "items": { "$ref": "#/$defs/sha256" } },
+        "observed_at": { "$ref": "#/$defs/utc" }
+      }
+    }
+  }
+}

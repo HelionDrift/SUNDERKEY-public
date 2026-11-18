@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-session-activation-request-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Session Activation Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "activation_request_id",
+    "activation_request_sha256",
+    "session_authority",
+    "mission_id",
+    "work_item_id",
+    "session",
+    "credential",
+    "control_plane_requester",
+    "worker_acceptor",
+    "requested_at",
+    "request_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "activation_request_id": {"type": "string", "pattern": "^EAR-[0-9A-F]{32}$"},
+    "activation_request_sha256": {"$ref": "#/$defs/sha256"},
+    "session_authority": {"$ref": "#/$defs/authorityBinding"},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "work_item_id": {"$ref": "#/$defs/identifier"},
+    "session": {"$ref": "#/$defs/sessionBinding"},
+    "credential": {"$ref": "#/$defs/credentialBinding"},
+    "control_plane_requester": {"$ref": "#/$defs/assertionBinding"},
+    "worker_acceptor": {"$ref": "#/$defs/assertionBinding"},
+    "requested_at": {"$ref": "#/$defs/timestamp"},
+    "request_status": {"const": "pending_dual_authentication"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "authorityBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_authority_id", "session_authority_sha256"],
+      "properties": {
+        "session_authority_id": {"type": "string", "pattern": "^ESA-[0-9A-F]{32}$"},
+        "session_authority_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sessionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "session_sha256"],
+      "properties": {
+        "session_id": {"type": "string", "pattern": "^ECS-[0-9A-F]{32}$"},
+        "session_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "credentialBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["credential_reference_id", "credential_sha256"],
+      "properties": {
+        "credential_reference_id": {"$ref": "#/$defs/identifier"},
+        "credential_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "assertionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "assertion_id", "assertion_sha256"],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

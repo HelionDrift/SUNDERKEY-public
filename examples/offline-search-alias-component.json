@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S06",
+  "component_id": "supplied_search_alias_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-search-alias-v1",
+      "indexes": [
+        {"index_ref": "index:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "tenant_ref": "shared"}
+      ],
+      "alias_routes": [
+        {"route_id": "route-1", "alias_ref": "alias:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "index_ref": "index:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "filter_tenant_ref": null}
+      ],
+      "objectives": [
+        {"alias_ref": "alias:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "expected_tenant_ref": "tenant:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}
+      ]
+    }
+  }
+}

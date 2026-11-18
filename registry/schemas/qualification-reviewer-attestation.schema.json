@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-reviewer-attestation-v1.json",
+  "title": "SUNDERKEY Qualification Reviewer Attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attestation_id",
+    "policy",
+    "reviewer_credential",
+    "evidence_manifest",
+    "reviewer_id",
+    "reviewer_role",
+    "profile_id",
+    "candidate",
+    "conclusion",
+    "reason_sha256",
+    "reviewed_at",
+    "algorithm",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "attestation_id": {
+      "type": "string",
+      "pattern": "^QRA-[0-9A-F]{32}$"
+    },
+    "policy": {
+      "$ref": "#/$defs/policyBinding"
+    },
+    "reviewer_credential": {
+      "$ref": "#/$defs/credentialBinding"
+    },
+    "evidence_manifest": {
+      "$ref": "#/$defs/manifestBinding"
+    },
+    "reviewer_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "reviewer_role": {
+      "enum": [
+        "technical_evaluator",
+        "independent_control",
+        "independent_assurance"
+      ]
+    },
+    "profile_id": {
+      "$ref": "#/$defs/profileId"
+    },
+    "candidate": {
+      "$ref": "#/$defs/candidateBinding"
+    },
+    "conclusion": {
+      "enum": [
+        "supports_qualification",
+        "does_not_support_qualification"
+      ]
+    },
+    "reason_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "reviewed_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "algorithm": {
+      "const": "Ed25519"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "policyBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_version",
+        "sha256"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "pattern": "^QTP-[0-9A-F]{32}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "credentialBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_id",
+        "sha256"
+      ],
+      "properties": {
+        "credential_id": {
+          "type": "string",
+          "pattern": "^QRC-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "manifestBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^QEM-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "candidateBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "candidate_version": {
+          "$ref": "#/$defs/identifier"
+        },
+        "candidate_artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

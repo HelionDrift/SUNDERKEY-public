@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S04",
+  "component_id": "model_supplied_evasion_delta_measurement",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-evasion-deltas",
+      "model_ref": "model-one",
+      "maximum_linf_delta": 1,
+      "maximum_l2_squared": 1,
+      "trials": [
+        {
+          "trial_id": "within-flip", "baseline_vector": [0, 0],
+          "candidate_vector": [1, 0], "baseline_label": "class-a",
+          "candidate_label": "class-b", "evaluation_declared": true,
+          "context_complete": true
+        },
+        {
+          "trial_id": "outside-flip", "baseline_vector": [0, 0],
+          "candidate_vector": [2, 0], "baseline_label": "class-a",
+          "candidate_label": "class-b", "evaluation_declared": true,
+          "context_complete": true
+        },
+        {
+          "trial_id": "no-flip", "baseline_vector": [0, 0],
+          "candidate_vector": [1, 0], "baseline_label": "class-a",
+          "candidate_label": "class-a", "evaluation_declared": true,
+          "context_complete": true
+        },
+        {
+          "trial_id": "unknown", "baseline_vector": [0, 0],
+          "candidate_vector": [1, 0], "baseline_label": "class-a",
+          "candidate_label": "class-b", "evaluation_declared": false,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "client_hello_base64": "AQAAbAMDAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CSUQABBMBEwIBAAA9ACsABQQDBAMDAAoABgAEAB0AFwAzACYAJAAdACBjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjYw==",
+      "server_hello_base64": "AgAAWAMDICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8CSUQTAQAALgArAAIDBAAzACQAHQAgc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3M="
+    }
+  }
+}

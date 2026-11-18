@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-dex035",
+      "dex_file_base64": "ZGV4CjAzNQD3FS1t5S7ivxkCH/FeUpMP1MMgiCyIfnvEAAAAcAAAAHhWNBIAAAAAAAAAAJAAAAADAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABIAAAAfAAAAHwAAACBAAAAiAAAAALAgEEABUhlbGxvAAHtoIAAAAAABAAAAAAAAAABAAAAAAAAAAEAAAADAAAAcAAAAAIgAAADAAAAfAAAAAAQAAABAAAAkAAAAA=="
+    }
+  }
+}

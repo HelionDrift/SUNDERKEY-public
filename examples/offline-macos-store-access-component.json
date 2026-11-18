@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-store-access",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "approved_bindings": [{"app_id": "app-a", "store_kind": "keychain"}],
+    "access_declarations": [{
+      "access_id": "access-a", "app_id": "app-b", "store_kind": "keychain",
+      "access_declared": true
+    }]
+  }}
+}

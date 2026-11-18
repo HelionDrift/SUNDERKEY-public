@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/integration-outbox-event-v1.schema.json",
+  "title": "SUNDERKEY signed integration outbox event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "algorithm",
+    "event",
+    "public_key_sha256",
+    "signature",
+    "signer_key_id"
+  ],
+  "properties": {
+    "algorithm": {"const": "Ed25519"},
+    "event": {"$ref": "#/$defs/event"},
+    "public_key_sha256": {"$ref": "#/$defs/sha256"},
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "signer_key_id": {"$ref": "#/$defs/identifier"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^(?!.*://)(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._/-]*$"
+    },
+    "opaqueReference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^(?!.*://)(?!.*@)[A-Za-z0-9][A-Za-z0-9._~:/-]*$"
+    },
+    "effect": {"const": "none"},
+    "digestReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["media_type", "reference_id", "sha256"],
+      "properties": {
+        "media_type": {
+          "type": "string",
+          "pattern": "^[a-z0-9.+-]+/[a-z0-9.+-]+$",
+          "maxLength": 96
+        },
+        "reference_id": {"$ref": "#/$defs/opaqueReference"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "linkReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_id", "relation"],
+      "properties": {
+        "reference_id": {"$ref": "#/$defs/opaqueReference"},
+        "relation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aggregate_id",
+        "assessment_state_effect",
+        "authorization_effect",
+        "digest_references",
+        "event_id",
+        "event_sha256",
+        "event_type",
+        "execution_authority_effect",
+        "finding_state_effect",
+        "idempotency_key",
+        "link_references",
+        "occurred_at",
+        "ordering_key",
+        "partition_key",
+        "previous_state",
+        "producer_id",
+        "schema_version",
+        "severity",
+        "state",
+        "subject_ids",
+        "summary",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "aggregate_id": {"$ref": "#/$defs/identifier"},
+        "assessment_state_effect": {"$ref": "#/$defs/effect"},
+        "authorization_effect": {"$ref": "#/$defs/effect"},
+        "digest_references": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/digestReference"}
+        },
+        "event_id": {
+          "type": "string",
+          "pattern": "^IOE-[0-9A-F]{32}$"
+        },
+        "event_sha256": {"$ref": "#/$defs/sha256"},
+        "event_type": {
+          "enum": [
+            "asset.changed",
+            "assessment.changed",
+            "finding.changed",
+            "retest.changed",
+            "report.changed",
+            "stop_state.changed"
+          ]
+        },
+        "execution_authority_effect": {"$ref": "#/$defs/effect"},
+        "finding_state_effect": {"$ref": "#/$defs/effect"},
+        "idempotency_key": {"$ref": "#/$defs/sha256"},
+        "link_references": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/linkReference"}
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "ordering_key": {"$ref": "#/$defs/sha256"},
+        "partition_key": {"$ref": "#/$defs/sha256"},
+        "previous_state": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,63}$"}
+          ]
+        },
+        "producer_id": {"$ref": "#/$defs/identifier"},
+        "schema_version": {"const": 1},
+        "severity": {
+          "enum": [
+            "not_applicable",
+            "informational",
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "state": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+        },
+        "subject_ids": {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 32,
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]{0,62}_id$": {"$ref": "#/$defs/identifier"}
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "^[\\x20-\\x7E]+$"
+        },
+        "target_authority_effect": {"$ref": "#/$defs/effect"}
+      }
+    }
+  }
+}

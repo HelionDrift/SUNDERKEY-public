@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S11",
+  "component_id": "api_supplied_property_authorization",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "before": {"profile": {"display_name": "Ada", "role": "member"}},
+      "after": {"profile": {"display_name": "Ada L", "role": "admin"}},
+      "policy": {
+        "schema_version": "v1",
+        "role": "member",
+        "complete": true,
+        "properties": [
+          {"path": "/profile/display_name", "write_roles": ["member", "admin"]},
+          {"path": "/profile/role", "write_roles": ["admin"]}
+        ]
+      },
+      "before_source_id": "synthetic:before",
+      "after_source_id": "synthetic:after",
+      "policy_source_id": "synthetic:policy"
+    }
+  }
+}

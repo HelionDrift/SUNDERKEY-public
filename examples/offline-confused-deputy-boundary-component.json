@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S14",
+  "component_id": "supplied_confused_deputy_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-requester-deputy-boundary-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {"declaration_complete": true, "requester_authority_required": true},
+      "operations": [
+        {
+          "operation_id": "operation-1",
+          "requester_ref": "ref:requester-a",
+          "deputy_ref": "ref:service-b",
+          "resource_ref": "ref:record-c",
+          "requester_authority": "deny",
+          "deputy_authority": "allow",
+          "delegation_declared": true,
+          "declared_result": "allow",
+          "capture_complete": true
+        }
+      ]
+    }
+  }
+}

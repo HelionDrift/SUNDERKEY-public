@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S06",
+  "component_id": "api_supplied_webhook_callback_trust",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:webhook",
+      "source": {
+        "schema_version": "v1",
+        "facts_complete": true,
+        "policy_complete": true,
+        "receivers": [
+          {
+            "receiver_id": "billing-hook",
+            "allowed_producer_ids": ["billing-service"],
+            "signature_required": true,
+            "replay_key": "event_id",
+            "max_age_seconds": 300
+          }
+        ],
+        "prior_acceptances": [
+          {
+            "receiver_id": "billing-hook",
+            "event_id": "evt-old",
+            "idempotency_key_id": "key-old"
+          }
+        ],
+        "deliveries": [
+          {
+            "delivery_id": "delivery-fresh",
+            "receiver_id": "billing-hook",
+            "producer_id": "billing-service",
+            "event_id": "evt-new",
+            "idempotency_key_id": "key-new",
+            "signature_disposition": "verified",
+            "age_seconds": 30,
+            "receiver_outcome": "accepted"
+          },
+          {
+            "delivery_id": "delivery-replay",
+            "receiver_id": "billing-hook",
+            "producer_id": "billing-service",
+            "event_id": "evt-old",
+            "idempotency_key_id": "key-old",
+            "signature_disposition": "verified",
+            "age_seconds": 60,
+            "receiver_outcome": "accepted"
+          }
+        ]
+      }
+    }
+  }
+}

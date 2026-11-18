@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-report-authentication-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Report Authentication Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider_report_authentication",
+    "authenticated_at",
+    "worker_attestor",
+    "custody_status",
+    "evidence_verification_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "provider_report_authentication": {
+      "$ref": "collaboration-executor-provider-report-authentication-v1.schema.json"
+    },
+    "authenticated_at": {"$ref": "#/$defs/timestamp"},
+    "worker_attestor": {"$ref": "#/$defs/principalCommit"},
+    "custody_status": {"const": "durable_authenticated_provider_report"},
+    "evidence_verification_status": {
+      "const": "provider_evidence_digest_unverified"
+    },
+    "external_effect_status": {
+      "const": "authenticated_report_unverified_effect"
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "principalCommit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "assertion_sha256",
+        "ledger_entry_sha256"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "pattern": "^PAS-[0-9A-F]{32}$"
+        },
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "ledger_entry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

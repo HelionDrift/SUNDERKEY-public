@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "cases": [
+        {
+          "case_id": "synthetic-shared-equality",
+          "cache_kind": "shared",
+          "request_time_seconds": 1000,
+          "response_time_seconds": 1005,
+          "evaluated_at_seconds": 1020,
+          "date_value_seconds": 998,
+          "age_value_seconds": 3,
+          "max_age_seconds": 60,
+          "s_maxage_seconds": 23,
+          "expires_value_seconds": 1100
+        },
+        {
+          "case_id": "synthetic-private",
+          "cache_kind": "private",
+          "request_time_seconds": 1000,
+          "response_time_seconds": 1005,
+          "evaluated_at_seconds": 1020,
+          "date_value_seconds": 998,
+          "age_value_seconds": 3,
+          "max_age_seconds": 60,
+          "s_maxage_seconds": 23,
+          "expires_value_seconds": 1100
+        },
+        {
+          "case_id": "synthetic-no-explicit-lifetime",
+          "cache_kind": "shared",
+          "request_time_seconds": 1000,
+          "response_time_seconds": 1005,
+          "evaluated_at_seconds": 1020,
+          "date_value_seconds": 998,
+          "age_value_seconds": 3,
+          "max_age_seconds": null,
+          "s_maxage_seconds": null,
+          "expires_value_seconds": null
+        }
+      ]
+    }
+  }
+}

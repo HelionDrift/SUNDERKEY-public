@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-checkpoint-commit-receipt-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Checkpoint Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "receipt_sha256",
+    "deployment_id",
+    "checkpoint",
+    "commit_status",
+    "atomic_replace_performed",
+    "backup_status",
+    "access_verification_status",
+    "sqlite_mutation_performed",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "receipt_id": {"type": "string", "pattern": "^CCR-[0-9A-F]{32}$"},
+    "receipt_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "deployment_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint_id", "sha256", "checkpoint_sequence"],
+      "properties": {
+        "checkpoint_id": {"type": "string", "pattern": "^CPC-[0-9A-F]{32}$"},
+        "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "checkpoint_sequence": {"type": "integer", "minimum": 1, "maximum": 2147483647}
+      }
+    },
+    "commit_status": {"enum": ["committed", "already_committed_same_digest"]},
+    "atomic_replace_performed": {"type": "boolean"},
+    "backup_status": {"enum": ["not_applicable_initial_commit", "preserved", "unchanged"]},
+    "access_verification_status": {"const": "verified"},
+    "sqlite_mutation_performed": {"const": false},
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  }
+}

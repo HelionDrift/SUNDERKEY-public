@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.example/schemas/coverage-capacity-rehearsal-v1.schema.json",
+  "title": "Coverage capacity rehearsal v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "additional_waves",
+    "assignments",
+    "baseline_wave_count",
+    "commander_capacity",
+    "effects",
+    "kind",
+    "rehearsal_id",
+    "rehearsal_sha256",
+    "rehearsal_wave_count",
+    "schedule_id",
+    "schedule_sha256",
+    "schema_version",
+    "specialist_capacity",
+    "validator_capacity"
+  ],
+  "properties": {
+    "additional_waves": {"type": "integer", "minimum": 0},
+    "assignments": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "baseline_wave",
+          "commander_id",
+          "rehearsal_wave",
+          "specialist_profile_id",
+          "task_id",
+          "task_sha256",
+          "validator_ids"
+        ],
+        "properties": {
+          "baseline_wave": {"type": "integer", "minimum": 0},
+          "commander_id": {"type": "string", "minLength": 1, "maxLength": 256},
+          "rehearsal_wave": {"type": "integer", "minimum": 0},
+          "specialist_profile_id": {"type": "string", "minLength": 1, "maxLength": 256},
+          "task_id": {"type": "string", "pattern": "^CST-[0-9A-F]{32}$"},
+          "task_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "validator_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1, "maxLength": 256}
+          }
+        }
+      }
+    },
+    "baseline_wave_count": {"type": "integer", "minimum": 0},
+    "commander_capacity": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    },
+    "effects": {
+      "const": {
+        "authorization": "none",
+        "dispatch": "none",
+        "network": "none",
+        "qualification": "none",
+        "routing": "none",
+        "target_action": "none"
+      }
+    },
+    "kind": {"const": "sunderkey.coverage-capacity-rehearsal.v1"},
+    "rehearsal_id": {"type": "string", "pattern": "^CCR-[0-9A-F]{32}$"},
+    "rehearsal_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "rehearsal_wave_count": {"type": "integer", "minimum": 0},
+    "schedule_id": {"type": "string", "pattern": "^CSS-[0-9A-F]{32}$"},
+    "schedule_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "schema_version": {"const": 1},
+    "specialist_capacity": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    },
+    "validator_capacity": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    }
+  }
+}

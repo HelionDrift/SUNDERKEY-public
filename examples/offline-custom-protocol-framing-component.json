@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-custom-protocol-frames",
+    "capture_inventory_complete": true,
+    "framing": {
+      "kind_offset": 0,
+      "kind_width": 1,
+      "length_offset": 1,
+      "length_width": 2,
+      "length_endian": "big",
+      "payload_offset": 3
+    },
+    "frames": [
+      {"frame_id": "f1", "direction": "client_to_server", "wire_hex": "010002aabb"},
+      {"frame_id": "f2", "direction": "server_to_client", "wire_hex": "020001cc"}
+    ]
+  }}
+}

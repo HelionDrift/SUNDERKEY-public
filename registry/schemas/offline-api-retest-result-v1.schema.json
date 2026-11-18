@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/offline-api-retest-result-v1.schema.json",
+  "title": "Offline API synthetic retest comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prior_result_sha256",
+    "second_result_sha256",
+    "binding_sha256",
+    "observation_change",
+    "effects",
+    "result_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "prior_result_sha256": {"$ref": "#/$defs/digest"},
+    "second_result_sha256": {"$ref": "#/$defs/digest"},
+    "binding_sha256": {"$ref": "#/$defs/digest"},
+    "observation_change": {
+      "enum": [
+        "prior_signal_not_observed_in_second_synthetic_case",
+        "signal_observed_in_second_synthetic_case",
+        "no_conclusive_synthetic_transition"
+      ]
+    },
+    "effects": {
+      "const": {
+        "authority": "none",
+        "deployment": "none",
+        "finding_publication": "none",
+        "network": "none",
+        "qualification": "none",
+        "target_execution": "none"
+      }
+    },
+    "result_sha256": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-invocation-preparation-commit-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Invocation Preparation Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "invocation_preparation",
+    "custody_status",
+    "unresolved_recovery_disposition",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "invocation_preparation": {
+      "$ref": "collaboration-executor-invocation-preparation-v1.schema.json"
+    },
+    "custody_status": {"const": "durable_before_invocation"},
+    "unresolved_recovery_disposition": {
+      "const": "treat_as_outcome_uncertain"
+    },
+    "external_effect_status": {"const": "not_started"},
+    "runtime_effect": {"const": "none"}
+  }
+}

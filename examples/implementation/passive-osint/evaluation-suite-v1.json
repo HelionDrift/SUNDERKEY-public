@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "suite_id": "development.passive-osint.qualification",
+  "suite_version": "1.0.0",
+  "suite_mode": "synthetic",
+  "advisory_only": true,
+  "expert_catalog_id": "sunderkey-offensive-expert-army",
+  "expert_catalog_version": "1.0.0",
+  "capability_catalog_id": "sunderkey-army-capabilities",
+  "capability_catalog_version": "1.0.0",
+  "capability_catalog_sha256": "sha256:62739135d468daf2a45b1145432271f2e26f851a42409b2f347e9c0d6e47646f",
+  "qualification_standard_id": "sunderkey-specialist-qualification",
+  "qualification_standard_version": "1.0.0",
+  "qualification_standard_sha256": "sha256:814aa71328244b3c608706a08504e13fde8290f72d741b8c94d93cbd41e945cc",
+  "qualification_plan_catalog_id": "sunderkey-army-qualification-plans",
+  "qualification_plan_catalog_version": "1.0.0",
+  "qualification_plan_catalog_sha256": "sha256:f820ddd290463a9c8f14debc8e85d272ea34f43524f34825a3728da8d2c5aa9e",
+  "profile_id": "AOE-GA-D01-S01",
+  "scenario_family_id": "qualification.aoe-ga-d01-s01",
+  "candidate": {
+    "candidate_id": "development.passive-osint",
+    "candidate_version": "1.0.0",
+    "candidate_artifact_sha256": "sha256:faf1afbbaba455b9c4d5a02faaa80b0d3b0f04780fe65a89583087e8b7d0605e"
+  },
+  "cases": [
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-ADV-01",
+      "gate_id": "qualification.gate.adversarial-robustness",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:9de224d99bdb317222b8097765a9a829cbed20086206632f9553f87cd770c358",
+      "expected_result_sha256": "sha256:ca77cadbc0f834d18efe5b6964589dbf972099c8bb7f459747e9dc183ce6d755",
+      "critical_failure_definition_sha256": "sha256:4d828b8c51dd438e609f97642bcae0df161422b1b2551e26442b2d7b2455ed92"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-ADV-02",
+      "gate_id": "qualification.gate.adversarial-robustness",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:533dd30f5f899cdd72faa08a07c50a085fd4fc2eb33c8f74184022ea50f7bcd6",
+      "expected_result_sha256": "sha256:92b25241c981a7437d24f282f3e7c833b22e78df6483f9584759b734da080edf",
+      "critical_failure_definition_sha256": "sha256:18c81e02de1629cf42338a98835237f1b71d8355c6f5aff56879c996a272ff2d"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-ADV-03",
+      "gate_id": "qualification.gate.adversarial-robustness",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:db07e28302527bd887be9c5650bc021533262850cc19c11d89c2db8e923cea99",
+      "expected_result_sha256": "sha256:58ef888c68fbc18b651c4ed673b8751207cb91240b3803adf770131402e04197",
+      "critical_failure_definition_sha256": "sha256:4c5846e9f4dfb568b6f2bf4a8ec0ffc389cef2a2c224a99f94b9e4b27d3ce2d8"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-ADV-04",
+      "gate_id": "qualification.gate.adversarial-robustness",
+      "ordinal": 4,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:7ee030291540b92c7c40632e71f60066469c232ace866f9a3010107e8ce61f4c",
+      "expected_result_sha256": "sha256:0e399bc77c59e20bdeeb45997ecf272262025a0f7477b88052a55d354c497a6a",
+      "critical_failure_definition_sha256": "sha256:529bb21806bc9f57b0b78cb2d11a9fa8b630ca97ea290b8e9f4d19357572b73b"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-COL-01",
+      "gate_id": "qualification.gate.collaboration-handoff",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:741e7103a80990443dddd0d6f98d6614de7cb860bd7fc361c76fdda86e6a2154",
+      "expected_result_sha256": "sha256:d0f239955d5adccb9558f5a816ece89d8fb55ad31678a557b22ad538e19745e4",
+      "critical_failure_definition_sha256": "sha256:7ad0da1c496747ee5a7c665a53b288d61422b3e53e8a646ca8c95cd2b84f94cf"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-COL-02",
+      "gate_id": "qualification.gate.collaboration-handoff",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:563ab76b4e763cbad6681b12b33cdefc8fdc8075d415fc08193c096c29c4f43c",
+      "expected_result_sha256": "sha256:953fe0b800d85535490458498ef3c2e5a78b71cc17aa2a10a1f593e4f25ad840",
+      "critical_failure_definition_sha256": "sha256:c0f2d729a5cf009e2e2aa194e592e68b1833e04ae4f51c65ec6bb82ce6972003"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-COL-03",
+      "gate_id": "qualification.gate.collaboration-handoff",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:430023cc307e2fdd084e14d0c63d9fc222037b55b8ffd50f77f6fea4d061681e",
+      "expected_result_sha256": "sha256:2c4d51a6240523fb84c3ea4d9638f6da227c1428760757df3c2a07644dfeff28",
+      "critical_failure_definition_sha256": "sha256:0d5f4c3a2f4202101ea093409834ec0d4feab069d3bcd86f7d5782dcd437f5a8"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-EVI-01",
+      "gate_id": "qualification.gate.evidence-reproducibility",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:0c456a92c8e86b6c28add3dc1ef25059a3e634bcd2c83550e9a530e188bfec3e",
+      "expected_result_sha256": "sha256:4b36b708fa720c986fa4255b4ed1fd31e9854c5f4579f24f534e6877ac888967",
+      "critical_failure_definition_sha256": "sha256:f3aa2e5035a112f3a9b7b715ee9d948c622479a7bc0ffdf9493351732b7ce6f7"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-EVI-02",
+      "gate_id": "qualification.gate.evidence-reproducibility",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:4916dc5ba7d827bb189684bce277080f5312090918da35cf9d6c95b158bcae4e",
+      "expected_result_sha256": "sha256:d2124740af47030d3093e7d96f1c1d34bbb54774e1d0543cb6ff47a6cfee89fc",
+      "critical_failure_definition_sha256": "sha256:5cbc84ff0b8e82f37ec548ef33f0b8ab33caf897ffda4cb828b5153673c47778"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-EVI-03",
+      "gate_id": "qualification.gate.evidence-reproducibility",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:8351163b604d1cc0f2fa50934f3f6e6a89fd78da2bf9c1e208f34f3863042d99",
+      "expected_result_sha256": "sha256:8bc8b75b665fe5e4cafe7aeebb64be05fc35d260039fbd06a997c767508a0a9b",
+      "critical_failure_definition_sha256": "sha256:aedf14a93739a7493d38cd52c8c80f52fbd09fcc38ba1af1d8bced8b8e41bb61"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-FP-01",
+      "gate_id": "qualification.gate.false-positive-control",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:dae4fa4dd3123f7788bcaf7a55f09aacc6d5d26f242b03806d66de3f055204d4",
+      "expected_result_sha256": "sha256:640c074ff64a9f0b340dc0158a2204c0e1fb2deab4867e8f3dc10b2b2a168d12",
+      "critical_failure_definition_sha256": "sha256:2e39de9dd1fb118b9eda8bd2cb488976f24409e50e66ad26368a7663403deebc"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-FP-02",
+      "gate_id": "qualification.gate.false-positive-control",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:7937c41a4af6c65bd6a4044f8d6f8440edf3f20e29b403acfb1af7e3d866dd06",
+      "expected_result_sha256": "sha256:adce1b27185ffbc0c715a9ac184fa8cf34cfd4d13c7d1bfd7644bef3b7a5fbb4",
+      "critical_failure_definition_sha256": "sha256:4c79043bd216f23d2b52134e27551fdecdc376ef7b7227b416dce0379557250f"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-FP-03",
+      "gate_id": "qualification.gate.false-positive-control",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:242b229277a6c63d05e0878b0cfaacd5b0262d18520bf466948b1372cd9daf33",
+      "expected_result_sha256": "sha256:244ac9a498c7a5f6a1714de3c9abeb43ea08d2df2a6348b82137d5d33d77ef6b",
+      "critical_failure_definition_sha256": "sha256:67042d7b62cbeeaf19443b4f4df210b8ba3e39d0460f13bea798c55331c142b4"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-FP-04",
+      "gate_id": "qualification.gate.false-positive-control",
+      "ordinal": 4,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:41f3bfdedcfa972ce23371554f36bd84756066449a0f28441877c8818845263f",
+      "expected_result_sha256": "sha256:a843482f02a89843938fcc80ae045e0684e96f2ad87234ffd65932cd15c4d6e0",
+      "critical_failure_definition_sha256": "sha256:876af68e85ceceb09b772083ecb3613f66cd8d013f3235160a1cc12d8664b2ef"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-FP-05",
+      "gate_id": "qualification.gate.false-positive-control",
+      "ordinal": 5,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:a44d022982aece94c355d946e5cffbf56351af7e9d0220d06ad6d2297aba9075",
+      "expected_result_sha256": "sha256:e74a096724dea019343a2326f15a067d21e3272eb0d49936ef7d52a87f26e323",
+      "critical_failure_definition_sha256": "sha256:50e62a3916567d90a532aabb433ae7c83e0dcb2117bbce6035f3db73e48946d9"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-STOP-01",
+      "gate_id": "qualification.gate.safe-abstention-stop",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:d14e8670eda2d0d4b8ba3e623f8261493ebe0b3704e89fc704b0cad6f3338776",
+      "expected_result_sha256": "sha256:7110b812b9c772c7b395114cf3e740e3bfddb3dcbb407059df425e3267fff642",
+      "critical_failure_definition_sha256": "sha256:9a17e79af89692371cb4d616f67013897ac30be88caa80f045f1857e46d1b2fa"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-STOP-02",
+      "gate_id": "qualification.gate.safe-abstention-stop",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:211eb49cdc82feddf011c45876d1a0dfa8843dbcccecab0812e559091bf4d20b",
+      "expected_result_sha256": "sha256:b2428259dfa631b90d23a2265c8b95ba63bab15a93f2e154d2c9821bce90da16",
+      "critical_failure_definition_sha256": "sha256:86958f6410d24e8d8f7fbb26b649e6f505dfb1e04426f6541d04ac234414a136"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-STOP-03",
+      "gate_id": "qualification.gate.safe-abstention-stop",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:c293276056e0b40f320f828650ebad0deea752d014e98dfdee7a0caaf9380a8d",
+      "expected_result_sha256": "sha256:9fe5981b3aaf36c799fafccc2d56676d9e2a0a36d2fe2193818cdc1a8c97851d",
+      "critical_failure_definition_sha256": "sha256:a98ebf3ad76c1a318198c8ce795738e00066479c9d3282bec8dd6c0a9dd12f45"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-SCOPE-01",
+      "gate_id": "qualification.gate.scope-authority",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:98315e45f234b1417e450259393d5b74d710e9ea41248421ccdab10c2b7df109",
+      "expected_result_sha256": "sha256:f9f0a6ee58af935c528584c7f54b5c2204400d94acdc668f976009acd3c0ef37",
+      "critical_failure_definition_sha256": "sha256:b79974c9d2efcb93b62640d61fa87d91eea0a4add8e3ee4be7e4ef3aec21480e"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-SCOPE-02",
+      "gate_id": "qualification.gate.scope-authority",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:481f396ccadb399614db7c7b69482b35c14e4f1aa87c30c682c78120454fa84c",
+      "expected_result_sha256": "sha256:b363efb6090c76142196b25f414da15f25a3f74900de5433c39d7637ef4b3147",
+      "critical_failure_definition_sha256": "sha256:5e32ce1eedcc3904ac25063a43961d91af85b6b95549fb6986d3821993ef2bd7"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-SCOPE-03",
+      "gate_id": "qualification.gate.scope-authority",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:4f7250ec721e10cdd5fae3bb083d7c125aa0540ac09d8acc5dc273c10703b885",
+      "expected_result_sha256": "sha256:3a2aba03662e960fe90be5879517cb94c23e0f54fd5c88f5146abf23db4d4fbe",
+      "critical_failure_definition_sha256": "sha256:d4cb2c220dd58e32eb7a92ece6d12bf00683cc6be4a4d2a05fda62727337fa73"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TECH-01",
+      "gate_id": "qualification.gate.specialist-technical-accuracy",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:cf5fb95f2219695642f8716c3c15fcc7e6ce83986cd0363b4bb3c8654721ce62",
+      "expected_result_sha256": "sha256:67abb5ff4ecef19bffd9c6b3c25eacf62051ff6a2390d70e2baf5fbc374f4fe4",
+      "critical_failure_definition_sha256": "sha256:114b8503596775a303110f000e18817a4539e4ab35b7fbb9841cd653607b5a03"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TECH-02",
+      "gate_id": "qualification.gate.specialist-technical-accuracy",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:7f7de2c387f0778436b4db5aaa9423b45f600a1a46413cfbcb7c59c3ccbacf7d",
+      "expected_result_sha256": "sha256:ad9d3d60c69ad37f793ea6c799814a2ef48363a71cbcb92a3da211a884bf5f66",
+      "critical_failure_definition_sha256": "sha256:e800761996a058870241a2307f97a00fe04ec56a5ae826762687c6fcf9975887"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TECH-03",
+      "gate_id": "qualification.gate.specialist-technical-accuracy",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:e3c39232e8eb0b7045c04bad299735bf5a0f378bed551a700400735e861e9e74",
+      "expected_result_sha256": "sha256:196208a421f953a5ad47756c5b8fcb1c1ccb089d9f6b03e337541565e328e79f",
+      "critical_failure_definition_sha256": "sha256:4c03abf7035e77f6c1a371469a798896518ba47699dc2201ee9e774999df623a"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TECH-04",
+      "gate_id": "qualification.gate.specialist-technical-accuracy",
+      "ordinal": 4,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:8e9feee9b1954a0a0d1bc1cd709fb483848957387d50d43d007cca59a2299fe8",
+      "expected_result_sha256": "sha256:c4302348114bd4a1df7e242908e449303d97c2bafc33c6a339d1bd5ac7030622",
+      "critical_failure_definition_sha256": "sha256:31a15eff2a942a909099c593cf7cffea69e6d15057436a303657b7849f337e2c"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TECH-05",
+      "gate_id": "qualification.gate.specialist-technical-accuracy",
+      "ordinal": 5,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:b3388aec56b75570a52686e265a7b9ae1cdccb89c0cd1ece0786e50288ef9d58",
+      "expected_result_sha256": "sha256:3429cc70ed82a6f3ad01fba1c25af823c7a282be73937947bdfb9a5d095c40be",
+      "critical_failure_definition_sha256": "sha256:7bf1fa08b1ad2b7dac9f484186c1c717a4c53afabae4c5041a3b22dc2ba2b5c5"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TOOL-01",
+      "gate_id": "qualification.gate.tool-data-boundary",
+      "ordinal": 1,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:42a39cd4e83b62ae3c4b5090eb18b5ec3d17440ccbabe85695b4445e14a45e69",
+      "expected_result_sha256": "sha256:02e7a22ae79d2a03d5327778ca6674c8668ec6e23ec7551c0ff1ee66dbe73bd0",
+      "critical_failure_definition_sha256": "sha256:8fcdfcd89f86a52c208f3fea29147aff5c67d98f6a13023f5908f40dd7eab017"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TOOL-02",
+      "gate_id": "qualification.gate.tool-data-boundary",
+      "ordinal": 2,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:5a8f13adfc06af8c52dc440386bf92355741671ddc065a05aad823daa5e8bb0a",
+      "expected_result_sha256": "sha256:1d7449dd170013cf665acbb88b8138c48d331cb5c469f34ea79d631de7a28f94",
+      "critical_failure_definition_sha256": "sha256:5c4ae3d24a711491732416eca0979c84a4e590737e9dee5f8730eff9597059ac"
+    },
+    {
+      "case_id": "QCASE-AOE-GA-D01-S01-TOOL-03",
+      "gate_id": "qualification.gate.tool-data-boundary",
+      "ordinal": 3,
+      "environment": "synthetic",
+      "scenario_sha256": "sha256:d26b463004c006c5a0bcb427f5a344800d109483ff04c8cd9e1cef0dca505832",
+      "expected_result_sha256": "sha256:f9a38888f198dcb35705b3e0be62247e62a34806c936cde6894824465a1d7d64",
+      "critical_failure_definition_sha256": "sha256:2fa7d8d9bdc5a3d55e8dac4470f561df72e64b2f06fc4df0567cf5c2e558d8d4"
+    }
+  ]
+}

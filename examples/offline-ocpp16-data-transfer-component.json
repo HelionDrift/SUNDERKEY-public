@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D25-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ocpp16-data-transfer",
+      "synthetic_fixture": true,
+      "request": [
+        2,
+        "synthetic-request-1",
+        "DataTransfer",
+        {
+          "vendorId": "com.synthetic.example",
+          "messageId": "offlineReview",
+          "data": "synthetic-data"
+        }
+      ]
+    }
+  }
+}

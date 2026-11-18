@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S01",
+  "component_id": "supplied_directory_entitlement_path",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-directory-entitlement-path-v1",
+      "source_principal_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "graph_complete": false,
+      "groups": ["group:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"],
+      "memberships": [
+        {"edge_id": "m1", "member_ref": "principal:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "group_ref": "group:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+      ],
+      "grants": [
+        {"edge_id": "g1", "grantee_ref": "group:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "resource_ref": "resource:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "right_label": "declared_read"}
+      ],
+      "objectives": [
+        {"resource_ref": "resource:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "right_label": "declared_read"}
+      ]
+    }
+  }
+}

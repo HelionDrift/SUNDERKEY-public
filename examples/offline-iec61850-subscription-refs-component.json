@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S19",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-iec61850-bindings",
+      "station_id": "substation-one",
+      "context_complete": true,
+      "publications": [
+        {"publication_id": "pub-one", "publisher_ied_id": "ied-a", "dataset_id": "set-a"}
+      ],
+      "subscriptions": [
+        {"subscription_id": "sub-one", "subscriber_ied_id": "ied-b", "publication_id": "pub-one", "dataset_id": "set-b"}
+      ]
+    }
+  }
+}

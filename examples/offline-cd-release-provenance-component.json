@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S03",
+  "component_id": "cd_supplied_release_provenance",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:release",
+      "source": {
+        "schema_version": "v1",
+        "facts_complete": true,
+        "lineage_complete": true,
+        "source_revisions": [
+          {
+            "revision_id": "rev-a",
+            "commit_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          }
+        ],
+        "builds": [
+          {
+            "build_id": "build-a",
+            "revision_id": "rev-a",
+            "input_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "provenance_disposition": "verified"
+          }
+        ],
+        "releases": [
+          {
+            "release_id": "release-a",
+            "build_id": "build-a",
+            "artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "approval_disposition": "approved"
+          }
+        ],
+        "gitops_declarations": [
+          {
+            "declaration_id": "env-consistent",
+            "release_id": "release-a",
+            "desired_artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "observed_status": "present",
+            "observed_artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          },
+          {
+            "declaration_id": "env-mismatch",
+            "release_id": "release-a",
+            "desired_artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "observed_status": "present",
+            "observed_artifact_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ]
+      }
+    }
+  }
+}

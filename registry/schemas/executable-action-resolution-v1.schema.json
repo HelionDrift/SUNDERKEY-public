@@ -1,0 +1,691 @@
+{
+  "$defs": {
+    "authorization": {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "assertion_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "assertion_issuer": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "assertion_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "assertion_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authorized_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "canonical_replay_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "decision": {
+          "const": "approved"
+        },
+        "expires_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "issued_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "operation_intent_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "principal_profile_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "principal_subject": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "typed_resolver",
+            "mission_owner",
+            "independent_control",
+            "admission_control"
+          ]
+        },
+        "scope_grant_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "trust_policy_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "principal_profile_id",
+        "principal_subject",
+        "assertion_issuer",
+        "assertion_id",
+        "assertion_sha256",
+        "assertion_key_sha256",
+        "trust_policy_sha256",
+        "scope_grant_sha256",
+        "operation_intent_sha256",
+        "canonical_replay_key_sha256",
+        "tenant_id",
+        "mission_id",
+        "scope_sha256",
+        "target_sha256",
+        "action_sha256",
+        "resolution_sha256",
+        "authorized_tier",
+        "decision",
+        "issued_at",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "catalog_entry": {
+      "additionalProperties": false,
+      "properties": {
+        "action_type": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "executor_supported": {
+          "type": "boolean"
+        },
+        "maximum_action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "parameter_contract": {
+          "items": {
+            "$ref": "#/$defs/parameter_contract"
+          },
+          "maxItems": 128,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "parameter_contract_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "r4_executor_supported": {
+          "type": "boolean"
+        },
+        "supported_environments": {
+          "items": {
+            "enum": [
+              "sandbox",
+              "replica",
+              "live"
+            ]
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "tool_artifact_ref": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "tool_artifact_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tool_exact_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_type",
+        "executor_supported",
+        "maximum_action_tier",
+        "parameter_contract",
+        "parameter_contract_sha256",
+        "r4_executor_supported",
+        "supported_environments",
+        "tool_artifact_ref",
+        "tool_artifact_sha256",
+        "tool_exact_version"
+      ],
+      "type": "object"
+    },
+    "effects": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "dispatch_performed": {
+          "const": false
+        },
+        "model_call_performed": {
+          "const": false
+        },
+        "network_call_performed": {
+          "const": false
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "target_action_performed": {
+          "const": false
+        },
+        "tool_effect": {
+          "const": "none"
+        }
+      },
+      "required": [
+        "authorization_effect",
+        "dispatch_performed",
+        "model_call_performed",
+        "network_call_performed",
+        "qualification_effect",
+        "target_action_performed",
+        "tool_effect"
+      ],
+      "type": "object"
+    },
+    "parameter_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "value_type": {
+          "enum": [
+            "string",
+            "identifier",
+            "sha256",
+            "integer",
+            "boolean",
+            "string_array"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "required",
+        "value_type"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://sunderkey.dev/schemas/executable-action-resolution-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "catalog_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_name": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "catalog_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/catalog_entry"
+          },
+          "maxItems": 4096,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "kind": {
+          "const": "executable_action_catalog"
+        },
+        "registry_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "catalog_id",
+        "catalog_sha256",
+        "catalog_name",
+        "catalog_version",
+        "registry_sha256",
+        "entries"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "action_type": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "catalog_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "kind": {
+          "const": "action_parameter_set"
+        },
+        "parameter_contract_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "parameter_set_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "parameter_set_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "maximum": 9223372036854775807,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "maxLength": 16384,
+                "minLength": 1,
+                "pattern": "^[\\x20-\\x7E]*$",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "pattern": "^[\\x20-\\x7E]*$",
+                  "type": "string"
+                },
+                "maxItems": 128,
+                "type": "array",
+                "uniqueItems": true
+              }
+            ]
+          },
+          "maxProperties": 128,
+          "propertyNames": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "schema_version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "parameter_set_id",
+        "parameter_set_sha256",
+        "catalog_id",
+        "catalog_sha256",
+        "catalog_version",
+        "action_type",
+        "parameter_contract_sha256",
+        "parameters"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "authority_snapshot_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "descriptor_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "descriptor_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "environment": {
+          "enum": [
+            "sandbox",
+            "replica",
+            "live"
+          ]
+        },
+        "kind": {
+          "const": "target_action_descriptor"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "target_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "target_scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "descriptor_id",
+        "descriptor_sha256",
+        "tenant_id",
+        "mission_id",
+        "target_scope_sha256",
+        "authority_snapshot_sha256",
+        "target_id",
+        "target_sha256",
+        "environment"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "action_type": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "catalog_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "catalog_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "idempotency_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "action_proposal_resolution"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "parameter_set_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "parameter_set_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "proposal_producer_profile_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "proposal_product_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "proposal_product_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "proposal_work_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "resolution_status": {
+          "const": "typed_resolved_pending_authorization"
+        },
+        "resolved_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "resolver_profile_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolver_subject": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "review_closure_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "review_closure_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "review_snapshot_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "review_snapshot_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "target_authority_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_descriptor_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "target_descriptor_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_environment": {
+          "enum": [
+            "sandbox",
+            "replica",
+            "live"
+          ]
+        },
+        "target_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "target_scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "tool_artifact_ref": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "tool_artifact_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tool_exact_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "resolution_id",
+        "resolution_sha256",
+        "tenant_id",
+        "mission_id",
+        "plan_id",
+        "proposal_work_id",
+        "proposal_product_id",
+        "proposal_product_sha256",
+        "proposal_producer_profile_id",
+        "review_snapshot_id",
+        "review_snapshot_sha256",
+        "review_closure_id",
+        "review_closure_sha256",
+        "catalog_id",
+        "catalog_sha256",
+        "catalog_version",
+        "parameter_set_id",
+        "parameter_set_sha256",
+        "target_descriptor_id",
+        "target_descriptor_sha256",
+        "target_scope_sha256",
+        "target_id",
+        "target_sha256",
+        "target_authority_sha256",
+        "target_environment",
+        "action_type",
+        "action_tier",
+        "action_sha256",
+        "idempotency_key_sha256",
+        "tool_artifact_ref",
+        "tool_artifact_sha256",
+        "tool_exact_version",
+        "resolver_profile_id",
+        "resolver_subject",
+        "resolved_at",
+        "resolution_status"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "SUNDERKEY Executable Action Resolution v1"
+}

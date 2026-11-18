@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/local-oci-containment-fixture-v1.schema.json",
+  "title": "SUNDERKEY Local OCI Containment Fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "fixture_id",
+    "fixture_sha256",
+    "specification",
+    "observations",
+    "status",
+    "runtime_execution_performed",
+    "external_containment_proven",
+    "qualification_effect",
+    "routing_effect",
+    "deployment_effect",
+    "target_authority_effect"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "kind": { "const": "local_oci_containment_fixture" },
+    "fixture_id": { "type": "string", "pattern": "^OCF-[0-9A-F]{32}$" },
+    "fixture_sha256": { "$ref": "#/$defs/sha256" },
+    "specification": { "$ref": "#/$defs/specification" },
+    "observations": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/observation" }
+    },
+    "status": { "const": "deterministic_repository_fixture_nonqualifying" },
+    "runtime_execution_performed": { "const": false },
+    "external_containment_proven": { "const": false },
+    "qualification_effect": { "const": "none" },
+    "routing_effect": { "const": "none" },
+    "deployment_effect": { "const": "none" },
+    "target_authority_effect": { "const": "none" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeout_seconds",
+        "memory_mib",
+        "cpu_millis",
+        "process_count",
+        "output_bytes",
+        "workspace_bytes"
+      ],
+      "properties": {
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+        "memory_mib": { "type": "integer", "minimum": 64, "maximum": 4096 },
+        "cpu_millis": { "type": "integer", "minimum": 100, "maximum": 60000 },
+        "process_count": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "output_bytes": { "type": "integer", "minimum": 1024, "maximum": 16777216 },
+        "workspace_bytes": { "type": "integer", "minimum": 4096, "maximum": 268435456 }
+      }
+    },
+    "securityPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rootless",
+        "rootfs_read_only",
+        "capability_drop",
+        "no_new_privileges",
+        "user_namespace",
+        "container_user",
+        "seccomp_profile_path",
+        "seccomp_profile_sha256",
+        "network_mode",
+        "credential_mode",
+        "host_devices",
+        "host_bind_mounts"
+      ],
+      "properties": {
+        "rootless": { "const": true },
+        "rootfs_read_only": { "const": true },
+        "capability_drop": {
+          "type": "array",
+          "prefixItems": [{ "const": "ALL" }],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "no_new_privileges": { "const": true },
+        "user_namespace": { "const": "auto:size=65536" },
+        "container_user": { "const": "65532:65532" },
+        "seccomp_profile_path": { "const": "/etc/sunderkey/containment/seccomp-v1.json" },
+        "seccomp_profile_sha256": { "$ref": "#/$defs/sha256" },
+        "network_mode": { "const": "none" },
+        "credential_mode": { "const": "deny_all" },
+        "host_devices": { "type": "array", "maxItems": 0 },
+        "host_bind_mounts": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "workspacePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "storage",
+        "ephemeral",
+        "executable",
+        "device_nodes",
+        "setuid_allowed",
+        "maximum_bytes",
+        "cleanup_required"
+      ],
+      "properties": {
+        "path": { "const": "/workspace" },
+        "storage": { "const": "tmpfs" },
+        "ephemeral": { "const": true },
+        "executable": { "const": false },
+        "device_nodes": { "const": false },
+        "setuid_allowed": { "const": false },
+        "maximum_bytes": { "type": "integer", "minimum": 4096, "maximum": 268435456 },
+        "cleanup_required": { "const": true }
+      }
+    },
+    "cancellationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "signal", "grace_seconds", "fail_closed"],
+      "properties": {
+        "required": { "const": true },
+        "signal": { "const": "SIGKILL" },
+        "grace_seconds": { "const": 1 },
+        "fail_closed": { "const": true }
+      }
+    },
+    "cleanupPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remove_container",
+        "remove_workspace",
+        "verify_no_residuals",
+        "failure_disposition"
+      ],
+      "properties": {
+        "remove_container": { "const": true },
+        "remove_workspace": { "const": true },
+        "verify_no_residuals": { "const": true },
+        "failure_disposition": { "const": "failed_closed" }
+      }
+    },
+    "observationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "maximum_output_bytes",
+        "runtime_stdout",
+        "runtime_stderr",
+        "external_verification_required"
+      ],
+      "properties": {
+        "format": { "const": "content_addressed_json_only" },
+        "maximum_output_bytes": { "type": "integer", "minimum": 1024, "maximum": 16777216 },
+        "runtime_stdout": { "const": "disabled" },
+        "runtime_stderr": { "const": "bounded_capture" },
+        "external_verification_required": { "const": true }
+      }
+    },
+    "specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "spec_id",
+        "spec_sha256",
+        "runtime_kind",
+        "runner_interface",
+        "plan_id",
+        "plan_sha256",
+        "invocation_sha256",
+        "backend_attestation_sha256",
+        "deployment_binding_id",
+        "deployment_binding_sha256",
+        "host_preflight_report_id",
+        "host_preflight_report_sha256",
+        "isolation_class",
+        "image_reference",
+        "image_digest",
+        "security_policy",
+        "environment",
+        "workspace_policy",
+        "limits",
+        "cancellation_policy",
+        "cleanup_policy",
+        "observation_policy",
+        "command_argv",
+        "status",
+        "qualification_effect",
+        "routing_effect",
+        "deployment_effect",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "schema_version": { "const": 1 },
+        "kind": { "const": "local_oci_execution_spec" },
+        "spec_id": { "type": "string", "pattern": "^OCS-[0-9A-F]{32}$" },
+        "spec_sha256": { "$ref": "#/$defs/sha256" },
+        "runtime_kind": { "const": "rootless_podman" },
+        "runner_interface": { "const": "injected_adapter_only" },
+        "plan_id": { "type": "string", "pattern": "^CEP-[0-9A-F]{32}$" },
+        "plan_sha256": { "$ref": "#/$defs/sha256" },
+        "invocation_sha256": { "$ref": "#/$defs/sha256" },
+        "backend_attestation_sha256": { "$ref": "#/$defs/sha256" },
+        "deployment_binding_id": { "type": "string", "pattern": "^CBD-[0-9A-F]{32}$" },
+        "deployment_binding_sha256": { "$ref": "#/$defs/sha256" },
+        "host_preflight_report_id": { "type": "string", "pattern": "^CHR-[0-9A-F]{32}$" },
+        "host_preflight_report_sha256": { "$ref": "#/$defs/sha256" },
+        "isolation_class": { "const": "oci_container" },
+        "image_reference": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+([._-][a-z0-9]+)*(:[0-9]{1,5})?(/[a-z0-9]+([._-][a-z0-9]+)*)+@sha256:[0-9a-f]{64}$"
+        },
+        "image_digest": { "$ref": "#/$defs/sha256" },
+        "security_policy": { "$ref": "#/$defs/securityPolicy" },
+        "environment": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "HOME=/nonexistent" },
+            { "const": "LANG=C.UTF-8" },
+            { "const": "NETRC=/dev/null" },
+            { "const": "XDG_CONFIG_HOME=/nonexistent" }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "workspace_policy": { "$ref": "#/$defs/workspacePolicy" },
+        "limits": { "$ref": "#/$defs/limits" },
+        "cancellation_policy": { "$ref": "#/$defs/cancellationPolicy" },
+        "cleanup_policy": { "$ref": "#/$defs/cleanupPolicy" },
+        "observation_policy": { "$ref": "#/$defs/observationPolicy" },
+        "command_argv": {
+          "type": "array",
+          "minItems": 30,
+          "maxItems": 40,
+          "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+        },
+        "status": { "const": "specification_ready_nonqualifying" },
+        "qualification_effect": { "const": "none" },
+        "routing_effect": { "const": "none" },
+        "deployment_effect": { "const": "none" },
+        "target_authority_effect": { "const": "none" }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "kind",
+        "observation_id",
+        "observation_sha256",
+        "spec_id",
+        "spec_sha256",
+        "observation_kind",
+        "outcome",
+        "assertions",
+        "runtime_execution_performed",
+        "external_containment_proven",
+        "qualification_effect",
+        "routing_effect",
+        "deployment_effect",
+        "target_authority_effect"
+      ],
+      "properties": {
+        "schema_version": { "const": 1 },
+        "kind": { "const": "local_oci_containment_observation" },
+        "observation_id": { "type": "string", "pattern": "^OCO-[0-9A-F]{32}$" },
+        "observation_sha256": { "$ref": "#/$defs/sha256" },
+        "spec_id": { "type": "string", "pattern": "^OCS-[0-9A-F]{32}$" },
+        "spec_sha256": { "$ref": "#/$defs/sha256" },
+        "observation_kind": {
+          "enum": [
+            "specification_validation",
+            "runtime_absence",
+            "qualification_boundary"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "repository_validated_nonqualifying",
+            "not_executed",
+            "no_effect"
+          ]
+        },
+        "assertions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{2,95}$"
+          }
+        },
+        "runtime_execution_performed": { "const": false },
+        "external_containment_proven": { "const": false },
+        "qualification_effect": { "const": "none" },
+        "routing_effect": { "const": "none" },
+        "deployment_effect": { "const": "none" },
+        "target_authority_effect": { "const": "none" }
+      }
+    }
+  }
+}

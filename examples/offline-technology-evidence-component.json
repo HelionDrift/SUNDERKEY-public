@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S10",
+  "component_id": "supplied_technology_evidence_reconciliation",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-technology-evidence-v1",
+      "observations": [
+        {"observation_id": "technology-1", "subject_ref": "subject:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "label": "fictional-stack", "kind": "response_header", "source_ref": "source:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "asserted_present": true},
+        {"observation_id": "technology-2", "subject_ref": "subject:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "label": "fictional-stack", "kind": "package_manifest", "source_ref": "source:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "asserted_present": true}
+      ]
+    }
+  }
+}

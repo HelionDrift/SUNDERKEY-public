@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "rfc6455-unextended-message-boundary-prefix-v1",
+      "source_id": "synthetic:websocket-hello",
+      "sender_role": "server",
+      "initial_state": "message_boundary",
+      "stream_base64": "gQVIZWxsbw=="
+    }
+  }
+}

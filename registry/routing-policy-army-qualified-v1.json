@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "policy_id": "sunderkey-army-qualified-routing",
+  "policy_version": "1.0.0",
+  "capability_catalog_id": "sunderkey-army-capabilities",
+  "capability_catalog_version": "1.0.0",
+  "allowed_statuses": [
+    "qualified"
+  ],
+  "require_pilot": false,
+  "allowed_environments": [
+    "offline",
+    "synthetic",
+    "test"
+  ],
+  "allow_supporting_matches": true,
+  "allow_tier_escalation": false,
+  "max_specialists": 12,
+  "max_cell_size": 32
+}

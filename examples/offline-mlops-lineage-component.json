@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S01",
+  "component_id": "mlops_supplied_release_lineage",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-mlops-lineage",
+      "stages": [
+        {
+          "stage_id": "dataset", "stage_kind": "dataset",
+          "predecessor_stage_id": "none", "input_sha256": "none",
+          "output_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "approval": "approved"
+        },
+        {
+          "stage_id": "training", "stage_kind": "training",
+          "predecessor_stage_id": "dataset",
+          "input_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "output_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "approval": "approved"
+        },
+        {
+          "stage_id": "package", "stage_kind": "packaging",
+          "predecessor_stage_id": "training",
+          "input_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "output_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "approval": "approved"
+        },
+        {
+          "stage_id": "mismatch", "stage_kind": "evaluation",
+          "predecessor_stage_id": "training",
+          "input_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "output_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "approval": "approved"
+        },
+        {
+          "stage_id": "denied", "stage_kind": "packaging",
+          "predecessor_stage_id": "training",
+          "input_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "output_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "approval": "denied"
+        },
+        {
+          "stage_id": "uncertain", "stage_kind": "evaluation",
+          "predecessor_stage_id": "training",
+          "input_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "output_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "approval": "unknown"
+        }
+      ],
+      "releases": [
+        {"release_id": "clean", "terminal_stage_id": "package", "context_complete": true},
+        {"release_id": "changed", "terminal_stage_id": "mismatch", "context_complete": true},
+        {"release_id": "blocked", "terminal_stage_id": "denied", "context_complete": true},
+        {"release_id": "unknown", "terminal_stage_id": "uncertain", "context_complete": true},
+        {"release_id": "incomplete", "terminal_stage_id": "package", "context_complete": false}
+      ]
+    }
+  }
+}

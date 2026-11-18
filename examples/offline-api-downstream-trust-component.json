@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S15",
+  "component_id": "api_supplied_downstream_trust_flow",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-downstream-model",
+      "graph_complete": true,
+      "producer": {
+        "source_id": "synthetic-producer",
+        "response_fields": [
+          {"field_id": "title-field", "trust": "untrusted"},
+          {"field_id": "query-field", "trust": "untrusted"},
+          {"field_id": "token-field", "trust": "untrusted"},
+          {"field_id": "stable-field", "trust": "trusted"}
+        ]
+      },
+      "flow": {
+        "source_id": "synthetic-flow",
+        "steps": [
+          {
+            "step_id": "pass-title",
+            "kind": "identity_transform",
+            "protected_sink_kinds": []
+          },
+          {
+            "step_id": "check-query",
+            "kind": "validation",
+            "protected_sink_kinds": ["sql_query"]
+          },
+          {
+            "step_id": "opaque-token",
+            "kind": "opaque_transform",
+            "protected_sink_kinds": []
+          }
+        ],
+        "sinks": [
+          {"sink_id": "render-sink", "sink_kind": "html_render"},
+          {"sink_id": "sql-sink", "sink_kind": "sql_query"},
+          {"sink_id": "command-sink", "sink_kind": "command_argument"}
+        ],
+        "edges": [
+          {"from_id": "title-field", "to_id": "pass-title"},
+          {"from_id": "pass-title", "to_id": "render-sink"},
+          {"from_id": "query-field", "to_id": "check-query"},
+          {"from_id": "check-query", "to_id": "sql-sink"},
+          {"from_id": "token-field", "to_id": "opaque-token"},
+          {"from_id": "opaque-token", "to_id": "command-sink"},
+          {"from_id": "stable-field", "to_id": "render-sink"}
+        ]
+      }
+    }
+  }
+}

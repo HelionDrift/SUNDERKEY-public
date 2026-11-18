@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-secondary-cloud",
+      "provider_family": "oci",
+      "tenant_id": "tenant-one",
+      "controls": [
+        {"control_id": "admin-mfa", "required": true, "observed_state": "not_enforced", "context_complete": true},
+        {"control_id": "audit-export", "required": true, "observed_state": "enforced", "context_complete": true}
+      ]
+    }
+  }
+}

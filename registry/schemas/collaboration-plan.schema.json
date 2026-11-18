@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.local/collaboration-plan/v1",
+  "title": "SUNDERKEY Collaboration Plan",
+  "description": "Structural contract for a deterministic version 1 collaboration plan. Runtime validation remains authoritative for registry bindings, graph integrity, hierarchy coverage, and separation of duties.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "mission_id",
+    "mission_objective",
+    "registry_catalog_id",
+    "registry_catalog_version",
+    "registry_sha256",
+    "mission_sha256",
+    "joint_mission_cell_sha256",
+    "content_sha256",
+    "scope_reference",
+    "work_items",
+    "topological_layers",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "plan_id": {
+      "$ref": "#/$defs/planId"
+    },
+    "mission_id": {
+      "$ref": "#/$defs/missionId"
+    },
+    "mission_objective": {
+      "$ref": "#/$defs/longText"
+    },
+    "registry_catalog_id": {
+      "$ref": "#/$defs/catalogId"
+    },
+    "registry_catalog_version": {
+      "$ref": "#/$defs/catalogVersion"
+    },
+    "registry_sha256": {
+      "$ref": "#/$defs/sha256Hash"
+    },
+    "mission_sha256": {
+      "$ref": "#/$defs/sha256Hash"
+    },
+    "joint_mission_cell_sha256": {
+      "$ref": "#/$defs/sha256Hash"
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256Hash"
+    },
+    "scope_reference": {
+      "$ref": "#/$defs/scopeReference"
+    },
+    "work_items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/workItem"
+      }
+    },
+    "topological_layers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 1024,
+        "uniqueItems": true,
+        "items": {
+          "$ref": "#/$defs/workItemId"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/warningText"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+(?![\\s\\S])"
+        },
+        {
+          "pattern": "[\\u0021-\\u007E]"
+        }
+      ]
+    },
+    "printableText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?=.*[\\u0021-\\u007E])[\\u0020-\\u007E]+(?![\\s\\S])"
+    },
+    "catalogId": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "catalogVersion": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "scopeReference": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "titleText": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "longText": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "warningText": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/printableText"
+        },
+        {
+          "maxLength": 2048
+        }
+      ]
+    },
+    "planId": {
+      "type": "string",
+      "pattern": "^CLP-[0-9A-F]{24}(?![\\s\\S])"
+    },
+    "missionId": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}(?![\\s\\S])"
+    },
+    "workItemId": {
+      "type": "string",
+      "pattern": "^WIT-[A-Z]{2,16}-[0-9A-F]{16}(?![\\s\\S])"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-(G[A-E]-D[0-9]{2}-(S[0-9]{2}|CMD)|HQ-[0-9]{2})(?![\\s\\S])"
+    },
+    "commandId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}(?![\\s\\S])"
+    },
+    "groupId": {
+      "type": "string",
+      "pattern": "^G[A-E](?![\\s\\S])"
+    },
+    "sha256Hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "actionTier": {
+      "type": "string",
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "workItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "work_item_id",
+        "mission_id",
+        "kind",
+        "layer",
+        "title",
+        "role_mission",
+        "deliverable",
+        "owner_profile_id",
+        "supporting_profile_ids",
+        "dependency_ids",
+        "action_tier_ceiling",
+        "required_evidence_level",
+        "command_id",
+        "group_id"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "work_item_id": {
+          "$ref": "#/$defs/workItemId"
+        },
+        "mission_id": {
+          "$ref": "#/$defs/missionId"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "readiness",
+            "specialist_analysis",
+            "domain_synthesis",
+            "group_integration",
+            "cross_surface_integration",
+            "control_review",
+            "evidence_review",
+            "assurance_review"
+          ]
+        },
+        "layer": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "title": {
+          "$ref": "#/$defs/titleText"
+        },
+        "role_mission": {
+          "$ref": "#/$defs/longText"
+        },
+        "deliverable": {
+          "$ref": "#/$defs/longText"
+        },
+        "owner_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "supporting_profile_ids": {
+          "type": "array",
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/profileId"
+          }
+        },
+        "dependency_ids": {
+          "type": "array",
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/workItemId"
+          }
+        },
+        "action_tier_ceiling": {
+          "$ref": "#/$defs/actionTier"
+        },
+        "required_evidence_level": {
+          "$ref": "#/$defs/evidenceLevel"
+        },
+        "command_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/commandId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "group_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/groupId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

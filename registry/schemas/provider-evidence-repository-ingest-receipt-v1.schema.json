@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/provider-evidence-repository-ingest-receipt-v1.json",
+  "title": "SUNDERKEY Provider Evidence Repository Ingest Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "receipt_sha256",
+    "ingest_request",
+    "provider",
+    "repository_object",
+    "outcome",
+    "provider_assertions",
+    "responded_at",
+    "authentication_status",
+    "custody_status",
+    "raw_evidence_in_contract",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "receipt_id": {"type": "string", "pattern": "^ERR-[0-9A-F]{32}$"},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "ingest_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "request_sha256",
+        "content_address",
+        "evidence_size_bytes"
+      ],
+      "properties": {
+        "request_id": {"type": "string", "pattern": "^EIR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "content_address": {"$ref": "#/$defs/sha256"},
+        "evidence_size_bytes": {"type": "integer", "minimum": 1, "maximum": 16777216}
+      }
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "adapter_version", "adapter_build_sha256"],
+      "properties": {
+        "adapter_id": {"$ref": "#/$defs/identifier"},
+        "adapter_version": {"$ref": "#/$defs/identifier"},
+        "adapter_build_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "repository_object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_id", "object_version_id", "content_address"],
+      "properties": {
+        "repository_id": {"$ref": "#/$defs/identifier"},
+        "object_version_id": {"$ref": "#/$defs/identifier"},
+        "content_address": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "outcome": {
+      "enum": ["accepted", "already_exists_same_digest", "rejected", "failed"]
+    },
+    "provider_assertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conditional_create",
+        "immutable_version",
+        "envelope_encryption",
+        "quarantine",
+        "retention_policy",
+        "residency_policy"
+      ],
+      "properties": {
+        "conditional_create": {"$ref": "#/$defs/assertion"},
+        "immutable_version": {"$ref": "#/$defs/assertion"},
+        "envelope_encryption": {"$ref": "#/$defs/assertion"},
+        "quarantine": {"$ref": "#/$defs/assertion"},
+        "retention_policy": {"$ref": "#/$defs/assertion"},
+        "residency_policy": {"$ref": "#/$defs/assertion"}
+      }
+    },
+    "responded_at": {"$ref": "#/$defs/timestamp"},
+    "authentication_status": {"const": "repository_provider_assertion_unverified"},
+    "custody_status": {"const": "provider_report_only"},
+    "raw_evidence_in_contract": {"const": false},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "assertion": {
+      "enum": ["provider_asserted_satisfied", "not_claimed"]
+    }
+  }
+}

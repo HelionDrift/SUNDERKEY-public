@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/defender-replay-receipt-v1.schema.json",
+  "title": "SUNDERKEY Defender Replay Receipt v1",
+  "oneOf": [
+    {"$ref": "#/$defs/receipt"},
+    {"$ref": "#/$defs/review"},
+    {"$ref": "#/$defs/promotion"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "reference": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 320,
+      "pattern": "^[a-z][a-z0-9_-]{1,63}:[A-Za-z0-9][A-Za-z0-9._~:/+-]{0,255}$"
+    },
+    "code": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "contentId": {"type": "string", "pattern": "^[A-Z]{3}-[0-9A-F]{32}$"},
+    "domainList": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["application_api", "cloud", "endpoint", "identity", "network", "siem"]
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "absent_domains",
+        "available_domains",
+        "control_ref",
+        "finding_fixture_id",
+        "finding_fixture_sha256",
+        "latency_seconds",
+        "matched_telemetry_fixture_id",
+        "matched_telemetry_fixture_sha256",
+        "maximum_latency_seconds",
+        "reason_code",
+        "state"
+      ],
+      "properties": {
+        "absent_domains": {"$ref": "#/$defs/domainList"},
+        "available_domains": {"$ref": "#/$defs/domainList"},
+        "control_ref": {"$ref": "#/$defs/reference"},
+        "finding_fixture_id": {"type": "string", "pattern": "^DFF-[0-9A-F]{32}$"},
+        "finding_fixture_sha256": {"$ref": "#/$defs/sha256"},
+        "latency_seconds": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 31536000},
+            {"type": "null"}
+          ]
+        },
+        "matched_telemetry_fixture_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^DTF-[0-9A-F]{32}$"},
+            {"type": "null"}
+          ]
+        },
+        "matched_telemetry_fixture_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "maximum_latency_seconds": {"type": "integer", "minimum": 0, "maximum": 31536000},
+        "reason_code": {"$ref": "#/$defs/code"},
+        "state": {
+          "enum": [
+            "absent_source_data",
+            "detected_late",
+            "detected_within_objective",
+            "failed_detection"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "absent_source_data_count",
+        "detected_count",
+        "detection_coverage_basis_points",
+        "evaluable_expectations",
+        "failed_detection_count",
+        "late_count",
+        "maximum_detection_latency_seconds",
+        "mean_detection_latency_seconds",
+        "objective_coverage_basis_points",
+        "total_expectations",
+        "within_objective_count"
+      ],
+      "properties": {
+        "absent_source_data_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "detected_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "detection_coverage_basis_points": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 10000},
+            {"type": "null"}
+          ]
+        },
+        "evaluable_expectations": {"type": "integer", "minimum": 0, "maximum": 512},
+        "failed_detection_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "late_count": {"type": "integer", "minimum": 0, "maximum": 512},
+        "maximum_detection_latency_seconds": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 31536000},
+            {"type": "null"}
+          ]
+        },
+        "mean_detection_latency_seconds": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 31536000},
+            {"type": "null"}
+          ]
+        },
+        "objective_coverage_basis_points": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 10000},
+            {"type": "null"}
+          ]
+        },
+        "total_expectations": {"type": "integer", "minimum": 0, "maximum": 512},
+        "within_objective_count": {"type": "integer", "minimum": 0, "maximum": 512}
+      }
+    },
+    "effects": {
+      "const": {
+        "credential_access": "none",
+        "filesystem_discovery": "none",
+        "network": "none",
+        "provider_calls": "none",
+        "qualification": "none",
+        "source_write": "none",
+        "target_action": "none"
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_binding_id",
+        "assessment_binding_sha256",
+        "context_ref",
+        "correlation_binding_id",
+        "correlation_binding_sha256",
+        "correlation_bundle_id",
+        "correlation_bundle_sha256",
+        "corpus_sha256",
+        "effects",
+        "engagement_ref",
+        "evaluation_program_id",
+        "evaluation_program_sha256",
+        "evaluation_run_plan_id",
+        "evaluation_run_plan_sha256",
+        "external_effectiveness_claim",
+        "input_manifest_sha256",
+        "kind",
+        "observations",
+        "producer_ref",
+        "promotion_status",
+        "provenance_policy_sha256",
+        "qualification_effect",
+        "receipt_id",
+        "receipt_sha256",
+        "replayed_at",
+        "request_id",
+        "request_sha256",
+        "required_reviewer_roles",
+        "review_status",
+        "runtime_status",
+        "schema_version",
+        "scope_sha256",
+        "summary",
+        "tenant_ref"
+      ],
+      "properties": {
+        "assessment_binding_id": {"type": "string", "pattern": "^AEB-[0-9A-F]{32}$"},
+        "assessment_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "context_ref": {"$ref": "#/$defs/reference"},
+        "correlation_binding_id": {"type": "string", "pattern": "^DRC-[0-9A-F]{32}$"},
+        "correlation_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "correlation_bundle_id": {"type": "string", "pattern": "^DCB-[0-9A-F]{32}$"},
+        "correlation_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "corpus_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "engagement_ref": {"$ref": "#/$defs/reference"},
+        "evaluation_program_id": {"type": "string", "pattern": "^EVP-[0-9A-F]{32}$"},
+        "evaluation_program_sha256": {"$ref": "#/$defs/sha256"},
+        "evaluation_run_plan_id": {"type": "string", "pattern": "^ERP-[0-9A-F]{32}$"},
+        "evaluation_run_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "external_effectiveness_claim": {"const": "not_asserted"},
+        "input_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.defender-replay-receipt.v1"},
+        "observations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "items": {"$ref": "#/$defs/observation"}
+        },
+        "producer_ref": {"$ref": "#/$defs/reference"},
+        "promotion_status": {"const": "blocked_pending_independent_review"},
+        "provenance_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_effect": {"const": "none"},
+        "receipt_id": {"type": "string", "pattern": "^DRR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "replayed_at": {"$ref": "#/$defs/timestamp"},
+        "request_id": {"type": "string", "pattern": "^DRQ-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "required_reviewer_roles": {
+          "const": ["independent_assurance", "independent_control"]
+        },
+        "review_status": {"const": "pending_independent_review"},
+        "runtime_status": {"const": "repository_only_nonqualified"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "summary": {"$ref": "#/$defs/summary"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "evidence_sha256",
+        "kind",
+        "producer_ref",
+        "rationale_code",
+        "receipt_id",
+        "receipt_sha256",
+        "review_id",
+        "review_sha256",
+        "reviewed_at",
+        "reviewer_ref",
+        "reviewer_role",
+        "schema_version"
+      ],
+      "properties": {
+        "decision": {"enum": ["accepted", "rejected"]},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.defender-replay-independent-review.v1"},
+        "producer_ref": {"$ref": "#/$defs/reference"},
+        "rationale_code": {"$ref": "#/$defs/code"},
+        "receipt_id": {"type": "string", "pattern": "^DRR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "review_id": {"type": "string", "pattern": "^DRI-[0-9A-F]{32}$"},
+        "review_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "reviewer_ref": {"$ref": "#/$defs/reference"},
+        "reviewer_role": {"enum": ["independent_assurance", "independent_control"]},
+        "schema_version": {"const": 1}
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligible",
+        "reason_codes",
+        "receipt_id",
+        "receipt_sha256",
+        "review_ids",
+        "review_sha256s",
+        "status"
+      ],
+      "properties": {
+        "eligible": {"type": "boolean"},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/code"}
+        },
+        "receipt_id": {"type": "string", "pattern": "^DRR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "review_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^DRI-[0-9A-F]{32}$"}
+        },
+        "review_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "status": {"enum": ["blocked", "eligible_for_promotion"]}
+      }
+    }
+  }
+}

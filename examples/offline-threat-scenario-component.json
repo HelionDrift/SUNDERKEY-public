@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D04-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-scenario",
+    "stage_inventory_complete": true,
+    "stages": [
+      {"stage_id": "observe", "prerequisite_stage_ids": [], "evidence_status": "supplied"},
+      {"stage_id": "hypothesis", "prerequisite_stage_ids": ["observe"], "evidence_status": "unknown"},
+      {"stage_id": "review", "prerequisite_stage_ids": ["hypothesis"], "evidence_status": "missing"}
+    ]
+  }}
+}

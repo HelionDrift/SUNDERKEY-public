@@ -1,0 +1,67 @@
+{
+  "capability_id": "external.discovery.multi-source-asset-reconciliation",
+  "confidence": {
+    "conflict_penalty_bps": 1000,
+    "source_caps_bps": {
+      "cloud": 9800,
+      "cmdb": 9800,
+      "directory": 9500,
+      "endpoint": 9500,
+      "external": 7000,
+      "vulnerability": 8500
+    },
+    "stale_cap_bps": 5000
+  },
+  "corroborating_identifier_kinds": [
+    "hostname",
+    "ip_address"
+  ],
+  "identity_priority": [
+    "cloud_resource_id",
+    "cmdb_ci_id",
+    "directory_object_id",
+    "endpoint_device_id",
+    "serial_number",
+    "mac_address",
+    "fqdn",
+    "vulnerability_asset_id",
+    "external_asset_id"
+  ],
+  "linking_identifier_kinds": [
+    "cloud_resource_id",
+    "cmdb_ci_id",
+    "directory_object_id",
+    "endpoint_device_id",
+    "external_asset_id",
+    "fqdn",
+    "mac_address",
+    "serial_number",
+    "vulnerability_asset_id"
+  ],
+  "policy_id": "asset-reconciliation-policy-v1",
+  "required_native_identifier": {
+    "cloud": "cloud_resource_id",
+    "cmdb": "cmdb_ci_id",
+    "directory": "directory_object_id",
+    "endpoint": "endpoint_device_id",
+    "external": "external_asset_id",
+    "vulnerability": "vulnerability_asset_id"
+  },
+  "safety_boundary": {
+    "active_probing": false,
+    "authority": "none",
+    "deployment": "none",
+    "qualification": "none",
+    "routing": "none",
+    "target_interaction": false
+  },
+  "schema_version": 1,
+  "supported_source_kinds": [
+    "cloud",
+    "cmdb",
+    "directory",
+    "endpoint",
+    "external",
+    "vulnerability"
+  ]
+}

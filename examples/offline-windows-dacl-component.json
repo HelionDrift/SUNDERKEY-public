@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "security_descriptor": {
+        "owner_sid": "S-1-5-21-100-200-300-1000",
+        "group_sid": "S-1-5-32-545",
+        "dacl_state": "present",
+        "aces": [
+          {"ace_type": 0, "sid": "S-1-5-21-100-200-300-1000", "mask": 1, "flags": 0},
+          {"ace_type": 0, "sid": "S-1-5-32-545", "mask": 2, "flags": 16}
+        ]
+      },
+      "token_sids": [
+        {"sid": "S-1-5-21-100-200-300-1000", "usage": "enabled"},
+        {"sid": "S-1-5-32-545", "usage": "enabled"}
+      ],
+      "desired_access": 3
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S16",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-managed-paas-grants",
+      "services": [
+        {
+          "service_id": "database-one",
+          "service_kind": "managed_database",
+          "context_complete": true,
+          "grants": [
+            {"grant_id": "grant-broad", "principal_id": "service-principal-one", "intended_scope": "resource", "granted_scope": "tenant", "active": true},
+            {"grant_id": "grant-narrow", "principal_id": "service-principal-two", "intended_scope": "resource", "granted_scope": "resource", "active": true}
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "fixture-assertion-01",
+      "authenticator_data_base64": "JnieIDZhHoSuxlBFqFBiSKiV5H+n3+pQ5K0QyFXL8rkFAAAAAQ==",
+      "client_data_json_base64": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiQUFFQ0F3UUZCZ2NJQ1FvTERBME9EeEFSRWhNVUZSWVhHQmthR3h3ZEhoOCIsIm9yaWdpbiI6Imh0dHBzOi8vbG9naW4uZXhhbXBsZS5pbnZhbGlkIiwiY3Jvc3NPcmlnaW4iOmZhbHNlfQ==",
+      "context": {
+        "rp_id": "example.invalid",
+        "challenge_base64": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=",
+        "origin": "https://login.example.invalid",
+        "cross_origin": false,
+        "top_origin": null,
+        "user_verification_required": true,
+        "previous_sign_count": 0
+      }
+    }
+  }
+}

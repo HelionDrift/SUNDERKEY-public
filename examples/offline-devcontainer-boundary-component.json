@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D17-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-devcontainer-boundary",
+      "inventory_complete": true,
+      "image": {"reference_kind": "digest", "reviewed": true},
+      "features": [
+        {"feature_id": "feature_a", "reference_kind": "tag", "reviewed": false}
+      ],
+      "hooks": [
+        {"phase": "postCreate", "declared": true, "reviewed": false}
+      ],
+      "mounts": [
+        {"mount_id": "host_workspace", "source_scope": "host_path", "writable": true}
+      ],
+      "privileged": false
+    }
+  }
+}

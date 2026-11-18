@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-protected-material",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "approved_access_ids": ["approved-access"],
+    "access_declarations": [{
+      "access_id": "review-access",
+      "material_kind": "lsass_memory",
+      "access_declared": true
+    }]
+  }}
+}

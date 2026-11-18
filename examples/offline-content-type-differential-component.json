@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S12",
+  "component_id": "api_supplied_content_type_differential",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-pair",
+      "json_request": {"source_id": "request-json", "content_type": "application/json", "body": "{\"active\":true,\"roles\":[\"reader\"]}"},
+      "form_request": {"source_id": "request-form", "content_type": "application/x-www-form-urlencoded", "body": "active=true&roles=reader&roles=writer"},
+      "declared_schema": {
+        "source_id": "declared-schema",
+        "fields": [
+          {"name": "active", "type": "boolean", "required": true},
+          {"name": "roles", "type": "array", "required": true}
+        ]
+      },
+      "responses": null
+    }
+  }
+}

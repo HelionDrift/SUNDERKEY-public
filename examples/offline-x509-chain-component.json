@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "chain_der_base64": [
+        "MIH0MIGnoAMCAQICAQMwBQYDK2VwMBcxFTATBgNVBAMMDGludGVybWVkaWF0ZTAeFw0yNjA5MjgxMTAwMDBaFw0yNjA5MjgxMzAwMDBaMA8xDTALBgNVBAMMBGxlYWYwKjAFBgMrZXADIQCtDVreJqkenU1Qu572/heLVxbLlajtw+v7Ci6LAUvFuaMgMB4wDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCB4AwBQYDK2VwA0EAWuX/SM8/3cjP9BP4uyoY7CaGuh6IEAgkKw/5D6eGKfq1pxTYEq/hoL0dqelWKMtyyEobsYu6YaNK5d7SMrtlCA==",
+        "MIH+MIGxoAMCAQICAQIwBQYDK2VwMBMxETAPBgNVBAMMCHRlcm1pbmFsMB4XDTI2MDkyODExMDAwMFoXDTI2MDkyODEzMDAwMFowFzEVMBMGA1UEAwwMaW50ZXJtZWRpYXRlMCowBQYDK2VwAyEANzqqqMjcLNyNF8v1bV2ObWf4IiATI5wqXSqz05jGuPujJjAkMBIGA1UdEwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgKEMAUGAytlcANBAOE2+QY/yFu1Sdx2nja12kTBRpzr5cybIwxm/HPPWR4ZMLQPualsGI/dkthFndUhsVKhQ7QXUPLMSKcauXCjCAs=",
+        "MIH6MIGtoAMCAQICAQEwBQYDK2VwMBMxETAPBgNVBAMMCHRlcm1pbmFsMB4XDTI2MDkyODExMDAwMFoXDTI2MDkyODEzMDAwMFowEzERMA8GA1UEAwwIdGVybWluYWwwKjAFBgMrZXADIQDIkVXkTkzhIQsowk6eVRMmYXVWfShVU2epWrIpfw2bDKMmMCQwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAoQwBQYDK2VwA0EA3qHP9G576dxtv6ONQakk9RekuGdjZ7We02g9ZYC+EgjtlX/fVUFtCQCQniHfC9t8yTXoCoh7QzIzTG1S23u+Cw=="
+      ],
+      "declared_terminal_sha256": "sha256:33be164e37fe3f261c1e13439f69bb4363f5ec61263f45b6fe205549d335236d",
+      "evaluated_at": "2026-09-28T12:00:00Z"
+    }
+  }
+}

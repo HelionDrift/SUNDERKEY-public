@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S09",
+  "component_id": "api_supplied_object_authorization",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:object-auth",
+      "source": {
+        "schema_version": "v1",
+        "facts_complete": true,
+        "policy_complete": true,
+        "subjects": [
+          {"subject_id": "alice", "tenant_id": "tenant-a"},
+          {"subject_id": "bob", "tenant_id": "tenant-b"}
+        ],
+        "objects": [
+          {
+            "object_id": "invoice-1",
+            "owner_subject_id": "alice",
+            "tenant_id": "tenant-a"
+          }
+        ],
+        "policy_rules": [
+          {
+            "rule_id": "owner-read",
+            "action": "read",
+            "owner_relation": "owner",
+            "tenant_relation": "same_tenant",
+            "decision": "allow"
+          },
+          {
+            "rule_id": "cross-tenant-read",
+            "action": "read",
+            "owner_relation": "non_owner",
+            "tenant_relation": "different_tenant",
+            "decision": "deny"
+          }
+        ],
+        "access_outcomes": [
+          {
+            "observation_id": "obs-owner",
+            "subject_id": "alice",
+            "object_id": "invoice-1",
+            "action": "read",
+            "outcome": "allowed"
+          },
+          {
+            "observation_id": "obs-outsider",
+            "subject_id": "bob",
+            "object_id": "invoice-1",
+            "action": "read",
+            "outcome": "allowed"
+          }
+        ]
+      }
+    }
+  }
+}

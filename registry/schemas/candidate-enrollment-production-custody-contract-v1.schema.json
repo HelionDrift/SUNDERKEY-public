@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-production-custody-contract-v1.json",
+  "title": "SUNDERKEY Production Custody Provider Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "contract_sha256",
+    "source_dossier",
+    "source_decision",
+    "selected_architecture",
+    "required_owner_inputs",
+    "nonnegotiable_requirements",
+    "prohibited_effects",
+    "approved_next_steps",
+    "implementation_authorization",
+    "provider_interfaces",
+    "conformance_case_ids",
+    "separation_requirements",
+    "contract_status",
+    "provider_selected",
+    "contains_provider_implementation",
+    "construction_effects",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "contract_id": {"type": "string", "pattern": "^PCC-[0-9A-F]{32}$"},
+    "contract_sha256": {"$ref": "#/$defs/sha256"},
+    "source_dossier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {"const": "PCD-28D9E7D3DECE4A4103645CE0F0828D9A"},
+        "sha256": {"const": "sha256:28d9e7d3dece4a4103645ce0f0828d9a5ffec5c2541f408f077d7613ae6c5667"}
+      }
+    },
+    "source_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"const": "PCR-A2ACC5733A815AA349F5F6B7F1FBE5A3"},
+        "sha256": {"const": "sha256:a2acc5733a815aa349f5f6b7f1fbe5a30881446417a9268923e96dea3c1624de"}
+      }
+    },
+    "selected_architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deployment_runtime",
+        "implementation_ownership",
+        "checkpoint_access_control",
+        "authoritative_ledger_storage",
+        "catalog_repository_storage",
+        "custody_separation",
+        "release_authentication",
+        "resilience_and_rollout"
+      ],
+      "properties": {
+        "deployment_runtime": {"const": "single_host_native_service"},
+        "implementation_ownership": {"const": "sunderkey_owned_minimal_adapters"},
+        "checkpoint_access_control": {"const": "native_os_acl_dedicated_service_identity"},
+        "authoritative_ledger_storage": {"const": "retention_locked_object_ledger_with_conditional_head"},
+        "catalog_repository_storage": {"const": "immutable_content_addressed_object_storage"},
+        "custody_separation": {"const": "separate_namespaces_credentials_and_failure_domains"},
+        "release_authentication": {"const": "offline_root_authorized_release_signer_and_signed_heads"},
+        "resilience_and_rollout": {"const": "conformance_drills_dual_control_single_canary"}
+      }
+    },
+    "required_owner_inputs": {
+      "const": [
+        "exact_initial_host_operating_system_and_service_manager",
+        "selected_immutable_object_storage_provider_or_compatible_implementation",
+        "selected_workload_identity_provider_and_service_identity_scope",
+        "required_data_residency_retention_and_audit_periods",
+        "named_deployment_owner_platform_custodian_and_independent_control"
+      ]
+    },
+    "nonnegotiable_requirements": {
+      "const": [
+        "production_adapters_must_pass_the_same_provider_conformance_suite",
+        "checkpoint_access_must_be_verified_for_the_exact_service_identity",
+        "ledger_append_must_use_compare_and_swap_and_reject_forks_and_gaps",
+        "ledger_entries_and_checkpoint_artifacts_must_be_retention_protected",
+        "catalog_objects_must_be_immutable_and_verified_by_sha256",
+        "ledger_catalog_and_checkpoint_credentials_must_be_least_privilege",
+        "release_and_recovery_artifacts_must_be_independently_authenticatable",
+        "private_keys_credentials_and_endpoints_must_remain_outside_catalogs",
+        "all_d011_drills_must_pass_before_the_canary_go_no_go",
+        "production_activation_must_remain_a_separate_dual_control_decision"
+      ]
+    },
+    "prohibited_effects": {
+      "const": [
+        "does_not_select_an_operating_system_storage_provider_or_identity_provider",
+        "does_not_create_cloud_accounts_buckets_databases_or_service_identities",
+        "does_not_store_keys_credentials_endpoints_or_live_configuration",
+        "does_not_persist_a_production_checkpoint_or_release_ledger_entry",
+        "does_not_publish_a_catalog_activate_enrollment_or_accept_live_evidence",
+        "does_not_qualify_a_specialist_or_change_routing",
+        "does_not_make_network_provider_tool_retrieval_or_target_requests",
+        "does_not_mutate_sqlite_runtime_state"
+      ]
+    },
+    "approved_next_steps": {
+      "const": [
+        "define_production_custody_provider_interfaces_and_conformance_suite",
+        "implement_native_checkpoint_acl_provider_for_selected_operating_system",
+        "implement_retention_locked_conditional_object_ledger_adapter",
+        "implement_immutable_content_addressed_catalog_repository_adapter",
+        "implement_release_head_signing_and_offline_verification",
+        "implement_production_failure_and_recovery_drill_harness",
+        "prepare_exact_single_candidate_production_go_no_go_packet"
+      ]
+    },
+    "implementation_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized_steps", "deferred_steps"],
+      "properties": {
+        "authorized_steps": {
+          "const": ["define_production_custody_provider_interfaces_and_conformance_suite"]
+        },
+        "deferred_steps": {
+          "const": [
+            "implement_native_checkpoint_acl_provider_for_selected_operating_system",
+            "implement_retention_locked_conditional_object_ledger_adapter",
+            "implement_immutable_content_addressed_catalog_repository_adapter",
+            "implement_release_head_signing_and_offline_verification",
+            "implement_production_failure_and_recovery_drill_harness",
+            "prepare_exact_single_candidate_production_go_no_go_packet"
+          ]
+        }
+      }
+    },
+    "provider_interfaces": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "prefixItems": [
+        {"$ref": "#/$defs/nativeCheckpointAccess"},
+        {"$ref": "#/$defs/retentionLockedLedgerObjects"},
+        {"$ref": "#/$defs/conditionalLedgerHead"},
+        {"$ref": "#/$defs/immutableCatalogObjects"},
+        {"$ref": "#/$defs/workloadIdentity"},
+        {"$ref": "#/$defs/releaseHeadSigning"},
+        {"$ref": "#/$defs/releaseHeadVerification"},
+        {"$ref": "#/$defs/releaseAudit"}
+      ],
+      "items": false
+    },
+    "conformance_case_ids": {
+      "const": [
+        "exact_checkpoint_identity",
+        "interrupted_checkpoint_replacement",
+        "ledger_put_if_absent",
+        "retention_lock",
+        "conditional_head_cas_race",
+        "ledger_lineage_integrity",
+        "immutable_catalog_objects",
+        "custody_separation",
+        "workload_identity_lifecycle",
+        "signed_head_verification",
+        "audit_append_blocks_release",
+        "partial_release_recovery"
+      ]
+    },
+    "separation_requirements": {
+      "const": [
+        "checkpoint_ledger_and_catalog_use_distinct_least_privilege_authority_scopes",
+        "ledger_and_catalog_use_separate_namespaces",
+        "ledger_and_catalog_use_independent_failure_domains",
+        "release_signer_private_key_remains_external_to_sunderkey_state",
+        "release_head_verification_remains_independent_from_release_head_signing",
+        "deployment_owner_platform_custodian_and_independent_control_are_distinct"
+      ]
+    },
+    "contract_status": {"const": "provider_neutral_interfaces_defined_inactive"},
+    "provider_selected": {"const": false},
+    "contains_provider_implementation": {"const": false},
+    "construction_effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_call_performed",
+        "provider_call_performed",
+        "filesystem_mutation_performed",
+        "sqlite_mutation_performed",
+        "runtime_state_mutation_performed"
+      ],
+      "properties": {
+        "network_call_performed": {"const": false},
+        "provider_call_performed": {"const": false},
+        "filesystem_mutation_performed": {"const": false},
+        "sqlite_mutation_performed": {"const": false},
+        "runtime_state_mutation_performed": {"const": false}
+      }
+    },
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nativeCheckpointAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "native_checkpoint_access"},
+        "protocol_class": {"const": "NativeCheckpointAccessProvider"},
+        "required_operations": {
+          "const": [
+            "verify_exact_service_identity",
+            "protect_directory",
+            "verify_directory",
+            "protect_file",
+            "verify_file",
+            "sync_directory"
+          ]
+        },
+        "request_types": {"const": ["CheckpointAccessVerificationRequest"]},
+        "receipt_types": {"const": ["CheckpointAccessVerificationReceipt"]},
+        "failure_mode": {"const": "fail_closed_without_insecure_fallback"}
+      }
+    },
+    "retentionLockedLedgerObjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "retention_locked_ledger_objects"},
+        "protocol_class": {"const": "RetentionLockedLedgerObjectProvider"},
+        "required_operations": {"const": ["put_if_absent", "read_verified", "read_retention_state"]},
+        "request_types": {"const": ["LedgerObjectPutRequest", "LedgerObjectReadRequest", "RetentionStateReadRequest"]},
+        "receipt_types": {"const": ["LedgerObjectPutReceipt", "LedgerObjectReadReceipt", "RetentionStateReadReceipt"]},
+        "failure_mode": {"const": "reject_overwrite_deletion_gap_and_unlocked_retention"}
+      }
+    },
+    "conditionalLedgerHead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "conditional_ledger_head"},
+        "protocol_class": {"const": "ConditionalLedgerHeadProvider"},
+        "required_operations": {"const": ["read_head", "compare_and_swap_head"]},
+        "request_types": {"const": ["LedgerHeadReadRequest", "LedgerHeadCompareAndSwapRequest"]},
+        "receipt_types": {"const": ["LedgerHeadReadReceipt", "LedgerHeadCompareAndSwapReceipt"]},
+        "failure_mode": {"const": "reject_stale_head_fork_gap_and_nonmonotonic_advance"}
+      }
+    },
+    "immutableCatalogObjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "immutable_catalog_objects"},
+        "protocol_class": {"const": "ImmutableCatalogObjectProvider"},
+        "required_operations": {"const": ["put_sha256_object", "read_sha256_object"]},
+        "request_types": {"const": ["CatalogObjectPutRequest", "CatalogObjectReadRequest"]},
+        "receipt_types": {"const": ["CatalogObjectPutReceipt", "CatalogObjectReadReceipt"]},
+        "failure_mode": {"const": "reject_overwrite_digest_mismatch_and_mutable_alias"}
+      }
+    },
+    "workloadIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "workload_identity"},
+        "protocol_class": {"const": "WorkloadIdentityVerifier"},
+        "required_operations": {"const": ["verify_identity", "verify_scope", "verify_freshness"]},
+        "request_types": {"const": ["WorkloadIdentityVerificationRequest"]},
+        "receipt_types": {"const": ["WorkloadIdentityVerificationReceipt"]},
+        "failure_mode": {"const": "reject_unknown_stale_or_overprivileged_identity"}
+      }
+    },
+    "releaseHeadSigning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "release_head_signing"},
+        "protocol_class": {"const": "ReleaseHeadSigner"},
+        "required_operations": {"const": ["sign_head"]},
+        "request_types": {"const": ["ReleaseHeadSigningRequest"]},
+        "receipt_types": {"const": ["ReleaseHeadSigningReceipt"]},
+        "failure_mode": {"const": "reject_unknown_key_disallowed_algorithm_and_signing_failure"}
+      }
+    },
+    "releaseHeadVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "release_head_verification"},
+        "protocol_class": {"const": "ReleaseHeadVerifier"},
+        "required_operations": {"const": ["verify_signed_head"]},
+        "request_types": {"const": ["ReleaseHeadVerificationRequest"]},
+        "receipt_types": {"const": ["ReleaseHeadVerificationReceipt"]},
+        "failure_mode": {"const": "reject_unknown_signer_bad_signature_fork_and_rollback"}
+      }
+    },
+    "releaseAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interface_id", "protocol_class", "required_operations", "request_types", "receipt_types", "failure_mode"],
+      "properties": {
+        "interface_id": {"const": "release_audit"},
+        "protocol_class": {"const": "ReleaseAuditSink"},
+        "required_operations": {"const": ["append_audit_event"]},
+        "request_types": {"const": ["ReleaseAuditAppendRequest"]},
+        "receipt_types": {"const": ["ReleaseAuditAppendReceipt"]},
+        "failure_mode": {"const": "audit_append_failure_blocks_release"}
+      }
+    }
+  }
+}

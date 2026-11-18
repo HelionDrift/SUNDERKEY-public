@@ -1,0 +1,472 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/identity-cloud-reasoning-v1.schema.json",
+  "title": "SUNDERKEY Identity Cloud Reasoning Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "context_id",
+    "credentials",
+    "effects",
+    "evidence_bindings",
+    "groups",
+    "kind",
+    "observed_at",
+    "permission_facts",
+    "policies",
+    "principals",
+    "resources",
+    "roles",
+    "schema_version",
+    "session_transitions",
+    "snapshot_id",
+    "snapshot_sha256",
+    "tenant_id",
+    "trust_relations",
+    "workload_identities"
+  ],
+  "properties": {
+    "context_id": {"$ref": "#/$defs/identifier"},
+    "credentials": {"$ref": "#/$defs/credentials"},
+    "effects": {"$ref": "#/$defs/noEffects"},
+    "evidence_bindings": {"$ref": "#/$defs/evidenceBindings"},
+    "groups": {"$ref": "#/$defs/groups"},
+    "kind": {"const": "sunderkey.identity-cloud-reasoning.v1"},
+    "observed_at": {"$ref": "#/$defs/timestamp"},
+    "permission_facts": {"$ref": "#/$defs/permissionFacts"},
+    "policies": {"$ref": "#/$defs/policies"},
+    "principals": {"$ref": "#/$defs/principals"},
+    "resources": {"$ref": "#/$defs/resources"},
+    "roles": {"$ref": "#/$defs/roles"},
+    "schema_version": {"const": 1},
+    "session_transitions": {"$ref": "#/$defs/sessionTransitions"},
+    "snapshot_id": {"type": "string", "pattern": "^ICS-[0-9A-F]{32}$"},
+    "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "trust_relations": {"$ref": "#/$defs/trustRelations"},
+    "workload_identities": {"$ref": "#/$defs/workloadIdentities"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "surface": {
+      "enum": ["application", "cloud", "container", "data", "identity", "workload"]
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_use",
+        "network",
+        "policy_mutation",
+        "provider_call",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credential_use": {"const": "none"},
+        "network": {"const": "none"},
+        "policy_mutation": {"const": "none"},
+        "provider_call": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "operator", "values"],
+      "properties": {
+        "key": {
+          "enum": [
+            "audience",
+            "environment",
+            "network_zone",
+            "region",
+            "resource_class",
+            "session_assurance",
+            "tenant_id",
+            "workload_namespace"
+          ]
+        },
+        "operator": {"enum": ["equals", "in", "present"]},
+        "values": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {"$ref": "#/$defs/condition"}
+    },
+    "evidenceBindings": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_sha256",
+          "context_id",
+          "evidence_id",
+          "evidence_sha256",
+          "expires_at",
+          "observed_at",
+          "state",
+          "tenant_id"
+        ],
+        "properties": {
+          "artifact_sha256": {"$ref": "#/$defs/sha256"},
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"type": "string", "pattern": "^IEB-[0-9A-F]{32}$"},
+          "evidence_sha256": {"$ref": "#/$defs/sha256"},
+          "expires_at": {"$ref": "#/$defs/timestamp"},
+          "observed_at": {"$ref": "#/$defs/timestamp"},
+          "state": {"enum": ["revoked", "unknown", "verified"]},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "principals": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "evidence_id",
+          "principal_id",
+          "principal_key",
+          "principal_kind",
+          "principal_sha256",
+          "surface",
+          "tenant_id"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "principal_id": {"type": "string", "pattern": "^IPR-[0-9A-F]{32}$"},
+          "principal_key": {"$ref": "#/$defs/identifier"},
+          "principal_kind": {"enum": ["federated", "human", "machine", "service"]},
+          "principal_sha256": {"$ref": "#/$defs/sha256"},
+          "surface": {"$ref": "#/$defs/surface"},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "evidence_id",
+          "group_id",
+          "group_key",
+          "group_sha256",
+          "member_ids",
+          "tenant_id"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "group_id": {"type": "string", "pattern": "^IGR-[0-9A-F]{32}$"},
+          "group_key": {"$ref": "#/$defs/identifier"},
+          "group_sha256": {"$ref": "#/$defs/sha256"},
+          "member_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 512,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/identifier"}
+          },
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "evidence_id",
+          "role_id",
+          "role_key",
+          "role_sha256",
+          "tenant_id"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "role_id": {"type": "string", "pattern": "^IRL-[0-9A-F]{32}$"},
+          "role_key": {"$ref": "#/$defs/identifier"},
+          "role_sha256": {"$ref": "#/$defs/sha256"},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "policies": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attached_subject_ids",
+          "context_id",
+          "evidence_id",
+          "permission_fact_ids",
+          "policy_id",
+          "policy_key",
+          "policy_sha256",
+          "tenant_id"
+        ],
+        "properties": {
+          "attached_subject_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 512,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/identifier"}
+          },
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "permission_fact_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 512,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/identifier"}
+          },
+          "policy_id": {"type": "string", "pattern": "^IPO-[0-9A-F]{32}$"},
+          "policy_key": {"$ref": "#/$defs/identifier"},
+          "policy_sha256": {"$ref": "#/$defs/sha256"},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "resources": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "evidence_id",
+          "parent_resource_id",
+          "resource_id",
+          "resource_key",
+          "resource_sha256",
+          "resource_type",
+          "surface",
+          "tenant_id"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "parent_resource_id": {
+            "oneOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]
+          },
+          "resource_id": {"type": "string", "pattern": "^IRS-[0-9A-F]{32}$"},
+          "resource_key": {"$ref": "#/$defs/identifier"},
+          "resource_sha256": {"$ref": "#/$defs/sha256"},
+          "resource_type": {"$ref": "#/$defs/identifier"},
+          "surface": {"enum": ["cloud", "data"]},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "credentials": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "credential_id",
+          "credential_key",
+          "credential_kind",
+          "credential_sha256",
+          "evidence_id",
+          "expires_at",
+          "owner_id",
+          "tenant_id"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "credential_id": {"type": "string", "pattern": "^ICR-[0-9A-F]{32}$"},
+          "credential_key": {"$ref": "#/$defs/identifier"},
+          "credential_kind": {
+            "enum": [
+              "certificate_reference",
+              "reference",
+              "session_reference",
+              "workload_token_reference"
+            ]
+          },
+          "credential_sha256": {"$ref": "#/$defs/sha256"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "expires_at": {"$ref": "#/$defs/timestamp"},
+          "owner_id": {"$ref": "#/$defs/identifier"},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "workloadIdentities": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "context_id",
+          "evidence_id",
+          "principal_id",
+          "surface",
+          "tenant_id",
+          "workload_identity_id",
+          "workload_identity_sha256",
+          "workload_key"
+        ],
+        "properties": {
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "principal_id": {"$ref": "#/$defs/identifier"},
+          "surface": {"enum": ["application", "container", "workload"]},
+          "tenant_id": {"$ref": "#/$defs/identifier"},
+          "workload_identity_id": {"type": "string", "pattern": "^IWI-[0-9A-F]{32}$"},
+          "workload_identity_sha256": {"$ref": "#/$defs/sha256"},
+          "workload_key": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "trustRelations": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conditions",
+          "context_id",
+          "evidence_id",
+          "source_id",
+          "target_role_id",
+          "tenant_id",
+          "trust_relation_id",
+          "trust_relation_sha256"
+        ],
+        "properties": {
+          "conditions": {"$ref": "#/$defs/conditions"},
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "source_id": {"$ref": "#/$defs/identifier"},
+          "target_role_id": {"$ref": "#/$defs/identifier"},
+          "tenant_id": {"$ref": "#/$defs/identifier"},
+          "trust_relation_id": {"type": "string", "pattern": "^ITR-[0-9A-F]{32}$"},
+          "trust_relation_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "permissionFacts": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action",
+          "conditions",
+          "context_id",
+          "effect",
+          "evidence_id",
+          "permission_fact_id",
+          "permission_fact_sha256",
+          "resource_id",
+          "subject_id",
+          "tenant_id"
+        ],
+        "properties": {
+          "action": {"type": "string", "pattern": "^(\\*|[a-z][a-z0-9._:/-]{0,127})$"},
+          "conditions": {"$ref": "#/$defs/conditions"},
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "effect": {"enum": ["allow", "deny"]},
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "permission_fact_id": {"type": "string", "pattern": "^IPF-[0-9A-F]{32}$"},
+          "permission_fact_sha256": {"$ref": "#/$defs/sha256"},
+          "resource_id": {"$ref": "#/$defs/identifier"},
+          "subject_id": {"$ref": "#/$defs/identifier"},
+          "tenant_id": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "sessionTransitions": {
+      "type": "array",
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conditions",
+          "context_id",
+          "credential_id",
+          "evidence_id",
+          "session_transition_id",
+          "session_transition_sha256",
+          "source_id",
+          "target_id",
+          "tenant_id",
+          "transition_kind"
+        ],
+        "properties": {
+          "conditions": {"$ref": "#/$defs/conditions"},
+          "context_id": {"$ref": "#/$defs/identifier"},
+          "credential_id": {
+            "oneOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]
+          },
+          "evidence_id": {"$ref": "#/$defs/identifier"},
+          "session_transition_id": {"type": "string", "pattern": "^IST-[0-9A-F]{32}$"},
+          "session_transition_sha256": {"$ref": "#/$defs/sha256"},
+          "source_id": {"$ref": "#/$defs/identifier"},
+          "target_id": {"$ref": "#/$defs/identifier"},
+          "tenant_id": {"$ref": "#/$defs/identifier"},
+          "transition_kind": {
+            "enum": ["assume_role", "bind_workload", "exchange_token", "federate_session"]
+          }
+        }
+      }
+    }
+  }
+}

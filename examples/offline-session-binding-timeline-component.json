@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S16",
+  "component_id": "identity_supplied_session_binding_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:session-timeline",
+      "source": {
+        "schema_version": "v1",
+        "events_complete": true,
+        "policy_complete": true,
+        "concurrency_resolved": true,
+        "device_bindings_complete": true,
+        "policy": {
+          "invalidate_on_rotation": true,
+          "invalidate_on_revoke": true,
+          "device_binding_required": true
+        },
+        "events": [
+          {
+            "event_id": "e1",
+            "kind": "issue",
+            "session_id": "synthetic:s-old",
+            "replacement_session_id": null,
+            "device_id": "synthetic:device-a",
+            "supplied_outcome": null,
+            "observation_complete": false,
+            "revocation_effective_before_observation": null
+          },
+          {
+            "event_id": "e2",
+            "kind": "rotate",
+            "session_id": "synthetic:s-old",
+            "replacement_session_id": "synthetic:s-new",
+            "device_id": "synthetic:device-a",
+            "supplied_outcome": null,
+            "observation_complete": false,
+            "revocation_effective_before_observation": null
+          },
+          {
+            "event_id": "e3",
+            "kind": "observe",
+            "session_id": "synthetic:s-old",
+            "replacement_session_id": null,
+            "device_id": "synthetic:device-a",
+            "supplied_outcome": "allowed",
+            "observation_complete": true,
+            "revocation_effective_before_observation": null
+          },
+          {
+            "event_id": "e4",
+            "kind": "observe",
+            "session_id": "synthetic:s-new",
+            "replacement_session_id": null,
+            "device_id": "synthetic:device-b",
+            "supplied_outcome": "allowed",
+            "observation_complete": true,
+            "revocation_effective_before_observation": null
+          },
+          {
+            "event_id": "e5",
+            "kind": "revoke",
+            "session_id": "synthetic:s-new",
+            "replacement_session_id": null,
+            "device_id": null,
+            "supplied_outcome": null,
+            "observation_complete": false,
+            "revocation_effective_before_observation": null
+          },
+          {
+            "event_id": "e6",
+            "kind": "observe",
+            "session_id": "synthetic:s-new",
+            "replacement_session_id": null,
+            "device_id": "synthetic:device-a",
+            "supplied_outcome": "denied",
+            "observation_complete": true,
+            "revocation_effective_before_observation": true
+          }
+        ]
+      }
+    }
+  }
+}

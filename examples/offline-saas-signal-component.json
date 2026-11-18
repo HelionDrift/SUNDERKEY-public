@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S06",
+  "component_id": "supplied_saas_signal_correlation",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-saas-signal-correlation-v1",
+      "catalog_domains": ["managed.example"],
+      "signals": [
+        {"signal_id": "idp-one", "kind": "idp_app", "domain": "unlisted.example", "source_id": "fixture-idp"},
+        {"signal_id": "dns-one", "kind": "dns_alias", "domain": "unlisted.example", "source_id": "fixture-dns"},
+        {"signal_id": "managed-one", "kind": "managed_catalog", "domain": "managed.example", "source_id": "fixture-catalog"}
+      ]
+    }
+  }
+}

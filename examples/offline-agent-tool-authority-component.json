@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S14",
+  "component_id": "agent_supplied_tool_authority_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-tool-authority-model",
+      "evidence_sources": [
+        {"source_id": "synthetic-policy", "provenance_kind": "synthetic_fixture"},
+        {"source_id": "synthetic-admissions", "provenance_kind": "synthetic_fixture"}
+      ],
+      "policy": {
+        "source_id": "synthetic-policy",
+        "complete": true,
+        "maximum_tier": "R1",
+        "allowed_tool_ids": ["tool-read"],
+        "allowed_resource_ids": ["resource-a"]
+      },
+      "tool_uses": [
+        {
+          "use_id": "use-overreach",
+          "tool_id": "tool-read",
+          "resource_id": "resource-a",
+          "requested_tier": "R2",
+          "approval_state": "approved",
+          "context_complete": true,
+          "observed_admission": "admitted",
+          "observation_complete": true,
+          "source_id": "synthetic-admissions"
+        },
+        {
+          "use_id": "use-match",
+          "tool_id": "tool-read",
+          "resource_id": "resource-a",
+          "requested_tier": "R0",
+          "approval_state": "approved",
+          "context_complete": true,
+          "observed_admission": "admitted",
+          "observation_complete": true,
+          "source_id": "synthetic-admissions"
+        },
+        {
+          "use_id": "use-unknown",
+          "tool_id": "unknown",
+          "resource_id": "resource-a",
+          "requested_tier": "R1",
+          "approval_state": "unknown",
+          "context_complete": false,
+          "observed_admission": "unknown",
+          "observation_complete": false,
+          "source_id": "synthetic-admissions"
+        }
+      ]
+    }
+  }
+}

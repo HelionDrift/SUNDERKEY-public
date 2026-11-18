@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/plan-replacement-reviewer-admission-v1.json",
+  "title": "SUNDERKEY signed plan replacement reviewer admission request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "admission_id", "admission_sha256", "store_id", "audience", "mission_id", "mission_context_sha256", "active_plan_id", "active_plan_content_sha256", "active_plan_version", "mission_policy_id", "mission_policy_sha256", "admission_sequence", "previous_admission_sha256", "principal_ledger", "reviewer", "issued_at", "not_before", "expires_at", "review_only", "target_authority"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "admission_id": {"type": "string", "pattern": "^RVA-[0-9A-F]{32}$"},
+    "admission_sha256": {"$ref": "#/$defs/sha256"},
+    "store_id": {"$ref": "#/$defs/text"},
+    "audience": {"$ref": "#/$defs/text"},
+    "mission_id": {"$ref": "#/$defs/text"},
+    "mission_context_sha256": {"$ref": "#/$defs/sha256"},
+    "active_plan_id": {"type": "string", "pattern": "^CLP-[0-9A-F]{24}$"},
+    "active_plan_content_sha256": {"$ref": "#/$defs/sha256"},
+    "active_plan_version": {"type": "integer", "minimum": 1},
+    "mission_policy_id": {"$ref": "#/$defs/text"},
+    "mission_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "admission_sequence": {"type": "integer", "minimum": 1},
+    "previous_admission_sha256": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+    "principal_ledger": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assertion_count", "effect_count", "head_sha256"],
+      "properties": {
+        "assertion_count": {"type": "integer", "minimum": 0},
+        "effect_count": {"type": "integer", "minimum": 0},
+        "head_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reviewer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["issuer", "subject", "profile_id", "role", "scope_grant", "scope_grant_sha256"],
+      "properties": {
+        "issuer": {"$ref": "#/$defs/text"},
+        "subject": {"$ref": "#/$defs/text"},
+        "profile_id": {"$ref": "#/$defs/text"},
+        "role": {"enum": ["independent_control", "second_control", "independent_assurance"]},
+        "scope_grant": {"$ref": "#/$defs/scopeGrant"},
+        "scope_grant_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "allOf": [
+        {"if": {"properties": {"role": {"const": "independent_control"}}}, "then": {"properties": {"scope_grant": {"properties": {"operations": {"const": ["sunderkey.collaboration.plan-replacement.control-approve.v1"]}}}}}},
+        {"if": {"properties": {"role": {"const": "second_control"}}}, "then": {"properties": {"scope_grant": {"properties": {"operations": {"const": ["sunderkey.collaboration.plan-replacement.second-control-approve.v1"]}}}}}},
+        {"if": {"properties": {"role": {"const": "independent_assurance"}}}, "then": {"properties": {"scope_grant": {"properties": {"operations": {"const": ["sunderkey.collaboration.plan-replacement.assurance-approve.v1"]}}}}}}
+      ]
+    },
+    "issued_at": {"$ref": "#/$defs/timestamp"},
+    "not_before": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "review_only": {"type": "boolean", "const": true},
+    "target_authority": {"const": "none"}
+  },
+  "allOf": [
+    {"if": {"properties": {"admission_sequence": {"const": 1}}}, "then": {"properties": {"previous_admission_sha256": {"type": "null"}}}, "else": {"properties": {"previous_admission_sha256": {"$ref": "#/$defs/sha256"}}}}
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "scopeGrant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "grant_id", "policy_id", "policy_version", "issuer", "key_id", "subject", "profile_id", "audience", "store_id", "mission_id", "mission_context_hash", "scope_reference", "scope_document_hash", "environment", "max_action_tier", "constraints_hash", "operations", "issued_at", "not_before", "expires_at", "signature"],
+      "properties": {
+        "schema_version": {"type": "integer", "const": 1},
+        "grant_id": {"type": "string", "pattern": "^SGR-[0-9A-F]{32}$"},
+        "policy_id": {"$ref": "#/$defs/text"},
+        "policy_version": {"type": "integer", "minimum": 1},
+        "issuer": {"$ref": "#/$defs/text"},
+        "key_id": {"$ref": "#/$defs/text"},
+        "subject": {"$ref": "#/$defs/text"},
+        "profile_id": {"$ref": "#/$defs/text"},
+        "audience": {"$ref": "#/$defs/text"},
+        "store_id": {"$ref": "#/$defs/text"},
+        "mission_id": {"$ref": "#/$defs/text"},
+        "mission_context_hash": {"$ref": "#/$defs/sha256"},
+        "scope_reference": {"$ref": "#/$defs/text"},
+        "scope_document_hash": {"$ref": "#/$defs/sha256"},
+        "environment": {"enum": ["offline", "synthetic", "test", "production"]},
+        "max_action_tier": {"enum": ["R0", "R1", "R2", "R3", "R4", "R5"]},
+        "constraints_hash": {"$ref": "#/$defs/sha256"},
+        "operations": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string"}},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "not_before": {"$ref": "#/$defs/timestamp"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "signature": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+      }
+    }
+  }
+}

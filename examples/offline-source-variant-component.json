@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "left_source_id": "synthetic-base",
+    "right_source_id": "synthetic-variant",
+    "left_inventory_complete": true,
+    "right_inventory_complete": true,
+    "left_functions": [
+      {"function_id": "parse", "tokens": ["load", "check", "return"]},
+      {"function_id": "old", "tokens": ["return"]},
+      {"function_id": "same", "tokens": ["read", "return"]}
+    ],
+    "right_functions": [
+      {"function_id": "parse", "tokens": ["load", "guard", "check", "return"]},
+      {"function_id": "new", "tokens": ["check", "return"]},
+      {"function_id": "same", "tokens": ["read", "return"]}
+    ]
+  }}
+}

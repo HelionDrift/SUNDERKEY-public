@@ -1,0 +1,418 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.example/schemas/army-activation-contract-v1.schema.json",
+  "title": "SUNDERKEY Army Activation Contract v1",
+  "oneOf": [
+    {"$ref": "#/$defs/shadowObservation"},
+    {"$ref": "#/$defs/shadowReport"},
+    {"$ref": "#/$defs/collaborationScorecard"},
+    {"$ref": "#/$defs/routeEquivalence"},
+    {"$ref": "#/$defs/canaryPacket"},
+    {"$ref": "#/$defs/canaryObservation"},
+    {"$ref": "#/$defs/retirementDecision"},
+    {"$ref": "#/$defs/rollbackContract"},
+    {"$ref": "#/$defs/restorationObservation"},
+    {"$ref": "#/$defs/activationReadiness"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+:/-]*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activation",
+        "authorization",
+        "deployment",
+        "model_calls",
+        "network",
+        "provider_clients",
+        "route_retirement",
+        "route_restoration",
+        "routing",
+        "traffic_duplication"
+      ],
+      "properties": {
+        "activation": {"const": "none"},
+        "authorization": {"const": "none"},
+        "deployment": {"const": "none"},
+        "model_calls": {"const": "none"},
+        "network": {"const": "none"},
+        "provider_clients": {"const": "none"},
+        "route_retirement": {"const": "none"},
+        "route_restoration": {"const": "none"},
+        "routing": {"const": "none"},
+        "traffic_duplication": {"const": "none"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_sha256", "version"],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "version": {"$ref": "#/$defs/version"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate",
+        "model",
+        "policy",
+        "profile",
+        "prompt",
+        "provider",
+        "qualification",
+        "roadmap",
+        "tool"
+      ],
+      "properties": {
+        "candidate": {"$ref": "#/$defs/artifact"},
+        "model": {"$ref": "#/$defs/artifact"},
+        "policy": {"$ref": "#/$defs/artifact"},
+        "profile": {"$ref": "#/$defs/artifact"},
+        "prompt": {"$ref": "#/$defs/artifact"},
+        "provider": {"$ref": "#/$defs/artifact"},
+        "qualification": {"$ref": "#/$defs/artifact"},
+        "roadmap": {"$ref": "#/$defs/artifact"},
+        "tool": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cohort", "mission", "route", "tenant"],
+      "properties": {
+        "cohort": {"$ref": "#/$defs/artifact"},
+        "mission": {"$ref": "#/$defs/artifact"},
+        "route": {"$ref": "#/$defs/artifact"},
+        "tenant": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_sha256",
+        "contaminated",
+        "context_sha256",
+        "evidence_id",
+        "evidence_sha256",
+        "evidence_type",
+        "expires_at",
+        "observed_at",
+        "safety"
+      ],
+      "properties": {
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "contaminated": {"type": "boolean"},
+        "context_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_id": {"$ref": "#/$defs/identifier"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_type": {"$ref": "#/$defs/identifier"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "safety": {"enum": ["safe", "unsafe"]}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_sha256",
+        "context_sha256",
+        "decision",
+        "expires_at",
+        "review_sha256",
+        "reviewed_at",
+        "reviewer_id",
+        "reviewer_version",
+        "role"
+      ],
+      "properties": {
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "context_sha256": {"$ref": "#/$defs/sha256"},
+        "decision": {"enum": ["approved", "rejected"]},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "review_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "reviewer_id": {"$ref": "#/$defs/identifier"},
+        "reviewer_version": {"$ref": "#/$defs/version"},
+        "role": {"enum": ["independent_assurance", "independent_control"]}
+      }
+    },
+    "reviews": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/review"}
+    },
+    "evidenceList": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/evidence"}
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_cost_microunits",
+        "maximum_duration_seconds",
+        "maximum_errors",
+        "maximum_requests",
+        "maximum_tokens"
+      ],
+      "properties": {
+        "maximum_cost_microunits": {"type": "integer", "minimum": 1, "maximum": 1000000000000000},
+        "maximum_duration_seconds": {"type": "integer", "minimum": 1, "maximum": 2592000},
+        "maximum_errors": {"type": "integer", "minimum": 0, "maximum": 10000000},
+        "maximum_requests": {"type": "integer", "minimum": 1, "maximum": 10000000},
+        "maximum_tokens": {"type": "integer", "minimum": 1, "maximum": 10000000000}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["critical", "criterion_id", "metric", "operator", "threshold_microunits"],
+      "properties": {
+        "critical": {"type": "boolean"},
+        "criterion_id": {"$ref": "#/$defs/identifier"},
+        "metric": {"$ref": "#/$defs/identifier"},
+        "operator": {"enum": ["greater_than", "greater_than_or_equal", "less_than", "less_than_or_equal"]},
+        "threshold_microunits": {"type": "integer", "minimum": 0, "maximum": 1000000}
+      }
+    },
+    "criteria": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/criterion"}
+    },
+    "rollbackWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["closes_at", "opens_at", "restore_within_seconds"],
+      "properties": {
+        "closes_at": {"$ref": "#/$defs/timestamp"},
+        "opens_at": {"$ref": "#/$defs/timestamp"},
+        "restore_within_seconds": {"type": "integer", "minimum": 1, "maximum": 604800}
+      }
+    },
+    "common": {
+      "type": "object",
+      "required": [
+        "binding",
+        "context",
+        "created_at",
+        "effects",
+        "record_id",
+        "record_kind",
+        "record_sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "binding": {"$ref": "#/$defs/binding"},
+        "context": {"$ref": "#/$defs/context"},
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "record_id": {"type": "string", "pattern": "^[A-Z]{3}-[0-9A-F]{32}$"},
+        "record_kind": {"type": "string"},
+        "record_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1}
+      }
+    },
+    "shadowObservation": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": [
+        "candidate_result_sha256",
+        "collaboration_trace_sha256",
+        "control_result_sha256",
+        "evidence",
+        "matched",
+        "request_fingerprint_sha256",
+        "safe"
+      ],
+      "properties": {
+        "record_kind": {"const": "shadow_routing_observation"},
+        "candidate_result_sha256": {"$ref": "#/$defs/sha256"},
+        "collaboration_trace_sha256": {"$ref": "#/$defs/sha256"},
+        "control_result_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence": {"$ref": "#/$defs/evidence"},
+        "matched": {"type": "boolean"},
+        "request_fingerprint_sha256": {"$ref": "#/$defs/sha256"},
+        "safe": {"type": "boolean"}
+      }
+    },
+    "shadowReport": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["failure_evidence", "matched_count", "observation_ids", "observation_sha256s", "status", "unsafe_count"],
+      "properties": {
+        "record_kind": {"const": "shadow_routing_report"},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "matched_count": {"type": "integer", "minimum": 0},
+        "observation_ids": {"type": "array", "minItems": 1, "maxItems": 10000, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "observation_sha256s": {"type": "array", "minItems": 1, "maxItems": 10000, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "status": {"enum": ["pass", "fail", "blocked"]},
+        "unsafe_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "collaborationScorecard": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["evaluated_handoffs", "evidence_losses", "failure_evidence", "minimum_score_microunits", "ownership_conflicts", "score_microunits", "shadow_report_sha256", "status", "successful_handoffs"],
+      "properties": {
+        "record_kind": {"const": "collaboration_scorecard"},
+        "evaluated_handoffs": {"type": "integer", "minimum": 1},
+        "evidence_losses": {"type": "integer", "minimum": 0},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "minimum_score_microunits": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "ownership_conflicts": {"type": "integer", "minimum": 0},
+        "score_microunits": {"type": "integer", "minimum": 0, "maximum": 1000000},
+        "shadow_report_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"enum": ["pass", "fail", "blocked"]},
+        "successful_handoffs": {"type": "integer", "minimum": 0}
+      }
+    },
+    "routeEquivalence": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["excluded_principals", "failure_evidence", "reviews", "scorecard_sha256", "shadow_report_sha256", "status"],
+      "properties": {
+        "record_kind": {"const": "route_equivalence_assessment"},
+        "excluded_principals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "reviews": {"$ref": "#/$defs/reviews"},
+        "scorecard_sha256": {"$ref": "#/$defs/sha256"},
+        "shadow_report_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"enum": ["equivalent", "not_equivalent", "blocked"]}
+      }
+    },
+    "canaryPacket": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["activation_authorization", "budgets", "equivalence_assessment_sha256", "excluded_principals", "reviews", "rollback_window", "status", "stop_criteria", "traffic_basis_points"],
+      "properties": {
+        "record_kind": {"const": "canary_activation_packet"},
+        "activation_authorization": {"$ref": "#/$defs/evidence"},
+        "budgets": {"$ref": "#/$defs/budgets"},
+        "equivalence_assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "excluded_principals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "reviews": {"$ref": "#/$defs/reviews"},
+        "rollback_window": {"$ref": "#/$defs/rollbackWindow"},
+        "status": {"enum": ["ready_for_separate_execution", "blocked"]},
+        "stop_criteria": {"$ref": "#/$defs/criteria"},
+        "traffic_basis_points": {"type": "integer", "minimum": 1, "maximum": 1000}
+      }
+    },
+    "canaryObservation": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["canary_packet_sha256", "cost_microunits_used", "disposition", "duration_seconds", "errors", "evidence", "failure_evidence", "requests_used", "tokens_used", "triggered_criteria"],
+      "properties": {
+        "record_kind": {"const": "canary_observation"},
+        "canary_packet_sha256": {"$ref": "#/$defs/sha256"},
+        "cost_microunits_used": {"type": "integer", "minimum": 0},
+        "disposition": {"enum": ["pass", "stopped", "unsafe"]},
+        "duration_seconds": {"type": "integer", "minimum": 0},
+        "errors": {"type": "integer", "minimum": 0},
+        "evidence": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/evidence"}},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "requests_used": {"type": "integer", "minimum": 0},
+        "tokens_used": {"type": "integer", "minimum": 0},
+        "triggered_criteria": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}}
+      }
+    },
+    "retirementDecision": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["canary_observation_sha256s", "disposition", "excluded_principals", "failure_evidence", "reviews"],
+      "properties": {
+        "record_kind": {"const": "retirement_decision"},
+        "canary_observation_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "disposition": {"enum": ["retire", "retain", "blocked"]},
+        "excluded_principals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "reviews": {"$ref": "#/$defs/reviews"}
+      }
+    },
+    "rollbackContract": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["budgets", "excluded_principals", "prior_route", "retirement_decision_sha256", "reviews", "rollback_authorization", "rollback_window", "stop_criteria"],
+      "properties": {
+        "record_kind": {"const": "rollback_contract"},
+        "budgets": {"$ref": "#/$defs/budgets"},
+        "excluded_principals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "prior_route": {"$ref": "#/$defs/artifact"},
+        "retirement_decision_sha256": {"$ref": "#/$defs/sha256"},
+        "reviews": {"$ref": "#/$defs/reviews"},
+        "rollback_authorization": {"$ref": "#/$defs/evidence"},
+        "rollback_window": {"$ref": "#/$defs/rollbackWindow"},
+        "stop_criteria": {"$ref": "#/$defs/criteria"}
+      }
+    },
+    "restorationObservation": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["evidence", "failure_evidence", "restored_at", "restored_route_sha256", "rollback_contract_sha256", "verified"],
+      "properties": {
+        "record_kind": {"const": "route_restoration_observation"},
+        "evidence": {"$ref": "#/$defs/evidence"},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "restored_at": {"$ref": "#/$defs/timestamp"},
+        "restored_route_sha256": {"$ref": "#/$defs/sha256"},
+        "rollback_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "verified": {"type": "boolean"}
+      }
+    },
+    "activationReadiness": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["canary_packet_sha256", "equivalence_assessment_sha256", "excluded_principals", "failure_evidence", "restoration_observation_sha256", "retirement_decision_sha256", "reviews", "rollback_contract_sha256", "status"],
+      "properties": {
+        "record_kind": {"const": "activation_readiness"},
+        "canary_packet_sha256": {"$ref": "#/$defs/sha256"},
+        "equivalence_assessment_sha256": {"$ref": "#/$defs/sha256"},
+        "excluded_principals": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "failure_evidence": {"$ref": "#/$defs/evidenceList"},
+        "restoration_observation_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "retirement_decision_sha256": {"$ref": "#/$defs/sha256"},
+        "reviews": {"$ref": "#/$defs/reviews"},
+        "rollback_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"enum": ["ready_for_separate_activation", "not_ready", "rollback_verified"]}
+      }
+    }
+  }
+}

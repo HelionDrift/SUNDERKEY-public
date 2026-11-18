@@ -1,0 +1,337 @@
+{
+  "content_sha256": "sha256:905971ccc793de54748d1aa7ec13b12493b6c7ad3b2700e8af81a26e69a54750",
+  "joint_mission_cell_sha256": "sha256:2c2c5300b47134eda224de6091d6489920b586bb62093d06cdbec5434ce1c84f",
+  "mission_id": "EXAMPLE-API-DATA-001",
+  "mission_objective": "Validate a synthetic API authorization path and its downstream data boundary.",
+  "mission_sha256": "sha256:e1c21891d9b4fa7e214e6a209f6ad4693ab7671d37dd3283b98d27d05170e875",
+  "plan_id": "CLP-F878069253CBE5D4D2590A91",
+  "registry_catalog_id": "sunderkey-offensive-expert-army",
+  "registry_catalog_version": "1.0.0",
+  "registry_sha256": "sha256:e5952b36f79737f43c8719e0601740738f2ce9946014c02d0c22be64a44a8c7d",
+  "schema_version": 1,
+  "scope_reference": "scope://example/internet-api-to-data",
+  "topological_layers": [
+    [
+      "WIT-READY-1188D3BAEA783AC2"
+    ],
+    [
+      "WIT-SPEC-0781DE9459041D1E",
+      "WIT-SPEC-1CAF2AB02D2C94DE",
+      "WIT-SPEC-D57CD37EC6645295"
+    ],
+    [
+      "WIT-DOMAIN-81690FA5986ECE62",
+      "WIT-DOMAIN-A583B528DD3B469F",
+      "WIT-DOMAIN-C07D4460A5C39DB5"
+    ],
+    [
+      "WIT-GROUP-72C23E036FFAD60B",
+      "WIT-GROUP-8D580B3F2A7396F2"
+    ],
+    [
+      "WIT-CROSS-CA8F375BE9B891E7"
+    ],
+    [
+      "WIT-CONTROL-EC5AD22B18CDADD8",
+      "WIT-EVIDENCE-F9FD8BCBB20F9E16"
+    ],
+    [
+      "WIT-ASSURE-23CF2FC03BD84EF5"
+    ]
+  ],
+  "warnings": [],
+  "work_items": [
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Validated mission decomposition, scope boundaries, coordination assumptions, and toolchain readiness record.",
+      "dependency_ids": [],
+      "group_id": null,
+      "kind": "readiness",
+      "layer": 0,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-08",
+      "required_evidence_level": "E3",
+      "role_mission": "Transforms objectives into a mission graph with assets, trust transitions, effects, evidence criteria, and candidate expert profiles.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-HQ-09",
+        "AOE-HQ-12",
+        "AOE-HQ-31",
+        "AOE-HQ-32"
+      ],
+      "title": "Mission readiness and scope checkpoint",
+      "work_item_id": "WIT-READY-1188D3BAEA783AC2"
+    },
+    {
+      "action_tier_ceiling": "R2",
+      "command_id": "AOE-GA-D03",
+      "deliverable": "Structured observations, hypotheses, evidence references, blockers, and commander handoff.",
+      "dependency_ids": [
+        "WIT-READY-1188D3BAEA783AC2"
+      ],
+      "group_id": "GA",
+      "kind": "specialist_analysis",
+      "layer": 1,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GA-D03-S13",
+      "required_evidence_level": "E3",
+      "role_mission": "Provide RBAC, ABAC and ReBAC authorization-model design expertise for Identity and Trust missions within approved scope.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GA-D03-CMD",
+        "AOE-HQ-03",
+        "AOE-HQ-18"
+      ],
+      "title": "RBAC, ABAC and ReBAC authorization-model design work package",
+      "work_item_id": "WIT-SPEC-0781DE9459041D1E"
+    },
+    {
+      "action_tier_ceiling": "R2",
+      "command_id": "AOE-GB-D06",
+      "deliverable": "Structured observations, hypotheses, evidence references, blockers, and commander handoff.",
+      "dependency_ids": [
+        "WIT-READY-1188D3BAEA783AC2"
+      ],
+      "group_id": "GB",
+      "kind": "specialist_analysis",
+      "layer": 1,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GB-D06-S09",
+      "required_evidence_level": "E3",
+      "role_mission": "Provide API object-level authorization expertise for API, Integration and Service Interface missions within approved scope.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GB-D06-CMD",
+        "AOE-HQ-04",
+        "AOE-HQ-18"
+      ],
+      "title": "API object-level authorization work package",
+      "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+    },
+    {
+      "action_tier_ceiling": "R2",
+      "command_id": "AOE-GB-D07",
+      "deliverable": "Structured observations, hypotheses, evidence references, blockers, and commander handoff.",
+      "dependency_ids": [
+        "WIT-READY-1188D3BAEA783AC2"
+      ],
+      "group_id": "GB",
+      "kind": "specialist_analysis",
+      "layer": 1,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GB-D07-S01",
+      "required_evidence_level": "E3",
+      "role_mission": "Provide Relational databases expertise for Data Systems and Middleware missions within approved scope.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GB-D07-CMD",
+        "AOE-HQ-04",
+        "AOE-HQ-18"
+      ],
+      "title": "Relational databases work package",
+      "work_item_id": "WIT-SPEC-D57CD37EC6645295"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": "AOE-GA-D03",
+      "deliverable": "Identity path analysis; trust-boundary findings; token and session evidence; entitlement risk; corrective design guidance.",
+      "dependency_ids": [
+        "WIT-SPEC-0781DE9459041D1E"
+      ],
+      "group_id": "GA",
+      "kind": "domain_synthesis",
+      "layer": 2,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GA-D03-CMD",
+      "required_evidence_level": "E3",
+      "role_mission": "Assess authentication, authorization, federation, credential lifecycle, session integrity, and trust relationships across human and workload identities.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GA-D03-S13",
+        "AOE-HQ-11"
+      ],
+      "title": "Identity and Trust synthesis",
+      "work_item_id": "WIT-DOMAIN-C07D4460A5C39DB5"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": "AOE-GB-D06",
+      "deliverable": "Interface findings; authorization matrices; schema differentials; resource-abuse evidence; downstream trust analysis.",
+      "dependency_ids": [
+        "WIT-SPEC-1CAF2AB02D2C94DE"
+      ],
+      "group_id": "GB",
+      "kind": "domain_synthesis",
+      "layer": 2,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GB-D06-CMD",
+      "required_evidence_level": "E3",
+      "role_mission": "Assess machine interfaces, interface contracts, gateway behavior, object/function/property authorization, and trust transitions between services and partners.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GB-D06-S09",
+        "AOE-HQ-11"
+      ],
+      "title": "API, Integration and Service Interface synthesis",
+      "work_item_id": "WIT-DOMAIN-A583B528DD3B469F"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": "AOE-GB-D07",
+      "deliverable": "Data-path findings; privilege evidence; integrity and isolation tests; query/resource impacts; recovery-control observations.",
+      "dependency_ids": [
+        "WIT-SPEC-D57CD37EC6645295"
+      ],
+      "group_id": "GB",
+      "kind": "domain_synthesis",
+      "layer": 2,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-GB-D07-CMD",
+      "required_evidence_level": "E3",
+      "role_mission": "Assess storage, query, messaging, analytics, orchestration, backup, and database privilege boundaries across structured and unstructured data systems.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GB-D07-S01",
+        "AOE-HQ-11"
+      ],
+      "title": "Data Systems and Middleware synthesis",
+      "work_item_id": "WIT-DOMAIN-81690FA5986ECE62"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Integrated group findings, resolved internal conflicts, prioritized path transitions, and cross-group handoff.",
+      "dependency_ids": [
+        "WIT-DOMAIN-C07D4460A5C39DB5"
+      ],
+      "group_id": "GA",
+      "kind": "group_integration",
+      "layer": 3,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-03",
+      "required_evidence_level": "E3",
+      "role_mission": "Find and model the target, test human and physical entry paths, compromise identity and trust, and integrate multi-stage adversary campaigns.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GA-D03-CMD",
+        "AOE-HQ-10"
+      ],
+      "title": "Group A: Targeting, Access & Campaigns integration",
+      "work_item_id": "WIT-GROUP-8D580B3F2A7396F2"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Integrated group findings, resolved internal conflicts, prioritized path transitions, and cross-group handoff.",
+      "dependency_ids": [
+        "WIT-DOMAIN-81690FA5986ECE62",
+        "WIT-DOMAIN-A583B528DD3B469F"
+      ],
+      "group_id": "GB",
+      "kind": "group_integration",
+      "layer": 3,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-04",
+      "required_evidence_level": "E3",
+      "role_mission": "Assess application behavior, service interfaces, data platforms, clients, economic workflows, and distributed digital assets.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-GB-D06-CMD",
+        "AOE-GB-D07-CMD",
+        "AOE-HQ-10"
+      ],
+      "title": "Group B: Applications, Data & Digital Assets integration",
+      "work_item_id": "WIT-GROUP-72C23E036FFAD60B"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Coherent cross-surface path, joined evidence map, transition gaps, detection expectations, and deconfliction decisions.",
+      "dependency_ids": [
+        "WIT-GROUP-72C23E036FFAD60B",
+        "WIT-GROUP-8D580B3F2A7396F2"
+      ],
+      "group_id": null,
+      "kind": "cross_surface_integration",
+      "layer": 4,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-10",
+      "required_evidence_level": "E3",
+      "role_mission": "Maintains end-to-end path coherence, joins cross-domain evidence, and identifies missing transitions.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-HQ-03",
+        "AOE-HQ-04",
+        "AOE-HQ-11",
+        "AOE-HQ-22"
+      ],
+      "title": "Cross-surface path integration",
+      "work_item_id": "WIT-CROSS-CA8F375BE9B891E7"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Independent determination of scope adherence, tier compliance, stop conditions, unresolved conflicts, and required escalation.",
+      "dependency_ids": [
+        "WIT-CROSS-CA8F375BE9B891E7"
+      ],
+      "group_id": null,
+      "kind": "control_review",
+      "layer": 5,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-12",
+      "required_evidence_level": "E3",
+      "role_mission": "Owns enforcement of the written authorization, action-tier approvals, deconfliction, stop decisions, and escalation; independent from operators.",
+      "schema_version": 1,
+      "supporting_profile_ids": [],
+      "title": "Independent control review",
+      "work_item_id": "WIT-CONTROL-EC5AD22B18CDADD8"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Complete evidence manifest with integrity, provenance, custody, telemetry correlation, retention, and closure criteria.",
+      "dependency_ids": [
+        "WIT-CROSS-CA8F375BE9B891E7"
+      ],
+      "group_id": null,
+      "kind": "evidence_review",
+      "layer": 5,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-18",
+      "required_evidence_level": "E3",
+      "role_mission": "Defines evidence manifests, integrity checks, timestamps, provenance, retention, and access controls.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-HQ-22",
+        "AOE-HQ-25"
+      ],
+      "title": "Evidence package review",
+      "work_item_id": "WIT-EVIDENCE-F9FD8BCBB20F9E16"
+    },
+    {
+      "action_tier_ceiling": "R0",
+      "command_id": null,
+      "deliverable": "Independent reproduction result, negative evidence, residual risk, closure recommendation, and documented exceptions.",
+      "dependency_ids": [
+        "WIT-CONTROL-EC5AD22B18CDADD8",
+        "WIT-EVIDENCE-F9FD8BCBB20F9E16"
+      ],
+      "group_id": null,
+      "kind": "assurance_review",
+      "layer": 6,
+      "mission_id": "EXAMPLE-API-DATA-001",
+      "owner_profile_id": "AOE-HQ-19",
+      "required_evidence_level": "E3",
+      "role_mission": "Reproduces material findings without relying on the original operator's hidden state and records negative evidence.",
+      "schema_version": 1,
+      "supporting_profile_ids": [
+        "AOE-HQ-18",
+        "AOE-HQ-25"
+      ],
+      "title": "Independent assurance review",
+      "work_item_id": "WIT-ASSURE-23CF2FC03BD84EF5"
+    }
+  ]
+}

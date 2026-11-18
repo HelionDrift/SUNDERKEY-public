@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/specialist-adapter-contract-v1.schema.json",
+  "title": "SUNDERKEY Specialist Adapter Contract",
+  "oneOf": [
+    { "$ref": "#/$defs/declaration" },
+    { "$ref": "#/$defs/request" },
+    { "$ref": "#/$defs/receipt" }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "utc": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|missionref|scoperef|targetref|routeref|workerref|sessionref|fenceref|admissionref|approvalref|leaseref|evidenceref|cleanupref|restorationref|capabilityref|budgetref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "family": { "enum": ["network", "host", "container", "database", "messaging", "lateral_movement"] },
+    "actionClass": { "enum": ["passive", "authenticated_read", "validation", "controlled_change"] },
+    "actionTier": { "enum": ["R0", "R1", "R2", "R3"] },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["autonomous_execution", "builtin_network", "builtin_target_action", "credential_resolution", "injected_adapter_invocation", "persistence"],
+      "properties": {
+        "autonomous_execution": { "const": "none" },
+        "builtin_network": { "const": "none" },
+        "builtin_target_action": { "const": "none" },
+        "credential_resolution": { "const": "none" },
+        "injected_adapter_invocation": { "const": "caller_supplied_only" },
+        "persistence": { "const": "none" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["budget_ref", "maximum_requests", "maximum_bytes", "maximum_changes", "maximum_duration_seconds"],
+      "properties": {
+        "budget_ref": { "$ref": "#/$defs/reference" },
+        "maximum_requests": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "maximum_bytes": { "type": "integer", "minimum": 1 },
+        "maximum_changes": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "maximum_duration_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant_ref", "mission_ref", "scope_ref", "scope_sha256", "target_ref", "target_sha256",
+        "route_ref", "route_sha256", "worker_ref", "session_ref", "fence_ref", "fence_epoch",
+        "fencing_token_sha256", "action_admission_ref", "action_admission_sha256", "approval_ref",
+        "approval_sha256", "credential_lease_ref", "credential_lease_sha256", "evidence_plan_ref",
+        "evidence_plan_sha256", "cleanup_plan_ref", "cleanup_plan_sha256", "restoration_plan_ref",
+        "restoration_plan_sha256", "budget", "budget_sha256"
+      ],
+      "properties": {
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "mission_ref": { "$ref": "#/$defs/reference" },
+        "scope_ref": { "$ref": "#/$defs/reference" },
+        "scope_sha256": { "$ref": "#/$defs/sha256" },
+        "target_ref": { "$ref": "#/$defs/reference" },
+        "target_sha256": { "$ref": "#/$defs/sha256" },
+        "route_ref": { "$ref": "#/$defs/reference" },
+        "route_sha256": { "$ref": "#/$defs/sha256" },
+        "worker_ref": { "$ref": "#/$defs/reference" },
+        "session_ref": { "$ref": "#/$defs/reference" },
+        "fence_ref": { "$ref": "#/$defs/reference" },
+        "fence_epoch": { "type": "integer", "minimum": 1 },
+        "fencing_token_sha256": { "$ref": "#/$defs/sha256" },
+        "action_admission_ref": { "$ref": "#/$defs/reference" },
+        "action_admission_sha256": { "$ref": "#/$defs/sha256" },
+        "approval_ref": { "$ref": "#/$defs/reference" },
+        "approval_sha256": { "$ref": "#/$defs/sha256" },
+        "credential_lease_ref": { "$ref": "#/$defs/reference" },
+        "credential_lease_sha256": { "$ref": "#/$defs/sha256" },
+        "evidence_plan_ref": { "$ref": "#/$defs/reference" },
+        "evidence_plan_sha256": { "$ref": "#/$defs/sha256" },
+        "cleanup_plan_ref": { "$ref": "#/$defs/reference" },
+        "cleanup_plan_sha256": { "$ref": "#/$defs/sha256" },
+        "restoration_plan_ref": { "$ref": "#/$defs/reference" },
+        "restoration_plan_sha256": { "$ref": "#/$defs/sha256" },
+        "budget": { "$ref": "#/$defs/budget" },
+        "budget_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declaration_id", "declaration_sha256", "kind", "schema_version", "boundary_effects", "family", "capability_ref", "capability_names", "supported_action_classes", "maximum_tier", "qualification_effect"],
+      "properties": {
+        "declaration_id": { "type": "string", "pattern": "^SCD-[0-9A-F]{32}$" },
+        "declaration_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "specialist_capability_declaration" },
+        "schema_version": { "const": 1 },
+        "boundary_effects": { "$ref": "#/$defs/effects" },
+        "family": { "$ref": "#/$defs/family" },
+        "capability_ref": { "$ref": "#/$defs/reference" },
+        "capability_names": { "type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 96 } },
+        "supported_action_classes": { "type": "array", "minItems": 1, "maxItems": 4, "uniqueItems": true, "items": { "$ref": "#/$defs/actionClass" } },
+        "maximum_tier": { "$ref": "#/$defs/actionTier" },
+        "qualification_effect": { "const": "none" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_sha256", "kind", "schema_version", "boundary_effects", "declaration_id", "declaration_sha256", "family", "capability_ref", "action_class", "action_tier", "context", "context_sha256", "intent_sha256", "estimated_requests", "estimated_bytes", "estimated_changes", "estimated_duration_seconds", "idempotency_sha256", "issued_at", "expires_at", "qualification_effect"],
+      "properties": {
+        "request_id": { "type": "string", "pattern": "^SAR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "specialist_action_request" },
+        "schema_version": { "const": 1 },
+        "boundary_effects": { "$ref": "#/$defs/effects" },
+        "declaration_id": { "type": "string", "pattern": "^SCD-[0-9A-F]{32}$" },
+        "declaration_sha256": { "$ref": "#/$defs/sha256" },
+        "family": { "$ref": "#/$defs/family" },
+        "capability_ref": { "$ref": "#/$defs/reference" },
+        "action_class": { "$ref": "#/$defs/actionClass" },
+        "action_tier": { "$ref": "#/$defs/actionTier" },
+        "context": { "$ref": "#/$defs/context" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "intent_sha256": { "$ref": "#/$defs/sha256" },
+        "estimated_requests": { "type": "integer", "minimum": 1 },
+        "estimated_bytes": { "type": "integer", "minimum": 0 },
+        "estimated_changes": { "type": "integer", "minimum": 0 },
+        "estimated_duration_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "idempotency_sha256": { "$ref": "#/$defs/sha256" },
+        "issued_at": { "$ref": "#/$defs/utc" },
+        "expires_at": { "$ref": "#/$defs/utc" },
+        "qualification_effect": { "const": "none" }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_sha256", "context_sha256", "disposition", "evidence_sha256", "actual_requests", "actual_bytes", "actual_changes", "actual_duration_seconds", "cleanup_complete", "restoration_complete", "cleanup_evidence_sha256", "restoration_evidence_sha256", "started_at", "completed_at"],
+      "properties": {
+        "request_id": { "type": "string", "pattern": "^SAR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "disposition": { "enum": ["completed", "denied", "failed"] },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "actual_requests": { "type": "integer", "minimum": 0 },
+        "actual_bytes": { "type": "integer", "minimum": 0 },
+        "actual_changes": { "type": "integer", "minimum": 0 },
+        "actual_duration_seconds": { "type": "integer", "minimum": 0, "maximum": 86400 },
+        "cleanup_complete": { "type": "boolean" },
+        "restoration_complete": { "type": "boolean" },
+        "cleanup_evidence_sha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "restoration_evidence_sha256": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "started_at": { "$ref": "#/$defs/utc" },
+        "completed_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "receipt_sha256", "kind", "schema_version", "boundary_effects", "request_id", "request_sha256", "declaration_id", "declaration_sha256", "family", "capability_ref", "action_class", "action_tier", "context_sha256", "idempotency_sha256", "observation", "status", "qualification_effect"],
+      "properties": {
+        "receipt_id": { "type": "string", "pattern": "^SAC-[0-9A-F]{32}$" },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "specialist_action_receipt" },
+        "schema_version": { "const": 1 },
+        "boundary_effects": { "$ref": "#/$defs/effects" },
+        "request_id": { "type": "string", "pattern": "^SAR-[0-9A-F]{32}$" },
+        "request_sha256": { "$ref": "#/$defs/sha256" },
+        "declaration_id": { "type": "string", "pattern": "^SCD-[0-9A-F]{32}$" },
+        "declaration_sha256": { "$ref": "#/$defs/sha256" },
+        "family": { "$ref": "#/$defs/family" },
+        "capability_ref": { "$ref": "#/$defs/reference" },
+        "action_class": { "$ref": "#/$defs/actionClass" },
+        "action_tier": { "$ref": "#/$defs/actionTier" },
+        "context_sha256": { "$ref": "#/$defs/sha256" },
+        "idempotency_sha256": { "$ref": "#/$defs/sha256" },
+        "observation": { "$ref": "#/$defs/observation" },
+        "status": { "enum": ["completed", "denied", "failed", "halted_cleanup_required"] },
+        "qualification_effect": { "const": "none" }
+      }
+    }
+  }
+}

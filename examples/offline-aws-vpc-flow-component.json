@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "endpoints": [
+        {
+          "address": "10.0.1.10",
+          "endpoint_id": "client",
+          "eni_id": "eni.client",
+          "security_group_ids": [
+            "client-sg"
+          ],
+          "security_groups_complete": true,
+          "subnet_id": "front"
+        },
+        {
+          "address": "10.0.2.20",
+          "endpoint_id": "server",
+          "eni_id": "eni.server",
+          "security_group_ids": [
+            "server-sg"
+          ],
+          "security_groups_complete": true,
+          "subnet_id": "back"
+        }
+      ],
+      "flows": [
+        {
+          "destination_endpoint_id": "server",
+          "destination_port": 443,
+          "flow_id": "https",
+          "protocol": "TCP",
+          "return_mode": "assumed_tracked_response",
+          "source_endpoint_id": "client",
+          "source_port": 50000,
+          "traffic_class": "ordinary_eni_to_eni"
+        }
+      ],
+      "network_acls": [
+        {
+          "egress": [
+            {
+              "action": "allow",
+              "cidr": "10.0.2.0/24",
+              "from_port": 443,
+              "protocol": "TCP",
+              "rule_number": 100,
+              "to_port": 443
+            }
+          ],
+          "egress_complete": true,
+          "ingress": [
+            {
+              "action": "allow",
+              "cidr": "10.0.2.0/24",
+              "from_port": 50000,
+              "protocol": "TCP",
+              "rule_number": 100,
+              "to_port": 50000
+            }
+          ],
+          "ingress_complete": true,
+          "network_acl_id": "front-acl"
+        },
+        {
+          "egress": [
+            {
+              "action": "allow",
+              "cidr": "10.0.1.0/24",
+              "from_port": 50000,
+              "protocol": "TCP",
+              "rule_number": 100,
+              "to_port": 50000
+            }
+          ],
+          "egress_complete": true,
+          "ingress": [
+            {
+              "action": "allow",
+              "cidr": "10.0.1.0/24",
+              "from_port": 443,
+              "protocol": "TCP",
+              "rule_number": 100,
+              "to_port": 443
+            }
+          ],
+          "ingress_complete": true,
+          "network_acl_id": "back-acl"
+        }
+      ],
+      "schema_version": 1,
+      "security_groups": [
+        {
+          "egress": [
+            {
+              "cidr": "10.0.2.0/24",
+              "from_port": 443,
+              "protocol": "TCP",
+              "rule_id": "client-out",
+              "to_port": 443
+            }
+          ],
+          "egress_complete": true,
+          "ingress": [],
+          "ingress_complete": true,
+          "security_group_id": "client-sg"
+        },
+        {
+          "egress": [],
+          "egress_complete": true,
+          "ingress": [
+            {
+              "cidr": "10.0.1.0/24",
+              "from_port": 443,
+              "protocol": "TCP",
+              "rule_id": "server-in",
+              "to_port": 443
+            }
+          ],
+          "ingress_complete": true,
+          "security_group_id": "server-sg"
+        }
+      ],
+      "subnets": [
+        {
+          "cidr": "10.0.1.0/24",
+          "network_acl_id": "front-acl",
+          "subnet_id": "front"
+        },
+        {
+          "cidr": "10.0.2.0/24",
+          "network_acl_id": "back-acl",
+          "subnet_id": "back"
+        }
+      ],
+      "vpc": {
+        "cidr": "10.0.0.0/16",
+        "vpc_id": "vpc.synthetic"
+      }
+    }
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/deployment-manifest-bundle-v1.schema.json",
+  "title": "SUNDERKEY Deployment Manifest Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "bundle_id",
+    "bundle_sha256",
+    "profiles",
+    "required_external_evidence",
+    "status",
+    "repository_manifest_publication_complete",
+    "live_deployment_performed",
+    "external_qualification_complete",
+    "effects"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "kind": { "const": "deployment_manifest_bundle" },
+    "bundle_id": { "type": "string", "pattern": "^DMB-[0-9A-F]{32}$" },
+    "bundle_sha256": { "$ref": "#/$defs/sha256" },
+    "profiles": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/profile" }
+    },
+    "required_external_evidence": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/code" }
+    },
+    "status": { "const": "repository_complete_infrastructure_blocked" },
+    "repository_manifest_publication_complete": { "const": true },
+    "live_deployment_performed": { "const": false },
+    "external_qualification_complete": { "const": false },
+    "effects": { "$ref": "#/$defs/effects" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{1,95}$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_access",
+        "deployment",
+        "filesystem_discovery",
+        "network",
+        "process_execution",
+        "qualification",
+        "target_action"
+      ],
+      "properties": {
+        "credential_access": { "const": "none" },
+        "deployment": { "const": "none" },
+        "filesystem_discovery": { "const": "none" },
+        "network": { "const": "none" },
+        "process_execution": { "const": "none" },
+        "qualification": { "const": "none" },
+        "target_action": { "const": "none" }
+      }
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "exact_version", "image_digest", "image_reference"],
+      "properties": {
+        "component": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+        "exact_version": {
+          "type": "string",
+          "pattern": "^[0-9]+(\\.[0-9]+){1,3}([-+][A-Za-z0-9.]+)?$"
+        },
+        "image_digest": { "$ref": "#/$defs/sha256" },
+        "image_reference": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+([._-][a-z0-9]+)*(:[0-9]{1,5})?(/[a-z0-9]+([._-][a-z0-9]+)*)+@sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image_component",
+        "replicas",
+        "role",
+        "run_as_non_root",
+        "service_identity",
+        "writable_root_filesystem"
+      ],
+      "properties": {
+        "image_component": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+        "replicas": { "type": "integer", "minimum": 0, "maximum": 64 },
+        "role": { "$ref": "#/$defs/code" },
+        "run_as_non_root": { "const": true },
+        "service_identity": {
+          "type": "string",
+          "pattern": "^service:[a-z][a-z0-9-]{1,62}$"
+        },
+        "writable_root_filesystem": { "const": false }
+      }
+    },
+    "contractBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "contract_sha256", "module", "schema_version"],
+      "properties": {
+        "contract_id": { "type": "string", "minLength": 5, "maxLength": 128 },
+        "contract_sha256": { "$ref": "#/$defs/sha256" },
+        "module": { "type": "string", "pattern": "^sunderkey\\.[a-z0-9_.]+$" },
+        "schema_version": { "type": "integer", "minimum": 1, "maximum": 1000 }
+      }
+    },
+    "port": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["container_port", "exposure", "service", "transport"],
+      "properties": {
+        "container_port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "exposure": { "enum": ["127.0.0.1_only", "cluster_internal_only", "ingress_proxy_only"] },
+        "service": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+        "transport": { "const": "tcp" }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_sha256",
+        "profile_type",
+        "images",
+        "services",
+        "secrets",
+        "network",
+        "storage",
+        "runtime",
+        "migration",
+        "backup",
+        "health",
+        "capacity",
+        "regional_custody",
+        "fencing",
+        "rollback",
+        "cleanup",
+        "contract_bindings",
+        "required_external_evidence",
+        "status",
+        "effects"
+      ],
+      "properties": {
+        "profile_id": { "type": "string", "pattern": "^DMF-[0-9A-F]{32}$" },
+        "profile_sha256": { "$ref": "#/$defs/sha256" },
+        "profile_type": {
+          "enum": [
+            "high_availability_postgresql",
+            "local_sqlite_asgi",
+            "single_node_postgresql"
+          ]
+        },
+        "images": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/image" }
+        },
+        "services": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/service" }
+        },
+        "secrets": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^secretref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+          }
+        },
+        "network": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "egress_mode",
+            "egress_proxy_required",
+            "ingress_mode",
+            "internal_service_tls",
+            "ports",
+            "public_ingress",
+            "tls_mode"
+          ],
+          "properties": {
+            "egress_mode": { "enum": ["deny_all", "default_deny_allowlist_proxy"] },
+            "egress_proxy_required": { "type": "boolean" },
+            "ingress_mode": { "enum": ["loopback_only", "tls_only"] },
+            "internal_service_tls": {
+              "enum": ["not_required_loopback_only", "mutual_tls_required"]
+            },
+            "ports": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": { "$ref": "#/$defs/port" }
+            },
+            "public_ingress": { "const": false },
+            "tls_mode": {
+              "enum": ["not_terminated_local_only", "operator_certificate_reference_required"]
+            }
+          }
+        },
+        "storage": { "$ref": "#/$defs/nonEmptyObject" },
+        "runtime": { "$ref": "#/$defs/nonEmptyObject" },
+        "migration": { "$ref": "#/$defs/nonEmptyObject" },
+        "backup": { "$ref": "#/$defs/nonEmptyObject" },
+        "health": { "$ref": "#/$defs/nonEmptyObject" },
+        "capacity": { "$ref": "#/$defs/nonEmptyObject" },
+        "regional_custody": { "$ref": "#/$defs/nonEmptyObject" },
+        "fencing": { "$ref": "#/$defs/nonEmptyObject" },
+        "rollback": { "$ref": "#/$defs/nonEmptyObject" },
+        "cleanup": { "$ref": "#/$defs/nonEmptyObject" },
+        "contract_bindings": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/contractBinding" }
+        },
+        "required_external_evidence": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/code" }
+        },
+        "status": { "const": "repository_manifest_complete_infrastructure_blocked" },
+        "effects": { "$ref": "#/$defs/effects" }
+      }
+    },
+    "nonEmptyObject": {
+      "type": "object",
+      "minProperties": 1
+    }
+  }
+}

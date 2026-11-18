@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-production-custody-decision-record-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Production Custody Decision Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "record_sha256",
+    "decision_id",
+    "decision_status",
+    "decision_effect",
+    "source_dossier",
+    "approval",
+    "selected_options",
+    "recommendation_alignment",
+    "required_owner_inputs",
+    "nonnegotiable_requirements",
+    "authorized_next_steps",
+    "prohibited_effects",
+    "implementation_status",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"type": "string", "pattern": "^PCR-[0-9A-F]{32}$"},
+    "record_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D012"},
+    "decision_status": {"const": "approved_operator_asserted_unsigned"},
+    "decision_effect": {
+      "const": "production_custody_contract_implementation_authorized"
+    },
+    "source_dossier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {"type": "string", "pattern": "^PCD-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_status",
+        "authority_role",
+        "approver_id",
+        "approved_at",
+        "rationale",
+        "identity_assurance"
+      ],
+      "properties": {
+        "decision_status": {"const": "approved"},
+        "authority_role": {"const": "repository_owner"},
+        "approver_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[ -~]+$"
+        },
+        "approved_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^[ -~]+$"
+        },
+        "identity_assurance": {"const": "operator_asserted_unsigned"}
+      }
+    },
+    "selected_options": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deployment_runtime",
+        "implementation_ownership",
+        "checkpoint_access_control",
+        "authoritative_ledger_storage",
+        "catalog_repository_storage",
+        "custody_separation",
+        "release_authentication",
+        "resilience_and_rollout"
+      ],
+      "properties": {
+        "deployment_runtime": {"const": "single_host_native_service"},
+        "implementation_ownership": {"const": "sunderkey_owned_minimal_adapters"},
+        "checkpoint_access_control": {
+          "const": "native_os_acl_dedicated_service_identity"
+        },
+        "authoritative_ledger_storage": {
+          "const": "retention_locked_object_ledger_with_conditional_head"
+        },
+        "catalog_repository_storage": {
+          "const": "immutable_content_addressed_object_storage"
+        },
+        "custody_separation": {
+          "const": "separate_namespaces_credentials_and_failure_domains"
+        },
+        "release_authentication": {
+          "const": "offline_root_authorized_release_signer_and_signed_heads"
+        },
+        "resilience_and_rollout": {
+          "const": "conformance_drills_dual_control_single_canary"
+        }
+      }
+    },
+    "recommendation_alignment": {
+      "const": {
+        "all_recommended_options_selected": true,
+        "selected_option_count": 8,
+        "selected_recommended_option_count": 8
+      }
+    },
+    "required_owner_inputs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "nonnegotiable_requirements": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,160}$"}
+    },
+    "authorized_next_steps": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,160}$"}
+    },
+    "prohibited_effects": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,180}$"}
+    },
+    "implementation_status": {"const": "not_started"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

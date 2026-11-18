@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S10",
+  "component_id": "identity_supplied_spiffe_id_trust_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:spiffe-trust",
+      "trust_policy_complete": true,
+      "trusted_domains": ["example.org"],
+      "observations": [
+        {
+          "observation_id": "synthetic:trusted-id",
+          "spiffe_id": "spiffe://example.org/service/reader",
+          "reported_outcome": "accepted"
+        },
+        {
+          "observation_id": "synthetic:untrusted-id",
+          "spiffe_id": "spiffe://other.example/workload",
+          "reported_outcome": "accepted"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-terminal-custody-plan-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Terminal Custody Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "custody_plan_id",
+    "custody_plan_sha256",
+    "terminal_kind",
+    "terminal_outcome",
+    "outcome_authentication",
+    "request_authentication",
+    "transfer_request",
+    "mission_id",
+    "work_item_id",
+    "transfer_kind",
+    "participant_authentications",
+    "assertion_consumption_order",
+    "source_session_disposition",
+    "target_session_disposition",
+    "recovery_required",
+    "custody_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "custody_plan_id": {"type": "string", "pattern": "^ECT-[0-9A-F]{32}$"},
+    "custody_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "terminal_kind": {"enum": ["completed", "failed_closed_timeout"]},
+    "terminal_outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_id", "outcome_sha256"],
+      "properties": {
+        "outcome_id": {
+          "type": "string",
+          "pattern": "^(ETC|ETD)-[0-9A-F]{32}$"
+        },
+        "outcome_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "outcome_authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authentication_id", "authentication_sha256"],
+      "properties": {
+        "authentication_id": {
+          "type": ["string", "null"],
+          "pattern": "^ETA-[0-9A-F]{32}$"
+        },
+        "authentication_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "request_authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authentication_id", "authentication_sha256"],
+      "properties": {
+        "authentication_id": {"type": "string", "pattern": "^ERA-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "transfer_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_sha256"],
+      "properties": {
+        "request_id": {"type": "string", "pattern": "^ETR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "work_item_id": {"$ref": "#/$defs/identifier"},
+    "transfer_kind": {"enum": ["ownership_handoff", "work_cancellation"]},
+    "participant_authentications": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/participant"}
+    },
+    "assertion_consumption_order": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(ERA|EAA|ETA)-[0-9A-F]{32}$"}
+    },
+    "source_session_disposition": {
+      "enum": ["revoked_unavailable", "fenced_pending_recovery"]
+    },
+    "target_session_disposition": {
+      "enum": ["eligible_after_atomic_commit", "blocked_never_activated", "not_applicable"]
+    },
+    "recovery_required": {"type": "boolean"},
+    "custody_status": {"const": "ready_for_atomic_commit"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "authentication_id",
+        "authentication_sha256",
+        "profile_id",
+        "issuer",
+        "assertion_id",
+        "assertion_sha256",
+        "operation",
+        "operation_intent_sha256",
+        "policy_sha256",
+        "scope_grant_id",
+        "scope_grant_sha256"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "control_plane_requester",
+            "source_worker",
+            "target_worker",
+            "independent_control"
+          ]
+        },
+        "authentication_id": {
+          "type": "string",
+          "pattern": "^(ERA|EAA|ETA)-[0-9A-F]{32}$"
+        },
+        "authentication_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "issuer": {"$ref": "#/$defs/identifier"},
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "operation": {"$ref": "#/$defs/identifier"},
+        "operation_intent_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_grant_id": {"type": "string", "pattern": "^SGR-[0-9A-F]{32}$"},
+        "scope_grant_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

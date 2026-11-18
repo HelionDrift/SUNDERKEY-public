@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-governance-votes",
+      "proposals": [
+        {
+          "proposal_id": "proposal-one",
+          "snapshot_voting_power": 1000,
+          "for_votes": 400,
+          "against_votes": 100,
+          "abstain_votes": 100,
+          "quorum_basis_points": 5000,
+          "quorum_mode": "for_and_abstain",
+          "approval_mode": "for_strictly_exceeds_against",
+          "approval_basis_points": 0,
+          "declared_passed": false,
+          "snapshot_complete": true
+        },
+        {
+          "proposal_id": "proposal-two",
+          "snapshot_voting_power": 1000,
+          "for_votes": 100,
+          "against_votes": 300,
+          "abstain_votes": 100,
+          "quorum_basis_points": 5000,
+          "quorum_mode": "all_votes",
+          "approval_mode": "for_share_threshold",
+          "approval_basis_points": 6000,
+          "declared_passed": false,
+          "snapshot_complete": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "application_entitlements": {
+        "application-identifier": "APPID00001.com.example.reader",
+        "com.apple.developer.team-identifier": "TEAMID0001",
+        "keychain-access-groups": [
+          "APPID00001.com.example.shared",
+          "com.apple.token"
+        ]
+      },
+      "profile_entitlements": {
+        "application-identifier": "APPID00001.com.example.*",
+        "com.apple.developer.team-identifier": "TEAMID0001",
+        "keychain-access-groups": [
+          "APPID00001.*",
+          "com.apple.token",
+          "OTHER00001.unused"
+        ]
+      },
+      "coverage": {
+        "application_entitlements_complete": true,
+        "profile_entitlements_complete": true
+      },
+      "unmodeled_application_entitlement_keys": [],
+      "unmodeled_profile_entitlement_keys": []
+    }
+  }
+}

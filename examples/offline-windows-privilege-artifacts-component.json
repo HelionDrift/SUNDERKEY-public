@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-privilege-artifacts",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "artifacts": [{
+      "artifact_id": "service-a",
+      "artifact_kind": "service",
+      "privileged_execution_declared": true,
+      "low_privilege_write_declared": true
+    }]
+  }}
+}

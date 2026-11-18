@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-serverless-events",
+      "inventory_complete": true,
+      "functions": [
+        {"function_id": "function-a", "event_source_ids": ["source-a"]}
+      ],
+      "event_sources": [
+        {"event_source_id": "source-a", "target_function_id": "function-a"}
+      ]
+    }
+  }
+}

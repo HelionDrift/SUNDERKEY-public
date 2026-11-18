@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-deployment-verification-receipt-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Deployment Verification Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "receipt_sha256",
+    "context_sha256",
+    "sources",
+    "verification_status",
+    "verification_gates",
+    "verified_at",
+    "next_checkpoint",
+    "readiness",
+    "prohibited_effects",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "receipt_id": {"type": "string", "pattern": "^CVR-[0-9A-F]{32}$"},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "context_sha256": {"$ref": "#/$defs/sha256"},
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preparation_packet",
+        "worksheet",
+        "documentation_preflight",
+        "d008_decision",
+        "d009_decision",
+        "qualification_standard",
+        "qualification_policy",
+        "signer_authorization",
+        "control_reviewer_credential",
+        "assurance_reviewer_credential",
+        "catalog"
+      ],
+      "properties": {
+        "preparation_packet": {"$ref": "#/$defs/cdpBinding"},
+        "worksheet": {"$ref": "#/$defs/worksheetBinding"},
+        "documentation_preflight": {"$ref": "#/$defs/cdrBinding"},
+        "d008_decision": {"$ref": "#/$defs/qdrBinding"},
+        "d009_decision": {"$ref": "#/$defs/cerBinding"},
+        "qualification_standard": {"$ref": "#/$defs/standardBinding"},
+        "qualification_policy": {"$ref": "#/$defs/qtpBinding"},
+        "signer_authorization": {"$ref": "#/$defs/ceaBinding"},
+        "control_reviewer_credential": {"$ref": "#/$defs/qrcBinding"},
+        "assurance_reviewer_credential": {"$ref": "#/$defs/qrcBinding"},
+        "catalog": {"$ref": "#/$defs/cecBinding"}
+      }
+    },
+    "verification_status": {"const": "cryptographic_artifacts_verified"},
+    "verification_gates": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "verified_at": {"type": "string", "format": "date-time"},
+    "next_checkpoint": {"$ref": "#/$defs/checkpoint"},
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ready_for_checkpoint_commit",
+        "ready_for_controlled_catalog_release",
+        "ready_for_live_enrollment",
+        "next_action"
+      ],
+      "properties": {
+        "ready_for_checkpoint_commit": {"const": true},
+        "ready_for_controlled_catalog_release": {"const": false},
+        "ready_for_live_enrollment": {"const": false},
+        "next_action": {"const": "persist_checkpoint_and_complete_controlled_catalog_release"}
+      }
+    },
+    "prohibited_effects": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,128}$"}
+    },
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "bindingBase": {
+      "type": "object",
+      "required": ["sha256"],
+      "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "cdpBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["packet_id"], "properties": {"packet_id": {"type": "string", "pattern": "^CDP-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "cdrBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["report_id"], "properties": {"report_id": {"type": "string", "pattern": "^CDR-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "qdrBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["record_id"], "properties": {"record_id": {"type": "string", "pattern": "^QDR-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "cerBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["record_id"], "properties": {"record_id": {"type": "string", "pattern": "^CER-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "standardBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["standard_id"], "properties": {"standard_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}}}
+      ]
+    },
+    "qtpBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["policy_id"], "properties": {"policy_id": {"type": "string", "pattern": "^QTP-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "ceaBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["authorization_id"], "properties": {"authorization_id": {"type": "string", "pattern": "^CEA-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "qrcBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["credential_id"], "properties": {"credential_id": {"type": "string", "pattern": "^QRC-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "cecBinding": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {"$ref": "#/$defs/bindingBase"},
+        {"type": "object", "required": ["catalog_id"], "properties": {"catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"}}}
+      ]
+    },
+    "worksheetBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "worksheet_sha256"],
+      "properties": {
+        "template_id": {"type": "string", "pattern": "^CDT-[0-9A-F]{32}$"},
+        "worksheet_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_id", "catalog_version", "catalog_sha256"],
+      "properties": {
+        "catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "catalog_version": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

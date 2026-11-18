@@ -1,0 +1,113 @@
+{
+  "authorized_next_action": "select_production_custody_and_deployment_inputs",
+  "canary_preparation": {
+    "packet_id": "CAP-7DD087F0CB4534F965889790D2FA5260",
+    "sha256": "sha256:7dd087f0cb4534f965889790d2fa5260b336b4846aae86db37070dba4ba38241"
+  },
+  "decision": {
+    "record_id": "CAR-786706306502CBA601BF44563E114B19",
+    "sha256": "sha256:786706306502cba601bf44563e114b19567b16563f05ff6d368a9684c900bbc1"
+  },
+  "implementation_status": "approved_bundle_contract_implementation_complete",
+  "implemented_security_properties": [
+    "monotonic_version_and_digest_checkpoint_validation",
+    "same_version_same_digest_idempotent_retry_only",
+    "atomic_checkpoint_replace_with_verified_access_control",
+    "checkpoint_commit_before_catalog_promotion",
+    "append_only_hash_chained_release_event_contract",
+    "exact_phase72_verification_receipt_binding",
+    "dual_control_initialization_and_recovery",
+    "fail_closed_partial_state_assessment",
+    "same_digest_recovery_without_history_rewrite",
+    "single_candidate_canary_without_automatic_expansion"
+  ],
+  "implemented_steps": [
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_release_contract.py",
+        "registry/candidate-enrollment-release-policy-d011.json",
+        "tests/agents/test_candidate_enrollment_release_contract_phase75.py"
+      ],
+      "phase": 75,
+      "step_id": "define_checkpoint_store_and_release_ledger_contracts"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_checkpoint_store.py",
+        "registry/schemas/candidate-enrollment-checkpoint-commit-receipt-v1.schema.json",
+        "tests/agents/test_candidate_enrollment_checkpoint_store_phase76.py"
+      ],
+      "phase": 76,
+      "step_id": "implement_atomic_local_checkpoint_adapter"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_release_protocol.py",
+        "registry/schemas/candidate-enrollment-release-completion-receipt-v1.schema.json",
+        "tests/agents/test_candidate_enrollment_release_protocol_phase77.py"
+      ],
+      "phase": 77,
+      "step_id": "implement_release_intent_promotion_and_completion_protocol"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_release_recovery.py",
+        "registry/schemas/candidate-enrollment-release-recovery-receipt-v1.schema.json",
+        "tests/agents/test_candidate_enrollment_release_recovery_phase78.py"
+      ],
+      "phase": 78,
+      "step_id": "implement_fail_closed_crash_and_recovery_state_machine"
+    },
+    {
+      "artifacts": [
+        "tests/agents/test_candidate_enrollment_checkpoint_store_phase76.py",
+        "tests/agents/test_candidate_enrollment_release_protocol_phase77.py",
+        "tests/agents/test_candidate_enrollment_release_recovery_phase78.py"
+      ],
+      "phase": 78,
+      "step_id": "add_adversarial_rollback_corruption_and_partial_failure_tests"
+    },
+    {
+      "artifacts": [
+        "src/sunderkey/candidate_enrollment_canary.py",
+        "registry/candidate-enrollment-canary-preparation-d011.json",
+        "tests/agents/test_candidate_enrollment_canary_phase79.py"
+      ],
+      "phase": 79,
+      "step_id": "prepare_single_candidate_canary_activation_packet"
+    }
+  ],
+  "live_activation_status": "blocked_pending_production_inputs_and_go_no_go",
+  "network_call_performed": false,
+  "production_prerequisites": [
+    "select_production_deployment_and_service_identity",
+    "verify_platform_checkpoint_acl_and_durability_provider",
+    "verify_append_only_release_ledger_provider",
+    "verify_content_addressed_catalog_repository_provider",
+    "supply_verified_controlled_release_outcome",
+    "select_exact_single_candidate_enrollment",
+    "complete_rollback_revocation_and_partial_failure_drills",
+    "define_canary_observation_and_stop_plan",
+    "record_explicit_canary_go_no_go_decision"
+  ],
+  "prohibited_effects": [
+    "does_not_supply_production_acl_ledger_or_repository_adapters",
+    "does_not_select_a_deployment_identity_or_candidate",
+    "does_not_persist_or_initialize_a_production_checkpoint",
+    "does_not_publish_or_promote_a_production_catalog",
+    "does_not_activate_enrollment_or_accept_live_evidence",
+    "does_not_generate_keys_credentials_signatures_or_attestations",
+    "does_not_qualify_a_specialist_or_change_routing",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_mutate_sqlite_runtime_state"
+  ],
+  "qualification_effect": "none",
+  "registry_effect": "none",
+  "release_policy": {
+    "policy_id": "CRP-CB268855D98EC59A1C8D758550848EF5",
+    "sha256": "sha256:cb268855d98ec59a1c8d758550848ef5b5e2f0170d2e9f69d855bc7247a6bdde"
+  },
+  "report_id": "CAI-89EB56403A3369B617C2A9DD6EF71E27",
+  "report_sha256": "sha256:89eb56403a3369b617c2a9dd6ef71e2710a8fc298f71e5d9549cbff1f7a1a2ac",
+  "schema_version": 1
+}

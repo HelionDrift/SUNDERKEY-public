@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-dossier-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Decision Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "status",
+    "decision_effect",
+    "decision_id",
+    "registry",
+    "capability_catalog",
+    "qualification_standard",
+    "qualification_authority_decision",
+    "current_scope",
+    "nonnegotiable_requirements",
+    "alternatives",
+    "decision_questions",
+    "recommendation",
+    "implementation_sequence_after_decision",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^CED-[0-9A-F]{32}$"
+    },
+    "report_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "status": {
+      "const": "decision_required"
+    },
+    "decision_effect": {
+      "const": "none"
+    },
+    "decision_id": {
+      "const": "D009"
+    },
+    "registry": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "capability_catalog": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "qualification_standard": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "qualification_authority_decision": {
+      "$ref": "#/$defs/decisionBinding"
+    },
+    "current_scope": {
+      "$ref": "#/$defs/currentScope"
+    },
+    "nonnegotiable_requirements": {
+      "$ref": "#/$defs/requirements"
+    },
+    "alternatives": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/alternative"
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/decisionQuestion"
+      }
+    },
+    "recommendation": {
+      "$ref": "#/$defs/recommendation"
+    },
+    "implementation_sequence_after_decision": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "prefixItems": [
+        {
+          "const": "approve_d009_enrollment_architecture_decision"
+        },
+        {
+          "const": "define_candidate_enrollment_catalog_schema"
+        },
+        {
+          "const": "define_separated_enrollment_signer_key_use"
+        },
+        {
+          "const": "define_owner_key_and_repository_identity_bindings"
+        },
+        {
+          "const": "define_rotation_and_revocation_record_schemas"
+        },
+        {
+          "const": "implement_signature_scope_expiry_and_rollback_verification"
+        },
+        {
+          "const": "integrate_verified_enrollment_with_evidence_manifest_verification"
+        },
+        {
+          "const": "add_adversarial_rotation_revocation_and_migration_tests"
+        }
+      ],
+      "items": false
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifierSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "catalogBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "decisionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "record_id",
+        "sha256"
+      ],
+      "properties": {
+        "decision_id": {
+          "const": "D008"
+        },
+        "record_id": {
+          "type": "string",
+          "pattern": "^QDR-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "currentScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialist_count",
+        "status_counts",
+        "profiles_with_qualification_chain_head",
+        "checked_live_enrollment_artifact_count",
+        "live_evidence_acceptance"
+      ],
+      "properties": {
+        "specialist_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "defined",
+            "qualified",
+            "suspended",
+            "revoked",
+            "retired"
+          ],
+          "properties": {
+            "defined": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "qualified": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "suspended": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "revoked": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "retired": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "profiles_with_qualification_chain_head": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checked_live_enrollment_artifact_count": {
+          "const": 0
+        },
+        "live_evidence_acceptance": {
+          "const": "blocked_by_d009"
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enrollment_binding_requirements",
+        "separation_requirements",
+        "fail_closed_requirements",
+        "private_key_storage_in_sunderkey",
+        "repository_credentials_in_enrollment",
+        "offline_verification_required"
+      ],
+      "properties": {
+        "enrollment_binding_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "separation_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "fail_closed_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "private_key_storage_in_sunderkey": {
+          "const": false
+        },
+        "repository_credentials_in_enrollment": {
+          "const": false
+        },
+        "offline_verification_required": {
+          "const": true
+        }
+      }
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "name",
+        "recommended",
+        "authority_location",
+        "enrollment_record",
+        "operational_complexity",
+        "offline_verification",
+        "independence_strength",
+        "strengths",
+        "risks",
+        "required_components"
+      ],
+      "properties": {
+        "alternative_id": {
+          "enum": [
+            "organization_signed_enrollment_catalog",
+            "enterprise_pki_artifact_registry_binding",
+            "external_supply_chain_attestation_authority",
+            "deployment_local_static_allowlist"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended": {
+          "type": "boolean"
+        },
+        "authority_location": {
+          "$ref": "#/$defs/identifier"
+        },
+        "enrollment_record": {
+          "$ref": "#/$defs/identifier"
+        },
+        "operational_complexity": {
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "offline_verification": {
+          "enum": [
+            "supported",
+            "limited"
+          ]
+        },
+        "independence_strength": {
+          "enum": [
+            "weak",
+            "strong"
+          ]
+        },
+        "strengths": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "risks": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "required_components": {
+          "$ref": "#/$defs/identifierSet"
+        }
+      }
+    },
+    "decisionQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_id",
+        "prompt",
+        "option_ids",
+        "recommended_option_id"
+      ],
+      "properties": {
+        "question_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "option_ids": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "recommended_option_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "rationale",
+        "selection_state"
+      ],
+      "properties": {
+        "alternative_id": {
+          "const": "organization_signed_enrollment_catalog"
+        },
+        "rationale": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "selection_state": {
+          "const": "not_selected"
+        }
+      }
+    }
+  }
+}

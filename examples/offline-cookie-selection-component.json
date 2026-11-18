@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "cookies": [
+        {
+          "cookie_id": "synthetic-domain",
+          "name": "SID",
+          "domain": "example.invalid",
+          "path": "/app",
+          "host_only": false,
+          "secure": true,
+          "http_only": true
+        },
+        {
+          "cookie_id": "synthetic-host",
+          "name": "PREF",
+          "domain": "api.example.invalid",
+          "path": "/",
+          "host_only": true,
+          "secure": false,
+          "http_only": false
+        }
+      ],
+      "requests": [
+        {
+          "request_id": "synthetic-https-http",
+          "host": "api.example.invalid",
+          "path": "/app/item",
+          "secure_transport": true,
+          "http_api": true
+        },
+        {
+          "request_id": "synthetic-insecure-script",
+          "host": "api.example.invalid",
+          "path": "/application",
+          "secure_transport": false,
+          "http_api": false
+        }
+      ]
+    }
+  }
+}

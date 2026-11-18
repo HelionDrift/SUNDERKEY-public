@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/provider-evidence-custody-dossier-v1.json",
+  "title": "SUNDERKEY Provider Evidence Custody Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "decision_id",
+    "status",
+    "source_contracts",
+    "current_boundary",
+    "decision_questions",
+    "recommendation",
+    "required_owner_inputs",
+    "nonnegotiable_requirements",
+    "authorized_next_steps_if_approved",
+    "limitations",
+    "decision_effect",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^ECD-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D013"},
+    "status": {"const": "decision_required"},
+    "source_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_report_authentication",
+        "provider_evidence_verification_receipt"
+      ],
+      "properties": {
+        "provider_report_authentication": {"$ref": "#/$defs/source"},
+        "provider_evidence_verification_receipt": {"$ref": "#/$defs/source"}
+      }
+    },
+    "current_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authenticated_provider_report_custody_status",
+        "transient_exact_byte_digest_verification_status",
+        "raw_evidence_retention_status",
+        "durable_verification_custody_status",
+        "repository_provider_status",
+        "retention_and_deletion_policy_status",
+        "hostile_content_handling_status",
+        "authorized_target_evidence_ingest_status"
+      ],
+      "properties": {
+        "authenticated_provider_report_custody_status": {"const": "implemented"},
+        "transient_exact_byte_digest_verification_status": {"const": "implemented"},
+        "raw_evidence_retention_status": {"const": "not_implemented"},
+        "durable_verification_custody_status": {"const": "not_implemented"},
+        "repository_provider_status": {"const": "not_selected"},
+        "retention_and_deletion_policy_status": {"const": "not_selected"},
+        "hostile_content_handling_status": {"const": "not_selected"},
+        "authorized_target_evidence_ingest_status": {"const": "blocked"}
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {"$ref": "#/$defs/question"}
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_state", "recommended_options", "rationale"],
+      "properties": {
+        "selection_state": {"const": "not_selected"},
+        "recommended_options": {
+          "type": "object",
+          "minProperties": 12,
+          "maxProperties": 12,
+          "additionalProperties": {"type": "string", "pattern": "^[a-z0-9_]{8,100}$"},
+          "propertyNames": {"pattern": "^[a-z0-9_]{8,64}$"}
+        },
+        "rationale": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]{8,140}$"}
+        }
+      }
+    },
+    "required_owner_inputs": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,160}$"}
+    },
+    "nonnegotiable_requirements": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,180}$"}
+    },
+    "authorized_next_steps_if_approved": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,180}$"}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,180}$"}
+    },
+    "decision_effect": {"const": "none"},
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "sha256"],
+      "properties": {
+        "artifact_path": {"type": "string", "pattern": "^registry/schemas/[a-z0-9-]+\\.schema\\.json$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "prompt", "recommended_option_id", "options"],
+      "properties": {
+        "question_id": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"},
+        "prompt": {"type": "string", "minLength": 16, "maxLength": 180},
+        "recommended_option_id": {"type": "string", "pattern": "^[a-z0-9_]{8,100}$"},
+        "options": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/option"}
+        }
+      }
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_id", "name", "impact", "recommended"],
+      "properties": {
+        "option_id": {"type": "string", "pattern": "^[a-z0-9_]{8,100}$"},
+        "name": {"type": "string", "minLength": 8, "maxLength": 120},
+        "impact": {"type": "string", "minLength": 16, "maxLength": 260},
+        "recommended": {"type": "boolean"}
+      }
+    }
+  }
+}

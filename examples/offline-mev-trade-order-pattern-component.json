@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ordered-trades",
+      "scenarios": [
+        {
+          "scenario_id": "scenario-one",
+          "pool_id": "pool-one",
+          "victim_trade_id": "victim-one",
+          "context_complete": true,
+          "trades": [
+            {"trade_id": "front-one", "actor_id": "actor-a", "direction": "buy", "position": 1},
+            {"trade_id": "victim-one", "actor_id": "actor-b", "direction": "buy", "position": 2},
+            {"trade_id": "back-one", "actor_id": "actor-a", "direction": "sell", "position": 3}
+          ]
+        }
+      ]
+    }
+  }
+}

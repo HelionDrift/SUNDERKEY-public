@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-invocation-resolution-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Invocation Resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "resolution_id",
+    "resolution_sha256",
+    "invocation_preparation",
+    "outcome",
+    "provider_acknowledgement",
+    "failure_code",
+    "resolved_at",
+    "retry_disposition",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "resolution_id": {"type": "string", "pattern": "^EIR-[0-9A-F]{32}$"},
+    "resolution_sha256": {"$ref": "#/$defs/sha256"},
+    "invocation_preparation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_id", "attempt_sha256", "prepared_at", "idempotency_status"],
+      "properties": {
+        "attempt_id": {"type": "string", "pattern": "^EIP-[0-9A-F]{32}$"},
+        "attempt_sha256": {"$ref": "#/$defs/sha256"},
+        "prepared_at": {"$ref": "#/$defs/timestamp"},
+        "idempotency_status": {"enum": ["absent", "declared_unverified", "verified"]}
+      }
+    },
+    "outcome": {"enum": ["failed_before_invocation", "provider_report_received", "outcome_uncertain"]},
+    "provider_acknowledgement": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["acknowledgement_id", "acknowledgement_sha256"],
+          "properties": {
+            "acknowledgement_id": {"type": "string", "pattern": "^EXA-[0-9A-F]{32}$"},
+            "acknowledgement_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "failure_code": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/identifier"}]},
+    "resolved_at": {"$ref": "#/$defs/timestamp"},
+    "retry_disposition": {
+      "enum": [
+        "retry_allowed_no_external_effect",
+        "complete_provider_report_pending_authentication",
+        "retry_forbidden_uncertain_effect",
+        "retry_allowed_verified_idempotency"
+      ]
+    },
+    "external_effect_status": {
+      "enum": ["not_started", "provider_report_pending_authentication", "outcome_uncertain"]
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"}
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S03",
+  "component_id": "protobuf_supplied_wire_occurrences",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network":[],"filesystem":[],"process":[],"credential":[]},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic.protobuf-wire",
+      "root_message": "Root",
+      "messages": [
+        {
+          "message_id": "Root",
+          "fields": [
+            {"field_number":1,"field_type":"uint32","repeated":false,"message_type":null},
+            {"field_number":2,"field_type":"string","repeated":false,"message_type":null},
+            {"field_number":3,"field_type":"sint64","repeated":true,"message_type":null},
+            {"field_number":4,"field_type":"message","repeated":false,"message_type":"Child"}
+          ]
+        },
+        {"message_id":"Child","fields":[{"field_number":1,"field_type":"uint64","repeated":false,"message_type":null}]}
+      ],
+      "payload_base64": "CJYBEgd0ZXN0aW5nGgMBAgMiAggHSgL/AA=="
+    }
+  }
+}

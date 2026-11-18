@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sunderkey:schema:asset-reconciliation-policy-v1",
+  "title": "SUNDERKEY asset reconciliation policy version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capability_id",
+    "confidence",
+    "corroborating_identifier_kinds",
+    "identity_priority",
+    "linking_identifier_kinds",
+    "policy_id",
+    "required_native_identifier",
+    "safety_boundary",
+    "schema_version",
+    "supported_source_kinds"
+  ],
+  "properties": {
+    "capability_id": {
+      "const": "external.discovery.multi-source-asset-reconciliation"
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conflict_penalty_bps", "source_caps_bps", "stale_cap_bps"],
+      "properties": {
+        "conflict_penalty_bps": {"const": 1000},
+        "stale_cap_bps": {"const": 5000},
+        "source_caps_bps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cloud", "cmdb", "directory", "endpoint", "external", "vulnerability"],
+          "properties": {
+            "cloud": {"const": 9800},
+            "cmdb": {"const": 9800},
+            "directory": {"const": 9500},
+            "endpoint": {"const": 9500},
+            "external": {"const": 7000},
+            "vulnerability": {"const": 8500}
+          }
+        }
+      }
+    },
+    "corroborating_identifier_kinds": {
+      "const": ["hostname", "ip_address"]
+    },
+    "identity_priority": {
+      "const": [
+        "cloud_resource_id",
+        "cmdb_ci_id",
+        "directory_object_id",
+        "endpoint_device_id",
+        "serial_number",
+        "mac_address",
+        "fqdn",
+        "vulnerability_asset_id",
+        "external_asset_id"
+      ]
+    },
+    "linking_identifier_kinds": {
+      "const": [
+        "cloud_resource_id",
+        "cmdb_ci_id",
+        "directory_object_id",
+        "endpoint_device_id",
+        "external_asset_id",
+        "fqdn",
+        "mac_address",
+        "serial_number",
+        "vulnerability_asset_id"
+      ]
+    },
+    "policy_id": {"const": "asset-reconciliation-policy-v1"},
+    "required_native_identifier": {
+      "const": {
+        "cloud": "cloud_resource_id",
+        "cmdb": "cmdb_ci_id",
+        "directory": "directory_object_id",
+        "endpoint": "endpoint_device_id",
+        "external": "external_asset_id",
+        "vulnerability": "vulnerability_asset_id"
+      }
+    },
+    "safety_boundary": {
+      "const": {
+        "active_probing": false,
+        "authority": "none",
+        "deployment": "none",
+        "qualification": "none",
+        "routing": "none",
+        "target_interaction": false
+      }
+    },
+    "schema_version": {"const": 1},
+    "supported_source_kinds": {
+      "const": ["cloud", "cmdb", "directory", "endpoint", "external", "vulnerability"]
+    }
+  }
+}

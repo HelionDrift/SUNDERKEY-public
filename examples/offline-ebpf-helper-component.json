@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-ebpf-helpers",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "helper_policies": [{
+      "program_type": "tracing", "allowed_helper_ids": ["helper-a"]
+    }],
+    "programs": [{
+      "program_id": "program-a", "program_type": "tracing",
+      "declared_helper_ids": ["helper-a", "helper-b"]
+    }]
+  }}
+}

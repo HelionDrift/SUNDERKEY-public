@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/deception-lifecycle-review-v1.schema.json",
+  "title": "SUNDERKEY Offline Deception Lifecycle Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "plan_ref", "plan_sha256", "events_sha256", "as_of",
+    "declared_state", "declared_alert_count", "declared_late_alert_count",
+    "declared_post_revocation_alert_count", "declared_post_cleanup_alert_count",
+    "placement_receipt_asserted",
+    "cleanup_receipt_asserted", "cleanup_due", "owner_approval_verified",
+    "removal_test_verified", "token_privilege_verified", "alert_delivery_verified",
+    "source_provenance", "review_status", "qualification_effect", "effects",
+    "review_id", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "plan_ref": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "plan_sha256": {"$ref": "#/$defs/sha256"},
+    "events_sha256": {"$ref": "#/$defs/sha256"},
+    "as_of": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "declared_state": {
+      "enum": [
+        "unplaced", "declared_active", "declared_revoked_cleanup_due",
+        "declared_expired_cleanup_due", "declared_cleaned",
+        "declared_cleanup_disputed"
+      ]
+    },
+    "declared_alert_count": {"type": "integer", "minimum": 0, "maximum": 256},
+    "declared_late_alert_count": {"type": "integer", "minimum": 0, "maximum": 256},
+    "declared_post_revocation_alert_count": {
+      "type": "integer", "minimum": 0, "maximum": 256
+    },
+    "declared_post_cleanup_alert_count": {
+      "type": "integer", "minimum": 0, "maximum": 256
+    },
+    "placement_receipt_asserted": {"type": "boolean"},
+    "cleanup_receipt_asserted": {"type": "boolean"},
+    "cleanup_due": {"type": "boolean"},
+    "owner_approval_verified": {"const": false},
+    "removal_test_verified": {"const": false},
+    "token_privilege_verified": {"const": false},
+    "alert_delivery_verified": {"const": false},
+    "source_provenance": {"const": "caller_asserted_not_authenticated"},
+    "review_status": {"const": "independent_review_required"},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "alert_delivery": "none", "authorization": "none",
+        "deception_placement": "none", "notification": "none",
+        "qualification": "none", "target_interaction": "none",
+        "token_issuance": "none"
+      }
+    },
+    "review_id": {"type": "string", "pattern": "^DLR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

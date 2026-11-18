@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/end-to-end-conformance-receipt-v1.schema.json",
+  "title": "SUNDERKEY end-to-end conformance records v1",
+  "oneOf": [
+    {"$ref": "#/$defs/plan"},
+    {"$ref": "#/$defs/evidence"},
+    {"$ref": "#/$defs/gapReport"},
+    {"$ref": "#/$defs/receipt"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "stages": {
+      "enum": [
+        "service_intake",
+        "scheduler_dispatch",
+        "action_admission",
+        "specialist_execution",
+        "evidence_recording",
+        "finding_validation",
+        "reporting",
+        "activation_review",
+        "activation",
+        "cleanup_restoration",
+        "rollback_verification"
+      ]
+    },
+    "stageOrder": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "service_intake"},
+        {"const": "scheduler_dispatch"},
+        {"const": "action_admission"},
+        {"const": "specialist_execution"},
+        {"const": "evidence_recording"},
+        {"const": "finding_validation"},
+        {"const": "reporting"},
+        {"const": "activation_review"},
+        {"const": "activation"},
+        {"const": "cleanup_restoration"},
+        {"const": "rollback_verification"}
+      ],
+      "items": false,
+      "minItems": 11,
+      "maxItems": 11
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credentials",
+        "deployment",
+        "filesystem_discovery",
+        "live_workflow_proof",
+        "network",
+        "promotion",
+        "qualification",
+        "target_execution"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credentials": {"const": "not_accessed"},
+        "deployment": {"const": "none"},
+        "filesystem_discovery": {"const": "none"},
+        "live_workflow_proof": {"const": "none"},
+        "network": {"const": "none"},
+        "promotion": {"const": "none"},
+        "qualification": {"const": "none"},
+        "target_execution": {"const": "none"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_ref",
+        "mission_ref",
+        "operator_ref",
+        "scope_ref",
+        "tenant_ref"
+      ],
+      "properties": {
+        "context_ref": {"type": "string", "pattern": "^contextref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "mission_ref": {"type": "string", "pattern": "^missionref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "operator_ref": {"type": "string", "pattern": "^operatorref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "scope_ref": {"type": "string", "pattern": "^scoperef:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "fence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fence_epoch", "fence_ref", "fence_token"],
+      "properties": {
+        "fence_epoch": {"type": "integer", "minimum": 1},
+        "fence_ref": {"type": "string", "pattern": "^fenceref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "fence_token": {"type": "string", "minLength": 16, "maxLength": 128, "pattern": "^[\\x20-\\x7E]+$"}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["elapsed_ms", "evidence_bytes", "requests", "tokens"],
+      "properties": {
+        "elapsed_ms": {"type": "integer", "minimum": 0},
+        "evidence_bytes": {"type": "integer", "minimum": 0},
+        "requests": {"type": "integer", "minimum": 0},
+        "tokens": {"type": "integer", "minimum": 0}
+      }
+    },
+    "controlLinks": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[A-Za-z0-9._-]+$"},
+      "additionalProperties": {"$ref": "#/$defs/sha256"},
+      "maxProperties": 4
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "review_sha256",
+        "reviewed_at",
+        "reviewed_observation_sha256",
+        "reviewer_ref"
+      ],
+      "properties": {
+        "decision": {"enum": ["accepted", "rejected"]},
+        "review_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "reviewed_observation_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewer_ref": {"type": "string", "pattern": "^reviewerref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding",
+        "budget_ceiling",
+        "cleanup_obligation_sha256",
+        "created_at",
+        "effects",
+        "fence",
+        "idempotency_seed",
+        "kind",
+        "plan_id",
+        "plan_sha256",
+        "rollback_policy_sha256",
+        "schema_version",
+        "stage_order",
+        "start_version"
+      ],
+      "properties": {
+        "binding": {"$ref": "#/$defs/binding"},
+        "budget_ceiling": {"$ref": "#/$defs/budget"},
+        "cleanup_obligation_sha256": {"$ref": "#/$defs/sha256"},
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "fence": {"$ref": "#/$defs/fence"},
+        "idempotency_seed": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "kind": {"const": "sunderkey.end-to-end-conformance-plan.v1"},
+        "plan_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "rollback_policy_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "stage_order": {"$ref": "#/$defs/stageOrder"},
+        "start_version": {"type": "integer", "minimum": 0}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "artifact_sha256s",
+        "binding",
+        "binding_sha256",
+        "budget_used",
+        "completed_at",
+        "control_links",
+        "custody_sha256",
+        "effects",
+        "evidence_id",
+        "evidence_sha256",
+        "fence",
+        "fence_sha256",
+        "idempotency_key",
+        "kind",
+        "observation_sha256",
+        "ordinal",
+        "plan_id",
+        "plan_sha256",
+        "prior_custody_sha256",
+        "prior_stage_sha256",
+        "qualification_effect",
+        "reason_code",
+        "review",
+        "schema_version",
+        "stage",
+        "status",
+        "version_after",
+        "version_before"
+      ],
+      "properties": {
+        "adapter_ref": {"type": "string", "pattern": "^adapterref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "artifact_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "binding": {"$ref": "#/$defs/binding"},
+        "binding_sha256": {"$ref": "#/$defs/sha256"},
+        "budget_used": {"$ref": "#/$defs/budget"},
+        "completed_at": {"$ref": "#/$defs/timestamp"},
+        "control_links": {"$ref": "#/$defs/controlLinks"},
+        "custody_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evidence_id": {"type": "string", "pattern": "^ECE-[0-9A-F]{32}$"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "fence": {"$ref": "#/$defs/fence"},
+        "fence_sha256": {"$ref": "#/$defs/sha256"},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "kind": {"const": "sunderkey.end-to-end-stage-evidence.v1"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "ordinal": {"type": "integer", "minimum": 1, "maximum": 11},
+        "plan_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "prior_custody_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+        "prior_stage_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+        "qualification_effect": {"const": "none"},
+        "reason_code": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{2,95}$"}]},
+        "review": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/review"}]},
+        "schema_version": {"const": 1},
+        "stage": {"$ref": "#/$defs/stages"},
+        "status": {"enum": ["passed", "failed", "skipped"]},
+        "version_after": {"type": "integer", "minimum": 0},
+        "version_before": {"type": "integer", "minimum": 0}
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "detail", "stage"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,63}$"},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[\\x20-\\x7E]+$"},
+        "stage": {"$ref": "#/$defs/stages"}
+      }
+    },
+    "gapReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completed_stages",
+        "effects",
+        "gaps",
+        "generated_at",
+        "kind",
+        "observed_stage_count",
+        "plan_id",
+        "plan_sha256",
+        "qualification_effect",
+        "report_id",
+        "report_sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "completed_stages": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 11,
+          "items": {"$ref": "#/$defs/stages"}
+        },
+        "effects": {"$ref": "#/$defs/effects"},
+        "gaps": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/gap"}},
+        "generated_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.end-to-end-conformance-gap-report.v1"},
+        "observed_stage_count": {"type": "integer", "minimum": 0},
+        "plan_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_effect": {"const": "none"},
+        "report_id": {"type": "string", "pattern": "^ECG-[0-9A-F]{32}$"},
+        "report_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completed_at",
+        "effects",
+        "evidence_sha256s",
+        "final_custody_sha256",
+        "final_version",
+        "gap_report_id",
+        "gap_report_sha256",
+        "kind",
+        "plan_id",
+        "plan_sha256",
+        "proof_scope",
+        "qualification_effect",
+        "receipt_id",
+        "receipt_sha256",
+        "schema_version",
+        "status",
+        "total_budget_used"
+      ],
+      "properties": {
+        "completed_at": {"$ref": "#/$defs/timestamp"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evidence_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 11,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "final_custody_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+        "final_version": {"type": "integer", "minimum": 0},
+        "gap_report_id": {"type": "string", "pattern": "^ECG-[0-9A-F]{32}$"},
+        "gap_report_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"const": "sunderkey.end-to-end-conformance-receipt.v1"},
+        "plan_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "proof_scope": {"const": "repository_only_offline_adapter_conformance"},
+        "qualification_effect": {"const": "none"},
+        "receipt_id": {"type": "string", "pattern": "^ECR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "status": {"enum": ["conformant", "nonconformant"]},
+        "total_budget_used": {"$ref": "#/$defs/budget"}
+      }
+    }
+  }
+}

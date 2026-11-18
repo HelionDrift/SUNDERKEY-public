@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/candidate-component-catalog.schema.json",
+  "title": "SUNDERKEY Candidate Component Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "component_catalog_id",
+    "component_catalog_version",
+    "candidate_blueprint_catalog_id",
+    "candidate_blueprint_catalog_version",
+    "candidate_blueprint_catalog_sha256",
+    "components"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "component_catalog_id": {"$ref": "#/$defs/asciiText"},
+    "component_catalog_version": {"$ref": "#/$defs/asciiText"},
+    "candidate_blueprint_catalog_id": {"$ref": "#/$defs/asciiText"},
+    "candidate_blueprint_catalog_version": {"$ref": "#/$defs/asciiText"},
+    "candidate_blueprint_catalog_sha256": {"$ref": "#/$defs/sha256"},
+    "components": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/component"}
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "uniqueTextArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/asciiText"}
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component_id",
+        "component_version",
+        "candidate_id",
+        "candidate_version",
+        "profile_id",
+        "candidate_blueprint_sha256",
+        "component_type",
+        "component_status",
+        "specification",
+        "component_sha256"
+      ],
+      "properties": {
+        "component_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+        },
+        "component_version": {"$ref": "#/$defs/asciiText"},
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+        },
+        "candidate_version": {"$ref": "#/$defs/asciiText"},
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "candidate_blueprint_sha256": {"$ref": "#/$defs/sha256"},
+        "component_type": {
+          "enum": [
+            "behavior_contract",
+            "instruction_bundle",
+            "knowledge_manifest",
+            "runtime_manifest",
+            "tool_policy"
+          ]
+        },
+        "component_status": {
+          "enum": [
+            "contract_fixture",
+            "development",
+            "review_ready",
+            "retired"
+          ]
+        },
+        "specification": {"type": "object"},
+        "component_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"component_type": {"const": "behavior_contract"}}
+          },
+          "then": {
+            "properties": {
+              "specification": {"$ref": "#/$defs/behaviorSpecification"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"component_type": {"const": "instruction_bundle"}}
+          },
+          "then": {
+            "properties": {
+              "specification": {"$ref": "#/$defs/instructionSpecification"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"component_type": {"const": "knowledge_manifest"}}
+          },
+          "then": {
+            "properties": {
+              "specification": {"$ref": "#/$defs/knowledgeSpecification"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"component_type": {"const": "runtime_manifest"}}
+          },
+          "then": {
+            "properties": {
+              "specification": {"$ref": "#/$defs/runtimeSpecification"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"component_type": {"const": "tool_policy"}}
+          },
+          "then": {
+            "properties": {
+              "specification": {"$ref": "#/$defs/toolPolicySpecification"}
+            }
+          }
+        }
+      ]
+    },
+    "behaviorSpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission",
+        "allowed_actions",
+        "prohibited_actions",
+        "stop_conditions",
+        "maximum_autonomous_action_tier",
+        "minimum_evidence_level"
+      ],
+      "properties": {
+        "mission": {"$ref": "#/$defs/asciiText"},
+        "allowed_actions": {"$ref": "#/$defs/uniqueTextArray"},
+        "prohibited_actions": {"$ref": "#/$defs/uniqueTextArray"},
+        "stop_conditions": {"$ref": "#/$defs/uniqueTextArray"},
+        "maximum_autonomous_action_tier": {"$ref": "#/$defs/asciiText"},
+        "minimum_evidence_level": {"$ref": "#/$defs/asciiText"}
+      }
+    },
+    "instructionSpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundle_format",
+        "content_sha256",
+        "primary_capability_ids",
+        "supporting_capability_ids",
+        "scenario_family_id",
+        "required_gate_ids"
+      ],
+      "properties": {
+        "bundle_format": {
+          "enum": ["structured_bundle", "synthetic_placeholder", "text_bundle"]
+        },
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "primary_capability_ids": {"$ref": "#/$defs/uniqueTextArray"},
+        "supporting_capability_ids": {"$ref": "#/$defs/uniqueTextArray"},
+        "scenario_family_id": {"$ref": "#/$defs/asciiText"},
+        "required_gate_ids": {"$ref": "#/$defs/uniqueTextArray"}
+      }
+    },
+    "knowledgeSpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrieval_mode",
+        "source_manifest_sha256",
+        "source_count",
+        "reviewed_source_count",
+        "rights_review_status",
+        "minimum_evidence_level"
+      ],
+      "properties": {
+        "retrieval_mode": {
+          "enum": ["disabled", "retrieval_index", "static_manifest"]
+        },
+        "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "source_count": {"type": "integer", "minimum": 0},
+        "reviewed_source_count": {"type": "integer", "minimum": 0},
+        "rights_review_status": {
+          "enum": ["complete", "not_applicable", "not_performed"]
+        },
+        "minimum_evidence_level": {"$ref": "#/$defs/asciiText"}
+      }
+    },
+    "runtimeSpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_class",
+        "provider_ref",
+        "model_ref",
+        "hosting_ref",
+        "runtime_config_sha256",
+        "execution_enabled",
+        "network_access",
+        "process_access"
+      ],
+      "properties": {
+        "runtime_class": {
+          "enum": ["disabled_fixture", "human_runbook", "hybrid", "model_agent"]
+        },
+        "provider_ref": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/asciiText"}]
+        },
+        "model_ref": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/asciiText"}]
+        },
+        "hosting_ref": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/asciiText"}]
+        },
+        "runtime_config_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_enabled": {"type": "boolean"},
+        "network_access": {"type": "boolean"},
+        "process_access": {"type": "boolean"}
+      }
+    },
+    "toolPolicySpecification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_template_id",
+        "allowed_action_ids",
+        "prohibited_action_ids",
+        "admission_mode",
+        "tool_manifest_sha256",
+        "allowed_tool_count",
+        "credential_access",
+        "target_access",
+        "network_access",
+        "execution_allowed"
+      ],
+      "properties": {
+        "policy_template_id": {"$ref": "#/$defs/asciiText"},
+        "allowed_action_ids": {"$ref": "#/$defs/uniqueTextArray"},
+        "prohibited_action_ids": {"$ref": "#/$defs/uniqueTextArray"},
+        "admission_mode": {"enum": ["allowlisted", "deny_all"]},
+        "tool_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "allowed_tool_count": {"type": "integer", "minimum": 0},
+        "credential_access": {"type": "boolean"},
+        "target_access": {"type": "boolean"},
+        "network_access": {"type": "boolean"},
+        "execution_allowed": {"type": "boolean"}
+      }
+    }
+  }
+}

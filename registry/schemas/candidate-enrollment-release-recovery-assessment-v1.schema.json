@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-release-recovery-assessment-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Release Recovery Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "assessment_sha256",
+    "deployment_id",
+    "release_state",
+    "checkpoint_status",
+    "ledger_tail",
+    "recovery_eligible",
+    "required_authority",
+    "permitted_action",
+    "live_enrollment_allowed",
+    "assessment_effect",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "assessment_id": {"type": "string", "pattern": "^RRA-[0-9A-F]{32}$"},
+    "assessment_sha256": {"$ref": "#/$defs/sha256"},
+    "deployment_id": {"$ref": "#/$defs/identifier"},
+    "release_state": {
+      "enum": [
+        "uninitialized",
+        "intent_recorded_checkpoint_not_committed",
+        "checkpoint_committed_ledger_not_updated",
+        "checkpoint_committed_promotion_not_recorded",
+        "promotion_recorded_completion_not_recorded",
+        "recovery_intent_recorded_resume_required",
+        "release_complete",
+        "ambiguous_fail_closed"
+      ]
+    },
+    "checkpoint_status": {"enum": ["absent", "committed", "unavailable_fail_closed"]},
+    "ledger_tail": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/entryBinding"}
+      ]
+    },
+    "recovery_eligible": {"type": "boolean"},
+    "required_authority": {"enum": ["none", "deployment_owner_and_independent_control"]},
+    "permitted_action": {"enum": ["none", "same_digest_recovery_only"]},
+    "live_enrollment_allowed": {"const": false},
+    "assessment_effect": {"const": "none"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "entryBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "sha256"],
+      "properties": {
+        "entry_id": {"type": "string", "pattern": "^CLE-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

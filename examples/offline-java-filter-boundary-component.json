@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S06",
+  "component_id": "java_supplied_filter_mapping_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:java-filter",
+      "source": {
+        "schema_version": "v1",
+        "declarations_complete": true,
+        "filters": [
+          {
+            "filter_id": "guard",
+            "kind": "authorization_guard",
+            "route_ids": ["account", "forwarded"],
+            "dispatchers": ["REQUEST"]
+          },
+          {
+            "filter_id": "logger",
+            "kind": "other",
+            "route_ids": ["account"],
+            "dispatchers": ["REQUEST"]
+          }
+        ],
+        "routes": [
+          {
+            "route_id": "account",
+            "route_path": "/account",
+            "dispatcher": "REQUEST",
+            "requires_guard": true
+          },
+          {
+            "route_id": "forwarded",
+            "route_path": "/account",
+            "dispatcher": "FORWARD",
+            "requires_guard": true
+          },
+          {
+            "route_id": "health",
+            "route_path": "/health",
+            "dispatcher": "REQUEST",
+            "requires_guard": false
+          }
+        ]
+      }
+    }
+  }
+}

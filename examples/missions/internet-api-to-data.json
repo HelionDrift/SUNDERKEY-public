@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "mission_id": "EXAMPLE-API-DATA-001",
+  "objective": "Validate a synthetic API authorization path and its downstream data boundary.",
+  "environment": "test",
+  "requested_specialist_ids": [
+    "AOE-GA-D03-S13",
+    "AOE-GB-D06-S09",
+    "AOE-GB-D07-S01"
+  ],
+  "max_action_tier": "R2",
+  "required_evidence_level": "E3",
+  "scope_reference": "scope://example/internet-api-to-data",
+  "constraints": {
+    "production": false,
+    "third_party": false,
+    "synthetic_data_only": true,
+    "isolated_research_range": false,
+    "max_cell_size": 20
+  }
+}

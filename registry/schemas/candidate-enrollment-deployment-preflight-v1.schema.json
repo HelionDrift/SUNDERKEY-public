@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-deployment-preflight-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Deployment Preflight Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "preparation_packet",
+    "worksheet",
+    "input_results",
+    "readiness",
+    "prohibited_effects",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^CDR-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "preparation_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^CDP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "worksheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "template_sha256", "worksheet_sha256"],
+      "properties": {
+        "template_id": {"type": "string", "pattern": "^CDT-[0-9A-F]{32}$"},
+        "template_sha256": {"$ref": "#/$defs/sha256"},
+        "worksheet_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "input_results": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input_id",
+          "input_status",
+          "missing_role_assignments",
+          "missing_completion_evidence",
+          "completed_at_present"
+        ],
+        "properties": {
+          "input_id": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"},
+          "input_status": {"enum": ["pending", "externally_documented"]},
+          "missing_role_assignments": {
+            "type": "array",
+            "maxItems": 3,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"}
+          },
+          "missing_completion_evidence": {
+            "type": "array",
+            "maxItems": 4,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"}
+          },
+          "completed_at_present": {"type": "boolean"}
+        }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "submission_completeness_status",
+        "ready_for_cryptographic_artifact_verification",
+        "ready_for_live_enrollment",
+        "pending_global_fields",
+        "pending_input_count",
+        "next_action",
+        "self_reported_evidence_only"
+      ],
+      "properties": {
+        "submission_completeness_status": {"enum": ["complete", "incomplete"]},
+        "ready_for_cryptographic_artifact_verification": {"type": "boolean"},
+        "ready_for_live_enrollment": {"const": false},
+        "pending_global_fields": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"enum": ["deployment_id", "prepared_by", "prepared_at"]}
+        },
+        "pending_input_count": {"type": "integer", "minimum": 0, "maximum": 9},
+        "next_action": {
+          "enum": [
+            "complete_missing_external_input_documentation",
+            "perform_independent_cryptographic_artifact_verification"
+          ]
+        },
+        "self_reported_evidence_only": {"const": true}
+      }
+    },
+    "prohibited_effects": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,128}$"}
+    },
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D25-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-vehicle-plan",
+      "inventory_complete": true,
+      "nodes": [
+        {"node_id": "telemetry-unit", "role": "telematics"},
+        {"node_id": "boundary-gateway", "role": "gateway"},
+        {"node_id": "vehicle-subsystem", "role": "vehicle_subsystem"}
+      ],
+      "interfaces": [
+        {"interface_id": "telemetry-if", "node_id": "telemetry-unit", "segment_id": "connected"},
+        {"interface_id": "gateway-in", "node_id": "boundary-gateway", "segment_id": "connected"},
+        {"interface_id": "gateway-out", "node_id": "boundary-gateway", "segment_id": "internal"},
+        {"interface_id": "subsystem-if", "node_id": "vehicle-subsystem", "segment_id": "internal"}
+      ],
+      "gateways": [{
+        "gateway_id": "boundary-gateway",
+        "node_id": "boundary-gateway",
+        "ingress_interface": "gateway-in",
+        "egress_interface": "gateway-out"
+      }],
+      "allowed_flows": [],
+      "flows": [{
+        "flow_id": "declared-telemetry",
+        "source_interface": "telemetry-if",
+        "destination_interface": "subsystem-if",
+        "channel_id": "status",
+        "expected_allowed": true
+      }]
+    }
+  }
+}

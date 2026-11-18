@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S14",
+  "component_id": "csp_supplied_external_fetch_predicates",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "protected_origin": {"scheme": "http", "host": "app.example.test", "port": null},
+      "policy_list_complete": true,
+      "policies": [
+        {
+          "policy_id": "enforced.baseline",
+          "disposition": "enforce",
+          "serialized_policy": "default-src 'none'; img-src 'self' https://*.example.test; connect-src https:"
+        },
+        {
+          "policy_id": "report.candidate",
+          "disposition": "report",
+          "serialized_policy": "default-src 'none'"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "image.same-upgrade",
+          "destination": "image",
+          "redirect_count": 0,
+          "url": {"scheme": "https", "host": "app.example.test", "port": null}
+        },
+        {
+          "query_id": "font.denied",
+          "destination": "font",
+          "redirect_count": 0,
+          "url": {"scheme": "https", "host": "fonts.example.test", "port": null}
+        },
+        {
+          "query_id": "connect.external",
+          "destination": "connect",
+          "redirect_count": 0,
+          "url": {"scheme": "https", "host": "api.other.test", "port": null}
+        }
+      ]
+    }
+  }
+}

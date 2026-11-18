@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S18",
+  "component_id": "desktop_supplied_electron_bridge_origin_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "surfaces_complete": true,
+      "surfaces": [{
+        "surface_id": "checkout",
+        "trusted_origins": ["https://app.example"],
+        "trusted_origins_complete": true,
+        "bridge_origin_rule": "exact_allowlist",
+        "allowed_origins": ["https://app.example", "https://untrusted.example"],
+        "privileged_bridge_exposed": true,
+        "policy_complete": true,
+        "trusted_only_bridge_required": true
+      }],
+      "entries": [
+        {"entry_id": "candidate", "surface_id": "checkout", "entry_kind": "remote_navigation", "target_surface": "renderer", "entry_origin": "https://untrusted.example", "reachability": "reachable", "reachability_complete": true, "context_complete": true, "bridge_exposed": true, "bridge_exposure_complete": true},
+        {"entry_id": "denied", "surface_id": "checkout", "entry_kind": "remote_navigation", "target_surface": "renderer", "entry_origin": "https://denied.example", "reachability": "reachable", "reachability_complete": true, "context_complete": true, "bridge_exposed": true, "bridge_exposure_complete": true},
+        {"entry_id": "external-browser", "surface_id": "checkout", "entry_kind": "remote_navigation", "target_surface": "external_browser", "entry_origin": "https://untrusted.example", "reachability": "reachable", "reachability_complete": true, "context_complete": true, "bridge_exposed": false, "bridge_exposure_complete": true},
+        {"entry_id": "trusted", "surface_id": "checkout", "entry_kind": "remote_navigation", "target_surface": "renderer", "entry_origin": "https://app.example", "reachability": "reachable", "reachability_complete": true, "context_complete": true, "bridge_exposed": true, "bridge_exposure_complete": true},
+        {"entry_id": "unknown-origin", "surface_id": "checkout", "entry_kind": "remote_navigation", "target_surface": "renderer", "entry_origin": "unknown", "reachability": "reachable", "reachability_complete": true, "context_complete": true, "bridge_exposed": true, "bridge_exposure_complete": true}
+      ]
+    }
+  }
+}

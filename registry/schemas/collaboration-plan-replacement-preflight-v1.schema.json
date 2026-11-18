@@ -1,0 +1,441 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-plan-replacement-preflight-v1.json",
+  "title": "SUNDERKEY Collaboration Plan Replacement Preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "preflight_id",
+    "preflight_sha256",
+    "selection_sha256",
+    "mission_id",
+    "prior_plan",
+    "replacement_plan",
+    "mission_policy_commit",
+    "source_state",
+    "item_mappings",
+    "cancellation_actions",
+    "new_item_actions",
+    "authority_requirements",
+    "maximum_mapping_items",
+    "atomic_commit_required",
+    "history_policy",
+    "authentication_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "preflight_id": {"type": "string", "pattern": "^PRF-[0-9A-F]{32}$"},
+    "preflight_sha256": {"$ref": "#/$defs/sha256"},
+    "selection_sha256": {"$ref": "#/$defs/sha256"},
+    "mission_id": {"$ref": "#/$defs/missionId"},
+    "prior_plan": {"$ref": "#/$defs/planReference"},
+    "replacement_plan": {"$ref": "#/$defs/planReference"},
+    "mission_policy_commit": {"$ref": "#/$defs/missionPolicyCommit"},
+    "source_state": {"$ref": "#/$defs/sourceState"},
+    "item_mappings": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/itemMapping"}
+    },
+    "cancellation_actions": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/cancellationAction"}
+    },
+    "new_item_actions": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/newItemAction"}
+    },
+    "authority_requirements": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 50000,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/authorityRequirement"}
+    },
+    "maximum_mapping_items": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "atomic_commit_required": {"const": true},
+    "history_policy": {"const": "append_only_no_rewrite"},
+    "authentication_status": {"const": "authority_assertions_required"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "missionId": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "planId": {
+      "type": "string",
+      "pattern": "^CLP-[0-9A-F]{24}$"
+    },
+    "workItemId": {
+      "type": "string",
+      "pattern": "^WIT-[A-Z]{2,16}-[0-9A-F]{16}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-(G[A-E]-D[0-9]{2}-(S[0-9]{2}|CMD)|HQ-[0-9]{2})$"
+    },
+    "commandId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}$"
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": ["E0", "E1", "E2", "E3", "E4"]
+    },
+    "ownerClass": {
+      "type": "string",
+      "enum": [
+        "mission_coordination",
+        "specialist",
+        "domain_command",
+        "independent_control",
+        "independent_assurance"
+      ]
+    },
+    "planReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan_id", "plan_sha256"],
+      "properties": {
+        "plan_id": {"$ref": "#/$defs/planId"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "missionPolicyCommit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_sha256",
+        "policy_selection_sha256",
+        "authentication_id",
+        "authentication_sha256",
+        "committed_at",
+        "mission_owner_assertion_id",
+        "mission_owner_assertion_sha256",
+        "mission_owner_ledger_entry_sha256",
+        "independent_control_assertion_id",
+        "independent_control_assertion_sha256",
+        "independent_control_ledger_entry_sha256",
+        "commit_status"
+      ],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^MRP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_selection_sha256": {"$ref": "#/$defs/sha256"},
+        "authentication_id": {"type": "string", "pattern": "^MPA-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"},
+        "committed_at": {"$ref": "#/$defs/timestamp"},
+        "mission_owner_assertion_id": {
+          "type": "string",
+          "pattern": "^PAS-[0-9A-F]{32}$"
+        },
+        "mission_owner_assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "mission_owner_ledger_entry_sha256": {"$ref": "#/$defs/sha256"},
+        "independent_control_assertion_id": {
+          "type": "string",
+          "pattern": "^PAS-[0-9A-F]{32}$"
+        },
+        "independent_control_assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "independent_control_ledger_entry_sha256": {"$ref": "#/$defs/sha256"},
+        "commit_status": {"const": "committed_inactive"}
+      }
+    },
+    "sourceState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mission_revision",
+        "active_plan_id",
+        "active_plan_sha256",
+        "ownership_snapshot_sha256",
+        "work_snapshot_sha256",
+        "cancellation_snapshot_sha256",
+        "execution_session_snapshot_sha256",
+        "terminal_custody_snapshot_sha256",
+        "observed_at"
+      ],
+      "properties": {
+        "mission_revision": {"type": "integer", "minimum": 0},
+        "active_plan_id": {"$ref": "#/$defs/planId"},
+        "active_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "ownership_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "work_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "cancellation_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "execution_session_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_custody_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "crossCommandEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_catalog_sha256",
+        "capability_revalidation_sha256",
+        "destination_command_review_sha256",
+        "proposed_owner_qualification_sha256",
+        "source_command_review_sha256"
+      ],
+      "properties": {
+        "capability_catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "capability_revalidation_sha256": {"$ref": "#/$defs/sha256"},
+        "destination_command_review_sha256": {"$ref": "#/$defs/sha256"},
+        "proposed_owner_qualification_sha256": {"$ref": "#/$defs/sha256"},
+        "source_command_review_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "itemMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_work_item_id",
+        "replacement_work_item_id",
+        "source_state",
+        "disposition",
+        "completed_result_sha256",
+        "source_objective_sha256",
+        "replacement_objective_sha256",
+        "source_owner_class",
+        "replacement_owner_class",
+        "source_required_evidence_level",
+        "replacement_required_evidence_level",
+        "same_dependency_meaning",
+        "preservation_eligible",
+        "cross_command",
+        "cross_command_evidence",
+        "current_owner_id",
+        "proposed_owner_id"
+      ],
+      "properties": {
+        "source_work_item_id": {"$ref": "#/$defs/workItemId"},
+        "replacement_work_item_id": {"$ref": "#/$defs/workItemId"},
+        "source_state": {"enum": ["completed", "not_completed"]},
+        "disposition": {"enum": ["preserve_completed_result", "restart_in_replacement"]},
+        "completed_result_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "source_objective_sha256": {"$ref": "#/$defs/sha256"},
+        "replacement_objective_sha256": {"$ref": "#/$defs/sha256"},
+        "source_owner_class": {"$ref": "#/$defs/ownerClass"},
+        "replacement_owner_class": {"$ref": "#/$defs/ownerClass"},
+        "source_required_evidence_level": {"$ref": "#/$defs/evidenceLevel"},
+        "replacement_required_evidence_level": {"$ref": "#/$defs/evidenceLevel"},
+        "same_dependency_meaning": {"type": "boolean"},
+        "preservation_eligible": {"type": "boolean"},
+        "cross_command": {"type": "boolean"},
+        "cross_command_evidence": {
+          "oneOf": [
+            {"$ref": "#/$defs/crossCommandEvidence"},
+            {"type": "null"}
+          ]
+        },
+        "current_owner_id": {"$ref": "#/$defs/profileId"},
+        "proposed_owner_id": {"$ref": "#/$defs/profileId"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"source_state": {"const": "completed"}}},
+          "then": {"properties": {"completed_result_sha256": {"$ref": "#/$defs/sha256"}}},
+          "else": {"properties": {"completed_result_sha256": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"disposition": {"const": "preserve_completed_result"}}},
+          "then": {
+            "properties": {
+              "source_state": {"const": "completed"},
+              "preservation_eligible": {"const": true}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"cross_command": {"const": true}}},
+          "then": {"properties": {"cross_command_evidence": {"$ref": "#/$defs/crossCommandEvidence"}}},
+          "else": {"properties": {"cross_command_evidence": {"type": "null"}}}
+        }
+      ]
+    },
+    "cancellationAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_work_item_id",
+        "current_owner_id",
+        "disposition",
+        "terminal_custody_required"
+      ],
+      "properties": {
+        "source_work_item_id": {"$ref": "#/$defs/workItemId"},
+        "current_owner_id": {"$ref": "#/$defs/profileId"},
+        "disposition": {"const": "cancel_without_history_rewrite"},
+        "terminal_custody_required": {"const": true}
+      }
+    },
+    "newItemAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["replacement_work_item_id", "proposed_owner_id", "disposition"],
+      "properties": {
+        "replacement_work_item_id": {"$ref": "#/$defs/workItemId"},
+        "proposed_owner_id": {"$ref": "#/$defs/profileId"},
+        "disposition": {"const": "start_new_after_atomic_commit"}
+      }
+    },
+    "authorityRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirement_id",
+        "role",
+        "authority_id",
+        "authority_kind",
+        "operation",
+        "work_item_id",
+        "operation_intent_sha256"
+      ],
+      "properties": {
+        "requirement_id": {"type": "string", "pattern": "^PAR-[0-9A-F]{32}$"},
+        "role": {
+          "enum": [
+            "mission_owner",
+            "independent_control",
+            "current_owner",
+            "proposed_owner",
+            "source_technical_command",
+            "destination_technical_command",
+            "independent_assurance",
+            "second_control"
+          ]
+        },
+        "authority_id": {"$ref": "#/$defs/identifier"},
+        "authority_kind": {"enum": ["principal_profile", "command"]},
+        "operation": {
+          "enum": [
+            "sunderkey.collaboration.plan-replacement.owner-authorize.v1",
+            "sunderkey.collaboration.plan-replacement.control-approve.v1",
+            "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+            "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+            "sunderkey.collaboration.plan-replacement.source-command-review.v1",
+            "sunderkey.collaboration.plan-replacement.destination-command-review.v1",
+            "sunderkey.collaboration.plan-replacement.current-owner-cancel.v1",
+            "sunderkey.collaboration.plan-replacement.assurance-approve.v1",
+            "sunderkey.collaboration.plan-replacement.second-control-approve.v1"
+          ]
+        },
+        "work_item_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/workItemId"},
+            {"type": "null"}
+          ]
+        },
+        "operation_intent_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "role": {"const": "mission_owner"},
+            "authority_id": {"$ref": "#/$defs/profileId"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.owner-authorize.v1"},
+            "work_item_id": {"type": "null"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "independent_control"},
+            "authority_id": {"$ref": "#/$defs/identifier"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.control-approve.v1"},
+            "work_item_id": {"type": "null"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "current_owner"},
+            "authority_id": {"$ref": "#/$defs/profileId"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {
+              "enum": [
+                "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+                "sunderkey.collaboration.plan-replacement.current-owner-cancel.v1"
+              ]
+            },
+            "work_item_id": {"$ref": "#/$defs/workItemId"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "proposed_owner"},
+            "authority_id": {"$ref": "#/$defs/profileId"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1"},
+            "work_item_id": {"$ref": "#/$defs/workItemId"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "source_technical_command"},
+            "authority_id": {"$ref": "#/$defs/commandId"},
+            "authority_kind": {"const": "command"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.source-command-review.v1"},
+            "work_item_id": {"$ref": "#/$defs/workItemId"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "destination_technical_command"},
+            "authority_id": {"$ref": "#/$defs/commandId"},
+            "authority_kind": {"const": "command"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.destination-command-review.v1"},
+            "work_item_id": {"$ref": "#/$defs/workItemId"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "independent_assurance"},
+            "authority_id": {"$ref": "#/$defs/identifier"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.assurance-approve.v1"},
+            "work_item_id": {"type": "null"}
+          }
+        },
+        {
+          "properties": {
+            "role": {"const": "second_control"},
+            "authority_id": {"$ref": "#/$defs/identifier"},
+            "authority_kind": {"const": "principal_profile"},
+            "operation": {"const": "sunderkey.collaboration.plan-replacement.second-control-approve.v1"},
+            "work_item_id": {"type": "null"}
+          }
+        }
+      ]
+    }
+  }
+}

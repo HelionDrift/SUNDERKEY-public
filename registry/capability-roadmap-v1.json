@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "roadmap_id": "CRD-0782CFF2C4FDEE30B742869694C08C9D",
+  "roadmap_sha256": "sha256:0782cff2c4fdee30b742869694c08c9d75a0744719c129d40cbc2cf19306283c",
+  "program": "SUNDERKEY",
+  "status": "approved_planning_baseline",
+  "roadmap_effect": "planning_only",
+  "baseline": {
+    "source_commit": "96f5636ad1be30b6547d999cad400829e9896563",
+    "software_version": "0.118.0",
+    "planning_version": "1.0.0"
+  },
+  "release_states": [
+    "planned",
+    "implemented",
+    "qualified",
+    "deployed",
+    "production_authorized",
+    "generally_available"
+  ],
+  "scorecard_measures": [
+    "ground_truth_recall",
+    "validated_finding_precision",
+    "validator_reproduction_rate",
+    "attack_path_depth",
+    "unauthorized_target_actions",
+    "cleanup_completion",
+    "time_to_first_verified_finding",
+    "cost_per_verified_finding",
+    "run_to_run_stability",
+    "evidence_completeness",
+    "customer_remediation_acceptance"
+  ],
+  "increments": [
+    {
+      "increment_id": "I0",
+      "title": "Roadmap and measurement reset",
+      "objective": "Establish one trusted backlog, evidence model, release language, and evaluation baseline.",
+      "packages": [
+        {"package_id": "R0.1", "title": "Regenerate the implementation roadmap", "owner_role": "program_architecture", "dependency_package_ids": [], "completion_result": "The active roadmap contains no blocker already resolved by an approved decision."},
+        {"package_id": "R0.2", "title": "Create the capability roadmap registry", "owner_role": "program_architecture", "dependency_package_ids": ["R0.1"], "completion_result": "Outcomes, dependencies, gates, owners, measures, and evidence are machine verifiable."},
+        {"package_id": "R0.3", "title": "Establish the baseline scorecard", "owner_role": "evaluation_assurance", "dependency_package_ids": ["R0.2"], "completion_result": "Effectiveness, safety, reliability, latency, cost, and product measures share one versioned definition."},
+        {"package_id": "R0.4", "title": "Version the evaluation corpus", "owner_role": "evaluation_assurance", "dependency_package_ids": ["R0.3"], "completion_result": "Public, private, adversarial safety, regression, and pilot suites have provenance and contamination controls."},
+        {"package_id": "R0.5", "title": "Reconcile active work state", "owner_role": "program_architecture", "dependency_package_ids": ["R0.4"], "completion_result": "Stale drafts are superseded and incomplete work is mapped to the evidence-gated roadmap."},
+        {"package_id": "R0.6", "title": "Adopt release language", "owner_role": "product_operations", "dependency_package_ids": ["R0.5"], "completion_result": "Planned, implemented, qualified, deployed, production-authorized, and generally available are distinct states."}
+      ],
+      "gate": {
+        "gate_id": "G0",
+        "title": "Trusted planning baseline",
+        "evidence_requirements": [
+          "No resolved decision remains an active blocker.",
+          "Every active package has an owner, dependencies, a result, and evidence requirements.",
+          "The scorecard and evaluation corpus are versioned.",
+          "Release states cannot be conflated."
+        ]
+      }
+    },
+    {
+      "increment_id": "I1",
+      "title": "Controlled execution foundation",
+      "objective": "Execute only approved actions in an isolated worker that can be stopped, recovered, and cleaned up.",
+      "packages": [
+        {"package_id": "X1.1", "title": "Atomic terminal custody writer", "owner_role": "control_plane", "dependency_package_ids": ["R0.6"], "completion_result": "Terminal custody, assertion consumption, effects, and provenance commit as one transaction."},
+        {"package_id": "X1.2", "title": "Session authority", "owner_role": "control_plane", "dependency_package_ids": ["X1.1"], "completion_result": "Mission and worker identities are short lived, fenced, and explicitly revocable."},
+        {"package_id": "X1.3", "title": "Executor adapter contract", "owner_role": "execution_sandboxing", "dependency_package_ids": ["X1.2"], "completion_result": "Provider-neutral start, action, evidence, heartbeat, pause, resume, stop, and destroy operations are defined."},
+        {"package_id": "X1.4", "title": "Worker isolation", "owner_role": "execution_sandboxing", "dependency_package_ids": ["X1.3"], "completion_result": "Each worker runs in a disposable boundary with quotas, a read-only base image, ephemeral storage, and no ambient credentials."},
+        {"package_id": "X1.5", "title": "Scope compiler", "owner_role": "control_plane", "dependency_package_ids": ["X1.4"], "completion_result": "Signed scope compiles into network, URL, method, tool, data, and action policy."},
+        {"package_id": "X1.6", "title": "Egress proxy", "owner_role": "execution_sandboxing", "dependency_package_ids": ["X1.5"], "completion_result": "Outbound traffic passes through a fail-closed checkpoint enforcing endpoint and request policy."},
+        {"package_id": "X1.7", "title": "Credential broker", "owner_role": "execution_sandboxing", "dependency_package_ids": ["X1.6"], "completion_result": "Target credentials are leased to exact workers without entering prompts or unrelated logs."},
+        {"package_id": "X1.8", "title": "Action admission", "owner_role": "independent_control", "dependency_package_ids": ["X1.7"], "completion_result": "Each target action passes deterministic policy and independent safety review before execution."},
+        {"package_id": "X1.9", "title": "Target and worker health monitor", "owner_role": "infrastructure_operations", "dependency_package_ids": ["X1.8"], "completion_result": "Availability, authentication, rate, worker, and recorder health can halt execution."},
+        {"package_id": "X1.10", "title": "Independent pause and stop", "owner_role": "control_plane", "dependency_package_ids": ["X1.9"], "completion_result": "An operator or policy can stop execution without cooperation from the reasoning process."},
+        {"package_id": "X1.11", "title": "Artifact recorder", "owner_role": "evidence_custody", "dependency_package_ids": ["X1.10"], "completion_result": "Normalized requests, responses, tool versions, timing, results, and evidence hashes are captured with redaction."},
+        {"package_id": "X1.12", "title": "Teardown and recovery", "owner_role": "execution_sandboxing", "dependency_package_ids": ["X1.11"], "completion_result": "Credentials, sessions, workers, target state, and interrupted transfers are cleaned up or recovered with proof."}
+      ],
+      "gate": {
+        "gate_id": "G1",
+        "title": "Controlled range execution",
+        "evidence_requirements": [
+          "An approved HTTP action executes in an instrumented range with complete identity and evidence bindings.",
+          "Out-of-scope endpoints and tools are blocked by infrastructure.",
+          "Loss of authority, health, or evidence causes a deterministic pause.",
+          "Teardown produces verifiable credential, worker, session, and target cleanup evidence.",
+          "No production target is admitted at this gate."
+        ]
+      }
+    },
+    {
+      "increment_id": "I2",
+      "title": "API closed loop",
+      "objective": "Map, test, validate, report, clean up, and retest an API target end to end.",
+      "packages": [
+        {"package_id": "A2.1", "title": "Target context ingestion", "owner_role": "application_api_research", "dependency_package_ids": ["X1.12"], "completion_result": "Specifications, documentation, credentials, source references, priorities, exclusions, and canaries are normalized."},
+        {"package_id": "A2.2", "title": "API surface mapping", "owner_role": "api_surface_mapper", "dependency_package_ids": ["A2.1"], "completion_result": "Routes, parameters, methods, schemas, content types, authentication states, and undocumented behavior are recorded."},
+        {"package_id": "A2.3", "title": "Attack world model service", "owner_role": "orchestration_models", "dependency_package_ids": ["A2.2"], "completion_result": "Assets, interfaces, identities, observations, hypotheses, actions, results, findings, and paths share one durable graph."},
+        {"package_id": "A2.4", "title": "Mission coordinator", "owner_role": "mission_command", "dependency_package_ids": ["A2.3"], "completion_result": "Coverage, uncertainty, impact, ownership, duplicate suppression, budgets, and debriefs are coordinated."},
+        {"package_id": "A2.5", "title": "HTTP protocol specialist", "owner_role": "application_api_research", "dependency_package_ids": ["A2.4"], "completion_result": "Protocol, proxy, cache, parser, and request construction behavior is tested."},
+        {"package_id": "A2.6", "title": "Authentication specialist", "owner_role": "application_api_research", "dependency_package_ids": ["A2.5"], "completion_result": "Login, token, session, refresh, logout, multifactor, recovery, and session boundaries are tested."},
+        {"package_id": "A2.7", "title": "OAuth and federation specialist", "owner_role": "application_api_research", "dependency_package_ids": ["A2.6"], "completion_result": "OAuth, OIDC, federation, redirect, claim, audience, scope, and exchange behavior is tested."},
+        {"package_id": "A2.8", "title": "Authorization specialist", "owner_role": "application_api_research", "dependency_package_ids": ["A2.7"], "completion_result": "Object, function, tenant, role, and field authorization is tested with controlled identities."},
+        {"package_id": "A2.9", "title": "Business logic specialist", "owner_role": "application_api_research", "dependency_package_ids": ["A2.8"], "completion_result": "State transitions, ordering, limits, concurrency, and workflow invariants are tested."},
+        {"package_id": "A2.10", "title": "API technology specialists", "owner_role": "application_api_research", "dependency_package_ids": ["A2.9"], "completion_result": "REST, GraphQL, asynchronous API, file handling, and serialization behavior are covered."},
+        {"package_id": "A2.11", "title": "Input and service interaction specialists", "owner_role": "application_api_research", "dependency_package_ids": ["A2.10"], "completion_result": "Injection, SSRF, parser, deserialization, template, and downstream service boundaries are assessed."},
+        {"package_id": "A2.12", "title": "Independent validator", "owner_role": "evaluation_assurance", "dependency_package_ids": ["A2.11"], "completion_result": "Material effects are reproduced from clean state without discovery-worker conclusions."},
+        {"package_id": "A2.13", "title": "Evidence and report builder", "owner_role": "product_operations", "dependency_package_ids": ["A2.12"], "completion_result": "Findings contain affected assets, impact, evidence, limits, remediation, and audit lineage."},
+        {"package_id": "A2.14", "title": "Remediation retest", "owner_role": "application_api_research", "dependency_package_ids": ["A2.13"], "completion_result": "The minimum safe proof is repeated and the finding is closed or reopened with new evidence."}
+      ],
+      "gate": {
+        "gate_id": "G2",
+        "title": "Complete API customer outcome",
+        "evidence_requirements": [
+          "Discovery through retest completes against an instrumented API application.",
+          "The world model records coverage, negative results, uncertainty, and validated paths.",
+          "Independent validation starts from clean state.",
+          "The complete mission is replayable from typed events and content-addressed evidence.",
+          "Adversarial safety tests prove infrastructure-enforced boundaries."
+        ]
+      }
+    },
+    {
+      "increment_id": "I3",
+      "title": "Private evaluation and restricted pilot",
+      "objective": "Prove generalization, safety, and commercial usefulness on held-out targets and an authorized design partner.",
+      "packages": [
+        {"package_id": "E3.1", "title": "Instrumented range builder", "owner_role": "evaluation_assurance", "dependency_package_ids": ["A2.14"], "completion_result": "Reproducible applications provide ground truth, resettable data, telemetry, and controlled secrets."},
+        {"package_id": "E3.2", "title": "Private holdout suite", "owner_role": "evaluation_assurance", "dependency_package_ids": ["E3.1"], "completion_result": "Previously unseen targets and variants have controlled access and contamination tracking."},
+        {"package_id": "E3.3", "title": "Adversarial safety suite", "owner_role": "independent_control", "dependency_package_ids": ["E3.2"], "completion_result": "Hostile target content, prompt injection, poisoned documentation, scope confusion, and fail-open pressure are tested."},
+        {"package_id": "E3.4", "title": "Evaluation runner", "owner_role": "evaluation_assurance", "dependency_package_ids": ["E3.3"], "completion_result": "Candidates, models, tools, prompts, policies, and budgets can be compared under deterministic custody."},
+        {"package_id": "E3.5", "title": "Scoring service", "owner_role": "evaluation_assurance", "dependency_package_ids": ["E3.4"], "completion_result": "Recall, precision, coverage, path depth, time, cost, safety, cleanup, and reproducibility are computed."},
+        {"package_id": "E3.6", "title": "Model and strategy baselines", "owner_role": "orchestration_models", "dependency_package_ids": ["E3.5"], "completion_result": "Single-agent, multi-agent, deterministic scanner, alternate model, and human-assisted variants are compared."},
+        {"package_id": "E3.7", "title": "Drift monitoring", "owner_role": "evaluation_assurance", "dependency_package_ids": ["E3.6"], "completion_result": "Capability, safety, latency, and cost drift is detected for model, provider, tool, prompt, and policy changes."},
+        {"package_id": "E3.8", "title": "Restricted design-partner pilot", "owner_role": "product_operations", "dependency_package_ids": ["E3.7"], "completion_result": "A narrow authorized production pilot runs with approved windows, action ceilings, monitoring, and stop authority."},
+        {"package_id": "E3.9", "title": "Independent pilot review", "owner_role": "independent_assurance", "dependency_package_ids": ["E3.8"], "completion_result": "Findings are reconciled with telemetry, human review, remediation, and known vulnerabilities."}
+      ],
+      "gate": {
+        "gate_id": "G3",
+        "title": "Generalization and restricted production proof",
+        "evidence_requirements": [
+          "Private holdout results meet approved effectiveness and safety thresholds across repeated runs.",
+          "Known misses and negative tests remain visible.",
+          "At least one authorized pilot completes without a critical safety or cleanup failure.",
+          "Pilot findings are independently reviewed, remediated, and retested.",
+          "No capability claim relies only on a saturated public corpus."
+        ]
+      }
+    },
+    {
+      "increment_id": "I4",
+      "title": "Identity and cloud attack paths",
+      "objective": "Complete validated paths from applications and APIs through identity and cloud boundaries to material impact.",
+      "packages": [
+        {"package_id": "C4.1", "title": "Identity graph", "owner_role": "identity_cloud_command", "dependency_package_ids": ["E3.9"], "completion_result": "Users, roles, principals, workload identities, claims, sessions, trust, and effective permissions are represented."},
+        {"package_id": "C4.2", "title": "Credential transition policy", "owner_role": "independent_control", "dependency_package_ids": ["C4.1"], "completion_result": "Discovered credentials can be validated, leased, transformed, and handed off only under explicit policy."},
+        {"package_id": "C4.3", "title": "Identity provider adapters", "owner_role": "identity_cloud_command", "dependency_package_ids": ["C4.2"], "completion_result": "Approved read and test operations cover selected identity providers without exposing unrestricted administration."},
+        {"package_id": "C4.4", "title": "Cloud control-plane adapters", "owner_role": "identity_cloud_command", "dependency_package_ids": ["C4.3"], "completion_result": "Least-privileged inventory, identity analysis, configuration review, and safe proof operations are available."},
+        {"package_id": "C4.5", "title": "Workload identity specialist", "owner_role": "identity_cloud_command", "dependency_package_ids": ["C4.4"], "completion_result": "Metadata, token exchange, managed identity, service account, federation, and workload trust are tested."},
+        {"package_id": "C4.6", "title": "Cloud IAM specialist", "owner_role": "identity_cloud_command", "dependency_package_ids": ["C4.5"], "completion_result": "Effective permissions, privilege paths, policies, organization controls, and role assumption are evaluated."},
+        {"package_id": "C4.7", "title": "Container and orchestration bridge", "owner_role": "platform_command", "dependency_package_ids": ["C4.6"], "completion_result": "Service account, secret, workload, cluster, and cloud identity boundaries are assessed when in scope."},
+        {"package_id": "C4.8", "title": "Data-platform specialist", "owner_role": "data_command", "dependency_package_ids": ["C4.7"], "completion_result": "Controlled evidence proves access to sensitive objects, records, buckets, databases, or analytics services."},
+        {"package_id": "C4.9", "title": "Cross-command coordinator", "owner_role": "mission_command", "dependency_package_ids": ["C4.8"], "completion_result": "Graph updates and work ownership are reconciled across application, identity, cloud, container, and data commands."},
+        {"package_id": "C4.10", "title": "Cross-surface validator", "owner_role": "evaluation_assurance", "dependency_package_ids": ["C4.9"], "completion_result": "Each transition and the complete path are reproduced from clean state with approved credentials."}
+      ],
+      "gate": {
+        "gate_id": "G4",
+        "title": "Cross-surface differentiation",
+        "evidence_requirements": [
+          "At least three private scenarios complete an application-to-identity-to-cloud or data path.",
+          "Every transition preserves credential custody, scope, authorization, and evidence lineage.",
+          "The validator reproduces individual transitions and complete impact paths.",
+          "Reports identify and retest the smallest control changes that break each path.",
+          "Failed paths leave no active credential, worker, session, or target state."
+        ]
+      }
+    },
+    {
+      "increment_id": "I5",
+      "title": "Product operations",
+      "objective": "Expose the complete assessment lifecycle through supported customer and operator interfaces.",
+      "packages": [
+        {"package_id": "P5.1", "title": "Asset service", "owner_role": "product_operations", "dependency_package_ids": ["C4.10"], "completion_result": "Targets, ownership, environment, context, credential references, exclusions, and eligibility are managed."},
+        {"package_id": "P5.2", "title": "Assessment lifecycle API", "owner_role": "product_operations", "dependency_package_ids": ["P5.1"], "completion_result": "Assessments support idempotent create, schedule, start, pause, resume, cancel, stop, and inspect operations."},
+        {"package_id": "P5.3", "title": "Live mission view", "owner_role": "product_operations", "dependency_package_ids": ["P5.2"], "completion_result": "Coverage, workers, approvals, health, budgets, graph changes, blockers, and operator controls are visible."},
+        {"package_id": "P5.4", "title": "Finding service", "owner_role": "product_operations", "dependency_package_ids": ["P5.3"], "completion_result": "Finding status, affected assets, evidence, severity, validation, remediation, ownership, and retest history are managed."},
+        {"package_id": "P5.5", "title": "Evidence replay", "owner_role": "evidence_custody", "dependency_package_ids": ["P5.4"], "completion_result": "Reviewers can navigate from a finding through path, action, authorization, result, validation, and cleanup."},
+        {"package_id": "P5.6", "title": "Reports", "owner_role": "product_operations", "dependency_package_ids": ["P5.5"], "completion_result": "Technical, executive, compliance, and machine-readable reports derive from the same verified record."},
+        {"package_id": "P5.7", "title": "Webhooks and integrations", "owner_role": "product_operations", "dependency_package_ids": ["P5.6"], "completion_result": "Signed lifecycle events integrate with ticketing, SIEM, case management, and development workflows."},
+        {"package_id": "P5.8", "title": "Enterprise access", "owner_role": "product_operations", "dependency_package_ids": ["P5.7"], "completion_result": "Tenant isolation, RBAC, SSO, service accounts, audit export, retention, and administration are supported."},
+        {"package_id": "P5.9", "title": "Remediation workflow", "owner_role": "product_operations", "dependency_package_ids": ["P5.8"], "completion_result": "Fix guidance, developer evidence, resubmission, targeted retest, regression, and closure are supported."},
+        {"package_id": "P5.10", "title": "Usage and cost controls", "owner_role": "product_operations", "dependency_package_ids": ["P5.9"], "completion_result": "Request, token, worker, tool, storage, and target budgets have alerts and policy limits."}
+      ],
+      "gate": {
+        "gate_id": "G5",
+        "title": "Operable customer product",
+        "evidence_requirements": [
+          "A customer can operate the lifecycle without database or repository access.",
+          "Every confirmed finding links to reproducible evidence and current retest state.",
+          "Webhooks are signed, replay-safe, versioned, and recoverable.",
+          "Tenant, role, evidence, credential, and retention boundaries pass independent review.",
+          "Product metrics distinguish hypotheses from validated findings."
+        ]
+      }
+    },
+    {
+      "increment_id": "I6",
+      "title": "Service scale and deployment",
+      "objective": "Support concurrent resilient operation and customer deployment without weakening custody or verification.",
+      "packages": [
+        {"package_id": "S6.1", "title": "Persistence abstraction", "owner_role": "control_plane", "dependency_package_ids": ["P5.10"], "completion_result": "Domain transactions are separated from SQLite-specific access while canonical verification remains stable."},
+        {"package_id": "S6.2", "title": "PostgreSQL port", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.1"], "completion_result": "Transactions, immutability, locking, migration, backup, recovery, and verification match the local boundary."},
+        {"package_id": "S6.3", "title": "Durable scheduler", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.2"], "completion_result": "Concurrent missions, capacity, quotas, priorities, retries, and cancellation cannot duplicate target actions."},
+        {"package_id": "S6.4", "title": "Event delivery", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.3"], "completion_result": "A durable outbox and consumers deliver product updates and integration events."},
+        {"package_id": "S6.5", "title": "High availability", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.4"], "completion_result": "Leader, failover, split-brain prevention, service degradation, and recovery procedures are tested."},
+        {"package_id": "S6.6", "title": "Deployment profiles", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.5"], "completion_result": "Managed, customer-hosted worker, private cloud, restricted network, and disconnected profiles are defined."},
+        {"package_id": "S6.7", "title": "Regional custody", "owner_role": "evidence_custody", "dependency_package_ids": ["S6.6"], "completion_result": "Residency, retention, encryption, key ownership, object locking, and regional boundaries are enforced."},
+        {"package_id": "S6.8", "title": "Capacity and economics", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.7"], "completion_result": "Worker utilization, provider limits, queue time, requests, tokens, tool cost, and storage growth are measured."},
+        {"package_id": "S6.9", "title": "Disaster recovery", "owner_role": "infrastructure_operations", "dependency_package_ids": ["S6.8"], "completion_result": "Backup integrity, recovery point, recovery time, keys, registry rollback, and evidence continuity are tested."}
+      ],
+      "gate": {
+        "gate_id": "G6",
+        "title": "Concurrent resilient service",
+        "evidence_requirements": [
+          "Concurrent instances preserve authority, immutability, and verification invariants.",
+          "Failover cannot duplicate a target action or preserve a stale worker after fencing.",
+          "Recovery drills restore control records, artifacts, keys, and references within objectives.",
+          "Customer-hosted execution preserves managed-service policy and custody.",
+          "Capacity tests establish cost and throughput envelopes."
+        ]
+      }
+    },
+    {
+      "increment_id": "I7",
+      "title": "Army expansion",
+      "objective": "Activate additional specialists only when measured demand and qualification evidence justify them.",
+      "packages": [
+        {"package_id": "A7.1", "title": "Demand and coverage evidence", "owner_role": "domain_command", "dependency_package_ids": ["S6.9"], "completion_result": "A customer, benchmark, or resilience need identifies a bounded specialist gap."},
+        {"package_id": "A7.2", "title": "Bounded specialist contract", "owner_role": "domain_command", "dependency_package_ids": ["A7.1"], "completion_result": "Inputs, outputs, tools, risks, action tiers, evidence, and handoffs are explicit."},
+        {"package_id": "A7.3", "title": "Representative and safety scenarios", "owner_role": "evaluation_assurance", "dependency_package_ids": ["A7.2"], "completion_result": "Representative, negative, and adversarial-safety scenarios exist with ground truth."},
+        {"package_id": "A7.4", "title": "Candidate implementation and evaluation", "owner_role": "domain_command", "dependency_package_ids": ["A7.3"], "completion_result": "The candidate improves the approved scorecard over generalist and deterministic baselines."},
+        {"package_id": "A7.5", "title": "Qualified profile activation", "owner_role": "independent_assurance", "dependency_package_ids": ["A7.4"], "completion_result": "The profile enters routing with versioned qualification, drift, incident, and maintenance ownership."}
+      ],
+      "gate": {
+        "gate_id": "G7",
+        "title": "Evidence-based Army growth",
+        "evidence_requirements": [
+          "Each activated profile closes a measured outcome or resilience gap.",
+          "Each profile has bounded contracts and representative safety tests.",
+          "Each candidate improves mission outcomes enough to justify cost and coordination.",
+          "Each command can maintain qualification, drift response, and incident response."
+        ]
+      }
+    },
+    {
+      "increment_id": "I8",
+      "title": "Defender validation and advanced modes",
+      "objective": "Connect offensive evidence to defensive outcomes and extend into restricted and high-risk domains only behind specific gates.",
+      "packages": [
+        {"package_id": "D8.1", "title": "Telemetry correlation", "owner_role": "defender_validation", "dependency_package_ids": ["A7.5"], "completion_result": "Offensive actions correlate with customer network, identity, cloud, application, endpoint, and data telemetry."},
+        {"package_id": "D8.2", "title": "Detection validation", "owner_role": "defender_validation", "dependency_package_ids": ["D8.1"], "completion_result": "Each material path is checked for alerts, investigation artifacts, and prevention events."},
+        {"package_id": "D8.3", "title": "Control validation", "owner_role": "defender_validation", "dependency_package_ids": ["D8.2"], "completion_result": "Specific identity, network, cloud, application, and data controls are tested against attack paths."},
+        {"package_id": "D8.4", "title": "Defender replay", "owner_role": "defender_validation", "dependency_package_ids": ["D8.3"], "completion_result": "The minimum safe path is replayed after control changes and compared with observed telemetry."},
+        {"package_id": "D8.5", "title": "Task-level multi-model routing", "owner_role": "orchestration_models", "dependency_package_ids": ["D8.4"], "completion_result": "Candidate, model, tool, and budget are selected from measured task performance rather than global defaults."},
+        {"package_id": "D8.6", "title": "Two-deep critical roles", "owner_role": "independent_assurance", "dependency_package_ids": ["D8.5"], "completion_result": "Command, safety, validation, and high-value specialties have independently qualified alternatives."},
+        {"package_id": "D8.7", "title": "Restricted deployment", "owner_role": "infrastructure_operations", "dependency_package_ids": ["D8.6"], "completion_result": "Customer-hosted or disconnected workers use signed mission bundles, bounded tools, and exportable evidence."},
+        {"package_id": "D8.8", "title": "Advanced domain gates", "owner_role": "independent_control", "dependency_package_ids": ["D8.7"], "completion_result": "OT, specialized protocols, model infrastructure, and other high-risk domains activate only under domain-specific safety policy."}
+      ],
+      "gate": {
+        "gate_id": "G8",
+        "title": "Defender outcome and advanced-mode readiness",
+        "evidence_requirements": [
+          "Material offensive paths have correlated defensive telemetry and validated control outcomes.",
+          "Critical roles maintain qualified alternatives and bounded routing.",
+          "Restricted deployments preserve scope, custody, stop, cleanup, and evidence invariants.",
+          "Advanced domains pass separately approved domain-specific safety gates."
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "This roadmap authorizes planning and sequencing only.",
+    "No package state is complete without separately reviewed evidence.",
+    "Production target activity requires exact signed scope and the controls for its operating mode.",
+    "Defensive purpose does not authorize access to suspected attacker infrastructure outside signed scope.",
+    "The logical 403-profile catalog does not require 403 simultaneous model processes.",
+    "SQLite remains valid until measured concurrent service needs justify PostgreSQL."
+  ]
+}

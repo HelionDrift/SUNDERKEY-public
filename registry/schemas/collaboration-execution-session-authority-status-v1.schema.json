@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-session-authority-status-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Session Authority Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status_id",
+    "status_sha256",
+    "session_authority",
+    "mission_id",
+    "work_item_id",
+    "session",
+    "credential",
+    "fence_generation",
+    "authority_effective_at",
+    "authority_expires_at",
+    "activation",
+    "revocation",
+    "observed_at",
+    "control_plane_state",
+    "external_worker_state",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status_id": {"type": "string", "pattern": "^ESS-[0-9A-F]{32}$"},
+    "status_sha256": {"$ref": "#/$defs/sha256"},
+    "session_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_authority_id", "session_authority_sha256"],
+      "properties": {
+        "session_authority_id": {"type": "string", "pattern": "^ESA-[0-9A-F]{32}$"},
+        "session_authority_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "work_item_id": {"$ref": "#/$defs/identifier"},
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "session_sha256"],
+      "properties": {
+        "session_id": {"type": "string", "pattern": "^ECS-[0-9A-F]{32}$"},
+        "session_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "credential": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["credential_reference_id", "credential_sha256"],
+      "properties": {
+        "credential_reference_id": {"$ref": "#/$defs/identifier"},
+        "credential_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "fence_generation": {"type": "integer", "minimum": 1},
+    "authority_effective_at": {"$ref": "#/$defs/timestamp"},
+    "authority_expires_at": {"$ref": "#/$defs/timestamp"},
+    "activation": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/activation"}
+      ]
+    },
+    "revocation": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/revocation"}
+      ]
+    },
+    "observed_at": {"$ref": "#/$defs/timestamp"},
+    "control_plane_state": {
+      "enum": [
+        "pending_effective_time",
+        "pending_activation",
+        "available_for_executor",
+        "expired_unactivated",
+        "expired",
+        "revoked"
+      ]
+    },
+    "external_worker_state": {"const": "unobserved"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authentication_id", "authentication_sha256", "committed_at"],
+      "properties": {
+        "authentication_id": {"type": "string", "pattern": "^EAS-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"},
+        "committed_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authentication_id",
+        "authentication_sha256",
+        "reason_code",
+        "committed_at"
+      ],
+      "properties": {
+        "authentication_id": {"type": "string", "pattern": "^ESV-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"},
+        "reason_code": {"type": "string", "minLength": 1},
+        "committed_at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  }
+}

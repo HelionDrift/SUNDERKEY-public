@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S10",
+  "component_id": "workload_identity_supplied_trust_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:workload-trust",
+      "source": {
+        "schema_version": "v1",
+        "trust_rules_complete": true,
+        "role_bindings_complete": true,
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "issuer": "https://issuer.example.invalid",
+            "subject": "system:serviceaccount:demo:reader",
+            "audience": "sts.example.invalid",
+            "requested_role_ref": "role:readonly"
+          }
+        ],
+        "trust_rules": [
+          {
+            "rule_id": "rule-1",
+            "issuer": "https://issuer.example.invalid",
+            "subject": "system:serviceaccount:demo:reader",
+            "audience": "sts.example.invalid",
+            "effect": "allow"
+          }
+        ],
+        "role_bindings": [
+          {
+            "binding_id": "binding-1",
+            "rule_id": "rule-1",
+            "role_ref": "role:readonly"
+          }
+        ]
+      }
+    }
+  }
+}

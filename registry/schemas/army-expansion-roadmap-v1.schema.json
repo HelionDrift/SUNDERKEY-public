@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/army-expansion-roadmap-v1.json",
+  "title": "SUNDERKEY Army Expansion Roadmap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "roadmap_id",
+    "roadmap_sha256",
+    "program",
+    "migration",
+    "counts",
+    "group_targets",
+    "existing_command_additions",
+    "new_commands",
+    "shared_profile_additions",
+    "standards_sources",
+    "vector_contract_fields",
+    "phases",
+    "migration_rules",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "roadmap_id": {"type": "string", "pattern": "^AER-[0-9A-F]{32}$"},
+    "roadmap_sha256": {"$ref": "#/$defs/sha256"},
+    "program": {"const": "SUNDERKEY"},
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_catalog", "target_catalog", "strategy", "stable_id_policy", "activation_policy"],
+      "properties": {
+        "source_catalog": {"const": "registry/army-v1.json"},
+        "target_catalog": {"const": "registry/army-v2.json"},
+        "strategy": {"const": "parallel_versioned_migration"},
+        "stable_id_policy": {"const": "preserve_all_v1_profile_ids"},
+        "activation_policy": {"const": "qualified_only_with_separate_routing_authority"}
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline", "target", "delta"],
+      "properties": {
+        "baseline": {"$ref": "#/$defs/baselineCounts"},
+        "target": {"$ref": "#/$defs/targetCounts"},
+        "delta": {"$ref": "#/$defs/deltaCounts"}
+      }
+    },
+    "group_targets": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/groupTarget"}
+    },
+    "existing_command_additions": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/existingCommand"}
+    },
+    "new_commands": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/newCommand"}
+    },
+    "shared_profile_additions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/profile"}
+    },
+    "standards_sources": {
+      "type": "array",
+      "minItems": 7,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "vector_contract_fields": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {"$ref": "#/$defs/phase"}
+    },
+    "migration_rules": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "countProperties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groups", "commands", "specialists", "domain_commanders", "shared_profiles", "total_profiles", "pilot_specialists"],
+      "properties": {
+        "groups": {"type": "integer", "minimum": 0},
+        "commands": {"type": "integer", "minimum": 0},
+        "specialists": {"type": "integer", "minimum": 0},
+        "domain_commanders": {"type": "integer", "minimum": 0},
+        "shared_profiles": {"type": "integer", "minimum": 0},
+        "total_profiles": {"type": "integer", "minimum": 0},
+        "pilot_specialists": {"type": "integer", "minimum": 0}
+      }
+    },
+    "baselineCounts": {
+      "allOf": [
+        {"$ref": "#/$defs/countProperties"},
+        {"properties": {"groups": {"const": 5}, "commands": {"const": 23}, "specialists": {"const": 348}, "domain_commanders": {"const": 23}, "shared_profiles": {"const": 32}, "total_profiles": {"const": 403}, "pilot_specialists": {"const": 20}}}
+      ]
+    },
+    "targetCounts": {
+      "allOf": [
+        {"$ref": "#/$defs/countProperties"},
+        {"properties": {"groups": {"const": 5}, "commands": {"const": 25}, "specialists": {"const": 391}, "domain_commanders": {"const": 25}, "shared_profiles": {"const": 35}, "total_profiles": {"const": 451}, "pilot_specialists": {"const": 20}}}
+      ]
+    },
+    "deltaCounts": {
+      "allOf": [
+        {"$ref": "#/$defs/countProperties"},
+        {"properties": {"groups": {"const": 0}, "commands": {"const": 2}, "specialists": {"const": 43}, "domain_commanders": {"const": 2}, "shared_profiles": {"const": 3}, "total_profiles": {"const": 48}, "pilot_specialists": {"const": 0}}}
+      ]
+    },
+    "groupTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group_id", "baseline_specialists", "added_specialists", "target_specialists"],
+      "properties": {
+        "group_id": {"type": "string", "pattern": "^G[A-E]$"},
+        "baseline_specialists": {"type": "integer", "minimum": 0},
+        "added_specialists": {"type": "integer", "minimum": 0},
+        "target_specialists": {"type": "integer", "minimum": 1}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "name"],
+      "properties": {
+        "profile_id": {"type": "string", "pattern": "^AOE-(G[A-E]-D[0-9]{2}-S[0-9]{2}|HQ-[0-9]{2})$"},
+        "name": {"type": "string", "minLength": 1}
+      }
+    },
+    "existingCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command_id", "group_id", "name", "specialists"],
+      "properties": {
+        "command_id": {"type": "string", "pattern": "^AOE-G[A-E]-D[0-9]{2}$"},
+        "group_id": {"type": "string", "pattern": "^G[A-E]$"},
+        "name": {"type": "string", "minLength": 1},
+        "specialists": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/profile"}}
+      }
+    },
+    "newCommand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command_id", "group_id", "name", "specialists", "commander_profile_id"],
+      "properties": {
+        "command_id": {"type": "string", "pattern": "^AOE-GD-D(24|25)$"},
+        "group_id": {"const": "GD"},
+        "name": {"type": "string", "minLength": 1},
+        "specialists": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/profile"}},
+        "commander_profile_id": {"type": "string", "pattern": "^AOE-GD-D(24|25)-CMD$"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "version", "url", "use"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "use": {"type": "string", "minLength": 1}
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase_id", "title", "objective", "dependency_phase_ids", "required_artifacts", "completion_gate", "operational_effect"],
+      "properties": {
+        "phase_id": {"type": "string", "pattern": "^Phase1(5[0-9]|6[0-1])$"},
+        "title": {"type": "string", "minLength": 1},
+        "objective": {"type": "string", "minLength": 1},
+        "dependency_phase_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^Phase1(5[0-9]|6[0-1])$"}},
+        "required_artifacts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "completion_gate": {"type": "string", "minLength": 1},
+        "operational_effect": {"const": "none_without_separate_authority"}
+      }
+    }
+  }
+}

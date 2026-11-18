@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "component_catalog_id": "sunderkey-candidate-components",
+  "component_catalog_version": "1.0.0",
+  "candidate_blueprint_catalog_id": "sunderkey-specialist-blueprints",
+  "candidate_blueprint_catalog_version": "1.0.0",
+  "candidate_blueprint_catalog_sha256": "sha256:b69f75b8b920f77bb768f5bd99559ed971a30e578eb6ea8027406baf909d3797",
+  "components": [
+    {
+      "component_id": "fixture.passive-osint.behavior-contract",
+      "component_version": "1.0.0",
+      "candidate_id": "fixture.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "component_type": "behavior_contract",
+      "component_status": "contract_fixture",
+      "specification": {
+        "mission": "Provide Passive OSINT expertise for Intelligence and Attack Surface missions within approved scope.",
+        "allowed_actions": [
+          "Analyze assigned evidence and scoped target models.",
+          "Propose bounded validation actions with safeguards and rollback.",
+          "Collaborate through typed observations, hypotheses, and handoffs."
+        ],
+        "prohibited_actions": [
+          "Expand mission scope or authorize its own actions.",
+          "Perform actions above the mission action tier.",
+          "Represent unverified hypotheses as findings."
+        ],
+        "stop_conditions": [
+          "Authorization, scope, or target identity becomes ambiguous.",
+          "Observed impact exceeds the approved action tier.",
+          "A safety monitor, domain owner, or Control profile issues a stop.",
+          "Required evidence integrity or chain of custody cannot be maintained."
+        ],
+        "maximum_autonomous_action_tier": "R2",
+        "minimum_evidence_level": "E2"
+      },
+      "component_sha256": "sha256:f5fbd1beaa3b48dd4ee67e69b35eddd68f18bfa89b66bc4e4f36e4212ab3137f"
+    },
+    {
+      "component_id": "fixture.passive-osint.instruction-bundle",
+      "component_version": "1.0.0",
+      "candidate_id": "fixture.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "component_type": "instruction_bundle",
+      "component_status": "contract_fixture",
+      "specification": {
+        "bundle_format": "synthetic_placeholder",
+        "content_sha256": "sha256:c023fe7ec65665dbe69283681e75977b58ca0bb96724b7002831c045f6900505",
+        "primary_capability_ids": [
+          "army.ga.d01.s01"
+        ],
+        "supporting_capability_ids": [],
+        "scenario_family_id": "qualification.aoe-ga-d01-s01",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ]
+      },
+      "component_sha256": "sha256:082890d2f71355c6a4b8dbcc46b1fd37628bab228341326c267a6000e6c84695"
+    },
+    {
+      "component_id": "fixture.passive-osint.knowledge-manifest",
+      "component_version": "1.0.0",
+      "candidate_id": "fixture.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "component_type": "knowledge_manifest",
+      "component_status": "contract_fixture",
+      "specification": {
+        "retrieval_mode": "disabled",
+        "source_manifest_sha256": "sha256:4818e87c6aefab1c19ddbce26d93682551d9845b278ef391d027ff0822a7793c",
+        "source_count": 0,
+        "reviewed_source_count": 0,
+        "rights_review_status": "not_applicable",
+        "minimum_evidence_level": "E2"
+      },
+      "component_sha256": "sha256:7968ae09204f4f3ed1b2f69f3482298f358747fe8b3b552b421e52955237b5c6"
+    },
+    {
+      "component_id": "fixture.passive-osint.runtime-manifest",
+      "component_version": "1.0.0",
+      "candidate_id": "fixture.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "component_type": "runtime_manifest",
+      "component_status": "contract_fixture",
+      "specification": {
+        "runtime_class": "disabled_fixture",
+        "provider_ref": null,
+        "model_ref": null,
+        "hosting_ref": null,
+        "runtime_config_sha256": "sha256:69fd2c9abfe6f9814b99c0a06e7582de98b44141329ae4402d232ffaf93d6b01",
+        "execution_enabled": false,
+        "network_access": false,
+        "process_access": false
+      },
+      "component_sha256": "sha256:5aa14a54b305a7f05a1ef9782ef697aec17149c0b0a53b77fded53e9996eafc4"
+    },
+    {
+      "component_id": "fixture.passive-osint.tool-policy",
+      "component_version": "1.0.0",
+      "candidate_id": "fixture.passive-osint",
+      "candidate_version": "1.0.0",
+      "profile_id": "AOE-GA-D01-S01",
+      "candidate_blueprint_sha256": "sha256:059a69e45587cdffc4e0fcbc7451e8876590bf59fbb56c310116b7f4fe85bfbc",
+      "component_type": "tool_policy",
+      "component_status": "contract_fixture",
+      "specification": {
+        "policy_template_id": "specialist-v1",
+        "allowed_action_ids": [
+          "Analyze assigned evidence and scoped target models.",
+          "Propose bounded validation actions with safeguards and rollback.",
+          "Collaborate through typed observations, hypotheses, and handoffs."
+        ],
+        "prohibited_action_ids": [
+          "Expand mission scope or authorize its own actions.",
+          "Perform actions above the mission action tier.",
+          "Represent unverified hypotheses as findings."
+        ],
+        "admission_mode": "deny_all",
+        "tool_manifest_sha256": "sha256:2ffdc650cb172b493c8cc45ef7b431c6d38c653606888e682890a2ef40801b99",
+        "allowed_tool_count": 0,
+        "credential_access": false,
+        "target_access": false,
+        "network_access": false,
+        "execution_allowed": false
+      },
+      "component_sha256": "sha256:a3c8e08b8f2914d8fdb89952db828b3081a264ad64af2dd7707efd2a71ad2fba"
+    }
+  ]
+}

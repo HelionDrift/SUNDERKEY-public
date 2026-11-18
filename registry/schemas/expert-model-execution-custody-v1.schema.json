@@ -1,0 +1,901 @@
+{
+  "$defs": {
+    "ExpertBudgetReservationCommit": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authority_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authority_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "budget_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "budget_revision_after": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "budget_revision_before": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "budget_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "capability_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "commit_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "commit_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "committed_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "invocation_plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "invocation_plan_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "sunderkey.expert-budget-reservation-commit.v1"
+        },
+        "proposed_reservation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "reservation_state": {
+          "enum": [
+            "committed"
+          ],
+          "type": "string"
+        },
+        "reserved_cost_micros": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reserved_input_tokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reserved_output_tokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "routing_decision_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "task_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "authority_id",
+        "authority_sha256",
+        "invocation_plan_id",
+        "invocation_plan_sha256",
+        "routing_decision_sha256",
+        "proposed_reservation_sha256",
+        "budget_id",
+        "budget_sha256",
+        "budget_revision_before",
+        "budget_revision_after",
+        "tenant_id",
+        "assessment_id",
+        "task_id",
+        "capability_sha256",
+        "reserved_input_tokens",
+        "reserved_output_tokens",
+        "reserved_cost_micros",
+        "committed_at",
+        "reservation_state",
+        "commit_id",
+        "commit_sha256"
+      ],
+      "type": "object"
+    },
+    "ExpertBudgetSettlement": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_revision_after": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "budget_revision_before": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "charged_cost_micros": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "charged_input_tokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "charged_output_tokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "kind": {
+          "const": "sunderkey.expert-budget-settlement.v1"
+        },
+        "outcome_reason": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "type": "string"
+        },
+        "provider_observation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider_observation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quarantined": {
+          "type": "boolean"
+        },
+        "reservation_commit_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "reservation_commit_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "settled_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "settlement_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "settlement_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "terminal_state": {
+          "enum": [
+            "completed_settled",
+            "provider_failed_settled",
+            "incomplete_settled",
+            "indeterminate_quarantined"
+          ],
+          "type": "string"
+        },
+        "usage_basis": {
+          "enum": [
+            "trusted_actual",
+            "full_reservation"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "reservation_commit_id",
+        "reservation_commit_sha256",
+        "provider_observation_id",
+        "provider_observation_sha256",
+        "terminal_state",
+        "charged_input_tokens",
+        "charged_output_tokens",
+        "charged_cost_micros",
+        "usage_basis",
+        "outcome_reason",
+        "budget_revision_before",
+        "budget_revision_after",
+        "settled_at",
+        "quarantined",
+        "settlement_id",
+        "settlement_sha256"
+      ],
+      "type": "object"
+    },
+    "ExpertExecutionAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authentication_verification_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authority_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authority_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "capability_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "credential_reference": {
+          "maxLength": 255,
+          "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9._:/-]{2,251}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "expert_profile_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "expires_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "issued_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "issuer_assertion_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "issuer_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "sunderkey.expert-execution-authority.v1"
+        },
+        "maximum_cost_micros": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maximum_input_tokens": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maximum_output_tokens": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maximum_request_count": {
+          "const": 1
+        },
+        "maximum_route_age_seconds": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "model_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "provider_adapter_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "requester_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "reservation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "route_planner_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "routing_decision_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "runtime_catalog_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "subject_principal_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "task_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "valid_from": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "work_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "tenant_id",
+        "assessment_id",
+        "mission_id",
+        "plan_id",
+        "work_id",
+        "task_id",
+        "expert_profile_id",
+        "runtime_catalog_sha256",
+        "runtime_pack_sha256",
+        "execution_envelope_sha256",
+        "routing_decision_sha256",
+        "capability_sha256",
+        "reservation_sha256",
+        "issuer_assertion_sha256",
+        "authentication_verification_sha256",
+        "maximum_request_count",
+        "maximum_input_tokens",
+        "maximum_output_tokens",
+        "maximum_cost_micros",
+        "maximum_route_age_seconds",
+        "issued_at",
+        "valid_from",
+        "expires_at",
+        "issuer_principal_id",
+        "subject_principal_id",
+        "requester_principal_id",
+        "route_planner_principal_id",
+        "provider_adapter_principal_id",
+        "model_principal_id",
+        "credential_reference",
+        "authority_id",
+        "authority_sha256"
+      ],
+      "type": "object"
+    },
+    "ExpertInvocationPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authority_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "capability_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "capability_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "cost_ceiling_micros": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "execution_envelope_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "execution_envelope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "input_token_ceiling": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "kind": {
+          "const": "sunderkey.expert-invocation-plan.v1"
+        },
+        "model_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "model_version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "output_token_ceiling": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "plan_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "pricing_revision": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "provider_api_version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "provider_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "request_count": {
+          "const": 1
+        },
+        "reservation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "reservation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "response_contract": {
+          "enum": [
+            "closed_expert_work_product_v1"
+          ],
+          "type": "string"
+        },
+        "response_contract_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "routing_decision_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "routing_decision_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "runtime_catalog_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "runtime_pack_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "runtime_pack_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "tools_enabled": {
+          "const": false
+        },
+        "trusted_runtime_instructions": {
+          "type": "object"
+        },
+        "untrusted_context": {
+          "items": {
+            "type": "object"
+          },
+          "maxItems": 48,
+          "type": "array"
+        },
+        "untrusted_text_policy": {
+          "enum": [
+            "data_only_never_instruction"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "authority_id",
+        "authority_sha256",
+        "routing_decision_id",
+        "routing_decision_sha256",
+        "reservation_id",
+        "reservation_sha256",
+        "capability_id",
+        "capability_sha256",
+        "provider_id",
+        "provider_api_version",
+        "model_id",
+        "model_version",
+        "pricing_revision",
+        "runtime_catalog_sha256",
+        "runtime_pack_id",
+        "runtime_pack_sha256",
+        "execution_envelope_id",
+        "execution_envelope_sha256",
+        "trusted_runtime_instructions",
+        "untrusted_context",
+        "input_token_ceiling",
+        "output_token_ceiling",
+        "cost_ceiling_micros",
+        "response_contract_sha256",
+        "tools_enabled",
+        "response_contract",
+        "untrusted_text_policy",
+        "request_count",
+        "plan_id",
+        "plan_sha256"
+      ],
+      "type": "object"
+    },
+    "ExpertModelExecutionReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "authority_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "authority_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "effects": {
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "none"
+            },
+            "authorization": {
+              "const": "none"
+            },
+            "finding": {
+              "const": "none"
+            },
+            "independent_review": {
+              "const": "none"
+            },
+            "qualification": {
+              "const": "none"
+            },
+            "target": {
+              "const": "none"
+            },
+            "tools": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "action",
+            "authorization",
+            "finding",
+            "independent_review",
+            "qualification",
+            "target",
+            "tools"
+          ],
+          "type": "object"
+        },
+        "execution_state": {
+          "enum": [
+            "completed_settled",
+            "provider_failed_settled",
+            "incomplete_settled",
+            "indeterminate_quarantined"
+          ],
+          "type": "string"
+        },
+        "invocation_plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "invocation_plan_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "sunderkey.expert-model-execution-receipt.v1"
+        },
+        "output_status": {
+          "enum": [
+            "parsed_advisory_work_product",
+            "no_output",
+            "malformed_output",
+            "referenced_output_not_parsed",
+            "indeterminate"
+          ],
+          "type": "string"
+        },
+        "provider_observation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider_observation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "receipt_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "recorded_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "reservation_commit_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "reservation_commit_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "settlement_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "settlement_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "work_product_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "work_product_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "authority_id",
+        "authority_sha256",
+        "invocation_plan_id",
+        "invocation_plan_sha256",
+        "reservation_commit_id",
+        "reservation_commit_sha256",
+        "provider_observation_id",
+        "provider_observation_sha256",
+        "settlement_id",
+        "settlement_sha256",
+        "work_product_id",
+        "work_product_sha256",
+        "execution_state",
+        "output_status",
+        "recorded_at",
+        "receipt_id",
+        "receipt_sha256",
+        "effects"
+      ],
+      "type": "object"
+    },
+    "ExpertProviderObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "billable_cost_micros": {
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "completed_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "incomplete_reason": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "pattern": "^[\\t\\n\\r\\u0020-\\u007E]+$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input_tokens": {
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "invocation_plan_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "invocation_plan_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "sunderkey.expert-provider-observation.v1"
+        },
+        "model_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "model_version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "observation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "observation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "output_tokens": {
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "provider_api_version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "provider_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "provider_request_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "started_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "structured_output_json": {
+          "maxLength": 131072,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "structured_output_reference": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "terminal_state": {
+          "enum": [
+            "completed",
+            "incomplete",
+            "failed"
+          ],
+          "type": "string"
+        },
+        "usage_trustworthy": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "invocation_plan_id",
+        "invocation_plan_sha256",
+        "provider_id",
+        "provider_api_version",
+        "model_id",
+        "model_version",
+        "provider_request_id",
+        "terminal_state",
+        "usage_trustworthy",
+        "input_tokens",
+        "output_tokens",
+        "billable_cost_micros",
+        "structured_output_json",
+        "structured_output_reference",
+        "incomplete_reason",
+        "started_at",
+        "completed_at",
+        "observation_id",
+        "observation_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://sunderkey.local/schemas/expert-model-execution-custody-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ExpertExecutionAuthority"
+    },
+    {
+      "$ref": "#/$defs/ExpertInvocationPlan"
+    },
+    {
+      "$ref": "#/$defs/ExpertBudgetReservationCommit"
+    },
+    {
+      "$ref": "#/$defs/ExpertProviderObservation"
+    },
+    {
+      "$ref": "#/$defs/ExpertBudgetSettlement"
+    },
+    {
+      "$ref": "#/$defs/ExpertModelExecutionReceipt"
+    }
+  ],
+  "title": "SUNDERKEY expert model execution custody records v1"
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-executor-dispatch-reservation-receipt-v1.json",
+  "title": "SUNDERKEY Collaboration Executor Dispatch Reservation Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dispatch_authentication",
+    "reserved_at",
+    "control_plane_authorizer",
+    "reservation_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "dispatch_authentication": {
+      "$ref": "collaboration-executor-dispatch-authentication-v1.schema.json"
+    },
+    "reserved_at": {"$ref": "#/$defs/timestamp"},
+    "control_plane_authorizer": {"$ref": "#/$defs/principalCommit"},
+    "reservation_status": {"const": "reserved_pending_adapter"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "principalCommit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "assertion_sha256",
+        "ledger_entry_sha256"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "pattern": "^PAS-[0-9A-F]{32}$"
+        },
+        "assertion_sha256": {"$ref": "#/$defs/sha256"},
+        "ledger_entry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

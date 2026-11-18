@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S03",
+  "component_id": "x509_supplied_san_reference_match",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-san-test",
+      "certificate_der_base64": "MIIBETCBxKADAgECAgEqMAUGAytlcDAaMRgwFgYDVQQDDA9jbi5leGFtcGxlLnRlc3QwHhcNMjYwOTI4MDAwMDAwWhcNMjcwOTI4MDAwMDAwWjAaMRgwFgYDVQQDDA9jbi5leGFtcGxlLnRlc3QwKjAFBgMrZXADIQB5tVYuj+ZU+UB4sRLoqYunkB+FOuaVvtfg45ELrQSWZKMvMC0wKwYDVR0RBCQwIoIQd3d3LmV4YW1wbGUudGVzdIIOKi5leGFtcGxlLnRlc3QwBQYDK2VwA0EAr6nuVmZx/VW8wtFlO8q062XAFcriavmG3DwBjo/VxjQtsQ7EZG3hbllrf+OztIz+PM8yrq/04UePE1PprPXCDA==",
+      "reference_kind": "dns_id",
+      "reference_value": "www.example.test",
+      "wildcard_matching_permitted": true
+    }
+  }
+}

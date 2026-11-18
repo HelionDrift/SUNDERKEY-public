@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-trust-policy-v1.json",
+  "title": "SUNDERKEY Qualification Trust Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "policy_version",
+    "decision_record",
+    "qualification_standard",
+    "issuer",
+    "audience",
+    "issued_at",
+    "not_before",
+    "expires_at",
+    "max_reviewer_credential_lifetime_seconds",
+    "allowed_profile_ids",
+    "keys",
+    "root_key_id",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^QTP-[0-9A-F]{32}$"
+    },
+    "policy_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "decision_record": {
+      "$ref": "#/$defs/decisionRecordBinding"
+    },
+    "qualification_standard": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "issuer": {
+      "$ref": "#/$defs/identifier"
+    },
+    "audience": {
+      "$ref": "#/$defs/identifier"
+    },
+    "issued_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "not_before": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "expires_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "max_reviewer_credential_lifetime_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2592000
+    },
+    "allowed_profile_ids": {
+      "$ref": "#/$defs/profileIds"
+    },
+    "keys": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/authorityKey"
+      }
+    },
+    "root_key_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "format": "date-time"
+    },
+    "publicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "profileIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/profileId"
+      }
+    },
+    "decisionRecordBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "sha256"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^QDR-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "catalogBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "version": {
+          "$ref": "#/$defs/identifier"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "authorityKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key_id",
+        "issuer",
+        "public_key",
+        "algorithm",
+        "key_use",
+        "state",
+        "not_before",
+        "not_after",
+        "retire_at",
+        "allowed_roles",
+        "allowed_profile_ids"
+      ],
+      "properties": {
+        "key_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issuer": {
+          "$ref": "#/$defs/identifier"
+        },
+        "public_key": {
+          "$ref": "#/$defs/publicKey"
+        },
+        "algorithm": {
+          "const": "Ed25519"
+        },
+        "key_use": {
+          "enum": [
+            "reviewer_credential_issuer",
+            "qualification_decision",
+            "qualification_revocation"
+          ]
+        },
+        "state": {
+          "enum": [
+            "active",
+            "retiring",
+            "revoked"
+          ]
+        },
+        "not_before": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "not_after": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "retire_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allowed_roles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "technical_evaluator",
+              "independent_control",
+              "independent_assurance"
+            ]
+          }
+        },
+        "allowed_profile_ids": {
+          "$ref": "#/$defs/profileIds"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "key_use": {
+                "const": "reviewer_credential_issuer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "allowed_roles": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "allowed_roles": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "retiring"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "retire_at": {
+                "$ref": "#/$defs/timestamp"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "retire_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

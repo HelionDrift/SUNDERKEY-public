@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "snapshot": {
+      "schema_version": 1,
+      "organization_id": "organization:synthetic",
+      "management_account_id": "111111111111",
+      "scp_enabled": true,
+      "path": [
+        {
+          "node_id": "root:synthetic",
+          "node_type": "root",
+          "attachments_complete": true,
+          "policies": [{"policy_id": "root-full", "document": {
+            "Version": "2012-10-17",
+            "Statement": [{"Effect": "Allow", "Action": "*", "Resource": "*"}]
+          }}]
+        },
+        {
+          "node_id": "ou:workloads",
+          "node_type": "ou",
+          "attachments_complete": true,
+          "policies": [{"policy_id": "ou-reads", "document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {"Effect": "Allow", "Action": "s3:Get*", "Resource": "*"},
+              {"Effect": "Deny", "Action": "s3:GetObject", "Resource": "*",
+               "Condition": {"Bool": {"aws:SecureTransport": "false"}}}
+            ]
+          }}]
+        },
+        {
+          "node_id": "222222222222",
+          "node_type": "account",
+          "attachments_complete": true,
+          "policies": [{"policy_id": "account-read", "document": {
+            "Version": "2012-10-17",
+            "Statement": [{"Effect": "Allow", "Action": "s3:GetObject", "Resource": "*"}]
+          }}]
+        }
+      ]
+    },
+    "queries": [
+      {
+        "query_id": "a-secure",
+        "principal_account_id": "222222222222",
+        "principal_kind": "iam_role",
+        "action": "s3:GetObject",
+        "resource": "arn:aws:s3:::synthetic-bucket/reports/one",
+        "context": {"values": {"aws:SecureTransport": "true"}, "absent_keys": []}
+      },
+      {
+        "query_id": "b-insecure",
+        "principal_account_id": "222222222222",
+        "principal_kind": "iam_role",
+        "action": "s3:GetObject",
+        "resource": "arn:aws:s3:::synthetic-bucket/reports/one",
+        "context": {"values": {"aws:SecureTransport": "false"}, "absent_keys": []}
+      },
+      {
+        "query_id": "c-unavailable",
+        "principal_account_id": "222222222222",
+        "principal_kind": "iam_role",
+        "action": "s3:GetObject",
+        "resource": "arn:aws:s3:::synthetic-bucket/reports/one",
+        "context": {"values": {}, "absent_keys": []}
+      },
+      {
+        "query_id": "d-outside",
+        "principal_account_id": "333333333333",
+        "principal_kind": "iam_role",
+        "action": "s3:GetObject",
+        "resource": "arn:aws:s3:::synthetic-bucket/reports/one",
+        "context": {"values": {"aws:SecureTransport": "true"}, "absent_keys": []}
+      }
+    ]
+  }
+}

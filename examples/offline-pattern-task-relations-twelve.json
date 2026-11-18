@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "semantics_profile": "supplied-pattern-task-relation-v1",
+  "plan_id": "synthetic.pattern-hypothesis-twelve-1",
+  "scope_binding": {
+    "scope_id": "synthetic.review-scope-twelve-1",
+    "basis": "caller_declared_unverified",
+    "job_ids": ["authorization", "session", "origin", "schedule", "budget", "dependency", "configuration", "deputy", "integrity", "query", "interpreter", "observable"]
+  },
+  "premises": [
+    {
+      "premise_id": "premise-authorization",
+      "job_id": "authorization",
+      "component_id": "supplied_cross_surface_authorization",
+      "source_model_sha256": "sha256:2edb6c73166febde57f37843c4674169d433df5ce707d0e9f8e10fa2d1a8277d",
+      "projection_id": "sha256:64d77ec535b49fbbd4e0fbcacb57a927ea8033a76364acb470b4412ed98972d4",
+      "expected_disposition": "candidate_declared_decision_difference"
+    },
+    {
+      "premise_id": "premise-session",
+      "job_id": "session",
+      "component_id": "supplied_cross_channel_session",
+      "source_model_sha256": "sha256:dbdb0a0c9ea3246f7dab22a095bb160f96a47436367b9896e295bfe018ff0c6f",
+      "projection_id": "e3",
+      "expected_disposition": "candidate_declared_cross_channel_conflict"
+    },
+    {
+      "premise_id": "premise-origin",
+      "job_id": "origin",
+      "component_id": "supplied_request_origin_trust",
+      "source_model_sha256": "sha256:54b2d274c2c791f7763c3548f2443d3c4541b29f8f06fd1023519887d0779fb1",
+      "projection_id": "candidate-1",
+      "expected_disposition": "candidate_declared_trust_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-schedule",
+      "job_id": "schedule",
+      "component_id": "supplied_toctou_state_schedule",
+      "source_model_sha256": "sha256:e4f4978e86dced9677f69cd87aa49d279075159d37862316667a0b10f57d498e",
+      "projection_id": "use-1",
+      "expected_disposition": "candidate_declared_stale_check_conflict"
+    },
+    {
+      "premise_id": "premise-budget",
+      "job_id": "budget",
+      "component_id": "supplied_resource_expansion_budget",
+      "source_model_sha256": "sha256:ed2f92fa49d1bc3b3dc9603c8ad47e4286a5e9c229db2fb951f52437ffc0def3",
+      "projection_id": "operation-1",
+      "expected_disposition": "candidate_declared_resource_budget_conflict"
+    },
+    {
+      "premise_id": "premise-dependency",
+      "job_id": "dependency",
+      "component_id": "supplied_dependency_fail_closed",
+      "source_model_sha256": "sha256:83947271da6b737cb831341de8e7a8f7048ba31f96c36a2dc8f0a8f9e79816e9",
+      "projection_id": "observation-1",
+      "expected_disposition": "candidate_declared_fail_open_conflict"
+    },
+    {
+      "premise_id": "premise-configuration",
+      "job_id": "configuration",
+      "component_id": "supplied_configuration_defaults",
+      "source_model_sha256": "sha256:86b72ccc3c4fa35139b8c4ab1ac69cb65cb78dfd1a7cfcf8148db2da4bda6d8e",
+      "projection_id": "setting-1",
+      "expected_disposition": "candidate_declared_insecure_default"
+    },
+    {
+      "premise_id": "premise-deputy",
+      "job_id": "deputy",
+      "component_id": "supplied_confused_deputy_boundary",
+      "source_model_sha256": "sha256:fdc17ef05af8b1e317fb98c6a3e676dcc0175e6148f4fc40ba0a0c3e1516c38c",
+      "projection_id": "operation-1",
+      "expected_disposition": "candidate_declared_deputy_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-integrity",
+      "job_id": "integrity",
+      "component_id": "supplied_integrity_poisoning",
+      "source_model_sha256": "sha256:b96f4da868d16d8c51b0160f8415615b8b07d91fda51981e81d968fcec83d3db",
+      "projection_id": "artifact-1",
+      "expected_disposition": "candidate_declared_untrusted_content_consumption"
+    },
+    {
+      "premise_id": "premise-query",
+      "job_id": "query",
+      "component_id": "supplied_query_input_boundary",
+      "source_model_sha256": "sha256:70fa771f8726f850de0fbff6f4b051c7f3003ffc45fcc5d43f34e42c9836beeb",
+      "projection_id": "query-1",
+      "expected_disposition": "candidate_declared_query_input_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-interpreter",
+      "job_id": "interpreter",
+      "component_id": "supplied_interpreter_input_boundary",
+      "source_model_sha256": "sha256:4fd68403b943b2d5c311e0c3f7d68f82c96ffb516566bb7c79a3d7013d979df2",
+      "projection_id": "sink-1",
+      "expected_disposition": "candidate_declared_interpreter_input_boundary_conflict"
+    },
+    {
+      "premise_id": "premise-observable",
+      "job_id": "observable",
+      "component_id": "supplied_observable_discrepancy",
+      "source_model_sha256": "sha256:d257a1fbab6876a3a8a8b800b84a8acf35ee7c5a10181b43aaf181f680025160",
+      "projection_id": "comparison-1",
+      "expected_disposition": "candidate_declared_sensitive_field_exposure"
+    }
+  ]
+}

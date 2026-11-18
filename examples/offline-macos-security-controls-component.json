@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-macos-controls",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "required_enabled_control_ids": ["sip", "gatekeeper"],
+    "controls": [
+      {"control_id": "sip", "enabled_declared": false},
+      {"control_id": "gatekeeper", "enabled_declared": true}
+    ]
+  }}
+}

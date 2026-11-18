@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-ipc-clients",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "interfaces": [{
+      "interface_id": "service-a", "interface_kind": "xpc",
+      "approved_client_ids": ["client-a"],
+      "declared_client_ids": ["client-a", "client-b"]
+    }]
+  }}
+}

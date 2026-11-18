@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S02",
+  "component_id": "supplied_price_rounding_arithmetic",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-minor-unit-price-rounding-v1",
+      "currency_label": "TST",
+      "minor_unit_scale": 2,
+      "lines": [
+        {"line_id": "a", "unit_minor": 1, "quantity": 1, "discount_minor": 0},
+        {"line_id": "b", "unit_minor": 1, "quantity": 1, "discount_minor": 0}
+      ],
+      "tax_rate_basis_points": 5000,
+      "tax_basis": "line",
+      "rounding_mode": "half_up",
+      "declared_subtotal_minor": 2,
+      "declared_discount_minor": 0,
+      "declared_tax_minor": 2,
+      "declared_total_minor": 4
+    }
+  }
+}

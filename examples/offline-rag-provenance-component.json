@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S11",
+  "component_id": "rag_supplied_index_provenance",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-rag-provenance",
+      "documents": [
+        {
+          "document_id": "doc-mismatch",
+          "expected_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "indexed_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "approval": "approved"
+        },
+        {
+          "document_id": "doc-denied",
+          "expected_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "indexed_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "approval": "denied"
+        },
+        {
+          "document_id": "doc-unknown",
+          "expected_sha256": "unknown",
+          "indexed_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "approval": "unknown"
+        }
+      ],
+      "uses": [
+        {
+          "use_id": "used-mismatch",
+          "document_id": "doc-mismatch",
+          "retrieved": "yes",
+          "incorporated": "yes",
+          "context_complete": true
+        },
+        {
+          "use_id": "used-denied",
+          "document_id": "doc-denied",
+          "retrieved": "yes",
+          "incorporated": "yes",
+          "context_complete": true
+        },
+        {
+          "use_id": "not-used",
+          "document_id": "doc-mismatch",
+          "retrieved": "yes",
+          "incorporated": "no",
+          "context_complete": true
+        },
+        {
+          "use_id": "unknown-use",
+          "document_id": "doc-unknown",
+          "retrieved": "yes",
+          "incorporated": "yes",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

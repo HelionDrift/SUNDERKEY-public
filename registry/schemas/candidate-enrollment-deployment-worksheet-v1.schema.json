@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-deployment-worksheet-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Deployment Worksheet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "template_id",
+    "template_sha256",
+    "preparation_packet",
+    "deployment_id",
+    "prepared_by",
+    "prepared_at",
+    "inputs",
+    "prohibited_content",
+    "worksheet_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "template_id": {"type": "string", "pattern": "^CDT-[0-9A-F]{32}$"},
+    "template_sha256": {"$ref": "#/$defs/sha256"},
+    "preparation_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^CDP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "deployment_id": {"$ref": "#/$defs/nullableIdentifier"},
+    "prepared_by": {"$ref": "#/$defs/nullableIdentifier"},
+    "prepared_at": {"$ref": "#/$defs/nullableTimestamp"},
+    "inputs": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input_id",
+          "role_assignments",
+          "completion_evidence",
+          "completed_at"
+        ],
+        "properties": {
+          "input_id": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"},
+          "role_assignments": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role", "principal_id"],
+              "properties": {
+                "role": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"},
+                "principal_id": {"$ref": "#/$defs/nullableIdentifier"}
+              }
+            }
+          },
+          "completion_evidence": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["evidence_id", "artifact_sha256"],
+              "properties": {
+                "evidence_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+                "artifact_sha256": {
+                  "oneOf": [
+                    {"type": "null"},
+                    {"$ref": "#/$defs/sha256"}
+                  ]
+                }
+              }
+            }
+          },
+          "completed_at": {"$ref": "#/$defs/nullableTimestamp"}
+        }
+      }
+    },
+    "prohibited_content": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"}
+    },
+    "worksheet_effect": {"const": "planning_only"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "nullableIdentifier": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/identifier"}
+      ]
+    },
+    "nullableTimestamp": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "format": "date-time"}
+      ]
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

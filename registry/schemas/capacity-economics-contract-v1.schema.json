@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/capacity-economics-contract-v1.schema.json",
+  "title": "SUNDERKEY Capacity Economics Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attributions",
+    "contract_id",
+    "contract_sha256",
+    "effects",
+    "forecasts",
+    "kind",
+    "measurement_windows",
+    "policy",
+    "quota_snapshots",
+    "recommendation",
+    "schema_version"
+  ],
+  "properties": {
+    "attributions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/attribution"}},
+    "contract_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+    "contract_sha256": {"$ref": "#/$defs/sha256"},
+    "effects": {
+      "const": {
+        "authorization": "none",
+        "billing": "none",
+        "metric_collection": "none",
+        "network": "none",
+        "persistence": "none",
+        "provider_calls": "none",
+        "qualification": "none",
+        "scaling": "none",
+        "scheduling": "none"
+      }
+    },
+    "forecasts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/forecast"}},
+    "kind": {"const": "sunderkey.capacity-economics-contract.v1"},
+    "measurement_windows": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/window"}},
+    "policy": {"$ref": "#/$defs/policy"},
+    "quota_snapshots": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/quotaSnapshot"}},
+    "recommendation": {"$ref": "#/$defs/recommendation"},
+    "schema_version": {"const": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "utc": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"},
+    "nonnegative": {"type": "integer", "minimum": 0, "maximum": 9223372036854775807},
+    "positive": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+    "basisPoints": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "tenantRef": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$"},
+    "assessmentRef": {"type": "string", "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$"},
+    "providerRef": {"type": "string", "pattern": "^providerref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$"},
+    "workerPoolRef": {"type": "string", "pattern": "^workerpoolref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$"},
+    "custodyRef": {"type": "string", "pattern": "^custodyref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$"},
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assessment_ref", "provider_ref", "region", "tenant_ref", "worker_pool_ref"],
+      "properties": {
+        "assessment_ref": {"$ref": "#/$defs/assessmentRef"},
+        "provider_ref": {"$ref": "#/$defs/providerRef"},
+        "region": {"$ref": "#/$defs/identifier"},
+        "tenant_ref": {"$ref": "#/$defs/tenantRef"},
+        "worker_pool_ref": {"$ref": "#/$defs/workerPoolRef"}
+      }
+    },
+    "measurementUnits": {
+      "const": {
+        "cost": "microusd",
+        "queue_time": "milliseconds",
+        "requests": "requests",
+        "storage": "bytes",
+        "tokens": "tokens",
+        "worker_time": "milliseconds"
+      }
+    },
+    "windowDerived": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration_seconds",
+        "queue_p50_milliseconds",
+        "queue_p95_milliseconds",
+        "storage_growth_bytes",
+        "total_cost_micros",
+        "worker_utilization_basis_points"
+      ],
+      "properties": {
+        "duration_seconds": {"$ref": "#/$defs/positive"},
+        "queue_p50_milliseconds": {"$ref": "#/$defs/nonnegative"},
+        "queue_p95_milliseconds": {"$ref": "#/$defs/nonnegative"},
+        "storage_growth_bytes": {"$ref": "#/$defs/nonnegative"},
+        "total_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "worker_utilization_basis_points": {"$ref": "#/$defs/basisPoints"}
+      }
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "custody_refs",
+        "derived",
+        "dimensions",
+        "input_tokens",
+        "kind",
+        "model_cost_micros",
+        "observed_at",
+        "output_tokens",
+        "provenance",
+        "queue_time_samples_milliseconds",
+        "requests",
+        "source_sha256s",
+        "storage_cost_micros",
+        "storage_end_bytes",
+        "storage_start_bytes",
+        "tool_cost_micros",
+        "units",
+        "validated_findings",
+        "window_end",
+        "window_id",
+        "window_sha256",
+        "window_start",
+        "worker_busy_milliseconds",
+        "worker_capacity_milliseconds"
+      ],
+      "properties": {
+        "custody_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/custodyRef"}},
+        "derived": {"$ref": "#/$defs/windowDerived"},
+        "dimensions": {"$ref": "#/$defs/dimensions"},
+        "input_tokens": {"$ref": "#/$defs/nonnegative"},
+        "kind": {"const": "sunderkey.capacity-measurement-window.v1"},
+        "model_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "observed_at": {"$ref": "#/$defs/utc"},
+        "output_tokens": {"$ref": "#/$defs/nonnegative"},
+        "provenance": {"enum": ["measured_production", "measured_test", "synthetic"]},
+        "queue_time_samples_milliseconds": {"type": "array", "items": {"$ref": "#/$defs/nonnegative"}},
+        "requests": {"$ref": "#/$defs/nonnegative"},
+        "source_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "storage_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "storage_end_bytes": {"$ref": "#/$defs/nonnegative"},
+        "storage_start_bytes": {"$ref": "#/$defs/nonnegative"},
+        "tool_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "units": {"$ref": "#/$defs/measurementUnits"},
+        "validated_findings": {"$ref": "#/$defs/nonnegative"},
+        "window_end": {"$ref": "#/$defs/utc"},
+        "window_id": {"type": "string", "pattern": "^CMW-[0-9A-F]{32}$"},
+        "window_sha256": {"$ref": "#/$defs/sha256"},
+        "window_start": {"$ref": "#/$defs/utc"},
+        "worker_busy_milliseconds": {"$ref": "#/$defs/nonnegative"},
+        "worker_capacity_milliseconds": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_ref",
+        "attribution_id",
+        "attribution_sha256",
+        "cost_per_validated_finding_micros",
+        "input_tokens",
+        "kind",
+        "model_cost_micros",
+        "output_tokens",
+        "requests",
+        "source_window_ids",
+        "storage_cost_micros",
+        "storage_growth_bytes",
+        "tenant_ref",
+        "tool_cost_micros",
+        "total_cost_micros",
+        "units",
+        "validated_findings"
+      ],
+      "properties": {
+        "assessment_ref": {"$ref": "#/$defs/assessmentRef"},
+        "attribution_id": {"type": "string", "pattern": "^CAT-[0-9A-F]{32}$"},
+        "attribution_sha256": {"$ref": "#/$defs/sha256"},
+        "cost_per_validated_finding_micros": {"type": ["integer", "null"], "minimum": 0},
+        "input_tokens": {"$ref": "#/$defs/nonnegative"},
+        "kind": {"const": "sunderkey.capacity-cost-attribution.v1"},
+        "model_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "output_tokens": {"$ref": "#/$defs/nonnegative"},
+        "requests": {"$ref": "#/$defs/nonnegative"},
+        "source_window_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^CMW-[0-9A-F]{32}$"}},
+        "storage_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "storage_growth_bytes": {"$ref": "#/$defs/nonnegative"},
+        "tenant_ref": {"$ref": "#/$defs/tenantRef"},
+        "tool_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "total_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "units": {"const": {"cost": "microusd", "storage": "bytes", "tokens": "tokens"}},
+        "validated_findings": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "quotaCounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headroom", "headroom_basis_points", "limit", "name", "reserved", "unit", "used"],
+      "properties": {
+        "headroom": {"$ref": "#/$defs/nonnegative"},
+        "headroom_basis_points": {"$ref": "#/$defs/basisPoints"},
+        "limit": {"$ref": "#/$defs/positive"},
+        "name": {"enum": ["concurrent_requests", "cost_per_day", "input_tokens_per_minute", "output_tokens_per_minute", "requests_per_minute"]},
+        "reserved": {"$ref": "#/$defs/nonnegative"},
+        "unit": {"enum": ["microusd", "requests", "tokens"]},
+        "used": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "quotaSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["custody_refs", "expires_at", "kind", "observed_at", "provenance", "provider_ref", "quotas", "region", "snapshot_id", "snapshot_sha256", "source_sha256s"],
+      "properties": {
+        "custody_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/custodyRef"}},
+        "expires_at": {"$ref": "#/$defs/utc"},
+        "kind": {"const": "sunderkey.provider-quota-snapshot.v1"},
+        "observed_at": {"$ref": "#/$defs/utc"},
+        "provenance": {"enum": ["measured_production", "measured_test", "synthetic"]},
+        "provider_ref": {"$ref": "#/$defs/providerRef"},
+        "quotas": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/quotaCounter"}},
+        "region": {"$ref": "#/$defs/identifier"},
+        "snapshot_id": {"type": "string", "pattern": "^PQS-[0-9A-F]{32}$"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "source_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}}
+      }
+    },
+    "forecastMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected", "lower", "name", "unit", "upper"],
+      "properties": {
+        "expected": {"$ref": "#/$defs/nonnegative"},
+        "lower": {"$ref": "#/$defs/nonnegative"},
+        "name": {"enum": ["concurrent_requests", "cost_per_day", "input_tokens_per_minute", "output_tokens_per_minute", "requests_per_minute"]},
+        "unit": {"enum": ["microusd", "requests", "tokens"]},
+        "upper": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "forecast": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence_basis_points", "created_at", "forecast_id", "forecast_sha256", "horizon_end", "horizon_seconds", "horizon_start", "kind", "metrics", "provider_ref", "region", "source_sha256s", "source_window_ids"],
+      "properties": {
+        "confidence_basis_points": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "created_at": {"$ref": "#/$defs/utc"},
+        "forecast_id": {"type": "string", "pattern": "^CDF-[0-9A-F]{32}$"},
+        "forecast_sha256": {"$ref": "#/$defs/sha256"},
+        "horizon_end": {"$ref": "#/$defs/utc"},
+        "horizon_seconds": {"$ref": "#/$defs/positive"},
+        "horizon_start": {"$ref": "#/$defs/utc"},
+        "kind": {"const": "sunderkey.capacity-demand-forecast.v1"},
+        "metrics": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/forecastMetric"}},
+        "provider_ref": {"$ref": "#/$defs/providerRef"},
+        "region": {"$ref": "#/$defs/identifier"},
+        "source_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "source_window_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^CMW-[0-9A-F]{32}$"}}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "maximum_assessment_cost_micros", "maximum_cost_per_validated_finding_micros", "maximum_forecast_age_seconds", "maximum_forecast_horizon_seconds", "maximum_measurement_age_seconds", "maximum_queue_p95_milliseconds", "maximum_quota_age_seconds", "maximum_worker_utilization_basis_points", "minimum_forecast_confidence_basis_points", "minimum_quota_headroom_basis_points", "policy_id", "policy_sha256", "policy_version"],
+      "properties": {
+        "kind": {"const": "sunderkey.capacity-economics-policy.v1"},
+        "maximum_assessment_cost_micros": {"$ref": "#/$defs/positive"},
+        "maximum_cost_per_validated_finding_micros": {"$ref": "#/$defs/positive"},
+        "maximum_forecast_age_seconds": {"$ref": "#/$defs/positive"},
+        "maximum_forecast_horizon_seconds": {"$ref": "#/$defs/positive"},
+        "maximum_measurement_age_seconds": {"$ref": "#/$defs/positive"},
+        "maximum_queue_p95_milliseconds": {"$ref": "#/$defs/positive"},
+        "maximum_quota_age_seconds": {"$ref": "#/$defs/positive"},
+        "maximum_worker_utilization_basis_points": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "minimum_forecast_confidence_basis_points": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "minimum_quota_headroom_basis_points": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "policy_id": {"type": "string", "pattern": "^CEP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_version": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["as_of", "assessment_ref", "attribution_id", "blockers", "disposition", "forecast_id", "kind", "measurement_window_ids", "policy_id", "projected_cost_micros", "provider_ref", "quota_snapshot_id", "recommendation_id", "recommendation_sha256", "region", "tenant_ref"],
+      "properties": {
+        "as_of": {"$ref": "#/$defs/utc"},
+        "assessment_ref": {"$ref": "#/$defs/assessmentRef"},
+        "attribution_id": {"type": "string", "pattern": "^CAT-[0-9A-F]{32}$"},
+        "blockers": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "disposition": {"enum": ["admit", "deny"]},
+        "forecast_id": {"type": "string", "pattern": "^CDF-[0-9A-F]{32}$"},
+        "kind": {"const": "sunderkey.capacity-admission-recommendation.v1"},
+        "measurement_window_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^CMW-[0-9A-F]{32}$"}},
+        "policy_id": {"type": "string", "pattern": "^CEP-[0-9A-F]{32}$"},
+        "projected_cost_micros": {"$ref": "#/$defs/nonnegative"},
+        "provider_ref": {"$ref": "#/$defs/providerRef"},
+        "quota_snapshot_id": {"type": "string", "pattern": "^PQS-[0-9A-F]{32}$"},
+        "recommendation_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "recommendation_sha256": {"$ref": "#/$defs/sha256"},
+        "region": {"$ref": "#/$defs/identifier"},
+        "tenant_ref": {"$ref": "#/$defs/tenantRef"}
+      }
+    }
+  }
+}

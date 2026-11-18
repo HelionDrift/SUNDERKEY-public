@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D02-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-visitor-escort-records",
+      "synthetic_fixture": true,
+      "controlled_entries": [
+        "door-a",
+        "door-b"
+      ],
+      "visits": [
+        {
+          "visitor_id": "visitor-01",
+          "entry_id": "door-a",
+          "entry_time_utc": "2026-01-01T10:00:00Z",
+          "exit_time_utc": "2026-01-01T10:30:00Z",
+          "escort_required": true,
+          "escort_id": "escort-01"
+        },
+        {
+          "visitor_id": "visitor-02",
+          "entry_id": "door-b",
+          "entry_time_utc": "2026-01-01T11:00:00Z",
+          "exit_time_utc": null,
+          "escort_required": true,
+          "escort_id": null
+        }
+      ]
+    }
+  }
+}

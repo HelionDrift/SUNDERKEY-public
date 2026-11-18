@@ -1,0 +1,118 @@
+{
+  "adapter_substrate": {
+    "arbitrary_shell": "prohibited",
+    "direct_model_tool_access": "prohibited",
+    "interface": "typed_capability_adapter_sdk",
+    "language": "python",
+    "ownership": "sunderkey",
+    "unreviewed_plugins": "prohibited"
+  },
+  "execution_hosts": {
+    "host_boundary_weakening": "prohibited",
+    "initial_host": "linux",
+    "other_surfaces": "explicit_remote_adapters_or_approved_ranges"
+  },
+  "isolation": {
+    "active_or_high_consequence": "microvm",
+    "bounded_low_impact": "oci_container",
+    "high_consequence_classes": [
+      "credential_bearing",
+      "kernel",
+      "firmware",
+      "ot",
+      "transportation",
+      "space",
+      "clinical"
+    ]
+  },
+  "limitations": [
+    "This strategy does not approve any external tool or license.",
+    "This strategy does not authorize model or adapter self-authorization.",
+    "This strategy does not authorize production or real-target execution.",
+    "This strategy does not qualify or route any candidate.",
+    "Every active test still requires exact mission and target authority."
+  ],
+  "no_effects": [
+    "qualification",
+    "routing",
+    "deployment",
+    "production_infrastructure",
+    "production_credentials",
+    "target_authority"
+  ],
+  "phase157_scope": {
+    "credentials": "synthetic_or_test_only",
+    "production_credentials": "prohibited",
+    "real_target_access": "not_authorized_by_d016",
+    "targets": "synthetic_or_approved_test_only"
+  },
+  "program": "SUNDERKEY",
+  "reasoning_provider": {
+    "binding": "existing_managed_api_boundary",
+    "candidate_requirement": "pin_exact_model_and_revision",
+    "initial_provider": "openai_managed_api",
+    "portability": "stable_provider_neutral_contracts"
+  },
+  "replaceable_bindings": [
+    "provider",
+    "model",
+    "tool",
+    "adapter"
+  ],
+  "resource_policy": {
+    "default": "deny",
+    "grant_mode": "exact_per_adapter_allowlist_through_authority_chain",
+    "resources": [
+      "network",
+      "filesystem",
+      "process",
+      "credential"
+    ]
+  },
+  "rollout": {
+    "initial_slice": [
+      "passive",
+      "api",
+      "identity",
+      "cloud",
+      "endpoint",
+      "high_consequence_restoration"
+    ],
+    "next_step": "validate_sdk_before_thirty_scheduled_waves",
+    "phase158_gate": [
+      "static_analysis",
+      "unit",
+      "integration",
+      "containment",
+      "evidence",
+      "restoration"
+    ]
+  },
+  "schema_version": 1,
+  "stable_contracts": [
+    "capability",
+    "input",
+    "output",
+    "evidence",
+    "restoration"
+  ],
+  "strategy_id": "CIS-956EA1C0F87FCB4D0445A8860FB0189D",
+  "strategy_sha256": "sha256:956ea1c0f87fcb4d0445a8860fb0189dc54a85be35bcbb0c6c58b44ca0092387",
+  "tool_supply_chain": {
+    "allowed_sources": [
+      "reviewed_open_source",
+      "sunderkey_native"
+    ],
+    "required_records": [
+      "license",
+      "source",
+      "version",
+      "executable_digest",
+      "dependency_digests",
+      "configuration_digest",
+      "capability_mapping",
+      "known_limitations",
+      "evidence_semantics"
+    ]
+  }
+}

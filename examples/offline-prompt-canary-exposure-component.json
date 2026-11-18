@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-canary-output",
+      "context_complete": true,
+      "canary_distribution_known": true,
+      "protected_canaries": [
+        {
+          "canary_id": "canary-one",
+          "sha256": "sha256:b0bea4fcf799d7f068f168c9b778b239b2e1db5f8b1ba80caedce1db00528170",
+          "byte_length": 21
+        }
+      ],
+      "outputs": [
+        {"output_id": "output-one", "content": "Noisy prefix SYNTHETIC-CANARY-ONLY suffix"},
+        {"output_id": "output-two", "content": "No protected marker appears here"}
+      ]
+    }
+  }
+}

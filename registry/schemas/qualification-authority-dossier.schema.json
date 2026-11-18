@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-authority-dossier-v1.json",
+  "title": "SUNDERKEY Qualification Authority Decision Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "status",
+    "decision_effect",
+    "decision_id",
+    "registry",
+    "capability_catalog",
+    "qualification_standard",
+    "implementation_roadmap",
+    "implementation_work_packages",
+    "current_scope",
+    "nonnegotiable_requirements",
+    "alternatives",
+    "decision_questions",
+    "recommendation",
+    "implementation_sequence_after_decision",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^QAD-[0-9A-F]{32}$"
+    },
+    "report_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "status": {
+      "const": "decision_required"
+    },
+    "decision_effect": {
+      "const": "none"
+    },
+    "decision_id": {
+      "const": "D008"
+    },
+    "registry": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "capability_catalog": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "qualification_standard": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "implementation_roadmap": {
+      "$ref": "#/$defs/reportBinding"
+    },
+    "implementation_work_packages": {
+      "$ref": "#/$defs/reportBinding"
+    },
+    "current_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialist_count",
+        "implementation_gap_count",
+        "work_item_count",
+        "authoritative_qualification_work_item_count",
+        "decision_blocked_work_item_count"
+      ],
+      "properties": {
+        "specialist_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "implementation_gap_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "work_item_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authoritative_qualification_work_item_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decision_blocked_work_item_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "nonnegotiable_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_distinct_evaluators",
+        "independent_control_review_required",
+        "independent_assurance_review_required",
+        "self_attestation_allowed",
+        "qualification_validity_days",
+        "authority_operations",
+        "exact_binding_requirements",
+        "fail_closed_requirements"
+      ],
+      "properties": {
+        "minimum_distinct_evaluators": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "independent_control_review_required": {
+          "type": "boolean"
+        },
+        "independent_assurance_review_required": {
+          "type": "boolean"
+        },
+        "self_attestation_allowed": {
+          "type": "boolean"
+        },
+        "qualification_validity_days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "authority_operations": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "approve_initial_qualification",
+              "renew_qualification",
+              "suspend_qualification",
+              "revoke_qualification"
+            ]
+          }
+        },
+        "exact_binding_requirements": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        },
+        "fail_closed_requirements": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        }
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/alternative"
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "$ref": "#/$defs/decisionQuestion"
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "rationale",
+        "selection_state"
+      ],
+      "properties": {
+        "alternative_id": {
+          "const": "repository_revision_signed_manifest"
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        },
+        "selection_state": {
+          "const": "not_selected"
+        }
+      }
+    },
+    "implementation_sequence_after_decision": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "catalogBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "reportBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "sha256"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "pattern": "^(IRR|IWR)-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "nonemptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "name",
+        "recommended",
+        "authority_location",
+        "decision_record",
+        "operational_complexity",
+        "independence_strength",
+        "offline_operation",
+        "strengths",
+        "risks",
+        "required_components"
+      ],
+      "properties": {
+        "alternative_id": {
+          "type": "string",
+          "enum": [
+            "repository_revision_signed_manifest",
+            "external_authority_import",
+            "local_runtime_qualification_ledger"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended": {
+          "type": "boolean"
+        },
+        "authority_location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_record": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operational_complexity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "independence_strength": {
+          "type": "string",
+          "enum": [
+            "weaker",
+            "moderate",
+            "strong"
+          ]
+        },
+        "offline_operation": {
+          "type": "string",
+          "enum": [
+            "supported",
+            "limited",
+            "not_supported"
+          ]
+        },
+        "strengths": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        },
+        "risks": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        },
+        "required_components": {
+          "$ref": "#/$defs/nonemptyUniqueStrings"
+        }
+      }
+    },
+    "decisionQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_id",
+        "prompt",
+        "option_ids",
+        "recommended_option_id"
+      ],
+      "properties": {
+        "question_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "option_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "recommended_option_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

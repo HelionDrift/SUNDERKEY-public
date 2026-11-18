@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S07",
+  "component_id": "supplied_cross_surface_authorization",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-cross-surface-authorization-decisions-v1",
+      "source_id": "source.synthetic-1",
+      "identity_mapping_complete": true,
+      "decisions": [
+        {"decision_id": "d1", "surface_id": "web", "principal_ref": "ref:viewer", "action_ref": "ref:read", "resource_ref": "ref:record-1", "outcome": "denied"},
+        {"decision_id": "d2", "surface_id": "api", "principal_ref": "ref:viewer", "action_ref": "ref:read", "resource_ref": "ref:record-1", "outcome": "allowed"}
+      ]
+    }
+  }
+}

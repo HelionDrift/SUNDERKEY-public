@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-ownership-privileged-reassignment-preflight-v1.json",
+  "title": "SUNDERKEY Collaboration Ownership Privileged Reassignment Preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "entry",
+    "evaluated_at",
+    "store_id",
+    "mission_context_sha256",
+    "policy_binding",
+    "work_fence",
+    "role_binding",
+    "replacement_qualification",
+    "chain_projection",
+    "admission_status",
+    "authentication_status",
+    "runtime_effect",
+    "preflight_id",
+    "preflight_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "entry": {
+      "$ref": "collaboration-ownership-chain-entry-v1.schema.json"
+    },
+    "evaluated_at": {"$ref": "#/$defs/timestamp"},
+    "store_id": {"type": "string", "minLength": 3, "maxLength": 128},
+    "mission_context_sha256": {"$ref": "#/$defs/sha256"},
+    "policy_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_sha256",
+        "policy_version",
+        "maximum_delegation_depth"
+      ],
+      "properties": {
+        "policy_id": {"type": "string", "pattern": "^MRP-[0-9A-F]{32}$"},
+        "policy_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_version": {"type": "integer", "minimum": 1},
+        "maximum_delegation_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    },
+    "work_fence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_generation",
+        "previous_transition_id",
+        "expected_lease_expires_at"
+      ],
+      "properties": {
+        "expected_generation": {"type": "integer", "minimum": 0},
+        "previous_transition_id": {
+          "type": ["string", "null"],
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "expected_lease_expires_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "role_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_item_kind",
+        "planned_owner_id",
+        "current_owner_id",
+        "control_role_replacement",
+        "second_authority_required",
+        "required_authority_count"
+      ],
+      "properties": {
+        "work_item_kind": {
+          "enum": [
+            "readiness",
+            "domain_synthesis",
+            "group_integration",
+            "cross_surface_integration",
+            "control_review",
+            "evidence_review",
+            "assurance_review"
+          ]
+        },
+        "planned_owner_id": {"$ref": "#/$defs/profile_id"},
+        "current_owner_id": {"$ref": "#/$defs/profile_id"},
+        "control_role_replacement": {"type": "boolean"},
+        "second_authority_required": {"type": "boolean"},
+        "required_authority_count": {"type": "integer", "enum": [3, 4]}
+      }
+    },
+    "replacement_qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_version",
+        "registry_status",
+        "profile_kind",
+        "category",
+        "command_id",
+        "group_id",
+        "qualification_basis"
+      ],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/profile_id"},
+        "profile_version": {"type": "string", "minLength": 1},
+        "registry_status": {"enum": ["defined", "qualified"]},
+        "profile_kind": {"enum": ["domain_commander", "shared"]},
+        "category": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "command_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/profile_id"},
+            {"type": "null"}
+          ]
+        },
+        "group_id": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Z0-9-]+$"
+        },
+        "qualification_basis": {
+          "const": "registry_equivalent_privileged_role_v1"
+        }
+      }
+    },
+    "chain_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chain_id",
+        "head_entry_id",
+        "head_sha256",
+        "current_owner_id",
+        "owner_epoch",
+        "active_delegation_depth",
+        "entry_count"
+      ],
+      "properties": {
+        "chain_id": {"type": "string", "pattern": "^OCN-[0-9A-F]{32}$"},
+        "head_entry_id": {"type": "string", "pattern": "^OCE-[0-9A-F]{32}$"},
+        "head_sha256": {"$ref": "#/$defs/sha256"},
+        "current_owner_id": {"$ref": "#/$defs/profile_id"},
+        "owner_epoch": {"type": "integer", "minimum": 1},
+        "active_delegation_depth": {"type": "integer", "minimum": 1},
+        "entry_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "admission_status": {
+      "const": "admissible_pending_privileged_authenticated_commit"
+    },
+    "authentication_status": {"const": "not_performed"},
+    "runtime_effect": {"const": "none"},
+    "preflight_id": {"type": "string", "pattern": "^OPF-[0-9A-F]{32}$"},
+    "preflight_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "profile_id": {"type": "string", "pattern": "^AOE-[A-Z0-9-]+$"},
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

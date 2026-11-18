@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/asset-lifecycle-review-v1.schema.json",
+  "title": "SUNDERKEY Asset Lifecycle Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "review_id", "review_sha256", "schema_version", "tenant_id",
+    "prior_snapshot_sha256", "current_snapshot_sha256",
+    "prior_predecessor_snapshot_sha256", "as_of", "entries", "summary", "effects"
+  ],
+  "properties": {
+    "review_id": {"type": "string", "pattern": "^ALR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "tenant_id": {"type": "string", "minLength": 1, "maxLength": 512},
+    "prior_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "current_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "prior_predecessor_snapshot_sha256": {
+      "oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+    },
+    "as_of": {"type": "string", "format": "date-time"},
+    "entries": {
+      "type": "array", "minItems": 1, "maxItems": 10000,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "prior_asset_id", "disposition", "successor_asset_ids",
+          "prior_source_kinds", "missing_source_kinds", "review_required",
+          "tombstone_review_candidate", "tombstone_applied"
+        ],
+        "properties": {
+          "prior_asset_id": {"$ref": "#/$defs/asset_id"},
+          "disposition": {
+            "enum": [
+              "retained", "identity_reassigned", "ambiguous_continuity",
+              "unobserved_with_source_gap", "unobserved_with_class_overlap"
+            ]
+          },
+          "successor_asset_ids": {
+            "type": "array", "uniqueItems": true,
+            "items": {"$ref": "#/$defs/asset_id"}
+          },
+          "prior_source_kinds": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"$ref": "#/$defs/source_kind"}
+          },
+          "missing_source_kinds": {
+            "type": "array", "uniqueItems": true,
+            "items": {"$ref": "#/$defs/source_kind"}
+          },
+          "review_required": {"type": "boolean"},
+          "tombstone_review_candidate": {"type": "boolean"},
+          "tombstone_applied": {"const": false}
+        }
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "prior_asset_count", "review_required_count",
+        "tombstone_candidate_count", "retired_asset_count"
+      ],
+      "properties": {
+        "prior_asset_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "review_required_count": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "tombstone_candidate_count": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "retired_asset_count": {"const": 0}
+      }
+    },
+    "effects": {
+      "const": {
+        "active_probing": false,
+        "asset_retirement": false,
+        "authority": "none",
+        "deployment": "none",
+        "qualification": "none",
+        "routing": "none",
+        "target_interaction": false
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "asset_id": {"type": "string", "pattern": "^AST-[0-9A-F]{32}$"},
+    "source_kind": {
+      "enum": ["cmdb", "cloud", "directory", "endpoint", "vulnerability", "external"]
+    }
+  }
+}

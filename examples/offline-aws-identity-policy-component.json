@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S01",
+  "component_id": "aws-identity-policy-set-v1",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "principal_ref": "principal:synthetic",
+      "attachments_complete": true,
+      "policies": [
+        {
+          "policy_id": "reads",
+          "document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "s3:Get*",
+                "Resource": "arn:aws:s3:::synthetic-bucket/public/*"
+              }
+            ]
+          }
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "read-one",
+          "action": "s3:GetObject",
+          "resource": "arn:aws:s3:::synthetic-bucket/public/one",
+          "action_resource_applicability": true,
+          "context": {"values": {}, "absent_keys": []}
+        }
+      ]
+    }
+  }
+}

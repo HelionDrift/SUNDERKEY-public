@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-i2c-write",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "single_controller_write_asserted": true,
+    "events": [
+      {"event_id": "e1", "kind": "START", "byte_hex": null},
+      {"event_id": "e2", "kind": "ADDRESS", "byte_hex": "a0"},
+      {"event_id": "e3", "kind": "ACK", "byte_hex": null},
+      {"event_id": "e4", "kind": "DATA", "byte_hex": "42"},
+      {"event_id": "e5", "kind": "ACK", "byte_hex": null},
+      {"event_id": "e6", "kind": "STOP", "byte_hex": null}
+    ]
+  }}
+}

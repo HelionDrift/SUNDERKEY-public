@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-rtos-task-export",
+      "inventory_complete": true,
+      "tasks": [
+        {
+          "task_id": "control-loop",
+          "expected_priority": 10,
+          "declared_priority": 9,
+          "isolation_expected": true,
+          "isolation_declared": false,
+          "context_complete": true
+        },
+        {
+          "task_id": "status",
+          "expected_priority": 5,
+          "declared_priority": 5,
+          "isolation_expected": true,
+          "isolation_declared": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

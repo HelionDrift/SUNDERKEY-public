@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S02",
+  "component_id": "data_supplied_nosql_access_grants_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "grants_complete": true,
+      "alternate_grant_paths_complete": true,
+      "collections_complete": true,
+      "collections": ["accounts", "audit"],
+      "roles": [{
+        "role_id": "reader",
+        "grants": [{"collection_id": "accounts", "action": "read"}],
+        "policy_complete": true
+      }],
+      "principals": [{
+        "principal_id": "alice", "role_ids": ["reader"],
+        "membership_complete": true, "direct_grants": [],
+        "direct_grants_complete": true
+      }],
+      "checks": [
+        {
+          "check_id": "allowed-read", "principal_id": "alice",
+          "collection_id": "accounts", "action": "read", "policy_mode": "exact",
+          "supplied_decision": "allow", "context_complete": true,
+          "observation_complete": true
+        },
+        {
+          "check_id": "candidate-delete", "principal_id": "alice",
+          "collection_id": "accounts", "action": "delete", "policy_mode": "exact",
+          "supplied_decision": "allow", "context_complete": true,
+          "observation_complete": true
+        },
+        {
+          "check_id": "unknown-rule", "principal_id": "alice",
+          "collection_id": "audit", "action": "read",
+          "policy_mode": "wildcard_or_dynamic", "supplied_decision": "allow",
+          "context_complete": true, "observation_complete": true
+        }
+      ]
+    }
+  }
+}

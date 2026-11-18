@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-callback-traces",
+      "traces": [
+        {
+          "trace_id": "callback-before-write",
+          "resource_id": "balance",
+          "context_complete": true,
+          "events": [
+            {"event_id": "step-0", "kind": "state_read", "resource_id": "balance"},
+            {"event_id": "step-1", "kind": "external_call", "resource_id": "balance"},
+            {"event_id": "step-2", "kind": "callback_enter", "resource_id": "balance"},
+            {"event_id": "step-3", "kind": "state_write", "resource_id": "balance"}
+          ]
+        },
+        {
+          "trace_id": "write-before-call",
+          "resource_id": "balance",
+          "context_complete": true,
+          "events": [
+            {"event_id": "step-0", "kind": "state_read", "resource_id": "balance"},
+            {"event_id": "step-1", "kind": "state_write", "resource_id": "balance"},
+            {"event_id": "step-2", "kind": "external_call", "resource_id": "balance"},
+            {"event_id": "step-3", "kind": "callback_enter", "resource_id": "balance"}
+          ]
+        }
+      ]
+    }
+  }
+}

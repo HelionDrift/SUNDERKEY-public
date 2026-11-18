@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-control-states",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "required_enabled_control_ids": ["control-a"],
+    "controls": [{
+      "control_id": "control-a",
+      "control_kind": "endpoint_protection",
+      "enabled_declared": false
+    }]
+  }}
+}

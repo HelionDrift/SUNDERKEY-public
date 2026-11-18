@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "manifest_id": "sunderkey.passive-osint.knowledge-sources",
+  "manifest_version": "1.0.0",
+  "profile_id": "AOE-GA-D01-S01",
+  "retrieval_mode": "disabled",
+  "sources": [],
+  "source_count": 0,
+  "reviewed_source_count": 0,
+  "rights_review_status": "not_applicable",
+  "minimum_evidence_level": "E2",
+  "reason": "No reviewed retrieval corpus is selected for this development candidate."
+}

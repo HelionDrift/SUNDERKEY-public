@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S08",
+  "component_id": "supplied_cross_channel_session",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-cross-channel-session-revocation-v1",
+      "source_id": "source.synthetic-1",
+      "events_complete": true,
+      "policy": {
+        "declaration_complete": true,
+        "cross_channel_revocation": true
+      },
+      "events": [
+        {"event_id": "e1", "kind": "issue", "session_ref": "ref:session-a", "channel_ref": "ref:web", "declared_outcome": null, "capture_complete": false, "revocation_effective_before_observation": null},
+        {"event_id": "e2", "kind": "revoke", "session_ref": "ref:session-a", "channel_ref": "ref:web", "declared_outcome": null, "capture_complete": false, "revocation_effective_before_observation": null},
+        {"event_id": "e3", "kind": "observe", "session_ref": "ref:session-a", "channel_ref": "ref:api", "declared_outcome": "accepted", "capture_complete": true, "revocation_effective_before_observation": true}
+      ]
+    }
+  }
+}

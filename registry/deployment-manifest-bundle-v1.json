@@ -1,0 +1,844 @@
+{
+  "bundle_id": "DMB-3D8C8D4CACA83A3520B7A23B20B43FCB",
+  "bundle_sha256": "sha256:3d8c8d4caca83a3520b7a23b20b43fcb3006f4007d398ec7b9dd10839594401f",
+  "effects": {
+    "credential_access": "none",
+    "deployment": "none",
+    "filesystem_discovery": "none",
+    "network": "none",
+    "process_execution": "none",
+    "qualification": "none",
+    "target_action": "none"
+  },
+  "external_qualification_complete": false,
+  "kind": "deployment_manifest_bundle",
+  "live_deployment_performed": false,
+  "profiles": [
+    {
+      "backup": {
+        "continuous_archiving": true,
+        "encrypted_backup_reference_required": true,
+        "point_in_time_recovery_required": true,
+        "restore_drill_required": true,
+        "status": "external_execution_required"
+      },
+      "capacity": {
+        "api_replicas": 3,
+        "database_replicas": 3,
+        "maximum_inflight_actions": 256,
+        "maximum_worker_concurrency": 16,
+        "scheduler_replicas": 3,
+        "worker_replicas": 4
+      },
+      "cleanup": {
+        "artifact_retention_policy_required": true,
+        "database_drop_forbidden": true,
+        "external_residual_scan_required": true,
+        "mission_cleanup_receipt_required": true,
+        "temporary_volume_removal_required": true
+      },
+      "contract_bindings": [
+        {
+          "contract_id": "DPC-203C37B8F5CAC01F303AC5F09B4CCEE7",
+          "contract_sha256": "sha256:203c37b8f5cac01f303ac5f09b4ccee76f8d025c9e9bfa22edaa6cf6a32c89cf",
+          "module": "sunderkey.deployment_profile_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:egress_proxy_contracts",
+          "contract_sha256": "sha256:80fb2a219f14bb00c0cf33f83e3e2a1474e548a5523faadded0b8e8348d51d3a",
+          "module": "sunderkey.egress_proxy_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:ha_coordination_contracts",
+          "contract_sha256": "sha256:ef5737bd3488d8eb10aecaef1e12b87ffaa9d8b479d17c0361ce4835a21bf97a",
+          "module": "sunderkey.ha_coordination_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:health_state_contracts",
+          "contract_sha256": "sha256:cc5413114b18fe677e5462098c07b8d0738d7a35eb694716bf25919577419215",
+          "module": "sunderkey.health_state_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-35169401B2E59E8AD303985D0E54986C",
+          "contract_sha256": "sha256:35169401b2e59e8ad303985d0e54986cbe7b672e753e95846892cee35b4be0b3",
+          "module": "sunderkey.persistence_port_contracts.postgresql",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-75F62BB786712DBB82B99F5EF1F89054",
+          "contract_sha256": "sha256:75f62bb786712dbb82b99f5ef1f890541d8e6375c38be5c8ddca9aae813bdde3",
+          "module": "sunderkey.persistence_port_contracts.sqlite",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+          "contract_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+          "module": "sunderkey.postgresql_runtime_adapter",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:regional_custody_contracts",
+          "contract_sha256": "sha256:57256c1cd7a359b6fffbecc6e07d2ced8f10ac85b721c23196ea7814b9c39765",
+          "module": "sunderkey.regional_custody_contracts",
+          "schema_version": 1
+        }
+      ],
+      "effects": {
+        "credential_access": "none",
+        "deployment": "none",
+        "filesystem_discovery": "none",
+        "network": "none",
+        "process_execution": "none",
+        "qualification": "none",
+        "target_action": "none"
+      },
+      "fencing": {
+        "coordination_mode": "quorum_epoch_and_fencing_token",
+        "fail_closed_on_ambiguity": true,
+        "ha_coordination_required": true,
+        "minimum_voters": 3,
+        "stale_writer_rejection_required": true
+      },
+      "health": {
+        "dependency_probes_required": true,
+        "fail_closed_on_unknown": true,
+        "integrity_probes_required": true,
+        "liveness_path": "/health/live",
+        "readiness_path": "/health/ready",
+        "recovery_requires_separate_admission": true
+      },
+      "images": [
+        {
+          "component": "api",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/api@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "component": "backup",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/backup@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "component": "egress",
+          "exact_version": "1.35.3",
+          "image_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/egress@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        {
+          "component": "ingress",
+          "exact_version": "1.35.3",
+          "image_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/ingress@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "component": "migrator",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/migrator@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        {
+          "component": "postgresql",
+          "exact_version": "17.6.0",
+          "image_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/postgresql@sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "component": "scheduler",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/scheduler@sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        {
+          "component": "worker",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/worker@sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "migration": {
+        "automatic_migration": false,
+        "execution_mode": "operator_invoked_expand_contract",
+        "migration_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+        "migration_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+        "migration_version": 1,
+        "preflight_and_backup_required": true
+      },
+      "network": {
+        "egress_mode": "default_deny_allowlist_proxy",
+        "egress_proxy_required": true,
+        "ingress_mode": "tls_only",
+        "internal_service_tls": "mutual_tls_required",
+        "ports": [
+          {
+            "container_port": 8443,
+            "exposure": "ingress_proxy_only",
+            "service": "api",
+            "transport": "tcp"
+          },
+          {
+            "container_port": 5432,
+            "exposure": "cluster_internal_only",
+            "service": "postgresql",
+            "transport": "tcp"
+          },
+          {
+            "container_port": 15001,
+            "exposure": "cluster_internal_only",
+            "service": "egress",
+            "transport": "tcp"
+          }
+        ],
+        "public_ingress": false,
+        "tls_mode": "operator_certificate_reference_required"
+      },
+      "profile_id": "DMF-3D36910CC3AE22FAA060DE283F1F9982",
+      "profile_sha256": "sha256:3d36910cc3ae22faa060de283f1f9982d61dd1e59ca1bc64a5aed483741ba746",
+      "profile_type": "high_availability_postgresql",
+      "regional_custody": {
+        "cross_region_transfer_default": "deny",
+        "data_region": "operator_selected_pinned_region",
+        "key_region": "same_region_required",
+        "regional_replication": "same_region_only",
+        "retention_schedule_required": true
+      },
+      "required_external_evidence": [
+        "backup_restore_drill_receipt",
+        "capacity_load_test_receipt",
+        "cleanup_residual_scan_receipt",
+        "egress_enforcement_observation",
+        "health_probe_observation_set",
+        "migration_execution_receipt",
+        "regional_custody_attestation",
+        "rollback_drill_receipt",
+        "runtime_image_signature_verification",
+        "tls_handshake_observation"
+      ],
+      "rollback": {
+        "automatic_rollback": false,
+        "database_restore_requires_approval": true,
+        "image_digest_reversion_supported": true,
+        "previous_manifest_reference_required": true,
+        "rollback_drill_required": true
+      },
+      "runtime": {
+        "api_adapter": "asgi_server_injected",
+        "outbox_delivery": "multi_claimant_skip_locked_with_fence",
+        "scheduler_mode": "quorum_guarded_single_active_with_durable_lease",
+        "worker_concurrency": 16
+      },
+      "secrets": [
+        "secretref:artifact-store-credential",
+        "secretref:database-credential",
+        "secretref:egress-proxy-client-identity",
+        "secretref:ingress-tls-identity"
+      ],
+      "services": [
+        {
+          "image_component": "api",
+          "replicas": 3,
+          "role": "control_plane_api",
+          "run_as_non_root": true,
+          "service_identity": "service:api",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "backup",
+          "replicas": 1,
+          "role": "database_backup",
+          "run_as_non_root": true,
+          "service_identity": "service:backup",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "egress",
+          "replicas": 2,
+          "role": "default_deny_egress_proxy",
+          "run_as_non_root": true,
+          "service_identity": "service:egress",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "ingress",
+          "replicas": 2,
+          "role": "tls_ingress_proxy",
+          "run_as_non_root": true,
+          "service_identity": "service:ingress",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "migrator",
+          "replicas": 0,
+          "role": "operator_invoked_migration_job",
+          "run_as_non_root": true,
+          "service_identity": "service:migrator",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "postgresql",
+          "replicas": 3,
+          "role": "durable_database",
+          "run_as_non_root": true,
+          "service_identity": "service:postgresql",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "scheduler",
+          "replicas": 3,
+          "role": "durable_scheduler",
+          "run_as_non_root": true,
+          "service_identity": "service:scheduler",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "worker",
+          "replicas": 4,
+          "role": "restricted_execution_worker",
+          "run_as_non_root": true,
+          "service_identity": "service:worker",
+          "writable_root_filesystem": false
+        }
+      ],
+      "status": "repository_manifest_complete_infrastructure_blocked",
+      "storage": {
+        "artifact_store": "external_content_addressed_store_reference",
+        "backend": "postgresql",
+        "backend_capability_id": "PBD-35169401B2E59E8AD303985D0E54986C",
+        "backend_capability_sha256": "sha256:35169401b2e59e8ad303985d0e54986cbe7b672e753e95846892cee35b4be0b3",
+        "database_volume": "encrypted_durable_volume_required",
+        "encryption_at_rest": "required_external_evidence",
+        "persistent_volume_count": 3
+      }
+    },
+    {
+      "backup": {
+        "continuous_archiving": false,
+        "encrypted_backup_reference_required": false,
+        "point_in_time_recovery_required": false,
+        "restore_drill_required": true,
+        "status": "external_execution_required"
+      },
+      "capacity": {
+        "api_replicas": 1,
+        "database_replicas": 0,
+        "maximum_inflight_actions": 8,
+        "maximum_worker_concurrency": 1,
+        "scheduler_replicas": 1,
+        "worker_replicas": 1
+      },
+      "cleanup": {
+        "artifact_retention_policy_required": true,
+        "database_drop_forbidden": true,
+        "external_residual_scan_required": true,
+        "mission_cleanup_receipt_required": true,
+        "temporary_volume_removal_required": true
+      },
+      "contract_bindings": [
+        {
+          "contract_id": "DPC-203C37B8F5CAC01F303AC5F09B4CCEE7",
+          "contract_sha256": "sha256:203c37b8f5cac01f303ac5f09b4ccee76f8d025c9e9bfa22edaa6cf6a32c89cf",
+          "module": "sunderkey.deployment_profile_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:egress_proxy_contracts",
+          "contract_sha256": "sha256:80fb2a219f14bb00c0cf33f83e3e2a1474e548a5523faadded0b8e8348d51d3a",
+          "module": "sunderkey.egress_proxy_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:ha_coordination_contracts",
+          "contract_sha256": "sha256:ef5737bd3488d8eb10aecaef1e12b87ffaa9d8b479d17c0361ce4835a21bf97a",
+          "module": "sunderkey.ha_coordination_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:health_state_contracts",
+          "contract_sha256": "sha256:cc5413114b18fe677e5462098c07b8d0738d7a35eb694716bf25919577419215",
+          "module": "sunderkey.health_state_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-35169401B2E59E8AD303985D0E54986C",
+          "contract_sha256": "sha256:35169401b2e59e8ad303985d0e54986cbe7b672e753e95846892cee35b4be0b3",
+          "module": "sunderkey.persistence_port_contracts.postgresql",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-75F62BB786712DBB82B99F5EF1F89054",
+          "contract_sha256": "sha256:75f62bb786712dbb82b99f5ef1f890541d8e6375c38be5c8ddca9aae813bdde3",
+          "module": "sunderkey.persistence_port_contracts.sqlite",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+          "contract_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+          "module": "sunderkey.postgresql_runtime_adapter",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:regional_custody_contracts",
+          "contract_sha256": "sha256:57256c1cd7a359b6fffbecc6e07d2ced8f10ac85b721c23196ea7814b9c39765",
+          "module": "sunderkey.regional_custody_contracts",
+          "schema_version": 1
+        }
+      ],
+      "effects": {
+        "credential_access": "none",
+        "deployment": "none",
+        "filesystem_discovery": "none",
+        "network": "none",
+        "process_execution": "none",
+        "qualification": "none",
+        "target_action": "none"
+      },
+      "fencing": {
+        "coordination_mode": "durable_lease_fence",
+        "fail_closed_on_ambiguity": true,
+        "ha_coordination_required": false,
+        "minimum_voters": 1,
+        "stale_writer_rejection_required": true
+      },
+      "health": {
+        "dependency_probes_required": true,
+        "fail_closed_on_unknown": true,
+        "integrity_probes_required": true,
+        "liveness_path": "/health/live",
+        "readiness_path": "/health/ready",
+        "recovery_requires_separate_admission": true
+      },
+      "images": [
+        {
+          "component": "api",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/api@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "component": "scheduler",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/scheduler@sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        {
+          "component": "worker",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/worker@sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "migration": {
+        "automatic_migration": false,
+        "execution_mode": "operator_invoked_offline",
+        "migration_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+        "migration_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+        "migration_version": 1,
+        "preflight_and_backup_required": true
+      },
+      "network": {
+        "egress_mode": "deny_all",
+        "egress_proxy_required": false,
+        "ingress_mode": "loopback_only",
+        "internal_service_tls": "not_required_loopback_only",
+        "ports": [
+          {
+            "container_port": 8080,
+            "exposure": "127.0.0.1_only",
+            "service": "api",
+            "transport": "tcp"
+          }
+        ],
+        "public_ingress": false,
+        "tls_mode": "not_terminated_local_only"
+      },
+      "profile_id": "DMF-B3B52CD78E315C3050DC47AC7F29A8DA",
+      "profile_sha256": "sha256:b3b52cd78e315c3050dc47ac7f29a8dabc9b2416e08bd134359da551790c6017",
+      "profile_type": "local_sqlite_asgi",
+      "regional_custody": {
+        "cross_region_transfer_default": "deny",
+        "data_region": "operator_selected_pinned_region",
+        "key_region": "same_region_required",
+        "regional_replication": "disabled",
+        "retention_schedule_required": true
+      },
+      "required_external_evidence": [
+        "cleanup_residual_scan_receipt",
+        "health_probe_observation_set",
+        "migration_execution_receipt",
+        "rollback_drill_receipt",
+        "runtime_image_signature_verification"
+      ],
+      "rollback": {
+        "automatic_rollback": false,
+        "database_restore_requires_approval": true,
+        "image_digest_reversion_supported": true,
+        "previous_manifest_reference_required": true,
+        "rollback_drill_required": true
+      },
+      "runtime": {
+        "api_adapter": "in_process_asgi",
+        "outbox_delivery": "single_process",
+        "scheduler_mode": "single_process_durable",
+        "worker_concurrency": 1
+      },
+      "secrets": [],
+      "services": [
+        {
+          "image_component": "api",
+          "replicas": 1,
+          "role": "control_plane_api",
+          "run_as_non_root": true,
+          "service_identity": "service:api",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "scheduler",
+          "replicas": 1,
+          "role": "durable_scheduler",
+          "run_as_non_root": true,
+          "service_identity": "service:scheduler",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "worker",
+          "replicas": 1,
+          "role": "restricted_execution_worker",
+          "run_as_non_root": true,
+          "service_identity": "service:worker",
+          "writable_root_filesystem": false
+        }
+      ],
+      "status": "repository_manifest_complete_infrastructure_blocked",
+      "storage": {
+        "artifact_store": "local_content_addressed_directory",
+        "backend": "sqlite",
+        "backend_capability_id": "PBD-75F62BB786712DBB82B99F5EF1F89054",
+        "backend_capability_sha256": "sha256:75f62bb786712dbb82b99f5ef1f890541d8e6375c38be5c8ddca9aae813bdde3",
+        "database_volume": "local_operator_managed",
+        "encryption_at_rest": "host_responsibility_external_evidence_required",
+        "persistent_volume_count": 1
+      }
+    },
+    {
+      "backup": {
+        "continuous_archiving": true,
+        "encrypted_backup_reference_required": true,
+        "point_in_time_recovery_required": true,
+        "restore_drill_required": true,
+        "status": "external_execution_required"
+      },
+      "capacity": {
+        "api_replicas": 1,
+        "database_replicas": 1,
+        "maximum_inflight_actions": 64,
+        "maximum_worker_concurrency": 4,
+        "scheduler_replicas": 1,
+        "worker_replicas": 1
+      },
+      "cleanup": {
+        "artifact_retention_policy_required": true,
+        "database_drop_forbidden": true,
+        "external_residual_scan_required": true,
+        "mission_cleanup_receipt_required": true,
+        "temporary_volume_removal_required": true
+      },
+      "contract_bindings": [
+        {
+          "contract_id": "DPC-203C37B8F5CAC01F303AC5F09B4CCEE7",
+          "contract_sha256": "sha256:203c37b8f5cac01f303ac5f09b4ccee76f8d025c9e9bfa22edaa6cf6a32c89cf",
+          "module": "sunderkey.deployment_profile_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:egress_proxy_contracts",
+          "contract_sha256": "sha256:80fb2a219f14bb00c0cf33f83e3e2a1474e548a5523faadded0b8e8348d51d3a",
+          "module": "sunderkey.egress_proxy_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:ha_coordination_contracts",
+          "contract_sha256": "sha256:ef5737bd3488d8eb10aecaef1e12b87ffaa9d8b479d17c0361ce4835a21bf97a",
+          "module": "sunderkey.ha_coordination_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:health_state_contracts",
+          "contract_sha256": "sha256:cc5413114b18fe677e5462098c07b8d0738d7a35eb694716bf25919577419215",
+          "module": "sunderkey.health_state_contracts",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-35169401B2E59E8AD303985D0E54986C",
+          "contract_sha256": "sha256:35169401b2e59e8ad303985d0e54986cbe7b672e753e95846892cee35b4be0b3",
+          "module": "sunderkey.persistence_port_contracts.postgresql",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "PBD-75F62BB786712DBB82B99F5EF1F89054",
+          "contract_sha256": "sha256:75f62bb786712dbb82b99f5ef1f890541d8e6375c38be5c8ddca9aae813bdde3",
+          "module": "sunderkey.persistence_port_contracts.sqlite",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+          "contract_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+          "module": "sunderkey.postgresql_runtime_adapter",
+          "schema_version": 1
+        },
+        {
+          "contract_id": "contract:regional_custody_contracts",
+          "contract_sha256": "sha256:57256c1cd7a359b6fffbecc6e07d2ced8f10ac85b721c23196ea7814b9c39765",
+          "module": "sunderkey.regional_custody_contracts",
+          "schema_version": 1
+        }
+      ],
+      "effects": {
+        "credential_access": "none",
+        "deployment": "none",
+        "filesystem_discovery": "none",
+        "network": "none",
+        "process_execution": "none",
+        "qualification": "none",
+        "target_action": "none"
+      },
+      "fencing": {
+        "coordination_mode": "durable_lease_fence",
+        "fail_closed_on_ambiguity": true,
+        "ha_coordination_required": false,
+        "minimum_voters": 1,
+        "stale_writer_rejection_required": true
+      },
+      "health": {
+        "dependency_probes_required": true,
+        "fail_closed_on_unknown": true,
+        "integrity_probes_required": true,
+        "liveness_path": "/health/live",
+        "readiness_path": "/health/ready",
+        "recovery_requires_separate_admission": true
+      },
+      "images": [
+        {
+          "component": "api",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/api@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "component": "backup",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/backup@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "component": "egress",
+          "exact_version": "1.35.3",
+          "image_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/egress@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        {
+          "component": "ingress",
+          "exact_version": "1.35.3",
+          "image_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/ingress@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "component": "migrator",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/migrator@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        {
+          "component": "postgresql",
+          "exact_version": "17.6.0",
+          "image_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/postgresql@sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "component": "scheduler",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/scheduler@sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        {
+          "component": "worker",
+          "exact_version": "1.0.0",
+          "image_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "image_reference": "registry.sunderkey.invalid/sunderkey/worker@sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        }
+      ],
+      "migration": {
+        "automatic_migration": false,
+        "execution_mode": "operator_invoked_expand_contract",
+        "migration_id": "migrationref:persistence-scheduler-runtime.postgresql.0001-expand",
+        "migration_sha256": "sha256:d0d00f91a480a15768d29a0afca756e0b07f47e9a1897b578ee0a80b69468d47",
+        "migration_version": 1,
+        "preflight_and_backup_required": true
+      },
+      "network": {
+        "egress_mode": "default_deny_allowlist_proxy",
+        "egress_proxy_required": true,
+        "ingress_mode": "tls_only",
+        "internal_service_tls": "mutual_tls_required",
+        "ports": [
+          {
+            "container_port": 8443,
+            "exposure": "ingress_proxy_only",
+            "service": "api",
+            "transport": "tcp"
+          },
+          {
+            "container_port": 5432,
+            "exposure": "cluster_internal_only",
+            "service": "postgresql",
+            "transport": "tcp"
+          },
+          {
+            "container_port": 15001,
+            "exposure": "cluster_internal_only",
+            "service": "egress",
+            "transport": "tcp"
+          }
+        ],
+        "public_ingress": false,
+        "tls_mode": "operator_certificate_reference_required"
+      },
+      "profile_id": "DMF-6009E540B20B45B6D7CC26FEAF02F002",
+      "profile_sha256": "sha256:6009e540b20b45b6d7cc26feaf02f002fc7b5289707da8d081fe23a178968288",
+      "profile_type": "single_node_postgresql",
+      "regional_custody": {
+        "cross_region_transfer_default": "deny",
+        "data_region": "operator_selected_pinned_region",
+        "key_region": "same_region_required",
+        "regional_replication": "disabled",
+        "retention_schedule_required": true
+      },
+      "required_external_evidence": [
+        "backup_restore_drill_receipt",
+        "capacity_load_test_receipt",
+        "cleanup_residual_scan_receipt",
+        "egress_enforcement_observation",
+        "health_probe_observation_set",
+        "migration_execution_receipt",
+        "regional_custody_attestation",
+        "rollback_drill_receipt",
+        "runtime_image_signature_verification",
+        "tls_handshake_observation"
+      ],
+      "rollback": {
+        "automatic_rollback": false,
+        "database_restore_requires_approval": true,
+        "image_digest_reversion_supported": true,
+        "previous_manifest_reference_required": true,
+        "rollback_drill_required": true
+      },
+      "runtime": {
+        "api_adapter": "asgi_server_injected",
+        "outbox_delivery": "single_claimant_with_fence",
+        "scheduler_mode": "single_active_with_durable_lease",
+        "worker_concurrency": 4
+      },
+      "secrets": [
+        "secretref:artifact-store-credential",
+        "secretref:database-credential",
+        "secretref:egress-proxy-client-identity",
+        "secretref:ingress-tls-identity"
+      ],
+      "services": [
+        {
+          "image_component": "api",
+          "replicas": 1,
+          "role": "control_plane_api",
+          "run_as_non_root": true,
+          "service_identity": "service:api",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "backup",
+          "replicas": 1,
+          "role": "database_backup",
+          "run_as_non_root": true,
+          "service_identity": "service:backup",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "egress",
+          "replicas": 1,
+          "role": "default_deny_egress_proxy",
+          "run_as_non_root": true,
+          "service_identity": "service:egress",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "ingress",
+          "replicas": 1,
+          "role": "tls_ingress_proxy",
+          "run_as_non_root": true,
+          "service_identity": "service:ingress",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "migrator",
+          "replicas": 0,
+          "role": "operator_invoked_migration_job",
+          "run_as_non_root": true,
+          "service_identity": "service:migrator",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "postgresql",
+          "replicas": 1,
+          "role": "durable_database",
+          "run_as_non_root": true,
+          "service_identity": "service:postgresql",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "scheduler",
+          "replicas": 1,
+          "role": "durable_scheduler",
+          "run_as_non_root": true,
+          "service_identity": "service:scheduler",
+          "writable_root_filesystem": false
+        },
+        {
+          "image_component": "worker",
+          "replicas": 1,
+          "role": "restricted_execution_worker",
+          "run_as_non_root": true,
+          "service_identity": "service:worker",
+          "writable_root_filesystem": false
+        }
+      ],
+      "status": "repository_manifest_complete_infrastructure_blocked",
+      "storage": {
+        "artifact_store": "external_content_addressed_store_reference",
+        "backend": "postgresql",
+        "backend_capability_id": "PBD-35169401B2E59E8AD303985D0E54986C",
+        "backend_capability_sha256": "sha256:35169401b2e59e8ad303985d0e54986cbe7b672e753e95846892cee35b4be0b3",
+        "database_volume": "encrypted_durable_volume_required",
+        "encryption_at_rest": "required_external_evidence",
+        "persistent_volume_count": 1
+      }
+    }
+  ],
+  "repository_manifest_publication_complete": true,
+  "required_external_evidence": [
+    "backup_restore_drill_receipt",
+    "capacity_load_test_receipt",
+    "cleanup_residual_scan_receipt",
+    "egress_enforcement_observation",
+    "health_probe_observation_set",
+    "migration_execution_receipt",
+    "regional_custody_attestation",
+    "rollback_drill_receipt",
+    "runtime_image_signature_verification",
+    "tls_handshake_observation"
+  ],
+  "schema_version": 1,
+  "status": "repository_complete_infrastructure_blocked"
+}

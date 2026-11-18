@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S01",
+  "component_id": "http_supplied_etag_precondition_order",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-etag-preconditions",
+      "recipient_role": "origin",
+      "baseline_preconditions_eligible": true,
+      "method": "GET",
+      "target_has_current_representation": true,
+      "selected_representation_exists": true,
+      "selected_entity_tag": {
+        "weak": false,
+        "opaque_tag_base64": "djE="
+      },
+      "if_match": null,
+      "if_none_match": {
+        "mode": "tags",
+        "tags": [
+          {
+            "weak": true,
+            "opaque_tag_base64": "djE="
+          }
+        ]
+      }
+    }
+  }
+}

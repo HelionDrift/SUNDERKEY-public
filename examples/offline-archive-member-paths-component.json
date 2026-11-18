@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S05",
+  "component_id": "supplied_archive_member_paths",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-archive-member-paths-v1",
+      "extraction_profile": "posix-lexical-v1",
+      "root_ref": "root:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "entries": [
+        {"entry_id": "entry-1", "member_name": "../outside.txt", "kind": "file"},
+        {"entry_id": "entry-2", "member_name": "docs/readme.txt", "kind": "file"},
+        {"entry_id": "entry-3", "member_name": "docs/./readme.txt", "kind": "file"}
+      ]
+    }
+  }
+}

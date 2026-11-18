@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/authorized-target-health-observation-v1.schema.json",
+  "title": "SUNDERKEY authorized target-health receipt version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "admission_receipt_id",
+    "admission_receipt_sha256",
+    "authentication_performed",
+    "authority_effect",
+    "binding",
+    "binding_sha256",
+    "browser_action_performed",
+    "budget_state",
+    "budget_state_sha256",
+    "claim_scope",
+    "enforcement_boundary",
+    "execution_policy_id",
+    "execution_policy_sha256",
+    "execution_request_id",
+    "execution_request_sha256",
+    "external_call_performed",
+    "kind",
+    "monotonic_tick",
+    "network_call_performed",
+    "observations",
+    "observed_at",
+    "overall_health",
+    "qualification_effect",
+    "reason",
+    "receipt_id",
+    "receipt_sha256",
+    "runtime_policy_id",
+    "runtime_policy_sha256",
+    "safety_attestation",
+    "safety_attestation_sha256",
+    "schema_version",
+    "scope_id",
+    "scope_sha256",
+    "source_receipts",
+    "source_validation_performed",
+    "status",
+    "target_url"
+  ],
+  "properties": {
+    "admission_receipt_id": { "$ref": "#/$defs/identifier" },
+    "admission_receipt_sha256": { "$ref": "#/$defs/digest" },
+    "authentication_performed": { "const": false },
+    "authority_effect": { "const": "none" },
+    "binding": { "$ref": "#/$defs/binding" },
+    "binding_sha256": { "$ref": "#/$defs/digest" },
+    "browser_action_performed": { "const": false },
+    "budget_state": {
+      "oneOf": [
+        { "$ref": "#/$defs/budgetState" },
+        { "type": "null" }
+      ]
+    },
+    "budget_state_sha256": {
+      "oneOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "claim_scope": { "const": "point_in_time_bounded_health_observation" },
+    "enforcement_boundary": { "const": "repository_attested_health_evidence_only" },
+    "execution_policy_id": { "$ref": "#/$defs/identifier" },
+    "execution_policy_sha256": { "$ref": "#/$defs/digest" },
+    "execution_request_id": { "$ref": "#/$defs/identifier" },
+    "execution_request_sha256": { "$ref": "#/$defs/digest" },
+    "external_call_performed": { "const": false },
+    "kind": { "const": "authorized_target_health_receipt" },
+    "monotonic_tick": { "type": "integer", "minimum": 1 },
+    "network_call_performed": { "const": false },
+    "observations": {
+      "type": "array",
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/observation" }
+    },
+    "observed_at": { "$ref": "#/$defs/utc" },
+    "overall_health": {
+      "oneOf": [
+        { "$ref": "#/$defs/healthState" },
+        { "type": "null" }
+      ]
+    },
+    "qualification_effect": { "const": "none" },
+    "reason": { "$ref": "#/$defs/code" },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^THR-[0-9A-F]{32}$"
+    },
+    "receipt_sha256": { "$ref": "#/$defs/digest" },
+    "runtime_policy_id": {
+      "type": "string",
+      "pattern": "^THP-[0-9A-F]{32}$"
+    },
+    "runtime_policy_sha256": { "$ref": "#/$defs/digest" },
+    "safety_attestation": {
+      "oneOf": [
+        { "$ref": "#/$defs/safetyAttestation" },
+        { "type": "null" }
+      ]
+    },
+    "safety_attestation_sha256": {
+      "oneOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "schema_version": { "const": 1 },
+    "scope_id": { "$ref": "#/$defs/identifier" },
+    "scope_sha256": { "$ref": "#/$defs/digest" },
+    "source_receipts": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/sourceReceipt" }
+    },
+    "source_validation_performed": { "type": "boolean" },
+    "status": { "enum": ["rejected", "completed"] },
+    "target_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "maxLength": 2048
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "safety_attestation": { "type": "null" } },
+        "required": ["safety_attestation"]
+      },
+      "then": {
+        "properties": { "safety_attestation_sha256": { "type": "null" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "safety_attestation": { "type": "object" } },
+        "required": ["safety_attestation"]
+      },
+      "then": {
+        "properties": { "safety_attestation_sha256": { "$ref": "#/$defs/digest" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "budget_state": { "type": "null" } },
+        "required": ["budget_state"]
+      },
+      "then": {
+        "properties": { "budget_state_sha256": { "type": "null" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "budget_state": { "type": "object" } },
+        "required": ["budget_state"]
+      },
+      "then": {
+        "properties": { "budget_state_sha256": { "$ref": "#/$defs/digest" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "rejected" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "observations": { "maxItems": 0 },
+          "overall_health": { "type": "null" },
+          "source_receipts": { "maxItems": 0 },
+          "source_validation_performed": { "const": false }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "completed" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "budget_state": { "$ref": "#/$defs/budgetState" },
+          "budget_state_sha256": { "$ref": "#/$defs/digest" },
+          "observations": { "minItems": 5, "maxItems": 5 },
+          "overall_health": { "$ref": "#/$defs/healthState" },
+          "safety_attestation": { "$ref": "#/$defs/safetyAttestation" },
+          "safety_attestation_sha256": { "$ref": "#/$defs/digest" },
+          "source_receipts": { "minItems": 3 },
+          "source_validation_performed": { "const": true }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "healthState": {
+      "enum": ["healthy", "degraded", "unhealthy"]
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_id",
+        "context_sha256",
+        "fence_epoch",
+        "lease_id",
+        "scope_id",
+        "scope_sha256",
+        "session_id",
+        "target_id",
+        "target_sha256",
+        "tenant_id"
+      ],
+      "properties": {
+        "context_id": { "$ref": "#/$defs/identifier" },
+        "context_sha256": { "$ref": "#/$defs/digest" },
+        "fence_epoch": { "type": "integer", "minimum": 1 },
+        "lease_id": { "$ref": "#/$defs/identifier" },
+        "scope_id": { "$ref": "#/$defs/identifier" },
+        "scope_sha256": { "$ref": "#/$defs/digest" },
+        "session_id": { "$ref": "#/$defs/identifier" },
+        "target_id": { "$ref": "#/$defs/identifier" },
+        "target_sha256": { "$ref": "#/$defs/digest" },
+        "tenant_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "budgetState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_sha256",
+        "evidence_bytes_used",
+        "execution_request_sha256",
+        "expires_at",
+        "observations_used",
+        "observed_at",
+        "requests_used"
+      ],
+      "properties": {
+        "binding_sha256": { "$ref": "#/$defs/digest" },
+        "evidence_bytes_used": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "execution_request_sha256": { "$ref": "#/$defs/digest" },
+        "expires_at": { "$ref": "#/$defs/utc" },
+        "observations_used": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "requests_used": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      }
+    },
+    "safetyAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_sha256",
+        "canceled",
+        "emergency_stop",
+        "execution_request_sha256",
+        "expires_at",
+        "health",
+        "observed_at"
+      ],
+      "properties": {
+        "binding_sha256": { "$ref": "#/$defs/digest" },
+        "canceled": { "type": "boolean" },
+        "emergency_stop": { "type": "boolean" },
+        "execution_request_sha256": { "$ref": "#/$defs/digest" },
+        "expires_at": { "$ref": "#/$defs/utc" },
+        "health": { "enum": ["healthy", "paused", "unhealthy"] },
+        "observed_at": { "$ref": "#/$defs/utc" }
+      }
+    },
+    "sourceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_receipt_id",
+        "admission_receipt_sha256",
+        "binding_sha256",
+        "boundary_performed",
+        "execution_request_id",
+        "execution_request_sha256",
+        "observed_at",
+        "receipt_id",
+        "receipt_sha256",
+        "reference_sha256",
+        "source_kind",
+        "source_status"
+      ],
+      "properties": {
+        "admission_receipt_id": { "$ref": "#/$defs/identifier" },
+        "admission_receipt_sha256": { "$ref": "#/$defs/digest" },
+        "binding_sha256": { "$ref": "#/$defs/digest" },
+        "boundary_performed": { "const": true },
+        "execution_request_id": { "$ref": "#/$defs/identifier" },
+        "execution_request_sha256": { "$ref": "#/$defs/digest" },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "receipt_id": { "$ref": "#/$defs/identifier" },
+        "receipt_sha256": { "$ref": "#/$defs/digest" },
+        "reference_sha256": { "$ref": "#/$defs/digest" },
+        "source_kind": {
+          "enum": [
+            "authorized_http",
+            "authorized_browser",
+            "authorized_target_session"
+          ]
+        },
+        "source_status": { "$ref": "#/$defs/code" }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detail_code",
+        "dimension",
+        "evidence_sha256",
+        "expires_at",
+        "kind",
+        "latency_milliseconds",
+        "observation_id",
+        "observation_sha256",
+        "observed_at",
+        "schema_version",
+        "source_kind",
+        "source_receipt_id",
+        "source_receipt_sha256",
+        "state"
+      ],
+      "properties": {
+        "detail_code": { "$ref": "#/$defs/code" },
+        "dimension": {
+          "enum": [
+            "reachability",
+            "latency",
+            "authentication_continuity",
+            "waf",
+            "service_health"
+          ]
+        },
+        "evidence_sha256": { "$ref": "#/$defs/digest" },
+        "expires_at": { "$ref": "#/$defs/utc" },
+        "kind": { "const": "authorized_target_health_observation" },
+        "latency_milliseconds": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0, "maximum": 600000 },
+            { "type": "null" }
+          ]
+        },
+        "observation_id": {
+          "type": "string",
+          "pattern": "^THO-[0-9A-F]{32}$"
+        },
+        "observation_sha256": { "$ref": "#/$defs/digest" },
+        "observed_at": { "$ref": "#/$defs/utc" },
+        "schema_version": { "const": 1 },
+        "source_kind": {
+          "enum": [
+            "authorized_http",
+            "authorized_browser",
+            "authorized_target_session"
+          ]
+        },
+        "source_receipt_id": { "$ref": "#/$defs/identifier" },
+        "source_receipt_sha256": { "$ref": "#/$defs/digest" },
+        "state": { "$ref": "#/$defs/healthState" }
+      }
+    }
+  }
+}

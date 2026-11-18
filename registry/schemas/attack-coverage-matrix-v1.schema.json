@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/attack-coverage-matrix-v1.schema.json",
+  "title": "SUNDERKEY Attack Coverage Matrix v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claims",
+    "context_ref",
+    "effects",
+    "matrix_id",
+    "matrix_sha256",
+    "rows",
+    "schema_version",
+    "scope_sha256",
+    "summary",
+    "tenant_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "matrix_id": {"type": "string", "pattern": "^ACM-[0-9A-F]{32}$"},
+    "matrix_sha256": {"$ref": "#/$defs/sha256"},
+    "tenant_ref": {"$ref": "#/$defs/tenant_ref"},
+    "context_ref": {"$ref": "#/$defs/context_ref"},
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "effects": {"$ref": "#/$defs/effects"},
+    "claims": {"$ref": "#/$defs/claims"},
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {"$ref": "#/$defs/coverage_row"}
+    },
+    "summary": {"$ref": "#/$defs/summary"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "tenant_ref": {
+      "type": "string",
+      "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,245}$"
+    },
+    "context_ref": {
+      "type": "string",
+      "pattern": "^contextref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,244}$"
+    },
+    "exact_version": {
+      "type": "string",
+      "pattern": "^[0-9]+(?:\\.[0-9]+){1,3}(?:[+.-][A-Za-z0-9.]+)?$"
+    },
+    "domain": {
+      "enum": [
+        "ai_ml",
+        "api",
+        "blockchain",
+        "ci_cd",
+        "cloud",
+        "containers",
+        "cryptographic_pki",
+        "desktop_thick_client",
+        "hardware_firmware",
+        "identity",
+        "kubernetes",
+        "mobile",
+        "multi_stage_chaining",
+        "network",
+        "ot_ics",
+        "physical",
+        "social_engineering",
+        "source_dependency_supply_chain",
+        "web",
+        "wireless"
+      ]
+    },
+    "status": {
+      "enum": ["blocked", "gap", "partial", "repository_covered"]
+    },
+    "evidence_grade": {
+      "enum": ["catalog_only", "none", "offline_deterministic", "repository_contract"]
+    },
+    "blocked_reason": {
+      "enum": [
+        "capability_missing",
+        "evidence_missing",
+        "external_identity_required",
+        "independent_review_required",
+        "infrastructure_required",
+        "live_target_required",
+        "policy_decision_required"
+      ]
+    },
+    "safe_identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/+-]{0,255}$"
+    },
+    "safe_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^[ -~]+$"
+    },
+    "unique_identifiers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/safe_identifier"}
+    },
+    "unique_text": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/safe_text"}
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_access",
+        "deployment",
+        "execution",
+        "filesystem_write",
+        "live_validation",
+        "network",
+        "qualification",
+        "target_interaction"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credential_access": {"const": "none"},
+        "deployment": {"const": "none"},
+        "execution": {"const": "none"},
+        "filesystem_write": {"const": "none"},
+        "live_validation": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "target_interaction": {"const": "none"}
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "competitive_parity",
+        "live_validation",
+        "production_readiness"
+      ],
+      "properties": {
+        "authorization": {"const": "not_claimed"},
+        "competitive_parity": {"const": "not_claimed"},
+        "live_validation": {"const": "not_claimed"},
+        "production_readiness": {"const": "not_claimed"}
+      }
+    },
+    "technique_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_types",
+        "catalog_ref",
+        "catalog_version",
+        "context_ref",
+        "domain",
+        "reference_id",
+        "reference_sha256",
+        "scope_sha256",
+        "technique_ref",
+        "technique_version",
+        "tenant_ref"
+      ],
+      "properties": {
+        "asset_types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^assettype:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,245}$"}
+        },
+        "catalog_ref": {
+          "type": "string",
+          "pattern": "^catalogref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,243}$"
+        },
+        "catalog_version": {"$ref": "#/$defs/exact_version"},
+        "context_ref": {"$ref": "#/$defs/context_ref"},
+        "domain": {"$ref": "#/$defs/domain"},
+        "reference_id": {"type": "string", "pattern": "^ATR-[0-9A-F]{32}$"},
+        "reference_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "technique_ref": {
+          "type": "string",
+          "pattern": "^techniqueref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,241}$"
+        },
+        "technique_version": {"$ref": "#/$defs/exact_version"},
+        "tenant_ref": {"$ref": "#/$defs/tenant_ref"}
+      }
+    },
+    "specialist_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_ref",
+        "capability_version",
+        "context_ref",
+        "domains",
+        "evidence_grade",
+        "evidence_sha256",
+        "reference_id",
+        "reference_sha256",
+        "scope_sha256",
+        "specialist_ref",
+        "specialist_version",
+        "tenant_ref"
+      ],
+      "properties": {
+        "capability_ref": {
+          "type": "string",
+          "pattern": "^capabilityref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,240}$"
+        },
+        "capability_version": {"$ref": "#/$defs/exact_version"},
+        "context_ref": {"$ref": "#/$defs/context_ref"},
+        "domains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/domain"}
+        },
+        "evidence_grade": {"$ref": "#/$defs/evidence_grade"},
+        "evidence_sha256": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+        },
+        "reference_id": {"type": "string", "pattern": "^SCR-[0-9A-F]{32}$"},
+        "reference_sha256": {"$ref": "#/$defs/sha256"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "specialist_ref": {
+          "type": "string",
+          "pattern": "^specialistref:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,240}$"
+        },
+        "specialist_version": {"$ref": "#/$defs/exact_version"},
+        "tenant_ref": {"$ref": "#/$defs/tenant_ref"}
+      }
+    },
+    "coverage_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_types",
+        "blocked_reasons",
+        "domain",
+        "evidence_grade",
+        "mapping_key",
+        "negative_space_gaps",
+        "prerequisite_refs",
+        "row_id",
+        "row_sha256",
+        "specialist_references",
+        "status",
+        "technique_reference"
+      ],
+      "properties": {
+        "asset_types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^assettype:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,245}$"}
+        },
+        "blocked_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/blocked_reason"}
+        },
+        "domain": {"$ref": "#/$defs/domain"},
+        "evidence_grade": {"$ref": "#/$defs/evidence_grade"},
+        "mapping_key": {
+          "type": "string",
+          "pattern": "^mapping:[A-Za-z0-9][A-Za-z0-9._:/+-]{0,247}$"
+        },
+        "negative_space_gaps": {"$ref": "#/$defs/unique_text"},
+        "prerequisite_refs": {"$ref": "#/$defs/unique_identifiers"},
+        "row_id": {"type": "string", "pattern": "^ACR-[0-9A-F]{32}$"},
+        "row_sha256": {"$ref": "#/$defs/sha256"},
+        "specialist_references": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/specialist_reference"}
+        },
+        "status": {"$ref": "#/$defs/status"},
+        "technique_reference": {"$ref": "#/$defs/technique_reference"}
+      }
+    },
+    "nonnegative_count": {"type": "integer", "minimum": 0},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_type_count",
+        "blocked_reason_counts",
+        "domain_counts",
+        "evidence_grade_counts",
+        "negative_space_gap_count",
+        "row_count",
+        "specialist_reference_count",
+        "status_counts",
+        "technique_reference_count"
+      ],
+      "properties": {
+        "asset_type_count": {"$ref": "#/$defs/nonnegative_count"},
+        "blocked_reason_counts": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/blocked_reason"},
+          "additionalProperties": {"$ref": "#/$defs/nonnegative_count"}
+        },
+        "domain_counts": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/domain"},
+          "additionalProperties": {"$ref": "#/$defs/nonnegative_count"}
+        },
+        "evidence_grade_counts": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/evidence_grade"},
+          "additionalProperties": {"$ref": "#/$defs/nonnegative_count"}
+        },
+        "negative_space_gap_count": {"$ref": "#/$defs/nonnegative_count"},
+        "row_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "specialist_reference_count": {"$ref": "#/$defs/nonnegative_count"},
+        "status_counts": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/status"},
+          "additionalProperties": {"$ref": "#/$defs/nonnegative_count"}
+        },
+        "technique_reference_count": {"$ref": "#/$defs/nonnegative_count"}
+      }
+    }
+  }
+}

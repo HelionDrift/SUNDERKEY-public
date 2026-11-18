@@ -1,0 +1,174 @@
+{
+  "input_results": [
+    {
+      "completed_at_present": false,
+      "input_id": "select_organization_issuer_audience_and_catalog_identity",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "approved_issuer_identifier",
+        "approved_audience_identifier",
+        "approved_logical_catalog_identifier"
+      ],
+      "missing_role_assignments": [
+        "deployment_owner",
+        "independent_control"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "root_key_identifier",
+        "ed25519_public_key",
+        "independent_fingerprint_verification_record"
+      ],
+      "missing_role_assignments": [
+        "offline_root_custodian",
+        "deployment_owner"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "issue_root_signed_enrollment_signer_authorization",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "separated_signer_public_key",
+        "signed_signer_authorization",
+        "authorization_validity_and_key_separation_review"
+      ],
+      "missing_role_assignments": [
+        "offline_root_custodian",
+        "enrollment_release_operator"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "issue_role_scoped_control_and_assurance_reviewer_credentials",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "control_reviewer_credential",
+        "assurance_reviewer_credential",
+        "reviewer_identity_and_key_separation_review"
+      ],
+      "missing_role_assignments": [
+        "qualification_credential_issuer",
+        "independent_control",
+        "independent_assurance"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "select_exact_candidate_owner_identity_and_public_key",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "exact_profile_and_candidate_binding",
+        "candidate_owner_identifier",
+        "candidate_owner_ed25519_public_key",
+        "candidate_artifact_sha256"
+      ],
+      "missing_role_assignments": [
+        "candidate_owner",
+        "deployment_owner"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "select_organization_logical_evidence_repository_identity",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "logical_repository_identifier",
+        "sha256_content_addressing_confirmation",
+        "credential_and_endpoint_exclusion_review"
+      ],
+      "missing_role_assignments": [
+        "evidence_custodian",
+        "deployment_owner"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "produce_independently_reviewed_and_signed_enrollment_catalog",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "signed_control_release_review",
+        "signed_assurance_release_review",
+        "signed_enrollment_catalog",
+        "offline_verification_receipt"
+      ],
+      "missing_role_assignments": [
+        "enrollment_release_operator",
+        "independent_control",
+        "independent_assurance"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "distribute_catalog_and_revocations_through_reviewed_release_process",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "content_addressed_catalog_release",
+        "revocation_distribution_procedure",
+        "consumer_verification_instructions"
+      ],
+      "missing_role_assignments": [
+        "enrollment_release_operator",
+        "deployment_owner"
+      ]
+    },
+    {
+      "completed_at_present": false,
+      "input_id": "protect_last_seen_catalog_checkpoint_against_rollback",
+      "input_status": "pending",
+      "missing_completion_evidence": [
+        "checkpoint_custodian_assignment",
+        "protected_storage_and_recovery_procedure",
+        "rollback_response_procedure"
+      ],
+      "missing_role_assignments": [
+        "deployment_owner",
+        "independent_control"
+      ]
+    }
+  ],
+  "network_call_performed": false,
+  "preparation_packet": {
+    "packet_id": "CDP-C0D97BCF4BD9F24EF4E4F3D388DEFB2A",
+    "sha256": "sha256:c0d97bcf4bd9f24ef4e4f3d388defb2ab5d7a26d86624bc605f9039245fe235f"
+  },
+  "prohibited_effects": [
+    "does_not_treat_self_reported_evidence_as_cryptographic_trust",
+    "does_not_generate_import_store_or_select_private_keys",
+    "does_not_issue_credentials_authorizations_reviews_or_signatures",
+    "does_not_enroll_a_live_owner_candidate_or_repository",
+    "does_not_publish_or_distribute_a_live_catalog",
+    "does_not_accept_or_retrieve_live_evidence",
+    "does_not_qualify_a_candidate_or_specialist",
+    "does_not_change_registry_status_or_routing_eligibility",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_mutate_runtime_or_sqlite_state"
+  ],
+  "qualification_effect": "none",
+  "readiness": {
+    "next_action": "complete_missing_external_input_documentation",
+    "pending_global_fields": [
+      "deployment_id",
+      "prepared_by",
+      "prepared_at"
+    ],
+    "pending_input_count": 9,
+    "ready_for_cryptographic_artifact_verification": false,
+    "ready_for_live_enrollment": false,
+    "self_reported_evidence_only": true,
+    "submission_completeness_status": "incomplete"
+  },
+  "registry_effect": "none",
+  "report_id": "CDR-7A1583D0E55E2A36481AB5E665ACDA86",
+  "report_sha256": "sha256:7a1583d0e55e2a36481ab5e665acda86084696b8824555dd96361a5356465a22",
+  "schema_version": 1,
+  "worksheet": {
+    "template_id": "CDT-24BECD939568B31ACFBE418C16410DF4",
+    "template_sha256": "sha256:24becd939568b31acfbe418c16410df4bd38ea94c0c69dd8dcef966be841ce3e",
+    "worksheet_sha256": "sha256:c4071b27a3a026eb6268be1513580ab8c8fce133b74d64247080f2eebc7040a4"
+  }
+}

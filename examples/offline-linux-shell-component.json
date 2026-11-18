@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-shell-tools",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "approved_privileged_invocation_ids": ["approved-invocation"],
+    "invocations": [{
+      "invocation_id": "review-invocation", "tool_family": "system_tool",
+      "privileged_context_declared": true
+    }]
+  }}
+}

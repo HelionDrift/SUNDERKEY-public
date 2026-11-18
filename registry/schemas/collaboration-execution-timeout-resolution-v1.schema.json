@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-execution-timeout-resolution-v1.json",
+  "title": "SUNDERKEY Collaboration Execution Timeout Resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "resolution_id",
+    "resolution_sha256",
+    "request_authentication",
+    "transfer_request",
+    "channel_policy",
+    "mission_id",
+    "work_item_id",
+    "transfer_kind",
+    "required_acknowledgement_kinds",
+    "observed_acknowledgements",
+    "missing_acknowledgement_kinds",
+    "decision_owner",
+    "resolved_at",
+    "resolution",
+    "source_session_disposition",
+    "target_session_disposition",
+    "recovery_required",
+    "resolution_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "resolution_id": {"type": "string", "pattern": "^ETD-[0-9A-F]{32}$"},
+    "resolution_sha256": {"$ref": "#/$defs/sha256"},
+    "request_authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authentication_id", "authentication_sha256"],
+      "properties": {
+        "authentication_id": {"type": "string", "pattern": "^ERA-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "transfer_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_sha256"],
+      "properties": {
+        "request_id": {"type": "string", "pattern": "^ETR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "channel_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_policy_id", "channel_policy_sha256"],
+      "properties": {
+        "channel_policy_id": {"type": "string", "pattern": "^ECP-[0-9A-F]{32}$"},
+        "channel_policy_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "work_item_id": {"$ref": "#/$defs/identifier"},
+    "transfer_kind": {"enum": ["ownership_handoff", "work_cancellation"]},
+    "required_acknowledgement_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/acknowledgementKind"}
+    },
+    "observed_acknowledgements": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/observedAcknowledgement"}
+    },
+    "missing_acknowledgement_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/acknowledgementKind"}
+    },
+    "decision_owner": {"$ref": "#/$defs/assertion"},
+    "resolved_at": {"$ref": "#/$defs/timestamp"},
+    "resolution": {"const": "failed_closed_timeout"},
+    "source_session_disposition": {
+      "enum": ["fenced_pending_recovery", "revoked_unavailable"]
+    },
+    "target_session_disposition": {
+      "enum": ["blocked_never_activated", "not_applicable"]
+    },
+    "recovery_required": {"const": true},
+    "resolution_status": {"const": "pending_control_authentication"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "acknowledgementKind": {
+      "enum": ["source_released", "target_accepted", "source_cancelled"]
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "assertion_id", "assertion_sha256"],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "assertion_id": {"type": "string", "pattern": "^PAS-[0-9A-F]{32}$"},
+        "assertion_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "observedAcknowledgement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acknowledgement_kind",
+        "acknowledgement_id",
+        "acknowledgement_sha256",
+        "authentication_id",
+        "authentication_sha256",
+        "session_id",
+        "session_sha256",
+        "acknowledged_at"
+      ],
+      "properties": {
+        "acknowledgement_kind": {"$ref": "#/$defs/acknowledgementKind"},
+        "acknowledgement_id": {"type": "string", "pattern": "^EAK-[0-9A-F]{32}$"},
+        "acknowledgement_sha256": {"$ref": "#/$defs/sha256"},
+        "authentication_id": {"type": "string", "pattern": "^EAA-[0-9A-F]{32}$"},
+        "authentication_sha256": {"$ref": "#/$defs/sha256"},
+        "session_id": {"type": "string", "pattern": "^ECS-[0-9A-F]{32}$"},
+        "session_sha256": {"$ref": "#/$defs/sha256"},
+        "acknowledged_at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  }
+}

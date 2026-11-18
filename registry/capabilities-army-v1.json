@@ -1,0 +1,3885 @@
+{
+  "schema_version": 2,
+  "profile_scope": "all_specialists",
+  "catalog_id": "sunderkey-army-capabilities",
+  "catalog_version": "1.0.0",
+  "expert_catalog_id": "sunderkey-offensive-expert-army",
+  "expert_catalog_version": "1.0.0",
+  "capabilities": [
+    {
+      "id": "ai.indirect-prompt-injection",
+      "name": "Indirect prompt injection"
+    },
+    {
+      "id": "api.authorization.function-level",
+      "name": "API function-level authorization"
+    },
+    {
+      "id": "api.authorization.object-level",
+      "name": "API object-level authorization"
+    },
+    {
+      "id": "army.ga.d01.s01",
+      "name": "Passive OSINT"
+    },
+    {
+      "id": "army.ga.d01.s02",
+      "name": "Active scanning"
+    },
+    {
+      "id": "army.ga.d01.s03",
+      "name": "DNS, domains and certificates"
+    },
+    {
+      "id": "army.ga.d01.s04",
+      "name": "IP, ASN and BGP mapping"
+    },
+    {
+      "id": "army.ga.d01.s05",
+      "name": "Cloud asset discovery"
+    },
+    {
+      "id": "army.ga.d01.s06",
+      "name": "SaaS and shadow-IT discovery"
+    },
+    {
+      "id": "army.ga.d01.s07",
+      "name": "Source and repository intelligence"
+    },
+    {
+      "id": "army.ga.d01.s08",
+      "name": "Leaked credentials and secrets"
+    },
+    {
+      "id": "army.ga.d01.s09",
+      "name": "People and organization intelligence"
+    },
+    {
+      "id": "army.ga.d01.s10",
+      "name": "Technology fingerprinting"
+    },
+    {
+      "id": "army.ga.d01.s12",
+      "name": "Deception and honeypot recognition"
+    },
+    {
+      "id": "army.ga.d02.s01",
+      "name": "Email spearphishing"
+    },
+    {
+      "id": "army.ga.d02.s02",
+      "name": "Voice, vishing and deepfake pretexts"
+    },
+    {
+      "id": "army.ga.d02.s03",
+      "name": "SMS and messaging"
+    },
+    {
+      "id": "army.ga.d02.s04",
+      "name": "Social-media and recruiting pretexts"
+    },
+    {
+      "id": "army.ga.d02.s05",
+      "name": "Help-desk and MFA-enrollment abuse"
+    },
+    {
+      "id": "army.ga.d02.s06",
+      "name": "OAuth-consent and collaboration lures"
+    },
+    {
+      "id": "army.ga.d02.s07",
+      "name": "Influence psychology"
+    },
+    {
+      "id": "army.ga.d02.s08",
+      "name": "Document and browser delivery"
+    },
+    {
+      "id": "army.ga.d02.s09",
+      "name": "Facility entry and tailgating"
+    },
+    {
+      "id": "army.ga.d02.s10",
+      "name": "Badge and access-control testing"
+    },
+    {
+      "id": "army.ga.d02.s11",
+      "name": "Removable media and drop devices"
+    },
+    {
+      "id": "army.ga.d02.s12",
+      "name": "Physical implants and covert access"
+    },
+    {
+      "id": "army.ga.d03.s01",
+      "name": "Password attacks"
+    },
+    {
+      "id": "army.ga.d03.s02",
+      "name": "MFA and recovery"
+    },
+    {
+      "id": "army.ga.d03.s03",
+      "name": "SAML"
+    },
+    {
+      "id": "army.ga.d03.s05",
+      "name": "JWT, PASETO and macaroons"
+    },
+    {
+      "id": "army.ga.d03.s06",
+      "name": "Kerberos protocol and trust"
+    },
+    {
+      "id": "army.ga.d03.s07",
+      "name": "PKI and certificate authentication"
+    },
+    {
+      "id": "army.ga.d03.s08",
+      "name": "FIDO2, WebAuthn and passkeys"
+    },
+    {
+      "id": "army.ga.d03.s09",
+      "name": "Federation, B2B and guest trust"
+    },
+    {
+      "id": "army.ga.d03.s10",
+      "name": "Workload identity and SPIFFE"
+    },
+    {
+      "id": "army.ga.d03.s11",
+      "name": "Service accounts, API keys and secrets"
+    },
+    {
+      "id": "army.ga.d03.s12",
+      "name": "PAM, JIT and JEA"
+    },
+    {
+      "id": "army.ga.d03.s14",
+      "name": "Entitlement graphs and toxic combinations"
+    },
+    {
+      "id": "army.ga.d03.s15",
+      "name": "LDAP, SCIM, directory lifecycle and provisioning"
+    },
+    {
+      "id": "army.ga.d03.s16",
+      "name": "Session and token replay and device binding"
+    },
+    {
+      "id": "army.ga.d04.s02",
+      "name": "Initial-access chains"
+    },
+    {
+      "id": "army.ga.d04.s03",
+      "name": "C2 infrastructure and protocols"
+    },
+    {
+      "id": "army.ga.d04.s04",
+      "name": "Implant and loader engineering"
+    },
+    {
+      "id": "army.ga.d04.s05",
+      "name": "Adversary-infrastructure OPSEC and telemetry tradecraft"
+    },
+    {
+      "id": "army.ga.d04.s06",
+      "name": "Living-off-the-land integration"
+    },
+    {
+      "id": "army.ga.d04.s07",
+      "name": "Privilege-escalation chaining"
+    },
+    {
+      "id": "army.ga.d04.s08",
+      "name": "Credential-access integration"
+    },
+    {
+      "id": "army.ga.d04.s09",
+      "name": "Discovery and pathfinding"
+    },
+    {
+      "id": "army.ga.d04.s10",
+      "name": "Lateral movement"
+    },
+    {
+      "id": "army.ga.d04.s11",
+      "name": "Persistence"
+    },
+    {
+      "id": "army.ga.d04.s12",
+      "name": "Stealth"
+    },
+    {
+      "id": "army.ga.d04.s13",
+      "name": "Defense impairment"
+    },
+    {
+      "id": "army.ga.d04.s14",
+      "name": "Collection and staging"
+    },
+    {
+      "id": "army.ga.d04.s15",
+      "name": "Exfiltration simulation"
+    },
+    {
+      "id": "army.ga.d04.s16",
+      "name": "Technical impact emulation  -  Control approval required"
+    },
+    {
+      "id": "army.gb.d05.s01",
+      "name": "HTTP semantics"
+    },
+    {
+      "id": "army.gb.d05.s02",
+      "name": "HTTP edge and cache semantics across reverse proxies, CDNs and WAFs"
+    },
+    {
+      "id": "army.gb.d05.s03",
+      "name": "Request smuggling and desynchronization"
+    },
+    {
+      "id": "army.gb.d05.s04",
+      "name": "Cache poisoning and deception"
+    },
+    {
+      "id": "army.gb.d05.s05",
+      "name": "URL and navigation handling"
+    },
+    {
+      "id": "army.gb.d05.s06",
+      "name": "Java web stacks"
+    },
+    {
+      "id": "army.gb.d05.s07",
+      "name": ".NET web stacks"
+    },
+    {
+      "id": "army.gb.d05.s08",
+      "name": "JavaScript, Python, Ruby and PHP stacks"
+    },
+    {
+      "id": "army.gb.d05.s09",
+      "name": "Template and rendering engines"
+    },
+    {
+      "id": "army.gb.d05.s10",
+      "name": "File and content handling"
+    },
+    {
+      "id": "army.gb.d05.s13",
+      "name": "DOM and XSS"
+    },
+    {
+      "id": "army.gb.d05.s14",
+      "name": "SOP, CORS and CSP"
+    },
+    {
+      "id": "army.gb.d05.s15",
+      "name": "CSRF, clickjacking and postMessage"
+    },
+    {
+      "id": "army.gb.d05.s16",
+      "name": "Extensions, PWAs and service workers"
+    },
+    {
+      "id": "army.gb.d05.s17",
+      "name": "CMS, plugin and low-code systems"
+    },
+    {
+      "id": "army.gb.d05.s18",
+      "name": "WebRTC, media and browser protocols"
+    },
+    {
+      "id": "army.gb.d06.s01",
+      "name": "REST and OpenAPI"
+    },
+    {
+      "id": "army.gb.d06.s02",
+      "name": "GraphQL"
+    },
+    {
+      "id": "army.gb.d06.s03",
+      "name": "gRPC and protobuf"
+    },
+    {
+      "id": "army.gb.d06.s04",
+      "name": "SOAP and XML-RPC"
+    },
+    {
+      "id": "army.gb.d06.s05",
+      "name": "WebSocket, SSE and realtime APIs"
+    },
+    {
+      "id": "army.gb.d06.s06",
+      "name": "Webhooks and callbacks"
+    },
+    {
+      "id": "army.gb.d06.s07",
+      "name": "API gateways"
+    },
+    {
+      "id": "army.gb.d06.s08",
+      "name": "Service-interface and API trust semantics across service meshes and sidecars"
+    },
+    {
+      "id": "army.gb.d06.s11",
+      "name": "Property authorization and mass assignment"
+    },
+    {
+      "id": "army.gb.d06.s12",
+      "name": "Schema and content-type differentials"
+    },
+    {
+      "id": "army.gb.d06.s13",
+      "name": "Resource and rate-limit abuse"
+    },
+    {
+      "id": "army.gb.d06.s14",
+      "name": "Inventory, version and shadow APIs"
+    },
+    {
+      "id": "army.gb.d06.s15",
+      "name": "Unsafe downstream API consumption"
+    },
+    {
+      "id": "army.gb.d06.s16",
+      "name": "Partner, B2B and low-code connectors"
+    },
+    {
+      "id": "army.gb.d07.s02",
+      "name": "Document and key-value NoSQL"
+    },
+    {
+      "id": "army.gb.d07.s03",
+      "name": "Graph databases"
+    },
+    {
+      "id": "army.gb.d07.s04",
+      "name": "Vector databases"
+    },
+    {
+      "id": "army.gb.d07.s05",
+      "name": "Caches and session stores"
+    },
+    {
+      "id": "army.gb.d07.s06",
+      "name": "Search and indexing"
+    },
+    {
+      "id": "army.gb.d07.s07",
+      "name": "Message queues"
+    },
+    {
+      "id": "army.gb.d07.s08",
+      "name": "Event streaming"
+    },
+    {
+      "id": "army.gb.d07.s09",
+      "name": "Warehouses, lakes and lakehouses"
+    },
+    {
+      "id": "army.gb.d07.s10",
+      "name": "Hadoop and Spark"
+    },
+    {
+      "id": "army.gb.d07.s11",
+      "name": "ETL, orchestration and notebooks"
+    },
+    {
+      "id": "army.gb.d07.s12",
+      "name": "Managed analytics"
+    },
+    {
+      "id": "army.gb.d07.s13",
+      "name": "Backup, replication and change-data capture"
+    },
+    {
+      "id": "army.gb.d07.s14",
+      "name": "Database privilege, stored-procedure and extension abuse"
+    },
+    {
+      "id": "army.gb.d08.s01",
+      "name": "Android static analysis"
+    },
+    {
+      "id": "army.gb.d08.s02",
+      "name": "Android dynamic instrumentation"
+    },
+    {
+      "id": "army.gb.d08.s03",
+      "name": "Android components, IPC and intents"
+    },
+    {
+      "id": "army.gb.d08.s04",
+      "name": "Android device and root exploitation"
+    },
+    {
+      "id": "army.gb.d08.s05",
+      "name": "iOS static analysis"
+    },
+    {
+      "id": "army.gb.d08.s06",
+      "name": "iOS dynamic instrumentation"
+    },
+    {
+      "id": "army.gb.d08.s07",
+      "name": "iOS entitlements, IPC and keychain"
+    },
+    {
+      "id": "army.gb.d08.s08",
+      "name": "iOS device and jailbreak"
+    },
+    {
+      "id": "army.gb.d08.s09",
+      "name": "Mobile TLS and pinning"
+    },
+    {
+      "id": "army.gb.d08.s10",
+      "name": "Local storage, cryptography and biometrics"
+    },
+    {
+      "id": "army.gb.d08.s11",
+      "name": "Anti-tamper and obfuscation"
+    },
+    {
+      "id": "army.gb.d08.s12",
+      "name": "Deep links and WebViews"
+    },
+    {
+      "id": "army.gb.d08.s13",
+      "name": "Desktop and thick clients  -  native Windows, macOS, Linux and Electron"
+    },
+    {
+      "id": "army.gb.d08.s14",
+      "name": "MDM and application-distribution abuse"
+    },
+    {
+      "id": "army.gb.d09.s02",
+      "name": "Price, quantity, currency and rounding"
+    },
+    {
+      "id": "army.gb.d09.s03",
+      "name": "Transactional and economic race and double-spend"
+    },
+    {
+      "id": "army.gb.d09.s04",
+      "name": "Payments, refunds and chargebacks"
+    },
+    {
+      "id": "army.gb.d09.s05",
+      "name": "Onboarding, account recovery and KYC"
+    },
+    {
+      "id": "army.gb.d09.s06",
+      "name": "Ownership and tenant logic"
+    },
+    {
+      "id": "army.gb.d09.s07",
+      "name": "Quota, coupon, loyalty and inventory abuse"
+    },
+    {
+      "id": "army.gb.d09.s08",
+      "name": "Marketplace, auction and reputation abuse"
+    },
+    {
+      "id": "army.gb.d09.s09",
+      "name": "Scraping, bots and scalping"
+    },
+    {
+      "id": "army.gb.d09.s10",
+      "name": "Fraud-control evasion"
+    },
+    {
+      "id": "army.gb.d09.s11",
+      "name": "Privacy and consent workflows"
+    },
+    {
+      "id": "army.gb.d09.s12",
+      "name": "Cross-channel economic attack modeling"
+    },
+    {
+      "id": "army.gb.d10.s01",
+      "name": "EVM and Solidity"
+    },
+    {
+      "id": "army.gb.d10.s02",
+      "name": "Non-EVM Rust, Move and WASM"
+    },
+    {
+      "id": "army.gb.d10.s03",
+      "name": "DeFi, oracle and flash-loan economics"
+    },
+    {
+      "id": "army.gb.d10.s04",
+      "name": "Bridges and cross-chain"
+    },
+    {
+      "id": "army.gb.d10.s05",
+      "name": "Consensus, validator and network"
+    },
+    {
+      "id": "army.gb.d10.s06",
+      "name": "Wallets, custody and account abstraction"
+    },
+    {
+      "id": "army.gb.d10.s07",
+      "name": "Upgradeable and proxy patterns"
+    },
+    {
+      "id": "army.gb.d10.s08",
+      "name": "Reentrancy, callback and state"
+    },
+    {
+      "id": "army.gb.d10.s09",
+      "name": "Tokens, NFTs and marketplaces"
+    },
+    {
+      "id": "army.gb.d10.s10",
+      "name": "MEV and front-running"
+    },
+    {
+      "id": "army.gb.d10.s11",
+      "name": "Governance, staking and slashing"
+    },
+    {
+      "id": "army.gb.d10.s12",
+      "name": "Node, RPC, indexer and dApp"
+    },
+    {
+      "id": "army.gc.d11.s02",
+      "name": "Kerberos AD implementation and path abuse"
+    },
+    {
+      "id": "army.gc.d11.s03",
+      "name": "NTLM relay and coercion"
+    },
+    {
+      "id": "army.gc.d11.s04",
+      "name": "Active Directory Certificate Services"
+    },
+    {
+      "id": "army.gc.d11.s05",
+      "name": "GPO, delegation and ACL"
+    },
+    {
+      "id": "army.gc.d11.s06",
+      "name": "Forest and domain trusts"
+    },
+    {
+      "id": "army.gc.d11.s07",
+      "name": "Domain controllers and directory databases"
+    },
+    {
+      "id": "army.gc.d11.s08",
+      "name": "Windows local privilege escalation"
+    },
+    {
+      "id": "army.gc.d11.s09",
+      "name": "Windows persistence"
+    },
+    {
+      "id": "army.gc.d11.s10",
+      "name": "PowerShell, WMI, COM and LOLBins"
+    },
+    {
+      "id": "army.gc.d11.s11",
+      "name": "LSASS and DPAPI"
+    },
+    {
+      "id": "army.gc.d11.s12",
+      "name": "Remote management and lateral movement"
+    },
+    {
+      "id": "army.gc.d11.s13",
+      "name": "Windows control and EDR impairment"
+    },
+    {
+      "id": "army.gc.d11.s15",
+      "name": "Exchange Online"
+    },
+    {
+      "id": "army.gc.d11.s16",
+      "name": "Microsoft 365 collaboration and Office clients  -  SharePoint, OneDrive, Teams, documents, add-ins and macros"
+    },
+    {
+      "id": "army.gc.d11.s17",
+      "name": "AD FS and AD Connect"
+    },
+    {
+      "id": "army.gc.d11.s18",
+      "name": "SCCM and Intune"
+    },
+    {
+      "id": "army.gc.d12.s02",
+      "name": "Kernel and eBPF"
+    },
+    {
+      "id": "army.gc.d12.s03",
+      "name": "PAM, sudo and polkit"
+    },
+    {
+      "id": "army.gc.d12.s04",
+      "name": "systemd and cron"
+    },
+    {
+      "id": "army.gc.d12.s05",
+      "name": "Shells and LOLBins"
+    },
+    {
+      "id": "army.gc.d12.s06",
+      "name": "SSH and keyrings"
+    },
+    {
+      "id": "army.gc.d12.s07",
+      "name": "Namespaces and cgroups"
+    },
+    {
+      "id": "army.gc.d12.s08",
+      "name": "Logging and control impairment"
+    },
+    {
+      "id": "army.gc.d12.s09",
+      "name": "macOS local privilege escalation"
+    },
+    {
+      "id": "army.gc.d12.s10",
+      "name": "TCC, SIP and Gatekeeper"
+    },
+    {
+      "id": "army.gc.d12.s11",
+      "name": "Launch persistence"
+    },
+    {
+      "id": "army.gc.d12.s12",
+      "name": "Keychain and iCloud"
+    },
+    {
+      "id": "army.gc.d12.s13",
+      "name": "XPC and Apple Events"
+    },
+    {
+      "id": "army.gc.d12.s14",
+      "name": "BSD and Unix"
+    },
+    {
+      "id": "army.gc.d13.s01",
+      "name": "TCP/IP and IPv6"
+    },
+    {
+      "id": "army.gc.d13.s02",
+      "name": "BGP and OSPF"
+    },
+    {
+      "id": "army.gc.d13.s03",
+      "name": "DNS, DHCP and IPAM"
+    },
+    {
+      "id": "army.gc.d13.s04",
+      "name": "Switching, VLAN and STP"
+    },
+    {
+      "id": "army.gc.d13.s06",
+      "name": "Network appliances"
+    },
+    {
+      "id": "army.gc.d13.s07",
+      "name": "NAC and 802.1X"
+    },
+    {
+      "id": "army.gc.d13.s08",
+      "name": "Wi-Fi"
+    },
+    {
+      "id": "army.gc.d13.s09",
+      "name": "Bluetooth Low Energy"
+    },
+    {
+      "id": "army.gc.d13.s10",
+      "name": "SDR and RF"
+    },
+    {
+      "id": "army.gc.d13.s11",
+      "name": "4G and 5G"
+    },
+    {
+      "id": "army.gc.d13.s12",
+      "name": "SS7 and Diameter"
+    },
+    {
+      "id": "army.gc.d13.s13",
+      "name": "SIP, RTP and VoIP"
+    },
+    {
+      "id": "army.gc.d13.s14",
+      "name": "SMTP, DKIM and DMARC"
+    },
+    {
+      "id": "army.gc.d13.s15",
+      "name": "SNMP and NETCONF"
+    },
+    {
+      "id": "army.gc.d13.s16",
+      "name": "Network-layer ADC, routing and TLS termination across load balancers and CDNs"
+    },
+    {
+      "id": "army.gc.d13.s17",
+      "name": "Protocol fuzzing"
+    },
+    {
+      "id": "army.gc.d13.s18",
+      "name": "Covert channels and tunneling"
+    },
+    {
+      "id": "army.gc.d14.s01",
+      "name": "AWS IAM and Organizations"
+    },
+    {
+      "id": "army.gc.d14.s02",
+      "name": "AWS compute, container and serverless"
+    },
+    {
+      "id": "army.gc.d14.s03",
+      "name": "AWS storage, data and network"
+    },
+    {
+      "id": "army.gc.d14.s04",
+      "name": "Azure control, RBAC and managed identity"
+    },
+    {
+      "id": "army.gc.d14.s05",
+      "name": "Azure compute, storage, network and data"
+    },
+    {
+      "id": "army.gc.d14.s06",
+      "name": "GCP IAM and organizations"
+    },
+    {
+      "id": "army.gc.d14.s07",
+      "name": "GCP compute, storage, network and data"
+    },
+    {
+      "id": "army.gc.d14.s08",
+      "name": "Secondary clouds"
+    },
+    {
+      "id": "army.gc.d14.s09",
+      "name": "Multicloud federation"
+    },
+    {
+      "id": "army.gc.d14.s11",
+      "name": "Object storage, snapshots and images"
+    },
+    {
+      "id": "army.gc.d14.s12",
+      "name": "Cloud networking and private endpoints"
+    },
+    {
+      "id": "army.gc.d14.s13",
+      "name": "Cloud KMS, secrets and HSM control-plane abuse"
+    },
+    {
+      "id": "army.gc.d14.s14",
+      "name": "Logging and guardrail impairment"
+    },
+    {
+      "id": "army.gc.d14.s15",
+      "name": "Organization, billing and support abuse"
+    },
+    {
+      "id": "army.gc.d14.s16",
+      "name": "Managed PaaS and data"
+    },
+    {
+      "id": "army.gc.d14.s17",
+      "name": "Enterprise SaaS control planes  -  Salesforce, ServiceNow, Workday and Atlassian-class"
+    },
+    {
+      "id": "army.gc.d14.s18",
+      "name": "Cloud-native post-compromise primitives"
+    },
+    {
+      "id": "army.gc.d15.s01",
+      "name": "OCI images and layers"
+    },
+    {
+      "id": "army.gc.d15.s02",
+      "name": "Docker, Podman and runtime"
+    },
+    {
+      "id": "army.gc.d15.s03",
+      "name": "Kubernetes API authentication"
+    },
+    {
+      "id": "army.gc.d15.s05",
+      "name": "Pod and workload security"
+    },
+    {
+      "id": "army.gc.d15.s06",
+      "name": "Control plane and etcd"
+    },
+    {
+      "id": "army.gc.d15.s07",
+      "name": "Kubernetes traffic-plane configuration and workload reachability across networking, service mesh and ingress"
+    },
+    {
+      "id": "army.gc.d15.s08",
+      "name": "Admission, policy, operators and CRDs"
+    },
+    {
+      "id": "army.gc.d15.s09",
+      "name": "Secrets and ConfigMaps"
+    },
+    {
+      "id": "army.gc.d15.s10",
+      "name": "Container and sandbox target-platform escape chaining"
+    },
+    {
+      "id": "army.gc.d15.s11",
+      "name": "Registries and image signing"
+    },
+    {
+      "id": "army.gc.d15.s12",
+      "name": "Cluster-runtime consumption through Helm, operators and GitOps"
+    },
+    {
+      "id": "army.gc.d15.s13",
+      "name": "Serverless functions and events"
+    },
+    {
+      "id": "army.gc.d15.s14",
+      "name": "Managed Kubernetes, multicluster and multitenancy"
+    },
+    {
+      "id": "army.gc.d16.s01",
+      "name": "IBM z/OS, RACF, CICS and Db2"
+    },
+    {
+      "id": "army.gc.d16.s02",
+      "name": "IBM i and AS/400"
+    },
+    {
+      "id": "army.gc.d16.s03",
+      "name": "AIX, Solaris and HP-UX"
+    },
+    {
+      "id": "army.gc.d16.s04",
+      "name": "SAP NetWeaver, ABAP and HANA"
+    },
+    {
+      "id": "army.gc.d16.s05",
+      "name": "Oracle EBS, PeopleSoft and WebLogic"
+    },
+    {
+      "id": "army.gc.d16.s06",
+      "name": "Enterprise hypervisors and managers  -  ESXi/vCenter, Hyper-V, KVM and Xen"
+    },
+    {
+      "id": "army.gc.d16.s07",
+      "name": "Citrix, VDI and RDS"
+    },
+    {
+      "id": "army.gc.d16.s08",
+      "name": "Backup and recovery"
+    },
+    {
+      "id": "army.gc.d16.s09",
+      "name": "SAN and NAS"
+    },
+    {
+      "id": "army.gc.d16.s10",
+      "name": "Java and .NET enterprise servers"
+    },
+    {
+      "id": "army.gc.d16.s11",
+      "name": "Monitoring and RMM"
+    },
+    {
+      "id": "army.gc.d16.s12",
+      "name": "HPC, grid and batch"
+    },
+    {
+      "id": "army.gc.d17.s01",
+      "name": "Git platforms"
+    },
+    {
+      "id": "army.gc.d17.s03",
+      "name": "CD and source-build-provenance-release GitOps"
+    },
+    {
+      "id": "army.gc.d17.s04",
+      "name": "JavaScript packages"
+    },
+    {
+      "id": "army.gc.d17.s05",
+      "name": "Python packages"
+    },
+    {
+      "id": "army.gc.d17.s06",
+      "name": "JVM and .NET packages"
+    },
+    {
+      "id": "army.gc.d17.s07",
+      "name": "Native, Rust and Go packages"
+    },
+    {
+      "id": "army.gc.d17.s08",
+      "name": "Dependency confusion and typosquatting"
+    },
+    {
+      "id": "army.gc.d17.s09",
+      "name": "Compilers and build systems"
+    },
+    {
+      "id": "army.gc.d17.s10",
+      "name": "Artifact registries, signing, provenance and SBOM"
+    },
+    {
+      "id": "army.gc.d17.s11",
+      "name": "Repository and build-log secrets"
+    },
+    {
+      "id": "army.gc.d17.s12",
+      "name": "Infrastructure as code"
+    },
+    {
+      "id": "army.gc.d17.s13",
+      "name": "IDE, devcontainer and extensions"
+    },
+    {
+      "id": "army.gc.d17.s14",
+      "name": "Release, update and vendor supply chain"
+    },
+    {
+      "id": "army.gd.d18.s01",
+      "name": "Firmware acquisition, unpacking and SBOM"
+    },
+    {
+      "id": "army.gd.d18.s02",
+      "name": "Firmware emulation"
+    },
+    {
+      "id": "army.gd.d18.s03",
+      "name": "Secure boot, update and rollback"
+    },
+    {
+      "id": "army.gd.d18.s04",
+      "name": "RTOS"
+    },
+    {
+      "id": "army.gd.d18.s05",
+      "name": "UART, JTAG and SWD"
+    },
+    {
+      "id": "army.gd.d18.s06",
+      "name": "I2C and SPI"
+    },
+    {
+      "id": "army.gd.d18.s07",
+      "name": "Flash and chip-off"
+    },
+    {
+      "id": "army.gd.d18.s08",
+      "name": "Physical hardware power, EM and timing leakage"
+    },
+    {
+      "id": "army.gd.d18.s09",
+      "name": "Fault injection and glitching"
+    },
+    {
+      "id": "army.gd.d18.s10",
+      "name": "TPM, TEE and secure elements"
+    },
+    {
+      "id": "army.gd.d18.s11",
+      "name": "Microarchitectural analysis"
+    },
+    {
+      "id": "army.gd.d18.s12",
+      "name": "FPGA, ASIC and hardware trojans"
+    },
+    {
+      "id": "army.gd.d18.s13",
+      "name": "RFID, NFC and smartcards"
+    },
+    {
+      "id": "army.gd.d18.s14",
+      "name": "Zigbee, Z-Wave, Thread and Matter"
+    },
+    {
+      "id": "army.gd.d18.s15",
+      "name": "MQTT and CoAP"
+    },
+    {
+      "id": "army.gd.d18.s16",
+      "name": "Hardware tamper and supply chain"
+    },
+    {
+      "id": "army.gd.d19.s01",
+      "name": "ICS zones and conduits"
+    },
+    {
+      "id": "army.gd.d19.s02",
+      "name": "PLC, RTU and PAC"
+    },
+    {
+      "id": "army.gd.d19.s03",
+      "name": "HMI, SCADA and historian"
+    },
+    {
+      "id": "army.gd.d19.s04",
+      "name": "Engineering workstations"
+    },
+    {
+      "id": "army.gd.d19.s05",
+      "name": "Safety instrumented systems"
+    },
+    {
+      "id": "army.gd.d19.s06",
+      "name": "Modbus, DNP3, OPC UA and EtherNet/IP"
+    },
+    {
+      "id": "army.gd.d19.s07",
+      "name": "Vendor ecosystems"
+    },
+    {
+      "id": "army.gd.d19.s08",
+      "name": "Process physics"
+    },
+    {
+      "id": "army.gd.d19.s09",
+      "name": "Electric power"
+    },
+    {
+      "id": "army.gd.d19.s10",
+      "name": "Oil, gas, chemical and water"
+    },
+    {
+      "id": "army.gd.d19.s11",
+      "name": "Manufacturing, robotics and buildings"
+    },
+    {
+      "id": "army.gd.d19.s12",
+      "name": "Automotive, CAN and UDS"
+    },
+    {
+      "id": "army.gd.d19.s13",
+      "name": "Rail, aerospace, space and maritime"
+    },
+    {
+      "id": "army.gd.d19.s14",
+      "name": "Medical devices"
+    },
+    {
+      "id": "army.gd.d19.s15",
+      "name": "OT wireless, remote access and IIoT"
+    },
+    {
+      "id": "army.gd.d19.s16",
+      "name": "Process-control persistence and impairment"
+    },
+    {
+      "id": "army.gd.d20.s01",
+      "name": "MLOps"
+    },
+    {
+      "id": "army.gd.d20.s02",
+      "name": "Training-data poisoning"
+    },
+    {
+      "id": "army.gd.d20.s03",
+      "name": "Model poisoning and backdoors"
+    },
+    {
+      "id": "army.gd.d20.s04",
+      "name": "Adversarial evasion"
+    },
+    {
+      "id": "army.gd.d20.s05",
+      "name": "Model extraction"
+    },
+    {
+      "id": "army.gd.d20.s06",
+      "name": "Inversion and membership inference"
+    },
+    {
+      "id": "army.gd.d20.s07",
+      "name": "Unsafe serialization"
+    },
+    {
+      "id": "army.gd.d20.s08",
+      "name": "Model hub and AI supply chain"
+    },
+    {
+      "id": "army.gd.d20.s09",
+      "name": "Direct prompt injection and jailbreak"
+    },
+    {
+      "id": "army.gd.d20.s11",
+      "name": "RAG poisoning"
+    },
+    {
+      "id": "army.gd.d20.s12",
+      "name": "System-prompt and data extraction"
+    },
+    {
+      "id": "army.gd.d20.s13",
+      "name": "Insecure output handling"
+    },
+    {
+      "id": "army.gd.d20.s14",
+      "name": "Tool misuse and excessive agency"
+    },
+    {
+      "id": "army.gd.d20.s15",
+      "name": "Agent credential abuse"
+    },
+    {
+      "id": "army.gd.d20.s16",
+      "name": "Agent memory, context and MCP/A2A/inter-agent protocol poisoning"
+    },
+    {
+      "id": "army.gd.d20.s17",
+      "name": "Multimodal and deepfake"
+    },
+    {
+      "id": "army.gd.d20.s18",
+      "name": "Cost, resource and evaluation abuse"
+    },
+    {
+      "id": "army.ge.d21.s01",
+      "name": "x86 and x64 userland"
+    },
+    {
+      "id": "army.ge.d21.s02",
+      "name": "ARM and AArch64"
+    },
+    {
+      "id": "army.ge.d21.s03",
+      "name": "Windows kernel"
+    },
+    {
+      "id": "army.ge.d21.s04",
+      "name": "Linux kernel"
+    },
+    {
+      "id": "army.ge.d21.s05",
+      "name": "Apple kernel"
+    },
+    {
+      "id": "army.ge.d21.s06",
+      "name": "Baseband and DSP"
+    },
+    {
+      "id": "army.ge.d21.s07",
+      "name": "Browser engines"
+    },
+    {
+      "id": "army.ge.d21.s08",
+      "name": "Sandbox and VM exploit primitives and mitigation bypass"
+    },
+    {
+      "id": "army.ge.d21.s09",
+      "name": "Heap exploitation"
+    },
+    {
+      "id": "army.ge.d21.s10",
+      "name": "ROP and JOP"
+    },
+    {
+      "id": "army.ge.d21.s11",
+      "name": "Concurrency exploitation"
+    },
+    {
+      "id": "army.ge.d21.s12",
+      "name": "Integer, type-confusion and format-string flaws"
+    },
+    {
+      "id": "army.ge.d21.s13",
+      "name": "Coverage-guided fuzzing"
+    },
+    {
+      "id": "army.ge.d21.s14",
+      "name": "Grammar and protocol fuzzing"
+    },
+    {
+      "id": "army.ge.d21.s15",
+      "name": "Symbolic and concolic analysis"
+    },
+    {
+      "id": "army.ge.d21.s16",
+      "name": "Binary reverse engineering"
+    },
+    {
+      "id": "army.ge.d21.s17",
+      "name": "Source and variant analysis"
+    },
+    {
+      "id": "army.ge.d21.s18",
+      "name": "Exploit reliability, mitigation bypass and chaining"
+    },
+    {
+      "id": "army.ge.d22.s01",
+      "name": "Cryptographic protocol design"
+    },
+    {
+      "id": "army.ge.d22.s02",
+      "name": "TLS and QUIC"
+    },
+    {
+      "id": "army.ge.d22.s04",
+      "name": "Password hashing and KDF"
+    },
+    {
+      "id": "army.ge.d22.s05",
+      "name": "Symmetric modes and nonces"
+    },
+    {
+      "id": "army.ge.d22.s06",
+      "name": "RSA and ECC"
+    },
+    {
+      "id": "army.ge.d22.s07",
+      "name": "Post-quantum cryptography"
+    },
+    {
+      "id": "army.ge.d22.s08",
+      "name": "Random-number generation"
+    },
+    {
+      "id": "army.ge.d22.s09",
+      "name": "Cryptographic implementation side-channel and fault leakage"
+    },
+    {
+      "id": "army.ge.d22.s10",
+      "name": "HSM and KMS key lifecycle and primitive assurance"
+    },
+    {
+      "id": "army.ge.d22.s11",
+      "name": "Signature and token canonicalization"
+    },
+    {
+      "id": "army.ge.d22.s12",
+      "name": "Custom protocol reverse engineering"
+    },
+    {
+      "id": "army.ge.d22.s13",
+      "name": "End-to-end encryption"
+    },
+    {
+      "id": "army.ge.d22.s14",
+      "name": "Implementation verification and practical cryptanalysis"
+    },
+    {
+      "id": "army.ge.d23.s01",
+      "name": "Query injection"
+    },
+    {
+      "id": "army.ge.d23.s02",
+      "name": "Command, code and template injection"
+    },
+    {
+      "id": "army.ge.d23.s03",
+      "name": "Deserialization"
+    },
+    {
+      "id": "army.ge.d23.s04",
+      "name": "Parser and polyglot differentials"
+    },
+    {
+      "id": "army.ge.d23.s05",
+      "name": "Path, file and archive handling"
+    },
+    {
+      "id": "army.ge.d23.s06",
+      "name": "SSRF and DNS rebinding"
+    },
+    {
+      "id": "army.ge.d23.s07",
+      "name": "Cross-surface authorization-pattern research"
+    },
+    {
+      "id": "army.ge.d23.s08",
+      "name": "Session, token and cookie replay"
+    },
+    {
+      "id": "army.ge.d23.s09",
+      "name": "Request forgery and origin trust"
+    },
+    {
+      "id": "army.ge.d23.s10",
+      "name": "Generic concurrency, TOCTOU and state"
+    },
+    {
+      "id": "army.ge.d23.s11",
+      "name": "Resource exhaustion"
+    },
+    {
+      "id": "army.ge.d23.s12",
+      "name": "Fail-open behavior"
+    },
+    {
+      "id": "army.ge.d23.s13",
+      "name": "Misconfiguration and insecure defaults"
+    },
+    {
+      "id": "army.ge.d23.s15",
+      "name": "Integrity and poisoning"
+    },
+    {
+      "id": "army.ge.d23.s16",
+      "name": "Software-observable discrepancy and information disclosure"
+    },
+    {
+      "id": "attack-path.graph-modeling",
+      "name": "Attack-graph modeling"
+    },
+    {
+      "id": "business-logic.workflow-state-machine",
+      "name": "Workflow and state-machine abuse"
+    },
+    {
+      "id": "campaign.threat-scenario-design",
+      "name": "Threat-scenario design"
+    },
+    {
+      "id": "cloud.workload-identity-metadata",
+      "name": "Cloud metadata and workload identity"
+    },
+    {
+      "id": "container.kubernetes.rbac-service-account",
+      "name": "Kubernetes RBAC and service accounts"
+    },
+    {
+      "id": "crypto.pki-x509-validation",
+      "name": "PKI and X.509 validation"
+    },
+    {
+      "id": "data.relational-database",
+      "name": "Relational databases"
+    },
+    {
+      "id": "enterprise.active-directory.path-analysis",
+      "name": "Active Directory path analysis"
+    },
+    {
+      "id": "enterprise.entra-id",
+      "name": "Microsoft Entra ID"
+    },
+    {
+      "id": "host.linux.local-privilege-escalation",
+      "name": "Linux local privilege escalation"
+    },
+    {
+      "id": "identity.authorization.rbac-abac-rebac",
+      "name": "RBAC, ABAC and ReBAC authorization-model design"
+    },
+    {
+      "id": "identity.oauth-oidc",
+      "name": "OAuth and OIDC"
+    },
+    {
+      "id": "network.boundary.firewall-proxy-vpn",
+      "name": "Firewalls, NAT, proxies and VPNs"
+    },
+    {
+      "id": "pattern.confused-deputy-trust-boundary",
+      "name": "Confused deputy and trust boundaries"
+    },
+    {
+      "id": "supply-chain.ci-runner-workflow",
+      "name": "CI runners and workflows"
+    },
+    {
+      "id": "web.access-control.multitenancy",
+      "name": "Web-route, UI access control and multitenancy enforcement"
+    },
+    {
+      "id": "web.browser-auth-session",
+      "name": "Browser authentication, sessions and cookies"
+    }
+  ],
+  "profile_assignments": [
+    {
+      "profile_id": "AOE-GA-D01-S01",
+      "primary_capability_ids": [
+        "army.ga.d01.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S02",
+      "primary_capability_ids": [
+        "army.ga.d01.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S03",
+      "primary_capability_ids": [
+        "army.ga.d01.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S04",
+      "primary_capability_ids": [
+        "army.ga.d01.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S05",
+      "primary_capability_ids": [
+        "army.ga.d01.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S06",
+      "primary_capability_ids": [
+        "army.ga.d01.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S07",
+      "primary_capability_ids": [
+        "army.ga.d01.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S08",
+      "primary_capability_ids": [
+        "army.ga.d01.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S09",
+      "primary_capability_ids": [
+        "army.ga.d01.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S10",
+      "primary_capability_ids": [
+        "army.ga.d01.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D01-S11",
+      "primary_capability_ids": [
+        "attack-path.graph-modeling"
+      ],
+      "supporting_capability_ids": [
+        "campaign.threat-scenario-design"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D01-S12",
+      "primary_capability_ids": [
+        "army.ga.d01.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S01",
+      "primary_capability_ids": [
+        "army.ga.d02.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S02",
+      "primary_capability_ids": [
+        "army.ga.d02.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S03",
+      "primary_capability_ids": [
+        "army.ga.d02.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S04",
+      "primary_capability_ids": [
+        "army.ga.d02.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S05",
+      "primary_capability_ids": [
+        "army.ga.d02.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S06",
+      "primary_capability_ids": [
+        "army.ga.d02.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S07",
+      "primary_capability_ids": [
+        "army.ga.d02.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S08",
+      "primary_capability_ids": [
+        "army.ga.d02.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S09",
+      "primary_capability_ids": [
+        "army.ga.d02.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S10",
+      "primary_capability_ids": [
+        "army.ga.d02.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S11",
+      "primary_capability_ids": [
+        "army.ga.d02.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D02-S12",
+      "primary_capability_ids": [
+        "army.ga.d02.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S01",
+      "primary_capability_ids": [
+        "army.ga.d03.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S02",
+      "primary_capability_ids": [
+        "army.ga.d03.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S03",
+      "primary_capability_ids": [
+        "army.ga.d03.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S04",
+      "primary_capability_ids": [
+        "identity.oauth-oidc"
+      ],
+      "supporting_capability_ids": [
+        "web.browser-auth-session"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D03-S05",
+      "primary_capability_ids": [
+        "army.ga.d03.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S06",
+      "primary_capability_ids": [
+        "army.ga.d03.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S07",
+      "primary_capability_ids": [
+        "army.ga.d03.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S08",
+      "primary_capability_ids": [
+        "army.ga.d03.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S09",
+      "primary_capability_ids": [
+        "army.ga.d03.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S10",
+      "primary_capability_ids": [
+        "army.ga.d03.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S11",
+      "primary_capability_ids": [
+        "army.ga.d03.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S12",
+      "primary_capability_ids": [
+        "army.ga.d03.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S13",
+      "primary_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ],
+      "supporting_capability_ids": [
+        "api.authorization.function-level",
+        "api.authorization.object-level",
+        "web.access-control.multitenancy"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D03-S14",
+      "primary_capability_ids": [
+        "army.ga.d03.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S15",
+      "primary_capability_ids": [
+        "army.ga.d03.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D03-S16",
+      "primary_capability_ids": [
+        "army.ga.d03.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S01",
+      "primary_capability_ids": [
+        "campaign.threat-scenario-design"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling"
+      ]
+    },
+    {
+      "profile_id": "AOE-GA-D04-S02",
+      "primary_capability_ids": [
+        "army.ga.d04.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S03",
+      "primary_capability_ids": [
+        "army.ga.d04.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S04",
+      "primary_capability_ids": [
+        "army.ga.d04.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S05",
+      "primary_capability_ids": [
+        "army.ga.d04.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S06",
+      "primary_capability_ids": [
+        "army.ga.d04.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S07",
+      "primary_capability_ids": [
+        "army.ga.d04.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S08",
+      "primary_capability_ids": [
+        "army.ga.d04.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S09",
+      "primary_capability_ids": [
+        "army.ga.d04.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S10",
+      "primary_capability_ids": [
+        "army.ga.d04.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S11",
+      "primary_capability_ids": [
+        "army.ga.d04.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S12",
+      "primary_capability_ids": [
+        "army.ga.d04.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S13",
+      "primary_capability_ids": [
+        "army.ga.d04.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S14",
+      "primary_capability_ids": [
+        "army.ga.d04.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S15",
+      "primary_capability_ids": [
+        "army.ga.d04.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GA-D04-S16",
+      "primary_capability_ids": [
+        "army.ga.d04.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S01",
+      "primary_capability_ids": [
+        "army.gb.d05.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S02",
+      "primary_capability_ids": [
+        "army.gb.d05.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S03",
+      "primary_capability_ids": [
+        "army.gb.d05.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S04",
+      "primary_capability_ids": [
+        "army.gb.d05.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S05",
+      "primary_capability_ids": [
+        "army.gb.d05.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S06",
+      "primary_capability_ids": [
+        "army.gb.d05.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S07",
+      "primary_capability_ids": [
+        "army.gb.d05.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S08",
+      "primary_capability_ids": [
+        "army.gb.d05.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S09",
+      "primary_capability_ids": [
+        "army.gb.d05.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S10",
+      "primary_capability_ids": [
+        "army.gb.d05.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S11",
+      "primary_capability_ids": [
+        "web.browser-auth-session"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D05-S12",
+      "primary_capability_ids": [
+        "web.access-control.multitenancy"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D05-S13",
+      "primary_capability_ids": [
+        "army.gb.d05.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S14",
+      "primary_capability_ids": [
+        "army.gb.d05.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S15",
+      "primary_capability_ids": [
+        "army.gb.d05.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S16",
+      "primary_capability_ids": [
+        "army.gb.d05.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S17",
+      "primary_capability_ids": [
+        "army.gb.d05.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D05-S18",
+      "primary_capability_ids": [
+        "army.gb.d05.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S01",
+      "primary_capability_ids": [
+        "army.gb.d06.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S02",
+      "primary_capability_ids": [
+        "army.gb.d06.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S03",
+      "primary_capability_ids": [
+        "army.gb.d06.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S04",
+      "primary_capability_ids": [
+        "army.gb.d06.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S05",
+      "primary_capability_ids": [
+        "army.gb.d06.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S06",
+      "primary_capability_ids": [
+        "army.gb.d06.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S07",
+      "primary_capability_ids": [
+        "army.gb.d06.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S08",
+      "primary_capability_ids": [
+        "army.gb.d06.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S09",
+      "primary_capability_ids": [
+        "api.authorization.object-level"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac",
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D06-S10",
+      "primary_capability_ids": [
+        "api.authorization.function-level"
+      ],
+      "supporting_capability_ids": [
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D06-S11",
+      "primary_capability_ids": [
+        "army.gb.d06.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S12",
+      "primary_capability_ids": [
+        "army.gb.d06.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S13",
+      "primary_capability_ids": [
+        "army.gb.d06.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S14",
+      "primary_capability_ids": [
+        "army.gb.d06.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S15",
+      "primary_capability_ids": [
+        "army.gb.d06.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D06-S16",
+      "primary_capability_ids": [
+        "army.gb.d06.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S01",
+      "primary_capability_ids": [
+        "data.relational-database"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S02",
+      "primary_capability_ids": [
+        "army.gb.d07.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S03",
+      "primary_capability_ids": [
+        "army.gb.d07.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S04",
+      "primary_capability_ids": [
+        "army.gb.d07.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S05",
+      "primary_capability_ids": [
+        "army.gb.d07.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S06",
+      "primary_capability_ids": [
+        "army.gb.d07.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S07",
+      "primary_capability_ids": [
+        "army.gb.d07.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S08",
+      "primary_capability_ids": [
+        "army.gb.d07.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S09",
+      "primary_capability_ids": [
+        "army.gb.d07.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S10",
+      "primary_capability_ids": [
+        "army.gb.d07.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S11",
+      "primary_capability_ids": [
+        "army.gb.d07.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S12",
+      "primary_capability_ids": [
+        "army.gb.d07.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S13",
+      "primary_capability_ids": [
+        "army.gb.d07.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D07-S14",
+      "primary_capability_ids": [
+        "army.gb.d07.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S01",
+      "primary_capability_ids": [
+        "army.gb.d08.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S02",
+      "primary_capability_ids": [
+        "army.gb.d08.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S03",
+      "primary_capability_ids": [
+        "army.gb.d08.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S04",
+      "primary_capability_ids": [
+        "army.gb.d08.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S05",
+      "primary_capability_ids": [
+        "army.gb.d08.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S06",
+      "primary_capability_ids": [
+        "army.gb.d08.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S07",
+      "primary_capability_ids": [
+        "army.gb.d08.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S08",
+      "primary_capability_ids": [
+        "army.gb.d08.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S09",
+      "primary_capability_ids": [
+        "army.gb.d08.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S10",
+      "primary_capability_ids": [
+        "army.gb.d08.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S11",
+      "primary_capability_ids": [
+        "army.gb.d08.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S12",
+      "primary_capability_ids": [
+        "army.gb.d08.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S13",
+      "primary_capability_ids": [
+        "army.gb.d08.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D08-S14",
+      "primary_capability_ids": [
+        "army.gb.d08.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S01",
+      "primary_capability_ids": [
+        "business-logic.workflow-state-machine"
+      ],
+      "supporting_capability_ids": [
+        "campaign.threat-scenario-design"
+      ]
+    },
+    {
+      "profile_id": "AOE-GB-D09-S02",
+      "primary_capability_ids": [
+        "army.gb.d09.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S03",
+      "primary_capability_ids": [
+        "army.gb.d09.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S04",
+      "primary_capability_ids": [
+        "army.gb.d09.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S05",
+      "primary_capability_ids": [
+        "army.gb.d09.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S06",
+      "primary_capability_ids": [
+        "army.gb.d09.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S07",
+      "primary_capability_ids": [
+        "army.gb.d09.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S08",
+      "primary_capability_ids": [
+        "army.gb.d09.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S09",
+      "primary_capability_ids": [
+        "army.gb.d09.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S10",
+      "primary_capability_ids": [
+        "army.gb.d09.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S11",
+      "primary_capability_ids": [
+        "army.gb.d09.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D09-S12",
+      "primary_capability_ids": [
+        "army.gb.d09.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S01",
+      "primary_capability_ids": [
+        "army.gb.d10.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S02",
+      "primary_capability_ids": [
+        "army.gb.d10.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S03",
+      "primary_capability_ids": [
+        "army.gb.d10.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S04",
+      "primary_capability_ids": [
+        "army.gb.d10.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S05",
+      "primary_capability_ids": [
+        "army.gb.d10.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S06",
+      "primary_capability_ids": [
+        "army.gb.d10.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S07",
+      "primary_capability_ids": [
+        "army.gb.d10.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S08",
+      "primary_capability_ids": [
+        "army.gb.d10.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S09",
+      "primary_capability_ids": [
+        "army.gb.d10.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S10",
+      "primary_capability_ids": [
+        "army.gb.d10.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S11",
+      "primary_capability_ids": [
+        "army.gb.d10.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GB-D10-S12",
+      "primary_capability_ids": [
+        "army.gb.d10.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S01",
+      "primary_capability_ids": [
+        "enterprise.active-directory.path-analysis"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling",
+        "enterprise.entra-id"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D11-S02",
+      "primary_capability_ids": [
+        "army.gc.d11.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S03",
+      "primary_capability_ids": [
+        "army.gc.d11.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S04",
+      "primary_capability_ids": [
+        "army.gc.d11.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S05",
+      "primary_capability_ids": [
+        "army.gc.d11.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S06",
+      "primary_capability_ids": [
+        "army.gc.d11.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S07",
+      "primary_capability_ids": [
+        "army.gc.d11.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S08",
+      "primary_capability_ids": [
+        "army.gc.d11.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S09",
+      "primary_capability_ids": [
+        "army.gc.d11.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S10",
+      "primary_capability_ids": [
+        "army.gc.d11.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S11",
+      "primary_capability_ids": [
+        "army.gc.d11.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S12",
+      "primary_capability_ids": [
+        "army.gc.d11.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S13",
+      "primary_capability_ids": [
+        "army.gc.d11.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S14",
+      "primary_capability_ids": [
+        "enterprise.entra-id"
+      ],
+      "supporting_capability_ids": [
+        "enterprise.active-directory.path-analysis",
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D11-S15",
+      "primary_capability_ids": [
+        "army.gc.d11.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S16",
+      "primary_capability_ids": [
+        "army.gc.d11.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S17",
+      "primary_capability_ids": [
+        "army.gc.d11.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D11-S18",
+      "primary_capability_ids": [
+        "army.gc.d11.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S01",
+      "primary_capability_ids": [
+        "host.linux.local-privilege-escalation"
+      ],
+      "supporting_capability_ids": [
+        "attack-path.graph-modeling"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D12-S02",
+      "primary_capability_ids": [
+        "army.gc.d12.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S03",
+      "primary_capability_ids": [
+        "army.gc.d12.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S04",
+      "primary_capability_ids": [
+        "army.gc.d12.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S05",
+      "primary_capability_ids": [
+        "army.gc.d12.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S06",
+      "primary_capability_ids": [
+        "army.gc.d12.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S07",
+      "primary_capability_ids": [
+        "army.gc.d12.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S08",
+      "primary_capability_ids": [
+        "army.gc.d12.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S09",
+      "primary_capability_ids": [
+        "army.gc.d12.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S10",
+      "primary_capability_ids": [
+        "army.gc.d12.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S11",
+      "primary_capability_ids": [
+        "army.gc.d12.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S12",
+      "primary_capability_ids": [
+        "army.gc.d12.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S13",
+      "primary_capability_ids": [
+        "army.gc.d12.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D12-S14",
+      "primary_capability_ids": [
+        "army.gc.d12.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S01",
+      "primary_capability_ids": [
+        "army.gc.d13.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S02",
+      "primary_capability_ids": [
+        "army.gc.d13.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S03",
+      "primary_capability_ids": [
+        "army.gc.d13.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S04",
+      "primary_capability_ids": [
+        "army.gc.d13.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S05",
+      "primary_capability_ids": [
+        "network.boundary.firewall-proxy-vpn"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S06",
+      "primary_capability_ids": [
+        "army.gc.d13.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S07",
+      "primary_capability_ids": [
+        "army.gc.d13.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S08",
+      "primary_capability_ids": [
+        "army.gc.d13.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S09",
+      "primary_capability_ids": [
+        "army.gc.d13.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S10",
+      "primary_capability_ids": [
+        "army.gc.d13.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S11",
+      "primary_capability_ids": [
+        "army.gc.d13.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S12",
+      "primary_capability_ids": [
+        "army.gc.d13.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S13",
+      "primary_capability_ids": [
+        "army.gc.d13.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S14",
+      "primary_capability_ids": [
+        "army.gc.d13.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S15",
+      "primary_capability_ids": [
+        "army.gc.d13.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S16",
+      "primary_capability_ids": [
+        "army.gc.d13.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S17",
+      "primary_capability_ids": [
+        "army.gc.d13.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D13-S18",
+      "primary_capability_ids": [
+        "army.gc.d13.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S01",
+      "primary_capability_ids": [
+        "army.gc.d14.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S02",
+      "primary_capability_ids": [
+        "army.gc.d14.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S03",
+      "primary_capability_ids": [
+        "army.gc.d14.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S04",
+      "primary_capability_ids": [
+        "army.gc.d14.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S05",
+      "primary_capability_ids": [
+        "army.gc.d14.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S06",
+      "primary_capability_ids": [
+        "army.gc.d14.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S07",
+      "primary_capability_ids": [
+        "army.gc.d14.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S08",
+      "primary_capability_ids": [
+        "army.gc.d14.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S09",
+      "primary_capability_ids": [
+        "army.gc.d14.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S10",
+      "primary_capability_ids": [
+        "cloud.workload-identity-metadata"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc",
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D14-S11",
+      "primary_capability_ids": [
+        "army.gc.d14.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S12",
+      "primary_capability_ids": [
+        "army.gc.d14.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S13",
+      "primary_capability_ids": [
+        "army.gc.d14.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S14",
+      "primary_capability_ids": [
+        "army.gc.d14.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S15",
+      "primary_capability_ids": [
+        "army.gc.d14.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S16",
+      "primary_capability_ids": [
+        "army.gc.d14.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S17",
+      "primary_capability_ids": [
+        "army.gc.d14.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D14-S18",
+      "primary_capability_ids": [
+        "army.gc.d14.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S01",
+      "primary_capability_ids": [
+        "army.gc.d15.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S02",
+      "primary_capability_ids": [
+        "army.gc.d15.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S03",
+      "primary_capability_ids": [
+        "army.gc.d15.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S04",
+      "primary_capability_ids": [
+        "container.kubernetes.rbac-service-account"
+      ],
+      "supporting_capability_ids": [
+        "cloud.workload-identity-metadata",
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D15-S05",
+      "primary_capability_ids": [
+        "army.gc.d15.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S06",
+      "primary_capability_ids": [
+        "army.gc.d15.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S07",
+      "primary_capability_ids": [
+        "army.gc.d15.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S08",
+      "primary_capability_ids": [
+        "army.gc.d15.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S09",
+      "primary_capability_ids": [
+        "army.gc.d15.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S10",
+      "primary_capability_ids": [
+        "army.gc.d15.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S11",
+      "primary_capability_ids": [
+        "army.gc.d15.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S12",
+      "primary_capability_ids": [
+        "army.gc.d15.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S13",
+      "primary_capability_ids": [
+        "army.gc.d15.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D15-S14",
+      "primary_capability_ids": [
+        "army.gc.d15.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S01",
+      "primary_capability_ids": [
+        "army.gc.d16.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S02",
+      "primary_capability_ids": [
+        "army.gc.d16.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S03",
+      "primary_capability_ids": [
+        "army.gc.d16.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S04",
+      "primary_capability_ids": [
+        "army.gc.d16.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S05",
+      "primary_capability_ids": [
+        "army.gc.d16.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S06",
+      "primary_capability_ids": [
+        "army.gc.d16.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S07",
+      "primary_capability_ids": [
+        "army.gc.d16.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S08",
+      "primary_capability_ids": [
+        "army.gc.d16.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S09",
+      "primary_capability_ids": [
+        "army.gc.d16.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S10",
+      "primary_capability_ids": [
+        "army.gc.d16.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S11",
+      "primary_capability_ids": [
+        "army.gc.d16.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D16-S12",
+      "primary_capability_ids": [
+        "army.gc.d16.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S01",
+      "primary_capability_ids": [
+        "army.gc.d17.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S02",
+      "primary_capability_ids": [
+        "supply-chain.ci-runner-workflow"
+      ],
+      "supporting_capability_ids": [
+        "business-logic.workflow-state-machine"
+      ]
+    },
+    {
+      "profile_id": "AOE-GC-D17-S03",
+      "primary_capability_ids": [
+        "army.gc.d17.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S04",
+      "primary_capability_ids": [
+        "army.gc.d17.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S05",
+      "primary_capability_ids": [
+        "army.gc.d17.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S06",
+      "primary_capability_ids": [
+        "army.gc.d17.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S07",
+      "primary_capability_ids": [
+        "army.gc.d17.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S08",
+      "primary_capability_ids": [
+        "army.gc.d17.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S09",
+      "primary_capability_ids": [
+        "army.gc.d17.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S10",
+      "primary_capability_ids": [
+        "army.gc.d17.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S11",
+      "primary_capability_ids": [
+        "army.gc.d17.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S12",
+      "primary_capability_ids": [
+        "army.gc.d17.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S13",
+      "primary_capability_ids": [
+        "army.gc.d17.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GC-D17-S14",
+      "primary_capability_ids": [
+        "army.gc.d17.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S01",
+      "primary_capability_ids": [
+        "army.gd.d18.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S02",
+      "primary_capability_ids": [
+        "army.gd.d18.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S03",
+      "primary_capability_ids": [
+        "army.gd.d18.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S04",
+      "primary_capability_ids": [
+        "army.gd.d18.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S05",
+      "primary_capability_ids": [
+        "army.gd.d18.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S06",
+      "primary_capability_ids": [
+        "army.gd.d18.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S07",
+      "primary_capability_ids": [
+        "army.gd.d18.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S08",
+      "primary_capability_ids": [
+        "army.gd.d18.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S09",
+      "primary_capability_ids": [
+        "army.gd.d18.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S10",
+      "primary_capability_ids": [
+        "army.gd.d18.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S11",
+      "primary_capability_ids": [
+        "army.gd.d18.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S12",
+      "primary_capability_ids": [
+        "army.gd.d18.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S13",
+      "primary_capability_ids": [
+        "army.gd.d18.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S14",
+      "primary_capability_ids": [
+        "army.gd.d18.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S15",
+      "primary_capability_ids": [
+        "army.gd.d18.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D18-S16",
+      "primary_capability_ids": [
+        "army.gd.d18.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S01",
+      "primary_capability_ids": [
+        "army.gd.d19.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S02",
+      "primary_capability_ids": [
+        "army.gd.d19.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S03",
+      "primary_capability_ids": [
+        "army.gd.d19.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S04",
+      "primary_capability_ids": [
+        "army.gd.d19.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S05",
+      "primary_capability_ids": [
+        "army.gd.d19.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S06",
+      "primary_capability_ids": [
+        "army.gd.d19.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S07",
+      "primary_capability_ids": [
+        "army.gd.d19.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S08",
+      "primary_capability_ids": [
+        "army.gd.d19.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S09",
+      "primary_capability_ids": [
+        "army.gd.d19.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S10",
+      "primary_capability_ids": [
+        "army.gd.d19.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S11",
+      "primary_capability_ids": [
+        "army.gd.d19.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S12",
+      "primary_capability_ids": [
+        "army.gd.d19.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S13",
+      "primary_capability_ids": [
+        "army.gd.d19.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S14",
+      "primary_capability_ids": [
+        "army.gd.d19.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S15",
+      "primary_capability_ids": [
+        "army.gd.d19.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D19-S16",
+      "primary_capability_ids": [
+        "army.gd.d19.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S01",
+      "primary_capability_ids": [
+        "army.gd.d20.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S02",
+      "primary_capability_ids": [
+        "army.gd.d20.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S03",
+      "primary_capability_ids": [
+        "army.gd.d20.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S04",
+      "primary_capability_ids": [
+        "army.gd.d20.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S05",
+      "primary_capability_ids": [
+        "army.gd.d20.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S06",
+      "primary_capability_ids": [
+        "army.gd.d20.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S07",
+      "primary_capability_ids": [
+        "army.gd.d20.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S08",
+      "primary_capability_ids": [
+        "army.gd.d20.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S09",
+      "primary_capability_ids": [
+        "army.gd.d20.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S10",
+      "primary_capability_ids": [
+        "ai.indirect-prompt-injection"
+      ],
+      "supporting_capability_ids": [
+        "pattern.confused-deputy-trust-boundary"
+      ]
+    },
+    {
+      "profile_id": "AOE-GD-D20-S11",
+      "primary_capability_ids": [
+        "army.gd.d20.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S12",
+      "primary_capability_ids": [
+        "army.gd.d20.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S13",
+      "primary_capability_ids": [
+        "army.gd.d20.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S14",
+      "primary_capability_ids": [
+        "army.gd.d20.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S15",
+      "primary_capability_ids": [
+        "army.gd.d20.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S16",
+      "primary_capability_ids": [
+        "army.gd.d20.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S17",
+      "primary_capability_ids": [
+        "army.gd.d20.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GD-D20-S18",
+      "primary_capability_ids": [
+        "army.gd.d20.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S01",
+      "primary_capability_ids": [
+        "army.ge.d21.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S02",
+      "primary_capability_ids": [
+        "army.ge.d21.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S03",
+      "primary_capability_ids": [
+        "army.ge.d21.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S04",
+      "primary_capability_ids": [
+        "army.ge.d21.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S05",
+      "primary_capability_ids": [
+        "army.ge.d21.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S06",
+      "primary_capability_ids": [
+        "army.ge.d21.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S07",
+      "primary_capability_ids": [
+        "army.ge.d21.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S08",
+      "primary_capability_ids": [
+        "army.ge.d21.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S09",
+      "primary_capability_ids": [
+        "army.ge.d21.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S10",
+      "primary_capability_ids": [
+        "army.ge.d21.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S11",
+      "primary_capability_ids": [
+        "army.ge.d21.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S12",
+      "primary_capability_ids": [
+        "army.ge.d21.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S13",
+      "primary_capability_ids": [
+        "army.ge.d21.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S14",
+      "primary_capability_ids": [
+        "army.ge.d21.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S15",
+      "primary_capability_ids": [
+        "army.ge.d21.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S16",
+      "primary_capability_ids": [
+        "army.ge.d21.s16"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S17",
+      "primary_capability_ids": [
+        "army.ge.d21.s17"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D21-S18",
+      "primary_capability_ids": [
+        "army.ge.d21.s18"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S01",
+      "primary_capability_ids": [
+        "army.ge.d22.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S02",
+      "primary_capability_ids": [
+        "army.ge.d22.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S03",
+      "primary_capability_ids": [
+        "crypto.pki-x509-validation"
+      ],
+      "supporting_capability_ids": [
+        "identity.oauth-oidc"
+      ]
+    },
+    {
+      "profile_id": "AOE-GE-D22-S04",
+      "primary_capability_ids": [
+        "army.ge.d22.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S05",
+      "primary_capability_ids": [
+        "army.ge.d22.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S06",
+      "primary_capability_ids": [
+        "army.ge.d22.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S07",
+      "primary_capability_ids": [
+        "army.ge.d22.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S08",
+      "primary_capability_ids": [
+        "army.ge.d22.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S09",
+      "primary_capability_ids": [
+        "army.ge.d22.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S10",
+      "primary_capability_ids": [
+        "army.ge.d22.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S11",
+      "primary_capability_ids": [
+        "army.ge.d22.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S12",
+      "primary_capability_ids": [
+        "army.ge.d22.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S13",
+      "primary_capability_ids": [
+        "army.ge.d22.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D22-S14",
+      "primary_capability_ids": [
+        "army.ge.d22.s14"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S01",
+      "primary_capability_ids": [
+        "army.ge.d23.s01"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S02",
+      "primary_capability_ids": [
+        "army.ge.d23.s02"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S03",
+      "primary_capability_ids": [
+        "army.ge.d23.s03"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S04",
+      "primary_capability_ids": [
+        "army.ge.d23.s04"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S05",
+      "primary_capability_ids": [
+        "army.ge.d23.s05"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S06",
+      "primary_capability_ids": [
+        "army.ge.d23.s06"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S07",
+      "primary_capability_ids": [
+        "army.ge.d23.s07"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S08",
+      "primary_capability_ids": [
+        "army.ge.d23.s08"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S09",
+      "primary_capability_ids": [
+        "army.ge.d23.s09"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S10",
+      "primary_capability_ids": [
+        "army.ge.d23.s10"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S11",
+      "primary_capability_ids": [
+        "army.ge.d23.s11"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S12",
+      "primary_capability_ids": [
+        "army.ge.d23.s12"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S13",
+      "primary_capability_ids": [
+        "army.ge.d23.s13"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S14",
+      "primary_capability_ids": [
+        "pattern.confused-deputy-trust-boundary"
+      ],
+      "supporting_capability_ids": [
+        "api.authorization.object-level",
+        "cloud.workload-identity-metadata",
+        "identity.authorization.rbac-abac-rebac"
+      ]
+    },
+    {
+      "profile_id": "AOE-GE-D23-S15",
+      "primary_capability_ids": [
+        "army.ge.d23.s15"
+      ],
+      "supporting_capability_ids": []
+    },
+    {
+      "profile_id": "AOE-GE-D23-S16",
+      "primary_capability_ids": [
+        "army.ge.d23.s16"
+      ],
+      "supporting_capability_ids": []
+    }
+  ]
+}

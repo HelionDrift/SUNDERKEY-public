@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-provider-report-commit-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Provider Report Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider_report",
+    "invocation_resolution",
+    "custody_status",
+    "authentication_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "provider_report": {
+      "$ref": "collaboration-executor-provider-report-v1.schema.json"
+    },
+    "invocation_resolution": {
+      "$ref": "collaboration-executor-invocation-resolution-v1.schema.json"
+    },
+    "custody_status": {"const": "durable_complete_report_and_resolution"},
+    "authentication_status": {"const": "not_authenticated"},
+    "external_effect_status": {
+      "const": "provider_report_pending_authentication"
+    },
+    "runtime_effect": {"const": "none"}
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-authority-decision-v1.json",
+  "title": "SUNDERKEY Approved Qualification Authority Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "record_sha256",
+    "decision_id",
+    "decision_status",
+    "decision_effect",
+    "source_dossier",
+    "approval_basis",
+    "selected_options",
+    "operational_contract",
+    "authorized_next_steps",
+    "prohibited_effects"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^QDR-[0-9A-F]{32}$"
+    },
+    "record_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "decision_id": {
+      "const": "D008"
+    },
+    "decision_status": {
+      "const": "approved"
+    },
+    "decision_effect": {
+      "const": "contract_implementation_authorized"
+    },
+    "source_dossier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "sha256"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "pattern": "^QAD-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "approval_basis": {
+      "const": {
+        "approval_channel": "explicit_owner_decision",
+        "authority_role": "repository_owner",
+        "recording_mechanism": "reviewed_versioned_registry_revision"
+      }
+    },
+    "selected_options": {
+      "const": {
+        "authority_model": "repository_revision_signed_manifest",
+        "decision_application": "reviewed_versioned_registry_revision",
+        "emergency_suspension": "independent_control_with_signed_reason",
+        "evidence_storage": "organization_content_addressed_repository",
+        "reviewer_credential_issuance": "role_scoped_short_lived_certificates",
+        "revocation_distribution": "signed_registry_revision_and_release",
+        "trust_root_ownership": "organization_owned_offline_root"
+      }
+    },
+    "operational_contract": {
+      "const": {
+        "authoritative_routing_source": "reviewed_versioned_registry",
+        "emergency_suspension": {
+          "authorized_role": "independent_control",
+          "may_grant_qualification": false,
+          "may_reinstate": false,
+          "signed_reason_required": true
+        },
+        "evidence_binding": "content_addressed_signed_manifest",
+        "offline_verification_required": true,
+        "qualification_state_in_runtime_store": false,
+        "reinstatement": "full_independent_review_required",
+        "reviewer_roles": [
+          "technical_evaluator",
+          "independent_control",
+          "independent_assurance"
+        ],
+        "revocation_distribution": "signed_registry_revision_and_release"
+      }
+    },
+    "authorized_next_steps": {
+      "const": [
+        "define_qualification_trust_policy_contract",
+        "define_signed_evidence_manifest_contract",
+        "define_reviewer_credential_and_attestation_contracts",
+        "define_qualification_decision_contract",
+        "define_suspension_and_revocation_contracts",
+        "implement_fail_closed_signature_and_binding_validation",
+        "implement_reviewed_registry_revision_application",
+        "add_adversarial_expiry_suspension_and_revocation_tests"
+      ]
+    },
+    "prohibited_effects": {
+      "const": [
+        "does_not_create_or_enroll_a_trust_root",
+        "does_not_generate_or_accept_signing_keys",
+        "does_not_issue_reviewer_credentials",
+        "does_not_select_reviewer_identities",
+        "does_not_accept_evidence_or_attestations",
+        "does_not_qualify_renew_suspend_reinstate_or_revoke_a_specialist",
+        "does_not_change_registry_status_or_routing_eligibility",
+        "does_not_mutate_runtime_state",
+        "does_not_assign_dispatch_or_execute_work"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/durable-scheduler-contract-v1.schema.json",
+  "title": "SUNDERKEY Durable Scheduler Contract v1",
+  "description": "Strict content-addressed records for pure durable scheduling decisions.",
+  "oneOf": [
+    {"$ref": "#/$defs/retryBackoffPlan"},
+    {"$ref": "#/$defs/scheduleDefinition"},
+    {"$ref": "#/$defs/dueOccurrence"},
+    {"$ref": "#/$defs/durableLease"},
+    {"$ref": "#/$defs/completionObservation"},
+    {"$ref": "#/$defs/recoveryPlan"},
+    {"$ref": "#/$defs/cancellationRecord"}
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:/-]{7,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "clock",
+        "execution",
+        "network",
+        "persistence",
+        "processes",
+        "scheduling",
+        "target_actions",
+        "threads"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "clock": {"const": "caller_supplied"},
+        "execution": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "processes": {"const": "none"},
+        "scheduling": {"const": "none"},
+        "target_actions": {"const": "none"},
+        "threads": {"const": "none"}
+      }
+    },
+    "retryBackoffPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_delay_seconds",
+        "effects",
+        "max_attempts",
+        "maximum_delay_seconds",
+        "multiplier",
+        "record_type",
+        "retry_budget_units",
+        "retry_cost_units",
+        "retry_plan_id",
+        "retry_plan_sha256",
+        "schema_version"
+      ],
+      "properties": {
+        "base_delay_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+        "effects": {"$ref": "#/$defs/effects"},
+        "max_attempts": {"type": "integer", "minimum": 1, "maximum": 32},
+        "maximum_delay_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31536000
+        },
+        "multiplier": {"type": "integer", "minimum": 1, "maximum": 16},
+        "record_type": {"const": "retry_backoff_plan"},
+        "retry_budget_units": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "retry_cost_units": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "retry_plan_id": {"type": "string", "pattern": "^DSP-[0-9A-F]{32}$"},
+        "retry_plan_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1}
+      }
+    },
+    "scheduleDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_template_ref",
+        "authority_evidence_sha256",
+        "clock_skew_tolerance_seconds",
+        "concurrency_limit",
+        "definition_version",
+        "effects",
+        "ends_at",
+        "interval_seconds",
+        "lease_duration_seconds",
+        "max_catch_up_occurrences",
+        "max_occurrences",
+        "max_occurrences_per_evaluation",
+        "misfire_policy",
+        "record_type",
+        "retry_plan",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "scope_sha256",
+        "starts_at",
+        "tenant_id"
+      ],
+      "properties": {
+        "assessment_template_ref": {"$ref": "#/$defs/identifier"},
+        "authority_evidence_sha256": {"$ref": "#/$defs/digest"},
+        "clock_skew_tolerance_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 900
+        },
+        "concurrency_limit": {"type": "integer", "minimum": 1, "maximum": 4096},
+        "definition_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "effects": {"$ref": "#/$defs/effects"},
+        "ends_at": {"oneOf": [{"$ref": "#/$defs/timestamp"}, {"type": "null"}]},
+        "interval_seconds": {"type": "integer", "minimum": 1, "maximum": 31536000},
+        "lease_duration_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_catch_up_occurrences": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "max_occurrences": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "max_occurrences_per_evaluation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "misfire_policy": {"enum": ["skip", "fire_once", "catch_up_bounded"]},
+        "record_type": {"const": "schedule_definition"},
+        "retry_plan": {"$ref": "#/$defs/retryBackoffPlan"},
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "scope_sha256": {"$ref": "#/$defs/digest"},
+        "starts_at": {"$ref": "#/$defs/timestamp"},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "dueOccurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "due_reason",
+        "effects",
+        "evaluated_at",
+        "idempotency_key",
+        "nominal_at",
+        "occurrence_id",
+        "occurrence_index",
+        "occurrence_sha256",
+        "occurrence_version",
+        "record_type",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "tenant_id"
+      ],
+      "properties": {
+        "due_reason": {"enum": ["scheduled", "misfire_once", "misfire_catch_up"]},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evaluated_at": {"$ref": "#/$defs/timestamp"},
+        "idempotency_key": {"$ref": "#/$defs/idempotencyKey"},
+        "nominal_at": {"$ref": "#/$defs/timestamp"},
+        "occurrence_id": {"type": "string", "pattern": "^DSO-[0-9A-F]{32}$"},
+        "occurrence_index": {"type": "integer", "minimum": 0},
+        "occurrence_sha256": {"$ref": "#/$defs/digest"},
+        "occurrence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "record_type": {"const": "due_occurrence"},
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "durableLease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_number",
+        "effects",
+        "expected_occurrence_version",
+        "expires_at",
+        "fence_epoch",
+        "idempotency_key",
+        "lease_id",
+        "lease_sha256",
+        "lease_version",
+        "leased_at",
+        "observed_at",
+        "occurrence_id",
+        "occurrence_sha256",
+        "parent_lease_sha256",
+        "record_type",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "tenant_id",
+        "transition",
+        "worker_ref"
+      ],
+      "properties": {
+        "attempt_number": {"type": "integer", "minimum": 1, "maximum": 32},
+        "effects": {"$ref": "#/$defs/effects"},
+        "expected_occurrence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "fence_epoch": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "idempotency_key": {"$ref": "#/$defs/idempotencyKey"},
+        "lease_id": {"type": "string", "pattern": "^DSL-[0-9A-F]{32}$"},
+        "lease_sha256": {"$ref": "#/$defs/digest"},
+        "lease_version": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "leased_at": {"$ref": "#/$defs/timestamp"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "occurrence_id": {"type": "string", "pattern": "^DSO-[0-9A-F]{32}$"},
+        "occurrence_sha256": {"$ref": "#/$defs/digest"},
+        "parent_lease_sha256": {
+          "oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+        },
+        "record_type": {"const": "durable_lease"},
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "tenant_id": {"$ref": "#/$defs/identifier"},
+        "transition": {"enum": ["claim", "heartbeat"]},
+        "worker_ref": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "completionObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_number",
+        "completion_id",
+        "completion_sha256",
+        "effects",
+        "evidence_sha256s",
+        "expected_fence_epoch",
+        "expected_lease_version",
+        "expected_occurrence_version",
+        "idempotency_key",
+        "lease_id",
+        "lease_sha256",
+        "new_occurrence_version",
+        "observed_at",
+        "occurrence_id",
+        "occurrence_sha256",
+        "record_type",
+        "resolution",
+        "retry_at",
+        "retry_budget_consumed_units",
+        "retry_delay_seconds",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "status",
+        "tenant_id"
+      ],
+      "properties": {
+        "attempt_number": {"type": "integer", "minimum": 1, "maximum": 32},
+        "completion_id": {"type": "string", "pattern": "^DSC-[0-9A-F]{32}$"},
+        "completion_sha256": {"$ref": "#/$defs/digest"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evidence_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/digest"}
+        },
+        "expected_fence_epoch": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expected_lease_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expected_occurrence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "idempotency_key": {"$ref": "#/$defs/idempotencyKey"},
+        "lease_id": {"type": "string", "pattern": "^DSL-[0-9A-F]{32}$"},
+        "lease_sha256": {"$ref": "#/$defs/digest"},
+        "new_occurrence_version": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 2147483647
+        },
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "occurrence_id": {"type": "string", "pattern": "^DSO-[0-9A-F]{32}$"},
+        "occurrence_sha256": {"$ref": "#/$defs/digest"},
+        "record_type": {"const": "completion_observation"},
+        "resolution": {
+          "enum": ["completed", "retry_planned", "dead_lettered", "cancelled"]
+        },
+        "retry_at": {"oneOf": [{"$ref": "#/$defs/timestamp"}, {"type": "null"}]},
+        "retry_budget_consumed_units": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "retry_delay_seconds": {
+          "oneOf": [
+            {"type": "integer", "minimum": 1, "maximum": 31536000},
+            {"type": "null"}
+          ]
+        },
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "status": {
+          "enum": ["succeeded", "retryable_failure", "permanent_failure", "cancelled"]
+        },
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "recoveryPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disposition",
+        "effects",
+        "expected_occurrence_version",
+        "expired_lease_id",
+        "expired_lease_sha256",
+        "expired_lease_version",
+        "idempotency_key",
+        "new_occurrence_version",
+        "next_attempt_number",
+        "next_fence_epoch",
+        "observed_completion_sha256s",
+        "occurrence_id",
+        "occurrence_sha256",
+        "prior_fence_epoch",
+        "record_type",
+        "recovered_at",
+        "recovery_id",
+        "recovery_sha256",
+        "retry_at",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "tenant_id"
+      ],
+      "properties": {
+        "disposition": {"enum": ["requeue", "dead_letter"]},
+        "effects": {"$ref": "#/$defs/effects"},
+        "expected_occurrence_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "expired_lease_id": {"type": "string", "pattern": "^DSL-[0-9A-F]{32}$"},
+        "expired_lease_sha256": {"$ref": "#/$defs/digest"},
+        "expired_lease_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "idempotency_key": {"$ref": "#/$defs/idempotencyKey"},
+        "new_occurrence_version": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 2147483647
+        },
+        "next_attempt_number": {
+          "oneOf": [
+            {"type": "integer", "minimum": 1, "maximum": 32},
+            {"type": "null"}
+          ]
+        },
+        "next_fence_epoch": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 2147483647
+        },
+        "observed_completion_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/digest"}
+        },
+        "occurrence_id": {"type": "string", "pattern": "^DSO-[0-9A-F]{32}$"},
+        "occurrence_sha256": {"$ref": "#/$defs/digest"},
+        "prior_fence_epoch": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "record_type": {"const": "recovery_plan"},
+        "recovered_at": {"$ref": "#/$defs/timestamp"},
+        "recovery_id": {"type": "string", "pattern": "^DSR-[0-9A-F]{32}$"},
+        "recovery_sha256": {"$ref": "#/$defs/digest"},
+        "retry_at": {"oneOf": [{"$ref": "#/$defs/timestamp"}, {"type": "null"}]},
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "cancellationRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cancellation_id",
+        "cancellation_sha256",
+        "effects",
+        "expected_version",
+        "idempotency_key",
+        "new_version",
+        "occurrence_id",
+        "occurrence_sha256",
+        "reason_code",
+        "record_type",
+        "requested_at",
+        "revoked_lease_ids",
+        "revoked_lease_sha256s",
+        "schedule_id",
+        "schedule_sha256",
+        "schema_version",
+        "target",
+        "tenant_id"
+      ],
+      "properties": {
+        "cancellation_id": {"type": "string", "pattern": "^DSX-[0-9A-F]{32}$"},
+        "cancellation_sha256": {"$ref": "#/$defs/digest"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "expected_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "idempotency_key": {"$ref": "#/$defs/idempotencyKey"},
+        "new_version": {"type": "integer", "minimum": 2, "maximum": 2147483647},
+        "occurrence_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^DSO-[0-9A-F]{32}$"},
+            {"type": "null"}
+          ]
+        },
+        "occurrence_sha256": {
+          "oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+        },
+        "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+        "record_type": {"const": "cancellation_record"},
+        "requested_at": {"$ref": "#/$defs/timestamp"},
+        "revoked_lease_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^DSL-[0-9A-F]{32}$"}
+        },
+        "revoked_lease_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/digest"}
+        },
+        "schedule_id": {"type": "string", "pattern": "^DSD-[0-9A-F]{32}$"},
+        "schedule_sha256": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": 1},
+        "target": {"enum": ["schedule", "occurrence"]},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    }
+  }
+}

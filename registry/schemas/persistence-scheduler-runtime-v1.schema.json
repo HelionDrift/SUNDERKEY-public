@@ -1,0 +1,106 @@
+{
+  "$id": "https://sunderkey.invalid/schemas/persistence-scheduler-runtime-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backend": {
+      "const": "sqlite"
+    },
+    "deployment_scope": {
+      "const": "local_development_only"
+    },
+    "effects": {
+      "additionalProperties": false,
+      "properties": {
+        "database": {
+          "const": "caller_selected_local_sqlite_file"
+        },
+        "network": {
+          "const": "none"
+        },
+        "postgresql": {
+          "const": "interface_and_migration_plan_only"
+        },
+        "production_qualification": {
+          "const": "none"
+        }
+      },
+      "required": [
+        "database",
+        "network",
+        "postgresql",
+        "production_qualification"
+      ],
+      "type": "object"
+    },
+    "kind": {
+      "const": "sunderkey.persistence-scheduler-runtime.v1"
+    },
+    "migration": {
+      "additionalProperties": false,
+      "properties": {
+        "migration_id": {
+          "pattern": "^migrationref:[A-Za-z0-9._/-]+$",
+          "type": "string"
+        },
+        "migration_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "migration_id",
+        "migration_sha256",
+        "version"
+      ],
+      "type": "object"
+    },
+    "postgresql_conformance": {
+      "additionalProperties": false,
+      "properties": {
+        "environment_variable": {
+          "const": "SUNDERKEY_POSTGRES_CONFORMANCE_DSN"
+        },
+        "live_proof": {
+          "const": false
+        },
+        "network_call_performed": {
+          "const": false
+        },
+        "required_checks": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 7,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "environment_variable",
+        "live_proof",
+        "network_call_performed",
+        "required_checks"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": 1
+    }
+  },
+  "required": [
+    "backend",
+    "deployment_scope",
+    "effects",
+    "kind",
+    "migration",
+    "postgresql_conformance",
+    "schema_version"
+  ],
+  "title": "SUNDERKEY persistence scheduler runtime manifest",
+  "type": "object"
+}

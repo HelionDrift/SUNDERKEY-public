@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-apple-kernel-macho-markers",
+      "synthetic_fixture": true,
+      "macho_layout_model": {
+        "schema_version": 1,
+        "source_id": "synthetic-macho64-kext",
+        "macho_file_base64": "z/rt/gcAAAEDAAAACwAAAAIAAAAoAAAAAAAAAAAAAAAbAAAAGAAAAHN5bnRoZXRpYy11dWlkLWkdAAAAEAAAAGAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc3ludGhldGljLXNpZ24hIQAAAAAAAAAAAAAAAAAAAAA="
+      },
+      "required_marker_ids": [
+        "kext_bundle_file_type",
+        "x86_64_cpu",
+        "code_signature_command",
+        "code_signature_extent_bounded",
+        "uuid_command"
+      ]
+    }
+  }
+}

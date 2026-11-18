@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "snapshot": {
+      "objects": [
+        {
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "Role",
+          "metadata": {"name": "reader", "namespace": "fixture"},
+          "rules": [{"apiGroups": [""], "resources": ["pods"], "verbs": ["get"]}]
+        },
+        {
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "RoleBinding",
+          "metadata": {"name": "reader-binding", "namespace": "fixture"},
+          "roleRef": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "Role",
+            "name": "reader"
+          },
+          "subjects": [
+            {"kind": "User", "name": "tester", "apiGroup": "rbac.authorization.k8s.io"}
+          ]
+        }
+      ]
+    },
+    "queries": [
+      {
+        "query_id": "get-example-pod",
+        "principal": "tester",
+        "groups": [],
+        "namespace": "fixture",
+        "resource_scope": "namespaced",
+        "api_group": "",
+        "resource": "pods",
+        "subresource": "",
+        "verb": "get",
+        "name": "example-pod",
+        "field_selector": ""
+      }
+    ]
+  }
+}

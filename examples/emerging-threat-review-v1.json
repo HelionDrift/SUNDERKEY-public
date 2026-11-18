@@ -1,0 +1,40 @@
+{
+  "review_at": "2026-10-03T22:00:00Z",
+  "advisory": {
+    "schema_version": 1,
+    "advisory_id": "ADV-SYNTHETIC-01",
+    "source_kind": "vendor",
+    "source_ref": "SOURCE-SYNTHETIC-01",
+    "source_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "published_at": "2026-10-01T00:00:00Z",
+    "expires_at": "2026-10-10T00:00:00Z",
+    "affected": [
+      {
+        "product_key": "sample.service",
+        "exact_versions": ["1.0", "1.1"]
+      }
+    ],
+    "validation_content_sha256": null
+  },
+  "inventory": {
+    "schema_version": 1,
+    "snapshot_id": "INV-SYNTHETIC-01",
+    "recorded_at": "2026-10-02T00:00:00Z",
+    "assets": [
+      {
+        "asset_id": "asset-01",
+        "product_key": "sample.service",
+        "version": "1.0",
+        "scope_state": "in_scope",
+        "ownership_state": "confirmed"
+      },
+      {
+        "asset_id": "asset-02",
+        "product_key": "sample.service",
+        "version": null,
+        "scope_state": "unknown",
+        "ownership_state": "unknown"
+      }
+    ]
+  }
+}

@@ -1,0 +1,2996 @@
+{
+  "implementation_roadmap": {
+    "report_id": "IRR-524BC04C5332069D28773F83B81AB3D2",
+    "sha256": "sha256:524bc04c5332069d28773f83b81ab3d2b871bfe7713fa74e3ed068a347e48da2"
+  },
+  "limitations": [
+    "This selection preserves one exact package from the bound full-Army report. It does not change that package.",
+    "Selection does not assign a runtime worker, start a task, record progress, dispatch work, or grant authority.",
+    "The selected package does not choose a provider, model, endpoint, tool, credential, reviewer identity, evidence authority, or target.",
+    "Every authoritative qualification item remains blocked by D008 regardless of package selection."
+  ],
+  "package": {
+    "command_lanes": [
+      {
+        "accountable_commander_profile_id": "AOE-GA-D02-CMD",
+        "candidate_blueprint_sha256": "sha256:ff3d143eda5dca7b4cfacf6e55c5e22adec40fa1005cd81650818c9e94210e6f",
+        "command_id": "AOE-GA-D02",
+        "group_id": "GA",
+        "lane_id": "IL-IW-001-AOE-GA-D02-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GA-D02-S01",
+        "subject_profile_name": "Email spearphishing",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-01",
+              "IWI-IW-001-AOE-GA-D02-S01-02",
+              "IWI-IW-001-AOE-GA-D02-S01-03",
+              "IWI-IW-001-AOE-GA-D02-S01-04",
+              "IWI-IW-001-AOE-GA-D02-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D02-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GA-D02-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D08-CMD",
+        "candidate_blueprint_sha256": "sha256:959a2e68c3df84e5b51f5ceb17cec3d7e271551c104868a1bb23c9cb25568821",
+        "command_id": "AOE-GB-D08",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D08-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D08-S01",
+        "subject_profile_name": "Android static analysis",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-01",
+              "IWI-IW-001-AOE-GB-D08-S01-02",
+              "IWI-IW-001-AOE-GB-D08-S01-03",
+              "IWI-IW-001-AOE-GB-D08-S01-04",
+              "IWI-IW-001-AOE-GB-D08-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D08-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D08-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D10-CMD",
+        "candidate_blueprint_sha256": "sha256:1fc8d339ca1e572b5a26499dce35982c0edd14f72476c570ee420a174b3e2a19",
+        "command_id": "AOE-GB-D10",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D10-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D10-S01",
+        "subject_profile_name": "EVM and Solidity",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-01",
+              "IWI-IW-001-AOE-GB-D10-S01-02",
+              "IWI-IW-001-AOE-GB-D10-S01-03",
+              "IWI-IW-001-AOE-GB-D10-S01-04",
+              "IWI-IW-001-AOE-GB-D10-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D10-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D10-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D16-CMD",
+        "candidate_blueprint_sha256": "sha256:66f52833a2edfd3f7a0c35325c1ff6dfb4a855c2589b0a80d63197269854072d",
+        "command_id": "AOE-GC-D16",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D16-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D16-S01",
+        "subject_profile_name": "IBM z/OS, RACF, CICS and Db2",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-01",
+              "IWI-IW-001-AOE-GC-D16-S01-02",
+              "IWI-IW-001-AOE-GC-D16-S01-03",
+              "IWI-IW-001-AOE-GC-D16-S01-04",
+              "IWI-IW-001-AOE-GC-D16-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D16-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D16-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GD-D18-CMD",
+        "candidate_blueprint_sha256": "sha256:04f90baecc81a39bd86f46642f349a2080582f151372f62a0af46777beb7333a",
+        "command_id": "AOE-GD-D18",
+        "group_id": "GD",
+        "lane_id": "IL-IW-001-AOE-GD-D18-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GD-D18-S01",
+        "subject_profile_name": "Firmware acquisition, unpacking and SBOM",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-01",
+              "IWI-IW-001-AOE-GD-D18-S01-02",
+              "IWI-IW-001-AOE-GD-D18-S01-03",
+              "IWI-IW-001-AOE-GD-D18-S01-04",
+              "IWI-IW-001-AOE-GD-D18-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D18-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GD-D18-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GD-D19-CMD",
+        "candidate_blueprint_sha256": "sha256:bb082e5d131f3702d5d2cf3370fb8f3faace2aaf74020aaafbed5fc826b4197e",
+        "command_id": "AOE-GD-D19",
+        "group_id": "GD",
+        "lane_id": "IL-IW-001-AOE-GD-D19-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GD-D19-S01",
+        "subject_profile_name": "ICS zones and conduits",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-01",
+              "IWI-IW-001-AOE-GD-D19-S01-02",
+              "IWI-IW-001-AOE-GD-D19-S01-03",
+              "IWI-IW-001-AOE-GD-D19-S01-04",
+              "IWI-IW-001-AOE-GD-D19-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D19-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GD-D19-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GE-D21-CMD",
+        "candidate_blueprint_sha256": "sha256:a4683f300c3fca4611eb7526aa9aad87f404389a10cdfec56f21ed035a9173af",
+        "command_id": "AOE-GE-D21",
+        "group_id": "GE",
+        "lane_id": "IL-IW-001-AOE-GE-D21-S01",
+        "priority_tier": "command_coverage_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GE-D21-S01",
+        "subject_profile_name": "x86 and x64 userland",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-01",
+              "IWI-IW-001-AOE-GE-D21-S01-02",
+              "IWI-IW-001-AOE-GE-D21-S01-03",
+              "IWI-IW-001-AOE-GE-D21-S01-04",
+              "IWI-IW-001-AOE-GE-D21-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D21-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GE-D21-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GA-D01-CMD",
+        "candidate_blueprint_sha256": "sha256:3b5ec5474fb75f1f3f636e1e7b75efc4ac900114e4c94f7b00d2ec877d78c477",
+        "command_id": "AOE-GA-D01",
+        "group_id": "GA",
+        "lane_id": "IL-IW-001-AOE-GA-D01-S11",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GA-D01-S11",
+        "subject_profile_name": "Attack-graph modeling",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-01",
+              "IWI-IW-001-AOE-GA-D01-S11-02",
+              "IWI-IW-001-AOE-GA-D01-S11-03",
+              "IWI-IW-001-AOE-GA-D01-S11-04",
+              "IWI-IW-001-AOE-GA-D01-S11-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D01-S11-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GA-D01-S11-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GA-D04-CMD",
+        "candidate_blueprint_sha256": "sha256:6d92e1b0c3eb6184dc88281bbd18559bb57f638e0564bea32ab760ed1670d397",
+        "command_id": "AOE-GA-D04",
+        "group_id": "GA",
+        "lane_id": "IL-IW-001-AOE-GA-D04-S01",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GA-D04-S01",
+        "subject_profile_name": "Threat-scenario design",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-01",
+              "IWI-IW-001-AOE-GA-D04-S01-02",
+              "IWI-IW-001-AOE-GA-D04-S01-03",
+              "IWI-IW-001-AOE-GA-D04-S01-04",
+              "IWI-IW-001-AOE-GA-D04-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D04-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GA-D04-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D07-CMD",
+        "candidate_blueprint_sha256": "sha256:8e214b70bd6e683bd1a5e6fcc93b320fdb46efc32204045bbacf372415350087",
+        "command_id": "AOE-GB-D07",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D07-S01",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D07-S01",
+        "subject_profile_name": "Relational databases",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-01",
+              "IWI-IW-001-AOE-GB-D07-S01-02",
+              "IWI-IW-001-AOE-GB-D07-S01-03",
+              "IWI-IW-001-AOE-GB-D07-S01-04",
+              "IWI-IW-001-AOE-GB-D07-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D07-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D07-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D09-CMD",
+        "candidate_blueprint_sha256": "sha256:325fbfe6e34148f3f419449f730fb47ebf54fd5f3ca22ff26d1f8d7bfc7e7e90",
+        "command_id": "AOE-GB-D09",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D09-S01",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D09-S01",
+        "subject_profile_name": "Workflow and state-machine abuse",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-01",
+              "IWI-IW-001-AOE-GB-D09-S01-02",
+              "IWI-IW-001-AOE-GB-D09-S01-03",
+              "IWI-IW-001-AOE-GB-D09-S01-04",
+              "IWI-IW-001-AOE-GB-D09-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D09-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D09-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D12-CMD",
+        "candidate_blueprint_sha256": "sha256:eab2d5a9a25ac228d8baa664f66d1a95f4edea5c5dc00cc0b16e1355e91cddf0",
+        "command_id": "AOE-GC-D12",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D12-S01",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D12-S01",
+        "subject_profile_name": "Linux local privilege escalation",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-01",
+              "IWI-IW-001-AOE-GC-D12-S01-02",
+              "IWI-IW-001-AOE-GC-D12-S01-03",
+              "IWI-IW-001-AOE-GC-D12-S01-04",
+              "IWI-IW-001-AOE-GC-D12-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D12-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D12-S01-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D13-CMD",
+        "candidate_blueprint_sha256": "sha256:34031023425dc6bf6ad3ea87b8464df9b5dc3e36d968c563be719146b71a8f06",
+        "command_id": "AOE-GC-D13",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D13-S05",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D13-S05",
+        "subject_profile_name": "Firewalls, NAT, proxies and VPNs",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-01",
+              "IWI-IW-001-AOE-GC-D13-S05-02",
+              "IWI-IW-001-AOE-GC-D13-S05-03",
+              "IWI-IW-001-AOE-GC-D13-S05-04",
+              "IWI-IW-001-AOE-GC-D13-S05-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D13-S05-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D13-S05-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D14-CMD",
+        "candidate_blueprint_sha256": "sha256:ad8d2b9f5228f57a8120890987b66b8eb8b9a19ce1e4cdd199d0263502fe8ed2",
+        "command_id": "AOE-GC-D14",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D14-S10",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D14-S10",
+        "subject_profile_name": "Metadata and workload identity",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-01",
+              "IWI-IW-001-AOE-GC-D14-S10-02",
+              "IWI-IW-001-AOE-GC-D14-S10-03",
+              "IWI-IW-001-AOE-GC-D14-S10-04",
+              "IWI-IW-001-AOE-GC-D14-S10-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D14-S10-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D14-S10-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D15-CMD",
+        "candidate_blueprint_sha256": "sha256:07689840eb56637874685eb5625f04fc10f153a33258920977f46017f3af6021",
+        "command_id": "AOE-GC-D15",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D15-S04",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D15-S04",
+        "subject_profile_name": "Kubernetes RBAC and service accounts",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-01",
+              "IWI-IW-001-AOE-GC-D15-S04-02",
+              "IWI-IW-001-AOE-GC-D15-S04-03",
+              "IWI-IW-001-AOE-GC-D15-S04-04",
+              "IWI-IW-001-AOE-GC-D15-S04-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D15-S04-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D15-S04-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D17-CMD",
+        "candidate_blueprint_sha256": "sha256:0b79a1325d7dc11469c168a5faf964482e4ec6067726726615497f9b5851bfaa",
+        "command_id": "AOE-GC-D17",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D17-S02",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D17-S02",
+        "subject_profile_name": "CI runners and workflows",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-01",
+              "IWI-IW-001-AOE-GC-D17-S02-02",
+              "IWI-IW-001-AOE-GC-D17-S02-03",
+              "IWI-IW-001-AOE-GC-D17-S02-04",
+              "IWI-IW-001-AOE-GC-D17-S02-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D17-S02-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D17-S02-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GD-D20-CMD",
+        "candidate_blueprint_sha256": "sha256:98f6ec2ffa20156dce1ab03dab1e2551f6240cbcfc8b3c1e1dc8fe24a59106d8",
+        "command_id": "AOE-GD-D20",
+        "group_id": "GD",
+        "lane_id": "IL-IW-001-AOE-GD-D20-S10",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GD-D20-S10",
+        "subject_profile_name": "Indirect prompt injection",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-01",
+              "IWI-IW-001-AOE-GD-D20-S10-02",
+              "IWI-IW-001-AOE-GD-D20-S10-03",
+              "IWI-IW-001-AOE-GD-D20-S10-04",
+              "IWI-IW-001-AOE-GD-D20-S10-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GD-D20-S10-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GD-D20-S10-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GE-D22-CMD",
+        "candidate_blueprint_sha256": "sha256:1eafbbeeabe39cc5b6dde0898c75528d3aeb4b371ba553bebce4f05de30c5a68",
+        "command_id": "AOE-GE-D22",
+        "group_id": "GE",
+        "lane_id": "IL-IW-001-AOE-GE-D22-S03",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GE-D22-S03",
+        "subject_profile_name": "PKI and X.509 validation",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-01",
+              "IWI-IW-001-AOE-GE-D22-S03-02",
+              "IWI-IW-001-AOE-GE-D22-S03-03",
+              "IWI-IW-001-AOE-GE-D22-S03-04",
+              "IWI-IW-001-AOE-GE-D22-S03-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D22-S03-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GE-D22-S03-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GE-D23-CMD",
+        "candidate_blueprint_sha256": "sha256:f8abb2338de848714a1f5f5fa11a436d0d1a18fecae548c169bbd3718bc449c3",
+        "command_id": "AOE-GE-D23",
+        "group_id": "GE",
+        "lane_id": "IL-IW-001-AOE-GE-D23-S14",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GE-D23-S14",
+        "subject_profile_name": "Confused deputy and trust boundaries",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-01",
+              "IWI-IW-001-AOE-GE-D23-S14-02",
+              "IWI-IW-001-AOE-GE-D23-S14-03",
+              "IWI-IW-001-AOE-GE-D23-S14-04",
+              "IWI-IW-001-AOE-GE-D23-S14-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GE-D23-S14-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GE-D23-S14-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GA-D03-CMD",
+        "candidate_blueprint_sha256": "sha256:4375758749418dcd66ee2304bfe4062c085a8c31d82d3c543d79b36c3f3c9e2a",
+        "command_id": "AOE-GA-D03",
+        "group_id": "GA",
+        "lane_id": "IL-IW-001-AOE-GA-D03-S04",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GA-D03-S04",
+        "subject_profile_name": "OAuth and OIDC",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-01",
+              "IWI-IW-001-AOE-GA-D03-S04-02",
+              "IWI-IW-001-AOE-GA-D03-S04-03",
+              "IWI-IW-001-AOE-GA-D03-S04-04",
+              "IWI-IW-001-AOE-GA-D03-S04-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GA-D03-S04-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GA-D03-S04-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D05-CMD",
+        "candidate_blueprint_sha256": "sha256:c85adfa5c714bd48837780d6134b4236eb1cf9855f04c65de6dd769d8cfdcbe9",
+        "command_id": "AOE-GB-D05",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D05-S11",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D05-S11",
+        "subject_profile_name": "Browser authentication, sessions and cookies",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-01",
+              "IWI-IW-001-AOE-GB-D05-S11-02",
+              "IWI-IW-001-AOE-GB-D05-S11-03",
+              "IWI-IW-001-AOE-GB-D05-S11-04",
+              "IWI-IW-001-AOE-GB-D05-S11-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D05-S11-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D05-S11-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GB-D06-CMD",
+        "candidate_blueprint_sha256": "sha256:8590418baf6c36f609191377d618165c0c940ba2b33596f989dbb5f1bcbd5494",
+        "command_id": "AOE-GB-D06",
+        "group_id": "GB",
+        "lane_id": "IL-IW-001-AOE-GB-D06-S09",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GB-D06-S09",
+        "subject_profile_name": "API object-level authorization",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-01",
+              "IWI-IW-001-AOE-GB-D06-S09-02",
+              "IWI-IW-001-AOE-GB-D06-S09-03",
+              "IWI-IW-001-AOE-GB-D06-S09-04",
+              "IWI-IW-001-AOE-GB-D06-S09-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GB-D06-S09-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GB-D06-S09-09"
+          }
+        ]
+      },
+      {
+        "accountable_commander_profile_id": "AOE-GC-D11-CMD",
+        "candidate_blueprint_sha256": "sha256:e08b97a530e3f9bd5e0c9c52ee8305a41c41ca1f87464780a43382cfd9122372",
+        "command_id": "AOE-GC-D11",
+        "group_id": "GC",
+        "lane_id": "IL-IW-001-AOE-GC-D11-S01",
+        "priority_tier": "eligible_baseline_gap",
+        "required_gate_ids": [
+          "qualification.gate.adversarial-robustness",
+          "qualification.gate.collaboration-handoff",
+          "qualification.gate.evidence-reproducibility",
+          "qualification.gate.false-positive-control",
+          "qualification.gate.safe-abstention-stop",
+          "qualification.gate.scope-authority",
+          "qualification.gate.specialist-technical-accuracy",
+          "qualification.gate.tool-data-boundary"
+        ],
+        "subject_profile_id": "AOE-GC-D11-S01",
+        "subject_profile_name": "Active Directory path analysis",
+        "work_item_count": 9,
+        "work_items": [
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [],
+            "stage_id": "behavior_contract",
+            "stage_number": 1,
+            "task_effect": "none",
+            "task_state": "ready_for_authoring",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-01"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-01"
+            ],
+            "stage_id": "instruction_bundle",
+            "stage_number": 2,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-02"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-02"
+            ],
+            "stage_id": "knowledge_manifest",
+            "stage_number": 3,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-03"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-03"
+            ],
+            "stage_id": "runtime_manifest",
+            "stage_number": 4,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-04"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-04"
+            ],
+            "stage_id": "tool_policy",
+            "stage_number": 5,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-05"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-01",
+              "IWI-IW-001-AOE-GC-D11-S01-02",
+              "IWI-IW-001-AOE-GC-D11-S01-03",
+              "IWI-IW-001-AOE-GC-D11-S01-04",
+              "IWI-IW-001-AOE-GC-D11-S01-05"
+            ],
+            "stage_id": "candidate_artifact_binding",
+            "stage_number": 6,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-06"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-06"
+            ],
+            "stage_id": "candidate_onboarding",
+            "stage_number": 7,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-07"
+          },
+          {
+            "decision_blocker_ids": [],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-07"
+            ],
+            "stage_id": "synthetic_evaluation_preflight",
+            "stage_number": 8,
+            "task_effect": "none",
+            "task_state": "waiting_on_dependencies",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-08"
+          },
+          {
+            "decision_blocker_ids": [
+              "D008"
+            ],
+            "dependency_work_item_ids": [
+              "IWI-IW-001-AOE-GC-D11-S01-08"
+            ],
+            "stage_id": "authoritative_qualification",
+            "stage_number": 9,
+            "task_effect": "none",
+            "task_state": "blocked_by_decision",
+            "work_item_id": "IWI-IW-001-AOE-GC-D11-S01-09"
+          }
+        ]
+      }
+    ],
+    "coordination_state": "planning_only",
+    "decision_blocked_work_item_count": 23,
+    "domain_command_count": 23,
+    "domain_commander_profile_ids": [
+      "AOE-GA-D02-CMD",
+      "AOE-GB-D08-CMD",
+      "AOE-GB-D10-CMD",
+      "AOE-GC-D16-CMD",
+      "AOE-GD-D18-CMD",
+      "AOE-GD-D19-CMD",
+      "AOE-GE-D21-CMD",
+      "AOE-GA-D01-CMD",
+      "AOE-GA-D04-CMD",
+      "AOE-GB-D07-CMD",
+      "AOE-GB-D09-CMD",
+      "AOE-GC-D12-CMD",
+      "AOE-GC-D13-CMD",
+      "AOE-GC-D14-CMD",
+      "AOE-GC-D15-CMD",
+      "AOE-GC-D17-CMD",
+      "AOE-GD-D20-CMD",
+      "AOE-GE-D22-CMD",
+      "AOE-GE-D23-CMD",
+      "AOE-GA-D03-CMD",
+      "AOE-GB-D05-CMD",
+      "AOE-GB-D06-CMD",
+      "AOE-GC-D11-CMD"
+    ],
+    "group_commanders": [
+      {
+        "commander_profile_id": "AOE-HQ-03",
+        "group_id": "GA"
+      },
+      {
+        "commander_profile_id": "AOE-HQ-04",
+        "group_id": "GB"
+      },
+      {
+        "commander_profile_id": "AOE-HQ-05",
+        "group_id": "GC"
+      },
+      {
+        "commander_profile_id": "AOE-HQ-06",
+        "group_id": "GD"
+      },
+      {
+        "commander_profile_id": "AOE-HQ-07",
+        "group_id": "GE"
+      }
+    ],
+    "group_count": 5,
+    "initially_ready_work_item_count": 23,
+    "package_id": "IWP-IW-001",
+    "specialist_lane_count": 23,
+    "wave_id": "IW-001",
+    "wave_number": 1,
+    "work_item_count": 207
+  },
+  "registry": {
+    "id": "sunderkey-offensive-expert-army",
+    "sha256": "sha256:e5952b36f79737f43c8719e0601740738f2ce9946014c02d0c22be64a44a8c7d",
+    "version": "1.0.0"
+  },
+  "report_id": "IWS-6DD2B7CCD840ED5E49C288D3B9609344",
+  "report_sha256": "sha256:6dd2b7ccd840ed5e49c288d3b96093448e1242aa4637e306edf2828e7409c743",
+  "schema_version": 1,
+  "selected_package_id": "IWP-IW-001",
+  "selected_wave_id": "IW-001",
+  "selection_effect": "none",
+  "status": "implementation_wave_package_selected",
+  "summary": {
+    "blocked_by_decision_work_item_count": 23,
+    "domain_command_count": 23,
+    "group_count": 5,
+    "ready_for_authoring_work_item_count": 23,
+    "specialist_lane_count": 23,
+    "waiting_on_dependencies_work_item_count": 161,
+    "work_item_count": 207
+  },
+  "work_package_report": {
+    "report_id": "IWR-CFFB850900D0CF6C01DDB4963E2ED618",
+    "sha256": "sha256:cffb850900d0cf6c01ddb4963e2ed61887bbb2406212c4f443732c283c328225"
+  }
+}

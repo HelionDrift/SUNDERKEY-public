@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S05",
+  "component_id": "crypto_supplied_symmetric_nonce_reuse",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:nonce-records",
+      "policy_complete": true,
+      "records_complete": true,
+      "order_complete": true,
+      "unique_nonce_required": true,
+      "records": [
+        {
+          "record_id": "synthetic:encrypt-one",
+          "key_id": "synthetic:key-one",
+          "nonce_id": "synthetic:nonce-one",
+          "mode": "aes_gcm",
+          "operation": "encrypt"
+        },
+        {
+          "record_id": "synthetic:decrypt-one",
+          "key_id": "synthetic:key-one",
+          "nonce_id": "synthetic:nonce-one",
+          "mode": "aes_gcm",
+          "operation": "decrypt"
+        },
+        {
+          "record_id": "synthetic:encrypt-two",
+          "key_id": "synthetic:key-one",
+          "nonce_id": "synthetic:nonce-one",
+          "mode": "aes_gcm",
+          "operation": "encrypt"
+        }
+      ]
+    }
+  }
+}

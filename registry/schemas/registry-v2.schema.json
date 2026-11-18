@@ -1,0 +1,655 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/expert-registry/v2",
+  "title": "SUNDERKEY Army v2 Expert Registry",
+  "description": "Closed structural contract for the additive SUNDERKEY Army v2 catalog. Runtime migration validation remains authoritative for v1 preservation, approved additions, hierarchy membership, inactivity, and exact counts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_id",
+    "catalog_version",
+    "policy_templates",
+    "groups",
+    "commands",
+    "profiles",
+    "count_contract"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "catalog_id": {
+      "const": "sunderkey-offensive-expert-army"
+    },
+    "catalog_version": {
+      "const": "2.0.0"
+    },
+    "policy_templates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/policyTemplate"
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/group"
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/command"
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "count_contract": {
+      "$ref": "#/$defs/countContract"
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+$"
+        },
+        {
+          "pattern": "[\\u0021-\\u007E]"
+        }
+      ]
+    },
+    "nullableAsciiText": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/asciiText"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "groupId": {
+      "type": "string",
+      "pattern": "^G[A-E]$"
+    },
+    "commandId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}$"
+    },
+    "specialistId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "domainCommanderId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-CMD$"
+    },
+    "sharedId": {
+      "type": "string",
+      "pattern": "^AOE-HQ-[0-9]{2}$"
+    },
+    "actionTier": {
+      "type": "string",
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "asciiStringSet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    },
+    "policyTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "may",
+        "may_not",
+        "stop_conditions"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "may": {
+          "$ref": "#/$defs/asciiStringSet"
+        },
+        "may_not": {
+          "$ref": "#/$defs/asciiStringSet"
+        },
+        "stop_conditions": {
+          "$ref": "#/$defs/asciiStringSet"
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "mission",
+        "commander_profile_id",
+        "command_ids",
+        "specialist_count"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/groupId"
+        },
+        "name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "commander_profile_id": {
+          "$ref": "#/$defs/sharedId"
+        },
+        "command_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/commandId"
+          }
+        },
+        "specialist_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "number",
+        "group_id",
+        "name",
+        "mission",
+        "commander_profile_id",
+        "specialist_profile_ids",
+        "inputs",
+        "outputs",
+        "collaboration",
+        "boundary"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/commandId"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "group_id": {
+          "$ref": "#/$defs/groupId"
+        },
+        "name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "commander_profile_id": {
+          "$ref": "#/$defs/domainCommanderId"
+        },
+        "specialist_profile_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/specialistId"
+          }
+        },
+        "inputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "outputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "collaboration": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "boundary": {
+          "$ref": "#/$defs/asciiText"
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "version",
+        "status",
+        "mission",
+        "policy_template",
+        "max_autonomous_tier",
+        "minimum_evidence_level",
+        "tags",
+        "group_id",
+        "command_id",
+        "category",
+        "pilot"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "specialist",
+            "domain_commander",
+            "shared"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "defined",
+            "qualified",
+            "suspended",
+            "revoked",
+            "retired"
+          ]
+        },
+        "mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "policy_template": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "max_autonomous_tier": {
+          "$ref": "#/$defs/actionTier"
+        },
+        "minimum_evidence_level": {
+          "$ref": "#/$defs/evidenceLevel"
+        },
+        "tags": {
+          "$ref": "#/$defs/asciiStringSet"
+        },
+        "group_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/groupId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/commandId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "category": {
+          "$ref": "#/$defs/nullableAsciiText"
+        },
+        "pilot": {
+          "type": "boolean"
+        },
+        "qualification": {
+          "$ref": "#/$defs/profileQualification"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "qualification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "specialist"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "qualified"
+              }
+            },
+            "required": [
+              "status",
+              "qualification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "qualification": {
+                "properties": {
+                  "lifecycle_status": {
+                    "const": "active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "suspended"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "qualification"
+            ],
+            "properties": {
+              "qualification": {
+                "properties": {
+                  "lifecycle_status": {
+                    "const": "suspended"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "revoked"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "qualification"
+            ],
+            "properties": {
+              "qualification": {
+                "properties": {
+                  "lifecycle_status": {
+                    "const": "revoked"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "defined",
+                  "retired"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "qualification"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "specialist"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/specialistId"
+              },
+              "group_id": {
+                "$ref": "#/$defs/groupId"
+              },
+              "command_id": {
+                "$ref": "#/$defs/commandId"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "domain_commander"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/domainCommanderId"
+              },
+              "group_id": {
+                "$ref": "#/$defs/groupId"
+              },
+              "command_id": {
+                "$ref": "#/$defs/commandId"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "shared"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/sharedId"
+              },
+              "command_id": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "profileQualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256",
+        "sequence",
+        "lifecycle_status",
+        "source_event_id",
+        "source_event_sha256",
+        "current_review_decision_id",
+        "current_review_decision_sha256",
+        "qualification_valid_until",
+        "changed_at",
+        "status_binding_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+        },
+        "candidate_version": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+        },
+        "candidate_artifact_sha256": {
+          "$ref": "#/$defs/qualificationSha256"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "lifecycle_status": {
+          "enum": [
+            "active",
+            "suspended",
+            "revoked"
+          ]
+        },
+        "source_event_id": {
+          "type": "string",
+          "pattern": "^(QKD|QST)-[0-9A-F]{32}$"
+        },
+        "source_event_sha256": {
+          "$ref": "#/$defs/qualificationSha256"
+        },
+        "current_review_decision_id": {
+          "type": "string",
+          "pattern": "^QKD-[0-9A-F]{32}$"
+        },
+        "current_review_decision_sha256": {
+          "$ref": "#/$defs/qualificationSha256"
+        },
+        "qualification_valid_until": {
+          "$ref": "#/$defs/qualificationTimestamp"
+        },
+        "changed_at": {
+          "$ref": "#/$defs/qualificationTimestamp"
+        },
+        "status_binding_sha256": {
+          "$ref": "#/$defs/qualificationSha256"
+        }
+      }
+    },
+    "qualificationSha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "qualificationTimestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "format": "date-time"
+    },
+    "countContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "groups",
+        "commands",
+        "specialists",
+        "domain_commanders",
+        "shared_profiles",
+        "total_profiles",
+        "pilot_specialists"
+      ],
+      "properties": {
+        "groups": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 5
+        },
+        "commands": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 25
+        },
+        "specialists": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 391
+        },
+        "domain_commanders": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 25
+        },
+        "shared_profiles": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 35
+        },
+        "total_profiles": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 451
+        },
+        "pilot_specialists": {
+          "type": "integer",
+          "minimum": 0,
+          "const": 20
+        }
+      }
+    }
+  }
+}

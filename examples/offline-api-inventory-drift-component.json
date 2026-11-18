@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S14",
+  "component_id": "api_supplied_inventory_drift",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-api-drift",
+      "approved_inventory": {
+        "source_id": "approved-inventory",
+        "scope_id": "test-scope",
+        "complete": true,
+        "apis": [
+          {
+            "api_id": "orders",
+            "version": "v2",
+            "lifecycle": "current",
+            "routes": [{"method": "GET", "path": "/orders"}]
+          },
+          {
+            "api_id": "orders",
+            "version": "v1",
+            "lifecycle": "legacy",
+            "routes": [{"method": "GET", "path": "/orders"}]
+          }
+        ]
+      },
+      "route_manifest": {
+        "source_id": "deployment-routes",
+        "scope_id": "test-scope",
+        "complete": true,
+        "deployments": [
+          {"deployment_id": "synthetic-deployment", "active": true}
+        ],
+        "routes": [
+          {
+            "route_id": "orders-current",
+            "deployment_ref": "synthetic-deployment",
+            "api_id": "orders",
+            "version": "v2",
+            "method": "GET",
+            "path": "/orders",
+            "enabled": true
+          },
+          {
+            "route_id": "orders-legacy",
+            "deployment_ref": "synthetic-deployment",
+            "api_id": "orders",
+            "version": "v1",
+            "method": "GET",
+            "path": "/orders",
+            "enabled": true
+          },
+          {
+            "route_id": "orders-undeclared",
+            "deployment_ref": "synthetic-deployment",
+            "api_id": "orders",
+            "version": "v3",
+            "method": "GET",
+            "path": "/orders",
+            "enabled": true
+          }
+        ]
+      }
+    }
+  }
+}

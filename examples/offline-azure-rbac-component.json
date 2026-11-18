@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "snapshot": {
+      "schema_version": 1,
+      "tenant_id": "tenant:synthetic",
+      "scopes": [
+        {
+          "scope_id": "/subscriptions/sub-one",
+          "kind": "subscription",
+          "parent_scope_id": null
+        },
+        {
+          "scope_id": "/subscriptions/sub-one/resourceGroups/workloads",
+          "kind": "resource_group",
+          "parent_scope_id": "/subscriptions/sub-one"
+        },
+        {
+          "scope_id": "/subscriptions/sub-one/resourceGroups/workloads/providers/Microsoft.Storage/storageAccounts/one",
+          "kind": "resource",
+          "parent_scope_id": "/subscriptions/sub-one/resourceGroups/workloads"
+        },
+        {
+          "scope_id": "/subscriptions/sub-one/resourceGroups/sibling",
+          "kind": "resource_group",
+          "parent_scope_id": "/subscriptions/sub-one"
+        },
+        {
+          "scope_id": "/subscriptions/sub-one/resourceGroups/sibling/providers/Microsoft.Storage/storageAccounts/two",
+          "kind": "resource",
+          "parent_scope_id": "/subscriptions/sub-one/resourceGroups/sibling"
+        }
+      ],
+      "role_definitions": [
+        {
+          "role_definition_id": "role:reader",
+          "role_type": "custom",
+          "assignable_scopes": [
+            "/subscriptions/sub-one"
+          ],
+          "permissions": [
+            {
+              "actions": [
+                "Microsoft.Storage/*/read"
+              ],
+              "not_actions": [
+                "Microsoft.Storage/storageAccounts/read"
+              ],
+              "data_actions": [],
+              "not_data_actions": [],
+              "condition": null,
+              "condition_version": null
+            }
+          ]
+        },
+        {
+          "role_definition_id": "role:explicit",
+          "role_type": "custom",
+          "assignable_scopes": [
+            "/subscriptions/sub-one"
+          ],
+          "permissions": [
+            {
+              "actions": [
+                "Microsoft.Storage/storageAccounts/read"
+              ],
+              "not_actions": [],
+              "data_actions": [],
+              "not_data_actions": [],
+              "condition": null,
+              "condition_version": null
+            }
+          ]
+        }
+      ],
+      "role_assignments": [
+        {
+          "assignment_id": "assignment:reader",
+          "tenant_id": "tenant:synthetic",
+          "principal_id": "principal:alice",
+          "role_definition_id": "role:reader",
+          "scope_id": "/subscriptions/sub-one",
+          "state": "active",
+          "condition": null,
+          "condition_version": null
+        },
+        {
+          "assignment_id": "assignment:explicit",
+          "tenant_id": "tenant:synthetic",
+          "principal_id": "principal:alice",
+          "role_definition_id": "role:explicit",
+          "scope_id": "/subscriptions/sub-one/resourceGroups/workloads",
+          "state": "active",
+          "condition": null,
+          "condition_version": null
+        }
+      ],
+      "coverage": {
+        "role_assignments_complete": true,
+        "scope_ancestry_complete": true,
+        "deny_assignments": "none_supplied"
+      }
+    },
+    "queries": [
+      {
+        "query_id": "control-regrant",
+        "tenant_id": "tenant:synthetic",
+        "principal_id": "principal:alice",
+        "group_ids": [],
+        "group_membership_complete": true,
+        "scope_id": "/subscriptions/sub-one/resourceGroups/workloads/providers/Microsoft.Storage/storageAccounts/one",
+        "operation": "Microsoft.Storage/storageAccounts/read",
+        "plane": "control"
+      },
+      {
+        "query_id": "data-is-separate",
+        "tenant_id": "tenant:synthetic",
+        "principal_id": "principal:alice",
+        "group_ids": [],
+        "group_membership_complete": true,
+        "scope_id": "/subscriptions/sub-one/resourceGroups/workloads/providers/Microsoft.Storage/storageAccounts/one",
+        "operation": "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read",
+        "plane": "data"
+      },
+      {
+        "query_id": "sibling-no-grant",
+        "tenant_id": "tenant:synthetic",
+        "principal_id": "principal:alice",
+        "group_ids": [],
+        "group_membership_complete": true,
+        "scope_id": "/subscriptions/sub-one/resourceGroups/sibling/providers/Microsoft.Storage/storageAccounts/two",
+        "operation": "Microsoft.Storage/storageAccounts/read",
+        "plane": "control"
+      }
+    ]
+  }
+}

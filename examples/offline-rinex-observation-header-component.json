@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D25-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-rinex-observation-header",
+      "synthetic_fixture": true,
+      "header_base64": "ICAgICA0LjAyICAgICAgICAgICBPICAgICAgICAgICAgICAgICAgIEcgICAgICAgICAgICAgICAgICAgUklORVggVkVSU0lPTiAvIFRZUEUKU3ludGhldGljIGdlbmVyYXRvciAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUEdNIC8gUlVOIEJZIC8gREFURSAKU1lOVEhFVElDIFNUQVRJT04gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTUFSS0VSIE5BTUUgICAgICAgICAKRyAgICA0IEMxQyBMMUMgRDFDIFMxQyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU1lTIC8gIyAvIE9CUyBUWVBFUyAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRU5EIE9GIEhFQURFUiAgICAgICA="
+    }
+  }
+}

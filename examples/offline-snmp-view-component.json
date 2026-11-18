@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S15",
+  "component_id": "network_supplied_snmp_view_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:snmp-source",
+      "views_complete": true,
+      "bindings_complete": true,
+      "queries_complete": true,
+      "views": [
+        {
+          "view_id": "synthetic:read-view",
+          "rules": [
+            {"prefix_arcs": [1, 3, 6], "included": true},
+            {"prefix_arcs": [1, 3, 6, 1, 4], "included": false}
+          ]
+        }
+      ],
+      "bindings": [
+        {
+          "principal_id": "synthetic:reader",
+          "operation": "read",
+          "view_id": "synthetic:read-view"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "synthetic:public",
+          "principal_id": "synthetic:reader",
+          "operation": "read",
+          "oid_arcs": [1, 3, 6, 1, 2, 1],
+          "declared_allowed": true
+        },
+        {
+          "query_id": "synthetic:private",
+          "principal_id": "synthetic:reader",
+          "operation": "read",
+          "oid_arcs": [1, 3, 6, 1, 4, 1],
+          "declared_allowed": true
+        }
+      ]
+    }
+  }
+}

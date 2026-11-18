@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.dev/schemas/identity-path-hop-plan-v1.schema.json",
+  "title": "SUNDERKEY Inert Identity Path Hop Plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attributes_sha256",
+    "effects",
+    "evaluated_at",
+    "kind",
+    "path_ids",
+    "plan_id",
+    "plan_sha256",
+    "review_plan_sha256",
+    "schema_version",
+    "search_result_sha256",
+    "snapshot_sha256",
+    "steps"
+  ],
+  "properties": {
+    "attributes_sha256": {"$ref": "#/$defs/sha256"},
+    "effects": {"$ref": "#/$defs/noEffects"},
+    "evaluated_at": {"$ref": "#/$defs/timestamp"},
+    "kind": {"const": "sunderkey.identity-path-hop-plan.v1"},
+    "path_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "plan_id": {"type": "string", "pattern": "^IHP-[0-9A-F]{32}$"},
+    "plan_sha256": {"$ref": "#/$defs/sha256"},
+    "review_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "search_result_sha256": {"$ref": "#/$defs/sha256"},
+    "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1088,
+      "items": {"$ref": "#/$defs/step"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_use",
+        "network",
+        "policy_mutation",
+        "provider_call",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credential_use": {"const": "none"},
+        "network": {"const": "none"},
+        "policy_mutation": {"const": "none"},
+        "provider_call": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_reference_id",
+        "evidence_ids",
+        "kind",
+        "ordinal",
+        "path_id",
+        "record_ids",
+        "relation_id",
+        "source_id",
+        "step_id",
+        "step_sha256",
+        "target_id"
+      ],
+      "properties": {
+        "credential_reference_id": {
+          "anyOf": [{"$ref": "#/$defs/identifier"}, {"type": "null"}]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "kind": {
+          "enum": [
+            "workload_binding",
+            "trust_relation",
+            "session_transition",
+            "effective_permission"
+          ]
+        },
+        "ordinal": {"type": "integer", "minimum": 0, "maximum": 16},
+        "path_id": {"$ref": "#/$defs/identifier"},
+        "record_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "relation_id": {"$ref": "#/$defs/identifier"},
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "step_id": {"type": "string", "pattern": "^IHS-[0-9A-F]{32}$"},
+        "step_sha256": {"$ref": "#/$defs/sha256"},
+        "target_id": {"$ref": "#/$defs/identifier"}
+      }
+    }
+  }
+}

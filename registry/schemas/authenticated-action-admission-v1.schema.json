@@ -1,0 +1,592 @@
+{
+  "$defs": {
+    "authorization": {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "assertion_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "assertion_issuer": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "assertion_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "assertion_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "authorized_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "canonical_replay_key_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "decision": {
+          "const": "approved"
+        },
+        "expires_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "issued_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "operation_intent_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "principal_profile_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "principal_subject": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "typed_resolver",
+            "mission_owner",
+            "independent_control",
+            "admission_control"
+          ]
+        },
+        "scope_grant_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "trust_policy_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "principal_profile_id",
+        "principal_subject",
+        "assertion_issuer",
+        "assertion_id",
+        "assertion_sha256",
+        "assertion_key_sha256",
+        "trust_policy_sha256",
+        "scope_grant_sha256",
+        "operation_intent_sha256",
+        "canonical_replay_key_sha256",
+        "tenant_id",
+        "mission_id",
+        "scope_sha256",
+        "target_sha256",
+        "action_sha256",
+        "resolution_sha256",
+        "authorized_tier",
+        "decision",
+        "issued_at",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "catalog_entry": {
+      "additionalProperties": false,
+      "properties": {
+        "action_type": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "executor_supported": {
+          "type": "boolean"
+        },
+        "maximum_action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "parameter_contract": {
+          "items": {
+            "$ref": "#/$defs/parameter_contract"
+          },
+          "maxItems": 128,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "parameter_contract_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "r4_executor_supported": {
+          "type": "boolean"
+        },
+        "supported_environments": {
+          "items": {
+            "enum": [
+              "sandbox",
+              "replica",
+              "live"
+            ]
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "tool_artifact_ref": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "tool_artifact_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tool_exact_version": {
+          "pattern": "^(?!(?:[Aa][Uu][Tt][Oo]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt]|[Dd][Ee][Ff][Aa][Uu][Ll][Tt]|[Ll][Aa][Tt][Ee][Ss][Tt]|[Ss][Tt][Aa][Bb][Ll][Ee])$)(?=.*[0-9])[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action_type",
+        "executor_supported",
+        "maximum_action_tier",
+        "parameter_contract",
+        "parameter_contract_sha256",
+        "r4_executor_supported",
+        "supported_environments",
+        "tool_artifact_ref",
+        "tool_artifact_sha256",
+        "tool_exact_version"
+      ],
+      "type": "object"
+    },
+    "effects": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_effect": {
+          "const": "none"
+        },
+        "dispatch_performed": {
+          "const": false
+        },
+        "model_call_performed": {
+          "const": false
+        },
+        "network_call_performed": {
+          "const": false
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "target_action_performed": {
+          "const": false
+        },
+        "tool_effect": {
+          "const": "none"
+        }
+      },
+      "required": [
+        "authorization_effect",
+        "dispatch_performed",
+        "model_call_performed",
+        "network_call_performed",
+        "qualification_effect",
+        "target_action_performed",
+        "tool_effect"
+      ],
+      "type": "object"
+    },
+    "parameter_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "value_type": {
+          "enum": [
+            "string",
+            "identifier",
+            "sha256",
+            "integer",
+            "boolean",
+            "string_array"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "required",
+        "value_type"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://sunderkey.dev/schemas/authenticated-action-admission-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "approvals": {
+          "items": {
+            "$ref": "#/$defs/authorization"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "approved_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "expires_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "kind": {
+          "const": "action_authorization_quorum"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "quorum_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "quorum_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "quorum_status": {
+          "const": "approved_for_contract_admission"
+        },
+        "resolution_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "quorum_id",
+        "quorum_sha256",
+        "resolution_id",
+        "resolution_sha256",
+        "tenant_id",
+        "mission_id",
+        "scope_sha256",
+        "target_sha256",
+        "action_sha256",
+        "action_tier",
+        "approvals",
+        "approved_at",
+        "expires_at",
+        "quorum_status"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "admission_authorization": {
+          "$ref": "#/$defs/authorization"
+        },
+        "decision_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "decision_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "evaluated_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "identity_assurance": {
+          "const": "mission_store_principal_assertion"
+        },
+        "kind": {
+          "const": "authenticated_action_admission_receipt"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "quorum_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "quorum_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "receipt_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "request_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "request_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "resolution_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "status": {
+          "const": "admitted_contract_only"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "receipt_id",
+        "receipt_sha256",
+        "resolution_id",
+        "resolution_sha256",
+        "quorum_id",
+        "quorum_sha256",
+        "request_id",
+        "request_sha256",
+        "decision_id",
+        "decision_sha256",
+        "tenant_id",
+        "mission_id",
+        "scope_sha256",
+        "target_sha256",
+        "action_sha256",
+        "action_tier",
+        "evaluated_at",
+        "status",
+        "admission_authorization",
+        "identity_assurance"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "action_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "control_authorization": {
+          "$ref": "#/$defs/authorization"
+        },
+        "effects": {
+          "$ref": "#/$defs/effects"
+        },
+        "identity_assurance": {
+          "const": "mission_store_principal_assertion"
+        },
+        "kind": {
+          "const": "action_admission_revocation"
+        },
+        "mission_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "reason_code": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "receipt_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "resolution_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "resolution_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "revocation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        },
+        "revocation_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "revoked_at": {
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "scope_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "target_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{2,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "effects",
+        "revocation_id",
+        "revocation_sha256",
+        "receipt_id",
+        "receipt_sha256",
+        "resolution_id",
+        "resolution_sha256",
+        "tenant_id",
+        "mission_id",
+        "scope_sha256",
+        "target_sha256",
+        "action_sha256",
+        "action_tier",
+        "reason_code",
+        "control_authorization",
+        "revoked_at",
+        "identity_assurance"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "SUNDERKEY Authenticated Action Admission v1"
+}

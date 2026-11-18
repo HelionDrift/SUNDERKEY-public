@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S18",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ros2-policy",
+      "deployments": [
+        {
+          "deployment_id": "robot-cell-one",
+          "protected_topic_ids": ["motion-command"],
+          "authentication_required": true,
+          "security_enabled": true,
+          "strict_enforcement": false,
+          "allow_unauthenticated_participants": false,
+          "join_access_control": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

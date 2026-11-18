@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S15",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ot-remote-access",
+      "inventory_complete": true,
+      "policy": {
+        "allowed_actor_kinds": ["operator", "vendor"],
+        "required_controls": ["approved_identity", "mfa", "brokered", "session_logged"],
+        "maximum_session_minutes": 60
+      },
+      "paths": [{
+        "path_id": "vendor-session-a",
+        "actor_kind": "vendor",
+        "principal_id": "vendor-a",
+        "destination_zone": "control",
+        "controls": ["approved_identity", "brokered", "session_logged"],
+        "session_minutes": 30,
+        "expected_allowed": true
+      }]
+    }
+  }
+}

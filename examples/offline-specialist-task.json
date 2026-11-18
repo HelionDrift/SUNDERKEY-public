@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "task_id": "task.supplied-api-review",
+  "jobs": [
+    {
+      "job_id": "job.framing",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GB-D05-S03",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {
+          "network": [],
+          "filesystem": [],
+          "process": [],
+          "credential": []
+        },
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "request_base64": "R0VUIC8gSFRUUC8xLjENCkhvc3Q6IGV4YW1wbGUudGVzdA0KDQo="
+          }
+        }
+      }
+    },
+    {
+      "job_id": "job.tls",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GE-D22-S02",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {
+          "network": [],
+          "filesystem": [],
+          "process": [],
+          "credential": []
+        },
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "client_hello_base64": "AQAAbAMDAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CSUQABBMBEwIBAAA9ACsABQQDBAMDAAoABgAEAB0AFwAzACYAJAAdACBjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjYw==",
+            "server_hello_base64": "AgAAWAMDICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8CSUQTAQAALgArAAIDBAAzACQAHQAgc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3M="
+          }
+        }
+      }
+    },
+    {
+      "job_id": "job.cors",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GB-D05-S14",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {
+          "network": [],
+          "filesystem": [],
+          "process": [],
+          "credential": []
+        },
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "cases": [
+              {
+                "case_id": "synthetic-cors",
+                "request": {
+                  "source_id": "synthetic-request",
+                  "serialized_origin": "https://client.invalid",
+                  "credentials_mode": "omit",
+                  "method": "PUT",
+                  "unsafe_header_names": [
+                    "X-Synthetic"
+                  ],
+                  "preflight_required": true,
+                  "use_cors_preflight": false,
+                  "projection_complete": true
+                },
+                "preflight_response": {
+                  "source_id": "synthetic-preflight",
+                  "status": 204,
+                  "cors_fields": [
+                    {
+                      "name": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "name": "Access-Control-Allow-Methods",
+                      "value": "PUT"
+                    },
+                    {
+                      "name": "Access-Control-Allow-Headers",
+                      "value": "X-Synthetic"
+                    }
+                  ],
+                  "headers_complete": true
+                },
+                "actual_response": {
+                  "source_id": "synthetic-actual",
+                  "status": 403,
+                  "cors_fields": [
+                    {
+                      "name": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "name": "Access-Control-Expose-Headers",
+                      "value": "X-Synthetic-Result"
+                    }
+                  ],
+                  "response_header_names": [
+                    "Access-Control-Allow-Origin",
+                    "Access-Control-Expose-Headers",
+                    "Content-Type",
+                    "X-Synthetic-Result",
+                    "Set-Cookie"
+                  ],
+                  "headers_complete": true
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

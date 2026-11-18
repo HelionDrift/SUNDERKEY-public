@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S03",
+  "component_id": "saml_supplied_conditions_audience_restrictions",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-saml-conditions",
+      "assertion_xml_base64": "PHM6QXNzZXJ0aW9uIHhtbG5zOnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iIFZlcnNpb249IjIuMCIgSUQ9Il9zeW50aGV0aWMiIElzc3VlSW5zdGFudD0iMjAyNi0wOS0yOVQwMDowMDowMFoiPjxzOkNvbmRpdGlvbnMgTm90QmVmb3JlPSIyMDI2LTA5LTI5VDAwOjAwOjAwWiIgTm90T25PckFmdGVyPSIyMDI2LTA5LTMwVDAwOjAwOjAwWiI+PHM6QXVkaWVuY2VSZXN0cmljdGlvbj48czpBdWRpZW5jZT5odHRwczovL3NlcnZpY2UuaW52YWxpZC9zcDwvczpBdWRpZW5jZT48L3M6QXVkaWVuY2VSZXN0cmljdGlvbj48L3M6Q29uZGl0aW9ucz48L3M6QXNzZXJ0aW9uPg==",
+      "evaluation_context": {
+        "evaluated_at_utc": "2026-09-29T12:00:00Z",
+        "audience": "https://service.invalid/sp"
+      }
+    }
+  }
+}

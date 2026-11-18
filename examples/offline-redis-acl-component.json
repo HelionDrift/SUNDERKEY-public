@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics": "redis_7_2_5_acl_key_subset",
+      "resource_ref": "supplied:cache:test",
+      "username": "application",
+      "selectors_complete": true,
+      "unsupported_features": [],
+      "root_selector": {
+        "selector_id": "root",
+        "commands": [
+          "get",
+          "mget",
+          "del",
+          "getdel"
+        ],
+        "key_patterns": [
+          {
+            "pattern": "app1:*",
+            "permissions": "read_write"
+          }
+        ]
+      },
+      "selectors": [
+        {
+          "selector_id": "app2-read",
+          "commands": [
+            "get",
+            "mget",
+            "copy"
+          ],
+          "key_patterns": [
+            {
+              "pattern": "app2:*",
+              "permissions": "read"
+            }
+          ]
+        },
+        {
+          "selector_id": "copy-bridge",
+          "commands": [
+            "copy"
+          ],
+          "key_patterns": [
+            {
+              "pattern": "app2:*",
+              "permissions": "read"
+            },
+            {
+              "pattern": "app1:*",
+              "permissions": "write"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "app1-read",
+          "command": "GET",
+          "keys": [
+            "app1:user"
+          ]
+        },
+        {
+          "query_id": "app2-read",
+          "command": "get",
+          "keys": [
+            "app2:user"
+          ]
+        },
+        {
+          "query_id": "app2-write",
+          "command": "del",
+          "keys": [
+            "app2:user"
+          ]
+        },
+        {
+          "query_id": "split-mget",
+          "command": "mget",
+          "keys": [
+            "app1:user",
+            "app2:user"
+          ]
+        },
+        {
+          "query_id": "copy-into-app1",
+          "command": "copy",
+          "keys": [
+            "app2:user",
+            "app1:user"
+          ]
+        },
+        {
+          "query_id": "copy-reversed",
+          "command": "copy",
+          "keys": [
+            "app1:user",
+            "app2:user"
+          ]
+        },
+        {
+          "query_id": "app2-getdel",
+          "command": "getdel",
+          "keys": [
+            "app2:user"
+          ]
+        }
+      ]
+    }
+  }
+}

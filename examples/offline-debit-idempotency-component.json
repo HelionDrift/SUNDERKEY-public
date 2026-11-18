@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S03",
+  "component_id": "supplied_debit_idempotency_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-debit-idempotency-timeline-v1",
+      "account_ref": "account:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "currency_label": "TST",
+      "initial_balance_minor": 100,
+      "events": [
+        {"event_id": "e1", "command_id": "key-one", "amount_minor": 40, "result": "accepted", "declared_balance_after_minor": 60, "source_id": "fixture-ledger"},
+        {"event_id": "e2", "command_id": "key-one", "amount_minor": 20, "result": "accepted", "declared_balance_after_minor": 40, "source_id": "fixture-ledger"}
+      ]
+    }
+  }
+}

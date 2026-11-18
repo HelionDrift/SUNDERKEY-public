@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-aarch64-elf-permission-policy",
+      "synthetic_fixture": true,
+      "allocated_wx_allowed": false,
+      "elf_layout_model": {
+        "schema_version": 1,
+        "source_id": "synthetic-elf64",
+        "elf_file_base64": "f0VMRgIBAQAAAAAAAAAAAAIAtwABAAAAAEAAAAAAAABAAAAAAAAAAHgAAAAAAAAAAAAAAEAAOAABAEAAAwAAAAEAAAAGAAAAOAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAABAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAAQAAAAAAAADgBAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAIAAAAAAAAABEAAAAAAAAA8AQAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAREFUQQ=="
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S08",
+  "component_id": "kubernetes_supplied_admission_policy_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "policy_set_complete": true,
+      "policies": [
+        {
+          "policy_id": "block-privileged",
+          "policy_kind": "validating_policy",
+          "resource_kind": "pod",
+          "namespace_id": "team-a",
+          "operation": "create",
+          "match_field": "privileged",
+          "match_value": "true",
+          "effect": "deny",
+          "availability": "available",
+          "failure_policy": "fail",
+          "semantics_complete": true
+        }
+      ],
+      "requests": [
+        {
+          "request_id": "admitted-contradiction",
+          "resource_family": "builtin",
+          "resource_kind": "pod",
+          "namespace_id": "team-a",
+          "operation": "create",
+          "post_mutation_fields": {"privileged": "true"},
+          "mutation_complete": true,
+          "operator_generated": false,
+          "operator_reconcile_complete": false,
+          "crd_schema_complete": false,
+          "context_complete": true,
+          "supplied_outcome": "admitted",
+          "observation_complete": true
+        },
+        {
+          "request_id": "declared-reject",
+          "resource_family": "builtin",
+          "resource_kind": "pod",
+          "namespace_id": "team-a",
+          "operation": "create",
+          "post_mutation_fields": {"privileged": "true"},
+          "mutation_complete": true,
+          "operator_generated": false,
+          "operator_reconcile_complete": false,
+          "crd_schema_complete": false,
+          "context_complete": true,
+          "supplied_outcome": "rejected",
+          "observation_complete": true
+        },
+        {
+          "request_id": "unknown-operator",
+          "resource_family": "crd",
+          "resource_kind": "custom-widget",
+          "namespace_id": "team-a",
+          "operation": "create",
+          "post_mutation_fields": {"privileged": "false"},
+          "mutation_complete": true,
+          "operator_generated": true,
+          "operator_reconcile_complete": false,
+          "crd_schema_complete": false,
+          "context_complete": true,
+          "supplied_outcome": "admitted",
+          "observation_complete": true
+        }
+      ]
+    }
+  }
+}

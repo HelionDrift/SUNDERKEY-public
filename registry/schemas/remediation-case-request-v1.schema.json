@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sunderkey:remediation-case-request:v1",
+  "title": "Bounded local remediation case source archive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context",
+    "plan",
+    "as_of",
+    "targets",
+    "delivery_observations",
+    "retest",
+    "retest_observation",
+    "closure",
+    "exception",
+    "max_delivery_observation_age_seconds"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "context": {
+      "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/context"
+    },
+    "plan": {
+      "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/plan"
+    },
+    "as_of": {
+      "$ref": "#/$defs/time"
+    },
+    "targets": {
+      "type": "array",
+      "maxItems": 2048,
+      "items": {
+        "$ref": "#/$defs/serviceTarget"
+      }
+    },
+    "delivery_observations": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "$ref": "#/$defs/deliveryObservation"
+      }
+    },
+    "retest": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/retestPlan"
+        }
+      ]
+    },
+    "retest_observation": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/observation"
+        }
+      ]
+    },
+    "closure": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/decision"
+        }
+      ]
+    },
+    "exception": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://sunderkey.dev/schemas/remediation-validation-contract-v1.schema.json#/$defs/exception"
+        }
+      ]
+    },
+    "max_delivery_observation_age_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 604800
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "time": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "serviceTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_ref",
+        "owner_ref",
+        "policy_sha256",
+        "recorded_at",
+        "due_at",
+        "target_sha256"
+      ],
+      "properties": {
+        "item_ref": {
+          "type": "string",
+          "pattern": "^itemref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "owner_ref": {
+          "type": "string",
+          "pattern": "^principalref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "policy_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/time"
+        },
+        "due_at": {
+          "$ref": "#/$defs/time"
+        },
+        "target_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "deliveryObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_ref",
+        "item_ref",
+        "owner_ref",
+        "observer_ref",
+        "ticket_ref",
+        "delivery_state",
+        "ticket_state",
+        "observed_at",
+        "source_sha256",
+        "observation_sha256"
+      ],
+      "properties": {
+        "observation_ref": {
+          "type": "string",
+          "pattern": "^deliveryref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "item_ref": {
+          "type": "string",
+          "pattern": "^itemref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "owner_ref": {
+          "type": "string",
+          "pattern": "^principalref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "observer_ref": {
+          "type": "string",
+          "pattern": "^principalref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+        },
+        "ticket_ref": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^ticketref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+            }
+          ]
+        },
+        "delivery_state": {
+          "enum": [
+            "unknown",
+            "pending",
+            "delivered",
+            "failed"
+          ]
+        },
+        "ticket_state": {
+          "enum": [
+            "unknown",
+            "open",
+            "closed"
+          ]
+        },
+        "observed_at": {
+          "$ref": "#/$defs/time"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observation_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

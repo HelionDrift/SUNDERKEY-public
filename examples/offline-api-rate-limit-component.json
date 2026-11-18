@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S13",
+  "component_id": "api_supplied_rate_limit_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic-api-rate-source",
+      "source": {
+        "schema_version": "v1",
+        "traffic_complete": true,
+        "policy": {
+          "window_ms": 1000,
+          "window_origin_ms": 0,
+          "route_limits": [
+            {"route_id": "lookup", "max_admitted_requests": 2}
+          ]
+        },
+        "records": [
+          {"event_id": "e1", "timestamp_ms": 100, "subject_id": "test-user", "route_id": "lookup", "outcome": "admitted"},
+          {"event_id": "e2", "timestamp_ms": 200, "subject_id": "test-user", "route_id": "lookup", "outcome": "admitted"},
+          {"event_id": "e3", "timestamp_ms": 300, "subject_id": "test-user", "route_id": "lookup", "outcome": "admitted"},
+          {"event_id": "e4", "timestamp_ms": 400, "subject_id": "test-user", "route_id": "lookup", "outcome": "rate_limited"}
+        ]
+      }
+    }
+  }
+}

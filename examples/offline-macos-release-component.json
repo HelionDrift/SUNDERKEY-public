@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S16",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-macos-release",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "baseline": {
+      "bundle_id": "com.example.app", "team_id": "TEAM123",
+      "minimum_build": 20,
+      "required_entitlement_ids": ["sandbox"],
+      "allowed_entitlement_ids": ["sandbox", "network-client"]
+    },
+    "releases": [{
+      "release_id": "r21", "bundle_id": "com.example.app",
+      "team_id": "TEAM123", "build": 21,
+      "entitlement_ids": ["sandbox", "network-client"]
+    }]
+  }}
+}

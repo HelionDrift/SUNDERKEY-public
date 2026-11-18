@@ -1,0 +1,478 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.local/mission-event/v1",
+  "title": "SUNDERKEY Mission Event",
+  "description": "Structural contract for one version 1 append-only mission event. Runtime EventLedger validation remains authoritative for MissionRequest policy, active-role assignment, ordering, references, action hashes, executor binding, one-time authorization use, evidence requirements, and separation of duties.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "mission_id",
+    "event_type",
+    "actor_profile_id",
+    "timestamp",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,95}$"
+    },
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}$"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "observation",
+        "hypothesis",
+        "proposal",
+        "authorization",
+        "result",
+        "finding",
+        "blocker",
+        "handoff"
+      ]
+    },
+    "actor_profile_id": {
+      "type": "string",
+      "pattern": "^AOE-(G[A-E]-D[0-9]{2}-(S[0-9]{2}|CMD)|HQ-[0-9]{2})$"
+    },
+    "timestamp": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "references": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/eventReference"
+      },
+      "default": []
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "event_type": {
+          "const": "observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/observationPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "hypothesis"
+        },
+        "payload": {
+          "$ref": "#/$defs/hypothesisPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "proposal"
+        },
+        "payload": {
+          "$ref": "#/$defs/proposalPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "authorization"
+        },
+        "payload": {
+          "$ref": "#/$defs/authorizationPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "result"
+        },
+        "payload": {
+          "$ref": "#/$defs/resultPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "finding"
+        },
+        "payload": {
+          "$ref": "#/$defs/findingPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "blocker"
+        },
+        "payload": {
+          "$ref": "#/$defs/blockerPayload"
+        }
+      }
+    },
+    {
+      "properties": {
+        "event_type": {
+          "const": "handoff"
+        },
+        "payload": {
+          "$ref": "#/$defs/handoffPayload"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+$"
+        },
+        {
+          "pattern": "[\\u0021-\\u007E]"
+        }
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 1
+    },
+    "actionTier": {
+      "type": "string",
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "eventReference": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,95}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-(G[A-E]-D[0-9]{2}-(S[0-9]{2}|CMD)|HQ-[0-9]{2})$"
+    },
+    "sha256Hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nonEmptyStringList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    },
+    "observationPayload": {
+      "type": "object",
+      "required": [
+        "target",
+        "evidence_refs",
+        "confidence",
+        "sensitivity"
+      ],
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "confidence": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hypothesisPayload": {
+      "type": "object",
+      "required": [
+        "claim",
+        "supporting_observations",
+        "alternatives",
+        "confidence"
+      ],
+      "properties": {
+        "claim": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "supporting_observations": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "alternatives": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "confidence": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    },
+    "proposalPayload": {
+      "type": "object",
+      "required": [
+        "target",
+        "method",
+        "action_tier",
+        "expected_effect",
+        "safeguards",
+        "rollback"
+      ],
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "method": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "action_tier": {
+          "$ref": "#/$defs/actionTier"
+        },
+        "expected_effect": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "safeguards": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "rollback": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    },
+    "authorizationPayload": {
+      "type": "object",
+      "required": [
+        "proposal_id",
+        "authority",
+        "scope_token",
+        "executor_profile_id",
+        "action_hash",
+        "action_tier",
+        "expires_at",
+        "constraints"
+      ],
+      "properties": {
+        "proposal_id": {
+          "$ref": "#/$defs/eventReference"
+        },
+        "authority": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "scope_token": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "executor_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "action_hash": {
+          "$ref": "#/$defs/sha256Hash"
+        },
+        "action_tier": {
+          "$ref": "#/$defs/actionTier"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "constraints": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "approval_id": {
+          "type": "string",
+          "pattern": "^APR-[A-Z0-9][A-Z0-9._-]{2,59}$"
+        },
+        "purpose": {
+          "const": "simulation"
+        }
+      },
+      "dependentRequired": {
+        "approval_id": [
+          "purpose"
+        ],
+        "purpose": [
+          "approval_id"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "resultPayload": {
+      "type": "object",
+      "required": [
+        "authorization_id",
+        "action_hash",
+        "execution_identity",
+        "started_at",
+        "ended_at",
+        "evidence_refs",
+        "cleanup"
+      ],
+      "properties": {
+        "authorization_id": {
+          "$ref": "#/$defs/eventReference"
+        },
+        "action_hash": {
+          "$ref": "#/$defs/sha256Hash"
+        },
+        "execution_identity": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "started_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "ended_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "cleanup": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    },
+    "findingPayload": {
+      "type": "object",
+      "required": [
+        "result_id",
+        "root_cause",
+        "preconditions",
+        "evidence_level",
+        "impact",
+        "mappings",
+        "owner"
+      ],
+      "properties": {
+        "result_id": {
+          "$ref": "#/$defs/eventReference"
+        },
+        "root_cause": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "preconditions": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "evidence_level": {
+          "type": "string",
+          "enum": [
+            "E2",
+            "E3",
+            "E4"
+          ]
+        },
+        "impact": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "mappings": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "owner": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "independent_reproduction_result_id": {
+          "$ref": "#/$defs/eventReference"
+        },
+        "counter_evidence_review": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "evidence_level": {
+                "const": "E4"
+              }
+            },
+            "required": [
+              "evidence_level"
+            ]
+          },
+          "then": {
+            "required": [
+              "independent_reproduction_result_id",
+              "counter_evidence_review"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "blockerPayload": {
+      "type": "object",
+      "required": [
+        "reason",
+        "risk",
+        "decision_owner"
+      ],
+      "properties": {
+        "reason": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "risk": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "decision_owner": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    },
+    "handoffPayload": {
+      "type": "object",
+      "required": [
+        "from_profile_id",
+        "to_profile_id",
+        "graph_objects",
+        "question",
+        "due_state"
+      ],
+      "properties": {
+        "from_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "to_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "graph_objects": {
+          "$ref": "#/$defs/nonEmptyStringList"
+        },
+        "question": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "due_state": {
+          "$ref": "#/$defs/asciiText"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D16-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-hpc-queue",
+    "inventory_complete": true,
+    "queues": [{
+      "queue_id": "queue_a",
+      "submitter_scope": "public",
+      "job_isolation": "shared",
+      "credential_forwarding_allowed": true,
+      "policy_assertions_complete": true
+    }]
+  }}
+}

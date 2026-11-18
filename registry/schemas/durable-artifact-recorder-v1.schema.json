@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/durable-artifact-recorder-v1.schema.json",
+  "title": "SUNDERKEY durable artifact recorder records v1",
+  "oneOf": [
+    {"$ref": "#/$defs/plan"},
+    {"$ref": "#/$defs/observation"},
+    {"$ref": "#/$defs/receipt"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|assessmentref|scoperef|artifactref|custodyref|outboxref|adapterref|aggregateref|operationref|resourceref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "planEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_bytes",
+        "authorization",
+        "database_connection",
+        "filesystem",
+        "network",
+        "persistence",
+        "qualification",
+        "sql_execution"
+      ],
+      "properties": {
+        "artifact_bytes": {"const": "not_accepted"},
+        "authorization": {"const": "none"},
+        "database_connection": {"const": "none"},
+        "filesystem": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "qualification": {"const": "none"},
+        "sql_execution": {"const": "none"}
+      }
+    },
+    "receiptEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_bytes",
+        "authorization",
+        "database_connection",
+        "durability",
+        "filesystem",
+        "network",
+        "qualification",
+        "sql_execution"
+      ],
+      "properties": {
+        "artifact_bytes": {"const": "not_observed"},
+        "authorization": {"const": "none"},
+        "database_connection": {"const": "injected_adapter_only"},
+        "durability": {"const": "adapter_observation_only"},
+        "filesystem": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "sql_execution": {"const": "none"}
+      }
+    },
+    "artifactMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_ref",
+        "content_sha256",
+        "custody_ref",
+        "media_type",
+        "prior_custody_sha256",
+        "retention_class",
+        "size_bytes"
+      ],
+      "properties": {
+        "artifact_ref": {"type": "string", "pattern": "^artifactref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_ref": {"type": "string", "pattern": "^custodyref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "media_type": {"type": "string", "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]{0,63}/[a-z0-9][a-z0-9!#$&^_.+-]{0,63}$"},
+        "prior_custody_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+        "retention_class": {"enum": ["transient_30_days", "assessment_1_year", "archive_7_years"]},
+        "size_bytes": {"type": "integer", "minimum": 1, "maximum": 8589934592}
+      }
+    },
+    "outboxEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_sha256", "event_type", "expected_version", "outbox_event_ref"],
+      "properties": {
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "event_type": {"type": "string", "pattern": "^[a-z][a-z0-9_.]{2,95}$"},
+        "expected_version": {"type": "integer", "minimum": 0},
+        "outbox_event_ref": {"type": "string", "pattern": "^outboxref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "assessment_ref",
+        "expected_artifact_version",
+        "expected_custody_version",
+        "fence_epoch",
+        "fence_resource_ref",
+        "fence_token",
+        "idempotency_key",
+        "outbox_event",
+        "recorded_at",
+        "scope_ref",
+        "tenant_ref"
+      ],
+      "properties": {
+        "artifact": {"$ref": "#/$defs/artifactMetadata"},
+        "assessment_ref": {"type": "string", "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "expected_artifact_version": {"type": "integer", "minimum": 0},
+        "expected_custody_version": {"type": "integer", "minimum": 0},
+        "fence_epoch": {"type": "integer", "minimum": 1, "maximum": 9223372036854775807},
+        "fence_resource_ref": {"type": "string", "pattern": "^resourceref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "fence_token": {"type": "string", "pattern": "^fence:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "outbox_event": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/outboxEvent"}]},
+        "recorded_at": {"$ref": "#/$defs/timestamp"},
+        "scope_ref": {"type": "string", "pattern": "^scoperef:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aggregate_ref", "content_sha256", "kind", "operation_ref"],
+      "properties": {
+        "aggregate_ref": {"type": "string", "pattern": "^aggregateref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"enum": ["append", "outbox_enqueue"]},
+        "operation_ref": {"type": "string", "pattern": "^operationref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "versionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aggregate_ref", "expected_version"],
+      "properties": {
+        "aggregate_ref": {"type": "string", "pattern": "^aggregateref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "expected_version": {"type": "integer", "minimum": 0}
+      }
+    },
+    "fenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fence_epoch", "fence_token", "resource_ref"],
+      "properties": {
+        "fence_epoch": {"type": "integer", "minimum": 1},
+        "fence_token": {"type": "string", "pattern": "^fence:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "resource_ref": {"type": "string", "pattern": "^resourceref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "transactionBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_ref",
+        "atomicity",
+        "batch_id",
+        "batch_sha256",
+        "created_at",
+        "effects",
+        "fence_bindings",
+        "idempotency_key",
+        "isolation_level",
+        "kind",
+        "operations",
+        "outbox_event_refs",
+        "schema_version",
+        "scope_ref",
+        "tenant_ref",
+        "version_bindings"
+      ],
+      "properties": {
+        "assessment_ref": {"type": "string", "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "atomicity": {"const": "all_or_nothing_with_outbox"},
+        "batch_id": {"type": "string", "pattern": "^PTB-[0-9A-F]{32}$"},
+        "batch_sha256": {"$ref": "#/$defs/sha256"},
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "effects": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["authorization", "database_connection", "deployment", "migration", "network", "persistence", "qualification", "sql_execution"],
+          "properties": {
+            "authorization": {"const": "none"},
+            "database_connection": {"const": "none"},
+            "deployment": {"const": "none"},
+            "migration": {"const": "none"},
+            "network": {"const": "none"},
+            "persistence": {"const": "none"},
+            "qualification": {"const": "none"},
+            "sql_execution": {"const": "none"}
+          }
+        },
+        "fence_bindings": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/fenceBinding"}},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "isolation_level": {"const": "serializable"},
+        "kind": {"const": "sunderkey.persistence-transaction-batch.v1"},
+        "operations": {"type": "array", "minItems": 2, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/operation"}},
+        "outbox_event_refs": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^outboxref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}},
+        "schema_version": {"const": 1},
+        "scope_ref": {"type": "string", "pattern": "^scoperef:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "version_bindings": {"type": "array", "minItems": 2, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/versionBinding"}}
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effects", "kind", "plan_id", "plan_sha256", "request", "schema_version", "transaction_batch"],
+      "properties": {
+        "effects": {"$ref": "#/$defs/planEffects"},
+        "kind": {"const": "sunderkey.durable-artifact-recording-plan.v1"},
+        "plan_id": {"type": "string", "pattern": "^DAP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "request": {"$ref": "#/$defs/request"},
+        "schema_version": {"const": 1},
+        "transaction_batch": {"$ref": "#/$defs/transactionBatch"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "artifact_ref",
+        "assessment_ref",
+        "batch_id",
+        "batch_sha256",
+        "custody_entry_sha256",
+        "custody_ref",
+        "disposition",
+        "expected_artifact_version",
+        "expected_custody_version",
+        "fence_epoch",
+        "fence_resource_ref",
+        "fence_token",
+        "idempotency_key",
+        "kind",
+        "observation_id",
+        "observation_sha256",
+        "observed_artifact_version",
+        "observed_at",
+        "observed_custody_version",
+        "outbox_event_ref",
+        "prior_custody_sha256",
+        "qualification_effect",
+        "schema_version",
+        "scope_ref",
+        "stored_content_sha256",
+        "tenant_ref"
+      ],
+      "properties": {
+        "adapter_ref": {"type": "string", "pattern": "^adapterref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "artifact_ref": {"type": "string", "pattern": "^artifactref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "assessment_ref": {"type": "string", "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "batch_id": {"type": "string", "pattern": "^PTB-[0-9A-F]{32}$"},
+        "batch_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_entry_sha256": {"$ref": "#/$defs/sha256"},
+        "custody_ref": {"type": "string", "pattern": "^custodyref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "disposition": {"enum": ["committed", "replayed"]},
+        "expected_artifact_version": {"type": "integer", "minimum": 0},
+        "expected_custody_version": {"type": "integer", "minimum": 0},
+        "fence_epoch": {"type": "integer", "minimum": 1},
+        "fence_resource_ref": {"type": "string", "pattern": "^resourceref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "fence_token": {"type": "string", "pattern": "^fence:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "kind": {"const": "sunderkey.durable-artifact-commit-observation.v1"},
+        "observation_id": {"type": "string", "pattern": "^DAO-[0-9A-F]{32}$"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_artifact_version": {"type": "integer", "minimum": 1},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "observed_custody_version": {"type": "integer", "minimum": 1},
+        "outbox_event_ref": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^outboxref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}]},
+        "prior_custody_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+        "qualification_effect": {"const": "none"},
+        "schema_version": {"const": 1},
+        "scope_ref": {"type": "string", "pattern": "^scoperef:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "stored_content_sha256": {"$ref": "#/$defs/sha256"},
+        "tenant_ref": {"type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "batch_id",
+        "batch_sha256",
+        "effects",
+        "kind",
+        "observation_id",
+        "observation_sha256",
+        "plan_id",
+        "plan_sha256",
+        "qualification_effect",
+        "receipt_id",
+        "receipt_sha256",
+        "recorded_at",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "adapter_ref": {"type": "string", "pattern": "^adapterref:[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"},
+        "batch_id": {"type": "string", "pattern": "^PTB-[0-9A-F]{32}$"},
+        "batch_sha256": {"$ref": "#/$defs/sha256"},
+        "effects": {"$ref": "#/$defs/receiptEffects"},
+        "kind": {"const": "sunderkey.durable-artifact-recording-receipt.v1"},
+        "observation_id": {"type": "string", "pattern": "^DAO-[0-9A-F]{32}$"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "plan_id": {"type": "string", "pattern": "^DAP-[0-9A-F]{32}$"},
+        "plan_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_effect": {"const": "none"},
+        "receipt_id": {"type": "string", "pattern": "^DAR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "recorded_at": {"$ref": "#/$defs/timestamp"},
+        "schema_version": {"const": 1},
+        "status": {"enum": ["observed_commit", "observed_replay"]}
+      }
+    }
+  }
+}

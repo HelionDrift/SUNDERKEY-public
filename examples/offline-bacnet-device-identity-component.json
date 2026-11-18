@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-bacnet-inventory",
+      "internetwork_id": "lab-internetwork",
+      "inventory_complete": true,
+      "devices": [
+        {"device_id": "controller-a", "object_identifier": 33554449},
+        {"device_id": "controller-b", "object_identifier": 33554449},
+        {"device_id": "controller-c", "object_identifier": 33554450}
+      ]
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S04",
+  "component_id": "network_supplied_switch_vlan_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:switch-source",
+      "switch_id": "synthetic:switch-one",
+      "topology_complete": true,
+      "membership_complete": true,
+      "stp_state_complete": true,
+      "ports": [
+        {
+          "port_id": "synthetic:access-one",
+          "mode": "access",
+          "access_vlan": 20,
+          "native_vlan": null,
+          "allowed_vlans": [],
+          "stp_forwarding_vlans": [20]
+        },
+        {
+          "port_id": "synthetic:trunk-one",
+          "mode": "trunk",
+          "access_vlan": null,
+          "native_vlan": 20,
+          "allowed_vlans": [20, 30],
+          "stp_forwarding_vlans": [20, 30]
+        },
+        {
+          "port_id": "synthetic:access-two",
+          "mode": "access",
+          "access_vlan": 30,
+          "native_vlan": null,
+          "allowed_vlans": [],
+          "stp_forwarding_vlans": [30]
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "synthetic:bridge",
+          "ingress_port_id": "synthetic:access-one",
+          "egress_port_id": "synthetic:trunk-one",
+          "ingress_tag_vlan": null
+        },
+        {
+          "query_id": "synthetic:separate",
+          "ingress_port_id": "synthetic:access-one",
+          "egress_port_id": "synthetic:access-two",
+          "ingress_tag_vlan": null
+        }
+      ]
+    }
+  }
+}

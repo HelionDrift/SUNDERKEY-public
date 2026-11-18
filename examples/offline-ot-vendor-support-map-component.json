@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D19-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ot-vendor-support",
+      "synthetic_fixture": true,
+      "vendors": [
+        {"vendor_id": "vendor-a"},
+        {"vendor_id": "vendor-b"}
+      ],
+      "assets": [
+        {"asset_id": "engineering-a", "asset_class": "engineering_workstation"},
+        {"asset_id": "safety-a", "asset_class": "sis"}
+      ],
+      "support_paths": [
+        {
+          "path_id": "path-a",
+          "vendor_id": "vendor-a",
+          "asset_id": "engineering-a",
+          "site_initiated": true,
+          "time_bounded": true,
+          "operator_aware": true,
+          "session_monitored": true
+        },
+        {
+          "path_id": "path-b",
+          "vendor_id": "vendor-b",
+          "asset_id": "engineering-a",
+          "site_initiated": false,
+          "time_bounded": true,
+          "operator_aware": true,
+          "session_monitored": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,661 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/implementation-work-package-catalog-v2.json",
+  "title": "SUNDERKEY Army v2 Implementation Work Package Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "package_catalog_id",
+    "package_catalog_version",
+    "catalog_sha256",
+    "expert_catalog_id",
+    "expert_catalog_version",
+    "expert_catalog_sha256",
+    "capability_catalog_id",
+    "capability_catalog_version",
+    "capability_catalog_sha256",
+    "vector_catalog_sha256",
+    "qualification_plan_catalog_sha256",
+    "blueprint_catalog_id",
+    "blueprint_catalog_version",
+    "blueprint_catalog_sha256",
+    "package_policy",
+    "package_status",
+    "qualification_effect",
+    "routing_effect",
+    "execution_effect",
+    "deployment_effect",
+    "packages",
+    "coverage_summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "package_catalog_id": {
+      "const": "sunderkey-implementation-work-packages-v2"
+    },
+    "package_catalog_version": {
+      "const": "2.0.0"
+    },
+    "catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "expert_catalog_id": {
+      "const": "sunderkey-offensive-expert-army"
+    },
+    "expert_catalog_version": {
+      "const": "2.0.0"
+    },
+    "expert_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "capability_catalog_id": {
+      "const": "sunderkey-army-capabilities-v2"
+    },
+    "capability_catalog_version": {
+      "const": "2.0.0"
+    },
+    "capability_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "vector_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_plan_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "blueprint_catalog_id": {
+      "const": "sunderkey-specialist-blueprints-v2"
+    },
+    "blueprint_catalog_version": {
+      "const": "2.0.0"
+    },
+    "blueprint_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "package_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "maximum_packages_per_wave",
+        "maximum_packages_per_command_per_wave",
+        "validator_capacity_per_wave",
+        "risk_class_by_validator",
+        "risk_weight_by_validator",
+        "verification_cost_by_validator",
+        "priority_formula",
+        "new_specialist_coverage_bonus",
+        "mapping_coverage_gain",
+        "cross_specialist_edges_are_collaboration_not_hard_dependencies",
+        "stage_definitions"
+      ],
+      "properties": {
+        "policy_id": {
+          "const": "sunderkey-commander-work-package-policy-v2"
+        },
+        "maximum_packages_per_wave": {
+          "const": 20
+        },
+        "maximum_packages_per_command_per_wave": {
+          "const": 1
+        },
+        "validator_capacity_per_wave": {
+          "$ref": "#/$defs/validatorCapacity"
+        },
+        "risk_class_by_validator": {
+          "$ref": "#/$defs/riskClassByValidator"
+        },
+        "risk_weight_by_validator": {
+          "$ref": "#/$defs/riskWeightByValidator"
+        },
+        "verification_cost_by_validator": {
+          "$ref": "#/$defs/verificationCostByValidator"
+        },
+        "priority_formula": {
+          "const": "risk_weight + coverage_gain + (6 - verification_cost)"
+        },
+        "new_specialist_coverage_bonus": {
+          "const": 40
+        },
+        "mapping_coverage_gain": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "exact_risk",
+            "related_technique",
+            "contextual_tactic"
+          ],
+          "properties": {
+            "exact_risk": {
+              "const": 20
+            },
+            "related_technique": {
+              "const": 15
+            },
+            "contextual_tactic": {
+              "const": 10
+            }
+          }
+        },
+        "cross_specialist_edges_are_collaboration_not_hard_dependencies": {
+          "const": true
+        },
+        "stage_definitions": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/stageDefinition"
+          }
+        }
+      }
+    },
+    "package_status": {
+      "const": "planned_unassigned"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "routing_effect": {
+      "const": "none"
+    },
+    "execution_effect": {
+      "const": "none"
+    },
+    "deployment_effect": {
+      "const": "none"
+    },
+    "packages": {
+      "type": "array",
+      "minItems": 391,
+      "maxItems": 391,
+      "items": {
+        "$ref": "#/$defs/package"
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "required": [
+        "package_count",
+        "new_specialist_package_count",
+        "command_count",
+        "commander_queue_count",
+        "collaboration_edge_count",
+        "work_item_count",
+        "wave_count"
+      ],
+      "properties": {
+        "package_count": {
+          "const": 391
+        },
+        "new_specialist_package_count": {
+          "const": 43
+        },
+        "command_count": {
+          "const": 25
+        },
+        "commander_queue_count": {
+          "const": 25
+        },
+        "collaboration_edge_count": {
+          "const": 782
+        },
+        "work_item_count": {
+          "const": 3128
+        },
+        "wave_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-(?:H[QC]|G[A-H])-[A-Z0-9]+(?:-[A-Z0-9]+)*$"
+    },
+    "validatorCapacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "AOE-HQ-19",
+        "AOE-HQ-33",
+        "AOE-HQ-34",
+        "AOE-HQ-35"
+      ],
+      "properties": {
+        "AOE-HQ-19": {
+          "const": 12
+        },
+        "AOE-HQ-33": {
+          "const": 3
+        },
+        "AOE-HQ-34": {
+          "const": 3
+        },
+        "AOE-HQ-35": {
+          "const": 2
+        }
+      }
+    },
+    "validatorLoad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "AOE-HQ-19",
+        "AOE-HQ-33",
+        "AOE-HQ-34",
+        "AOE-HQ-35"
+      ],
+      "properties": {
+        "AOE-HQ-19": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "AOE-HQ-33": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "AOE-HQ-34": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "AOE-HQ-35": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        }
+      }
+    },
+    "riskClassByValidator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "AOE-HQ-19",
+        "AOE-HQ-33",
+        "AOE-HQ-34",
+        "AOE-HQ-35"
+      ],
+      "properties": {
+        "AOE-HQ-19": {
+          "const": "standard_independent_reproduction"
+        },
+        "AOE-HQ-33": {
+          "const": "human_safety_or_restoration"
+        },
+        "AOE-HQ-34": {
+          "const": "hostile_content_or_redaction"
+        },
+        "AOE-HQ-35": {
+          "const": "cross_system_reconciliation"
+        }
+      }
+    },
+    "riskWeightByValidator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "AOE-HQ-19",
+        "AOE-HQ-33",
+        "AOE-HQ-34",
+        "AOE-HQ-35"
+      ],
+      "properties": {
+        "AOE-HQ-19": {
+          "const": 200
+        },
+        "AOE-HQ-33": {
+          "const": 400
+        },
+        "AOE-HQ-34": {
+          "const": 300
+        },
+        "AOE-HQ-35": {
+          "const": 350
+        }
+      }
+    },
+    "verificationCostByValidator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "AOE-HQ-19",
+        "AOE-HQ-33",
+        "AOE-HQ-34",
+        "AOE-HQ-35"
+      ],
+      "properties": {
+        "AOE-HQ-19": {
+          "const": 3
+        },
+        "AOE-HQ-33": {
+          "const": 5
+        },
+        "AOE-HQ-34": {
+          "const": 4
+        },
+        "AOE-HQ-35": {
+          "const": 5
+        }
+      }
+    },
+    "riskClassCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "standard_independent_reproduction",
+        "human_safety_or_restoration",
+        "hostile_content_or_redaction",
+        "cross_system_reconciliation"
+      ],
+      "properties": {
+        "standard_independent_reproduction": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "human_safety_or_restoration": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hostile_content_or_redaction": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cross_system_reconciliation": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "stageDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_number",
+        "stage_id",
+        "objective",
+        "required_evidence"
+      ],
+      "properties": {
+        "stage_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "stage_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "objective": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        }
+      }
+    },
+    "workItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_item_id",
+        "stage_number",
+        "stage_id",
+        "objective",
+        "dependency_work_item_ids",
+        "required_evidence",
+        "task_state",
+        "task_effect"
+      ],
+      "properties": {
+        "work_item_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "stage_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "stage_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "objective": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "dependency_work_item_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "task_state": {
+          "const": "planned_unassigned"
+        },
+        "task_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "priority_sequence",
+        "priority_score",
+        "risk_class",
+        "risk_weight",
+        "coverage_gain",
+        "verification_cost",
+        "is_new_specialist",
+        "profile_id",
+        "profile_name",
+        "group_id",
+        "group_commander_profile_id",
+        "command_id",
+        "commander_profile_id",
+        "vector_id",
+        "primary_capability_ids",
+        "supporting_capability_ids",
+        "collaboration_package_ids",
+        "external_dependency_package_ids",
+        "independent_validator_id",
+        "reviewer_profile_ids",
+        "blueprint_sha256",
+        "required_component_ids",
+        "required_test_stages",
+        "work_items",
+        "package_status",
+        "qualification_effect",
+        "routing_effect",
+        "execution_effect",
+        "deployment_effect",
+        "scheduled_wave_id",
+        "scheduled_wave_number"
+      ],
+      "properties": {
+        "package_id": {
+          "type": "string",
+          "pattern": "^IWP2-AOE-G[A-H]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "priority_sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 391
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "risk_class": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "risk_weight": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "coverage_gain": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verification_cost": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "is_new_specialist": {
+          "type": "boolean"
+        },
+        "profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "profile_name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "group_id": {
+          "type": "string",
+          "pattern": "^G[A-H]$"
+        },
+        "group_commander_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "command_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "commander_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "vector_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "primary_capability_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "supporting_capability_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "collaboration_package_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "external_dependency_package_ids": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "independent_validator_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "reviewer_profile_ids": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "blueprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "required_component_ids": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "required_test_stages": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "work_items": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/workItem"
+          }
+        },
+        "package_status": {
+          "const": "scheduled_unassigned"
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "routing_effect": {
+          "const": "none"
+        },
+        "execution_effect": {
+          "const": "none"
+        },
+        "deployment_effect": {
+          "const": "none"
+        },
+        "scheduled_wave_id": {
+          "type": "string",
+          "pattern": "^IW2-[0-9]{3}$"
+        },
+        "scheduled_wave_number": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

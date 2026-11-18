@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-token-payload",
+    "payload_b64url": "eyJzdWIiOiJyZWFkZXIiLCJzdWIiOiJhZG1pbiJ9",
+    "views_complete": true,
+    "parser_views": [
+      {"parser_id": "first_wins", "claims": {"sub": "reader"}},
+      {"parser_id": "last_wins", "claims": {"sub": "admin"}}
+    ]
+  }}
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S08",
+  "component_id": "network_supplied_wifi_policy_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:wifi-source",
+      "policy_id": "synthetic:wifi-policy",
+      "policy_complete": true,
+      "networks_complete": true,
+      "policy": {
+        "allowed_modes": ["wpa3_personal", "wpa2_wpa3_transition"],
+        "pmf_required_modes": ["wpa3_personal"],
+        "guest_isolation_required": true
+      },
+      "networks": [
+        {
+          "network_id": "synthetic:staff",
+          "security_mode": "wpa3_personal",
+          "pmf_state": "required",
+          "guest": false,
+          "client_isolation": false
+        },
+        {
+          "network_id": "synthetic:guest",
+          "security_mode": "wpa2_wpa3_transition",
+          "pmf_state": "capable",
+          "guest": true,
+          "client_isolation": false
+        }
+      ]
+    }
+  }
+}

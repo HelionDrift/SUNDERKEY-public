@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S10",
+  "component_id": "supplied_spark_job_plan",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-spark-job-plan-v1",
+      "declarations_complete": false,
+      "policy": {
+        "max_executor_cores": 4,
+        "max_executor_memory_mib": 8192,
+        "max_executors": 8,
+        "max_total_cores": 16,
+        "max_total_memory_mib": 65536
+      },
+      "datasets": [
+        {"dataset_ref": "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+        {"dataset_ref": "dataset:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "tenant_ref": "tenant:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+      ],
+      "jobs": [
+        {
+          "job_id": "declared-job-1",
+          "run_as_tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_dataset_refs": [
+            "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "dataset:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          ],
+          "output_dataset_ref": "dataset:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "executor_cores": 6,
+          "executor_memory_mib": 4096,
+          "executors": 4
+        }
+      ]
+    }
+  }
+}

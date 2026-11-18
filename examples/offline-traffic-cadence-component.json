@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S18",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-traffic-cadence",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "aligned_equal_duration_buckets_asserted": true,
+    "threshold_basis_points": 9000,
+    "series": [
+      {"series_id": "a", "bucket_counts": [1, 2, 3, 4]},
+      {"series_id": "b", "bucket_counts": [2, 4, 6, 8]}
+    ]
+  }}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-scan-plan",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "supplied_scope_cidrs": ["192.0.2.0/24", "2001:db8::/32"],
+    "proposals": [
+      {"proposal_id": "within", "cidr": "192.0.2.128/25"},
+      {"proposal_id": "outside", "cidr": "198.51.100.0/24"}
+    ]
+  }}
+}

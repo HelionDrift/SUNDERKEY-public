@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S15",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-org-paths",
+      "organization_id": "org-one",
+      "access_paths": [
+        {"path_id": "support-admin", "channel": "support", "active": true, "privileged": true, "approval_required": true, "approval_recorded": false, "context_complete": true},
+        {"path_id": "billing-reader", "channel": "billing", "active": true, "privileged": false, "approval_required": true, "approval_recorded": false, "context_complete": true}
+      ]
+    }
+  }
+}

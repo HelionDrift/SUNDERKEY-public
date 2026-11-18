@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "namespaces": [
+        {"name": "front", "labels": {"team": "client", "kubernetes.io/metadata.name": "front"}},
+        {"name": "back", "labels": {"team": "data", "kubernetes.io/metadata.name": "back"}}
+      ],
+      "pods": [
+        {"namespace": "front", "name": "client", "labels": {"role": "client"}, "host_network": false},
+        {"namespace": "back", "name": "db", "labels": {"role": "db"}, "host_network": false}
+      ],
+      "network_policies": [
+        {
+          "apiVersion": "networking.k8s.io/v1",
+          "kind": "NetworkPolicy",
+          "metadata": {"namespace": "back", "name": "database"},
+          "spec": {
+            "podSelector": {"matchLabels": {"role": "db"}},
+            "ingress": [
+              {
+                "from": [
+                  {"namespaceSelector": {"matchLabels": {"team": "client"}}, "podSelector": {"matchLabels": {"role": "client"}}}
+                ],
+                "ports": [{"port": 5432}]
+              }
+            ]
+          }
+        }
+      ],
+      "flows": [
+        {"flow_id": "database", "source_pod": {"namespace": "front", "name": "client"}, "destination_pod": {"namespace": "back", "name": "db"}, "protocol": "TCP", "destination_port": 5432},
+        {"flow_id": "other-port", "source_pod": {"namespace": "front", "name": "client"}, "destination_pod": {"namespace": "back", "name": "db"}, "protocol": "TCP", "destination_port": 5433}
+      ]
+    }
+  }
+}

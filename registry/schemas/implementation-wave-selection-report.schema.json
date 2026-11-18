@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/implementation-wave-selection-report-v1.json",
+  "title": "SUNDERKEY Implementation Wave Selection Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "status",
+    "selection_effect",
+    "work_package_report",
+    "implementation_roadmap",
+    "registry",
+    "selected_wave_id",
+    "selected_package_id",
+    "summary",
+    "package",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^IWS-[0-9A-F]{32}$"
+    },
+    "report_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "status": {
+      "const": "implementation_wave_package_selected"
+    },
+    "selection_effect": {
+      "const": "none"
+    },
+    "work_package_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "sha256"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "pattern": "^IWR-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "implementation_roadmap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "sha256"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "pattern": "^IRR-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "registry": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "selected_wave_id": {
+      "$ref": "#/$defs/waveId"
+    },
+    "selected_package_id": {
+      "type": "string",
+      "pattern": "^IWP-IW-[0-9]{3}$"
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "group_count",
+        "domain_command_count",
+        "specialist_lane_count",
+        "work_item_count",
+        "ready_for_authoring_work_item_count",
+        "waiting_on_dependencies_work_item_count",
+        "blocked_by_decision_work_item_count"
+      ],
+      "properties": {
+        "group_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "domain_command_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "specialist_lane_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "work_item_count": {
+          "type": "integer",
+          "minimum": 9,
+          "maximum": 207
+        },
+        "ready_for_authoring_work_item_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "waiting_on_dependencies_work_item_count": {
+          "type": "integer",
+          "minimum": 7,
+          "maximum": 161
+        },
+        "blocked_by_decision_work_item_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        }
+      }
+    },
+    "package": {
+      "$ref": "#/$defs/package"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "waveId": {
+      "type": "string",
+      "pattern": "^IW-[0-9]{3}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "catalogBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "wave_id",
+        "wave_number",
+        "group_count",
+        "domain_command_count",
+        "specialist_lane_count",
+        "work_item_count",
+        "initially_ready_work_item_count",
+        "decision_blocked_work_item_count",
+        "group_commanders",
+        "domain_commander_profile_ids",
+        "coordination_state",
+        "command_lanes"
+      ],
+      "properties": {
+        "package_id": {
+          "type": "string",
+          "pattern": "^IWP-IW-[0-9]{3}$"
+        },
+        "wave_id": {
+          "$ref": "#/$defs/waveId"
+        },
+        "wave_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "group_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "domain_command_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "specialist_lane_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "work_item_count": {
+          "type": "integer",
+          "minimum": 9,
+          "maximum": 207
+        },
+        "initially_ready_work_item_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "decision_blocked_work_item_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 23
+        },
+        "group_commanders": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "group_id",
+              "commander_profile_id"
+            ],
+            "properties": {
+              "group_id": {
+                "type": "string",
+                "enum": [
+                  "GA",
+                  "GB",
+                  "GC",
+                  "GD",
+                  "GE"
+                ]
+              },
+              "commander_profile_id": {
+                "type": "string",
+                "pattern": "^AOE-HQ-0[3-7]$"
+              }
+            }
+          }
+        },
+        "domain_commander_profile_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 23,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^AOE-G[A-E]-D[0-9]{2}-CMD$"
+          }
+        },
+        "coordination_state": {
+          "const": "planning_only"
+        },
+        "command_lanes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 23,
+          "items": {
+            "$ref": "#/$defs/commandLane"
+          }
+        }
+      }
+    },
+    "commandLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_id",
+        "subject_profile_id",
+        "subject_profile_name",
+        "group_id",
+        "command_id",
+        "accountable_commander_profile_id",
+        "priority_tier",
+        "candidate_blueprint_sha256",
+        "required_gate_ids",
+        "work_item_count",
+        "work_items"
+      ],
+      "properties": {
+        "lane_id": {
+          "type": "string",
+          "pattern": "^IL-IW-[0-9]{3}-AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "subject_profile_id": {
+          "$ref": "#/$defs/profileId"
+        },
+        "subject_profile_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "group_id": {
+          "type": "string",
+          "enum": [
+            "GA",
+            "GB",
+            "GC",
+            "GD",
+            "GE"
+          ]
+        },
+        "command_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}$"
+        },
+        "accountable_commander_profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-CMD$"
+        },
+        "priority_tier": {
+          "type": "string",
+          "enum": [
+            "command_coverage_gap",
+            "eligible_baseline_gap",
+            "army_depth_gap"
+          ]
+        },
+        "candidate_blueprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "required_gate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "work_item_count": {
+          "const": 9
+        },
+        "work_items": {
+          "type": "array",
+          "minItems": 9,
+          "maxItems": 9,
+          "items": {
+            "$ref": "#/$defs/workItem"
+          }
+        }
+      }
+    },
+    "workItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_item_id",
+        "stage_number",
+        "stage_id",
+        "task_state",
+        "dependency_work_item_ids",
+        "decision_blocker_ids",
+        "task_effect"
+      ],
+      "properties": {
+        "work_item_id": {
+          "type": "string",
+          "pattern": "^IWI-IW-[0-9]{3}-AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}-0[1-9]$"
+        },
+        "stage_number": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9
+        },
+        "stage_id": {
+          "type": "string",
+          "enum": [
+            "behavior_contract",
+            "instruction_bundle",
+            "knowledge_manifest",
+            "runtime_manifest",
+            "tool_policy",
+            "candidate_artifact_binding",
+            "candidate_onboarding",
+            "synthetic_evaluation_preflight",
+            "authoritative_qualification"
+          ]
+        },
+        "task_state": {
+          "type": "string",
+          "enum": [
+            "ready_for_authoring",
+            "waiting_on_dependencies",
+            "blocked_by_decision"
+          ]
+        },
+        "dependency_work_item_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^IWI-IW-[0-9]{3}-AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}-0[1-9]$"
+          }
+        },
+        "decision_blocker_ids": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "const": "D008"
+          }
+        },
+        "task_effect": {
+          "const": "none"
+        }
+      }
+    }
+  }
+}

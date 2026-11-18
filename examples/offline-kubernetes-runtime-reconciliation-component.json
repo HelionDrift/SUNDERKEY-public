@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-kubernetes-runtime",
+      "inventory_complete": true,
+      "desired": [
+        {
+          "namespace": "demo",
+          "workload_id": "web",
+          "delivery_kind": "gitops",
+          "revision": "revision-1",
+          "image_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "runtime": [
+        {
+          "namespace": "demo",
+          "workload_id": "web",
+          "revision": "revision-1",
+          "image_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    }
+  }
+}

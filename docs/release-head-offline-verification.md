@@ -1,0 +1,9 @@
+# Offline Release-Head Verification
+
+The D012 V1 release-head verifier is a local, nonqualifying preview. It consumes a `SignedReleaseHeadDescriptor`, 32 raw Ed25519 public-key bytes, and an explicit caller-supplied `ReleaseHeadTrustAnchor`. It reconstructs the existing domain-separated signing bytes, verifies the signature, binds the public-key digest, signer ID, offline-root authorization digest, and deployment ID, then checks the exact next sequence and predecessor digest.
+
+For a first head, set `previous_head=None`. Only sequence 1 with a null predecessor is accepted. For a successor, supply the previously trusted `LedgerHeadDescriptor`. The verifier requires the next sequence and the canonical digest of that descriptor as the new head's predecessor. This detects a stale, skipped, rolled-back, or forked candidate relative to that supplied anchor. It does not establish that the caller's anchor was authoritative or remains current.
+
+Successful output is `OfflineReleaseHeadVerificationPreview`, not `ReleaseHeadVerificationReceipt`. It has `qualification_effect="none"` and `authority_effect="none"`. A verifier failure raises `ReleaseHeadVerificationError` without producing a preview. The module performs no network, provider, filesystem, SQLite, or runtime-state operation and has no private-key custody. Test signatures use only a fixed disposable local key.
+
+This preview does not implement a production custody provider, persistent anti-rollback state, root authorization verification, key lifecycle or revocation, independent currentness checks, an audit append, or release admission. A production release still requires those boundaries and a provider-issued receipt under the D012 contract. The caller must source and protect the trust anchor independently; passing attacker-supplied anchor values can make a signature check appear meaningful without establishing production trust.

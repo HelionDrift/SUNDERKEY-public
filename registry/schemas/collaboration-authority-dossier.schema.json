@@ -1,0 +1,425 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-authority-dossier-v1.json",
+  "title": "SUNDERKEY Collaboration Authority Decision Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "status",
+    "decision_effect",
+    "decision_ids",
+    "registry",
+    "capability_catalog",
+    "routing_policy",
+    "current_scope",
+    "nonnegotiable_requirements",
+    "alternatives",
+    "decision_questions",
+    "recommendation",
+    "implementation_sequence_after_decision",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^CAD-[0-9A-F]{32}$"
+    },
+    "report_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "status": {
+      "const": "decision_required"
+    },
+    "decision_effect": {
+      "const": "none"
+    },
+    "decision_ids": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "prefixItems": [
+        {
+          "const": "D001"
+        },
+        {
+          "const": "D002"
+        },
+        {
+          "const": "D003"
+        },
+        {
+          "const": "D004"
+        },
+        {
+          "const": "D005"
+        }
+      ],
+      "items": false
+    },
+    "registry": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "capability_catalog": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "routing_policy": {
+      "$ref": "#/$defs/catalogBinding"
+    },
+    "current_scope": {
+      "$ref": "#/$defs/currentScope"
+    },
+    "nonnegotiable_requirements": {
+      "$ref": "#/$defs/requirements"
+    },
+    "alternatives": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/alternative"
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/decisionQuestion"
+      }
+    },
+    "recommendation": {
+      "$ref": "#/$defs/recommendation"
+    },
+    "implementation_sequence_after_decision": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "prefixItems": [
+        {
+          "const": "approve_d001_through_d005_collaboration_authority_bundle"
+        },
+        {
+          "const": "define_reconfiguration_authority_policy"
+        },
+        {
+          "const": "define_bounded_ownership_chain_and_revocation_contracts"
+        },
+        {
+          "const": "define_reviewed_plan_replacement_and_item_mapping_contracts"
+        },
+        {
+          "const": "define_cross_command_capability_and_qualification_review"
+        },
+        {
+          "const": "define_fenced_external_execution_acknowledgement_protocol"
+        },
+        {
+          "const": "implement_atomic_persistence_and_replay_validation"
+        },
+        {
+          "const": "add_adversarial_concurrency_cycle_stale_plan_and_partial_ack_tests"
+        }
+      ],
+      "items": false
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifierSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "catalogBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "currentScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialist_count",
+        "qualified_specialist_count",
+        "domain_command_count",
+        "domain_commander_count",
+        "shared_profile_count",
+        "sqlite_schema_version",
+        "transferable_work_item_kinds",
+        "maximum_handoffs_per_work_item",
+        "cross_command_handoff",
+        "activated_plan_replacement",
+        "distributed_execution_acknowledgement"
+      ],
+      "properties": {
+        "specialist_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "qualified_specialist_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "domain_command_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "domain_commander_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shared_profile_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sqlite_schema_version": {
+          "const": 15
+        },
+        "transferable_work_item_kinds": {
+          "const": [
+            "specialist_analysis"
+          ]
+        },
+        "maximum_handoffs_per_work_item": {
+          "const": 1
+        },
+        "cross_command_handoff": {
+          "const": false
+        },
+        "activated_plan_replacement": {
+          "const": false
+        },
+        "distributed_execution_acknowledgement": {
+          "const": false
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_binding_requirements",
+        "separation_requirements",
+        "fail_closed_requirements",
+        "history_requirements",
+        "private_key_storage_in_sunderkey",
+        "execution_credentials_in_reconfiguration",
+        "direct_runtime_control"
+      ],
+      "properties": {
+        "authority_binding_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "separation_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "fail_closed_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "history_requirements": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "private_key_storage_in_sunderkey": {
+          "const": false
+        },
+        "execution_credentials_in_reconfiguration": {
+          "const": false
+        },
+        "direct_runtime_control": {
+          "const": false
+        }
+      }
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "name",
+        "recommended",
+        "authority_location",
+        "decision_record",
+        "operational_complexity",
+        "independence_strength",
+        "distributed_execution_support",
+        "strengths",
+        "risks",
+        "required_components"
+      ],
+      "properties": {
+        "alternative_id": {
+          "enum": [
+            "reviewed_reconfiguration_ledger",
+            "centralized_mission_authority",
+            "commander_federated_reconfiguration",
+            "runtime_local_ownership"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended": {
+          "type": "boolean"
+        },
+        "authority_location": {
+          "$ref": "#/$defs/identifier"
+        },
+        "decision_record": {
+          "$ref": "#/$defs/identifier"
+        },
+        "operational_complexity": {
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "independence_strength": {
+          "enum": [
+            "weak",
+            "moderate",
+            "strong"
+          ]
+        },
+        "distributed_execution_support": {
+          "$ref": "#/$defs/identifier"
+        },
+        "strengths": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "risks": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "required_components": {
+          "$ref": "#/$defs/identifierSet"
+        }
+      }
+    },
+    "decisionQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "question_id",
+        "prompt",
+        "option_ids",
+        "recommended_option_id"
+      ],
+      "properties": {
+        "decision_id": {
+          "type": "string",
+          "pattern": "^D00[1-5]$"
+        },
+        "question_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "option_ids": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "recommended_option_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alternative_id",
+        "recommended_option_bundle",
+        "rationale",
+        "selection_state"
+      ],
+      "properties": {
+        "alternative_id": {
+          "const": "reviewed_reconfiguration_ledger"
+        },
+        "recommended_option_bundle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "D001",
+            "D002",
+            "D003",
+            "D004",
+            "D005"
+          ],
+          "properties": {
+            "D001": {
+              "const": "owner_replacement_and_independent_control"
+            },
+            "D002": {
+              "const": "versioned_bounded_chain_with_return_and_control_revocation"
+            },
+            "D003": {
+              "const": "reviewed_plan_replacement_with_capability_revalidation"
+            },
+            "D004": {
+              "const": "independently_reviewed_exact_item_mapping"
+            },
+            "D005": {
+              "const": "fenced_sessions_signed_acknowledgement_and_timeout"
+            }
+          }
+        },
+        "rationale": {
+          "$ref": "#/$defs/identifierSet"
+        },
+        "selection_state": {
+          "const": "not_selected"
+        }
+      }
+    }
+  }
+}

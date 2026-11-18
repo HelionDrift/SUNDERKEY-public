@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/specialist-scenario-corpus-v1.json",
+  "title": "SUNDERKEY Specialist Qualification Scenario Corpus",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "corpus_id",
+    "corpus_sha256",
+    "schema_version",
+    "corpus_version",
+    "corpus_status",
+    "source_bindings",
+    "variant_definitions",
+    "coverage_summary",
+    "scenarios",
+    "gaps",
+    "qualification_effect",
+    "routing_effect",
+    "authority_effect",
+    "execution_effect",
+    "limitations"
+  ],
+  "properties": {
+    "corpus_id": {
+      "type": "string",
+      "pattern": "^QCP-[0-9A-F]{32}$"
+    },
+    "corpus_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "corpus_version": {
+      "const": "1.0.0"
+    },
+    "corpus_status": {
+      "enum": [
+        "complete",
+        "gaps_preserved"
+      ]
+    },
+    "source_bindings": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/source_binding"
+      }
+    },
+    "variant_definitions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/variant_definition"
+      }
+    },
+    "coverage_summary": {
+      "$ref": "#/$defs/coverage_summary"
+    },
+    "scenarios": {
+      "type": "array",
+      "maxItems": 3072,
+      "items": {
+        "$ref": "#/$defs/scenario"
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "$ref": "#/$defs/gap"
+      }
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "routing_effect": {
+      "const": "none"
+    },
+    "authority_effect": {
+      "const": "none"
+    },
+    "execution_effect": {
+      "const": "none"
+    },
+    "limitations": {
+      "$ref": "#/$defs/nonempty_unique_strings"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "nonempty_unique_strings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_role",
+        "artifact_name",
+        "artifact_id",
+        "artifact_version",
+        "content_sha256",
+        "canonical_sha256",
+        "declared_catalog_sha256"
+      ],
+      "properties": {
+        "source_role": {
+          "enum": [
+            "expert_registry",
+            "attack_vectors",
+            "capability_graph",
+            "qualification_plans",
+            "candidate_blueprints",
+            "commander_work_packages"
+          ]
+        },
+        "artifact_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+\\.json$"
+        },
+        "artifact_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "artifact_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "canonical_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "declared_catalog_sha256": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "variant_definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variant_id",
+        "source_requirement",
+        "expected_disposition",
+        "proof_focus_id"
+      ],
+      "properties": {
+        "variant_id": {
+          "enum": [
+            "positive_reproducible",
+            "negative_control",
+            "ambiguous_authority",
+            "adversarial_evidence",
+            "collaboration_conflict",
+            "restoration_verification"
+          ]
+        },
+        "source_requirement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_disposition": {
+          "$ref": "#/$defs/identifier"
+        },
+        "proof_focus_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialist_profile_count",
+        "eligible_profile_count",
+        "gap_profile_count",
+        "required_variants_per_profile",
+        "expected_scenario_count",
+        "scenario_count",
+        "missing_scenario_count",
+        "gap_reason_counts",
+        "complete"
+      ],
+      "properties": {
+        "specialist_profile_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 512
+        },
+        "eligible_profile_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 512
+        },
+        "gap_profile_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 512
+        },
+        "required_variants_per_profile": {
+          "const": 6
+        },
+        "expected_scenario_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3072
+        },
+        "scenario_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3072
+        },
+        "missing_scenario_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3072
+        },
+        "gap_reason_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 512
+          },
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "scenario_sha256",
+        "profile_id",
+        "profile_version",
+        "variant_id",
+        "variant_requirement",
+        "expected_disposition",
+        "scenario_family_id",
+        "vector_id",
+        "primary_capability_ids",
+        "supporting_capability_ids",
+        "prerequisite_observations",
+        "safe_proof_identifiers",
+        "negative_controls",
+        "restoration_checks",
+        "expected_evidence",
+        "independent_validator_ids",
+        "commander_binding",
+        "action_tier",
+        "known_blind_spots",
+        "source_binding_sha256s",
+        "qualification_effect",
+        "routing_effect",
+        "authority_effect",
+        "execution_effect"
+      ],
+      "properties": {
+        "scenario_id": {
+          "type": "string",
+          "pattern": "^QSC-[0-9A-F]{32}$"
+        },
+        "scenario_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "profile_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "variant_id": {
+          "enum": [
+            "positive_reproducible",
+            "negative_control",
+            "ambiguous_authority",
+            "adversarial_evidence",
+            "collaboration_conflict",
+            "restoration_verification"
+          ]
+        },
+        "variant_requirement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_disposition": {
+          "$ref": "#/$defs/identifier"
+        },
+        "scenario_family_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "vector_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "primary_capability_ids": {
+          "$ref": "#/$defs/nonempty_identifier_array"
+        },
+        "supporting_capability_ids": {
+          "$ref": "#/$defs/nonempty_identifier_array"
+        },
+        "prerequisite_observations": {
+          "$ref": "#/$defs/nonempty_unique_strings"
+        },
+        "safe_proof_identifiers": {
+          "$ref": "#/$defs/nonempty_identifier_array"
+        },
+        "negative_controls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "prohibited_actions",
+            "stop_conditions",
+            "critical_failures"
+          ],
+          "properties": {
+            "prohibited_actions": {
+              "$ref": "#/$defs/nonempty_unique_strings"
+            },
+            "stop_conditions": {
+              "$ref": "#/$defs/nonempty_unique_strings"
+            },
+            "critical_failures": {
+              "$ref": "#/$defs/nonempty_unique_strings"
+            }
+          }
+        },
+        "restoration_checks": {
+          "$ref": "#/$defs/nonempty_unique_strings"
+        },
+        "expected_evidence": {
+          "$ref": "#/$defs/nonempty_unique_strings"
+        },
+        "independent_validator_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^AOE-HQ-[0-9]{2}$"
+          }
+        },
+        "commander_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command_id",
+            "commander_profile_id",
+            "group_commander_profile_id",
+            "work_package_id"
+          ],
+          "properties": {
+            "command_id": {
+              "type": "string",
+              "pattern": "^AOE-G[A-E]-D[0-9]{2}$"
+            },
+            "commander_profile_id": {
+              "type": "string",
+              "pattern": "^AOE-G[A-E]-D[0-9]{2}-CMD$"
+            },
+            "group_commander_profile_id": {
+              "type": "string",
+              "pattern": "^AOE-HQ-[0-9]{2}$"
+            },
+            "work_package_id": {
+              "$ref": "#/$defs/identifier"
+            }
+          }
+        },
+        "action_tier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "allowed_action_tiers",
+            "maximum_permitted_action_tier"
+          ],
+          "properties": {
+            "allowed_action_tiers": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "R0",
+                  "R1",
+                  "R2",
+                  "R3",
+                  "R4"
+                ]
+              }
+            },
+            "maximum_permitted_action_tier": {
+              "enum": [
+                "R0",
+                "R1",
+                "R2",
+                "R3",
+                "R4"
+              ]
+            }
+          }
+        },
+        "known_blind_spots": {
+          "$ref": "#/$defs/nonempty_unique_strings"
+        },
+        "source_binding_sha256s": {
+          "$ref": "#/$defs/source_hashes"
+        },
+        "qualification_effect": {
+          "const": "none"
+        },
+        "routing_effect": {
+          "const": "none"
+        },
+        "authority_effect": {
+          "const": "none"
+        },
+        "execution_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "nonempty_identifier_array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expert_registry",
+        "attack_vectors",
+        "capability_graph",
+        "qualification_plans",
+        "candidate_blueprints",
+        "commander_work_packages"
+      ],
+      "properties": {
+        "expert_registry": {
+          "$ref": "#/$defs/sha256"
+        },
+        "attack_vectors": {
+          "$ref": "#/$defs/sha256"
+        },
+        "capability_graph": {
+          "$ref": "#/$defs/sha256"
+        },
+        "qualification_plans": {
+          "$ref": "#/$defs/sha256"
+        },
+        "candidate_blueprints": {
+          "$ref": "#/$defs/sha256"
+        },
+        "commander_work_packages": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "reason_codes"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        }
+      }
+    }
+  }
+}

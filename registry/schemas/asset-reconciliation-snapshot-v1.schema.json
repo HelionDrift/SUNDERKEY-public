@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sunderkey:schema:asset-reconciliation-snapshot-v1",
+  "title": "SUNDERKEY passive asset reconciliation snapshot version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "as_of",
+    "assets",
+    "conflicts",
+    "effects",
+    "observation_count",
+    "prior_snapshot_sha256",
+    "schema_version",
+    "snapshot_id",
+    "snapshot_sha256",
+    "source_counts",
+    "tenant_id"
+  ],
+  "properties": {
+    "as_of": {"$ref": "#/$defs/utc"},
+    "assets": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/asset"}
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/conflict"}
+    },
+    "effects": {
+      "const": {
+        "active_probing": false,
+        "authority": "none",
+        "deployment": "none",
+        "qualification": "none",
+        "routing": "none",
+        "target_interaction": false
+      }
+    },
+    "observation_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "prior_snapshot_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/sha256"}
+      ]
+    },
+    "schema_version": {"const": 1},
+    "snapshot_id": {"type": "string", "pattern": "^ARS-[0-9A-F]{32}$"},
+    "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "source_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "cloud": {"type": "integer", "minimum": 1},
+        "cmdb": {"type": "integer", "minimum": 1},
+        "directory": {"type": "integer", "minimum": 1},
+        "endpoint": {"type": "integer", "minimum": 1},
+        "external": {"type": "integer", "minimum": 1},
+        "vulnerability": {"type": "integer", "minimum": 1}
+      }
+    },
+    "tenant_id": {"$ref": "#/$defs/identifierText"}
+  },
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id", "claims", "confidence_band", "confidence_bps", "first_seen_at",
+        "freshness", "identifiers", "identity_anchor", "last_seen_at", "ownership_history",
+        "prior_asset_ids", "provenance", "tenant_id"
+      ],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^AST-[0-9A-F]{32}$"},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/attributeClaim"}},
+        "confidence_band": {"enum": ["high", "low", "medium"]},
+        "confidence_bps": {"$ref": "#/$defs/bps"},
+        "first_seen_at": {"$ref": "#/$defs/utc"},
+        "freshness": {"enum": ["current", "stale"]},
+        "identifiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/assetIdentifier"}
+        },
+        "identity_anchor": {"$ref": "#/$defs/assetIdentifier"},
+        "last_seen_at": {"$ref": "#/$defs/utc"},
+        "ownership_history": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/ownershipHistory"}
+        },
+        "prior_asset_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^AST-[0-9A-F]{32}$"},
+          "uniqueItems": true
+        },
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/provenance"}
+        },
+        "tenant_id": {"$ref": "#/$defs/identifierText"}
+      }
+    },
+    "assetIdentifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "namespace", "value"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "cloud_resource_id", "cmdb_ci_id", "directory_object_id", "endpoint_device_id",
+            "external_asset_id", "fqdn", "hostname", "ip_address", "mac_address",
+            "serial_number", "vulnerability_asset_id"
+          ]
+        },
+        "namespace": {"$ref": "#/$defs/token"},
+        "value": {"$ref": "#/$defs/identifierText"}
+      }
+    },
+    "attributeClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {
+        "name": {"$ref": "#/$defs/token"},
+        "value": {"type": "string", "minLength": 1, "maxLength": 512}
+      }
+    },
+    "bps": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "claims", "conflict_id", "field", "kind", "status"],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^AST-[0-9A-F]{32}$"},
+        "claims": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["confidence_bps", "provenance_sha256", "value"],
+            "properties": {
+              "confidence_bps": {"$ref": "#/$defs/bps"},
+              "provenance_sha256": {"$ref": "#/$defs/sha256"},
+              "value": {"type": "string", "minLength": 1, "maxLength": 512}
+            }
+          }
+        },
+        "conflict_id": {"type": "string", "pattern": "^ARC-[0-9A-F]{32}$"},
+        "field": {"type": "string", "minLength": 1, "maxLength": 256},
+        "kind": {"$ref": "#/$defs/token"},
+        "status": {"const": "unresolved"}
+      }
+    },
+    "identifierText": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]{0,511}$"
+    },
+    "ownershipHistory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effective_from", "effective_until", "observation_sha256", "owner_ref"],
+      "properties": {
+        "effective_from": {"$ref": "#/$defs/utc"},
+        "effective_until": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/utc"}]
+        },
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "owner_ref": {"$ref": "#/$defs/identifierText"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "confidence_bps", "expires_at", "freshness", "observed_at", "provenance_sha256",
+        "source_kind", "source_record_id", "source_system"
+      ],
+      "properties": {
+        "confidence_bps": {"$ref": "#/$defs/bps"},
+        "expires_at": {"$ref": "#/$defs/utc"},
+        "freshness": {"enum": ["current", "stale"]},
+        "observed_at": {"$ref": "#/$defs/utc"},
+        "provenance_sha256": {"$ref": "#/$defs/sha256"},
+        "source_kind": {"enum": ["cloud", "cmdb", "directory", "endpoint", "external", "vulnerability"]},
+        "source_record_id": {"$ref": "#/$defs/identifierText"},
+        "source_system": {"$ref": "#/$defs/token"}
+      }
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "token": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

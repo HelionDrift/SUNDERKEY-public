@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-namespace-policy",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "tenant_policies": [
+      {"tenant_id": "alpha", "namespace_separation_required": true,
+       "maximum_memory_mib": 512},
+      {"tenant_id": "beta", "namespace_separation_required": true,
+       "maximum_memory_mib": 512}
+    ],
+    "workloads": [
+      {"workload_id": "a", "tenant_id": "alpha", "namespace_id": "ns-shared",
+       "memory_limit_mib": 1024},
+      {"workload_id": "b", "tenant_id": "beta", "namespace_id": "ns-shared",
+       "memory_limit_mib": 256}
+    ]
+  }}
+}

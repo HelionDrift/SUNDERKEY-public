@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S07",
+  "component_id": "network_supplied_nac_admission_consistency",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:nac-source",
+      "policy_id": "synthetic:nac-policy",
+      "policy_complete": true,
+      "sessions_complete": true,
+      "configured_vlans_complete": true,
+      "policy": {
+        "accept_requires_authorized": true,
+        "reject_requires_unauthorized": true,
+        "accepted_vlan_required": true
+      },
+      "configured_vlans": [20, 30],
+      "sessions": [
+        {
+          "session_id": "synthetic:accepted",
+          "port_id": "synthetic:port-one",
+          "radius_result": "accept",
+          "controlled_port_state": "authorized",
+          "tunnel_type": "vlan",
+          "tunnel_medium_type": "ieee802",
+          "tunnel_private_group_vlan": 20,
+          "declared_assigned_vlan": 20
+        },
+        {
+          "session_id": "synthetic:rejected",
+          "port_id": "synthetic:port-two",
+          "radius_result": "reject",
+          "controlled_port_state": "authorized",
+          "tunnel_type": null,
+          "tunnel_medium_type": null,
+          "tunnel_private_group_vlan": null,
+          "declared_assigned_vlan": null
+        }
+      ]
+    }
+  }
+}

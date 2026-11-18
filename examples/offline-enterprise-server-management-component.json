@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D16-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-enterprise-server",
+    "inventory_complete": true,
+    "servers": [{
+      "server_id": "server_a",
+      "stack": "java",
+      "management_scope": "public",
+      "admin_mfa_enforced": false,
+      "debug_endpoint_enabled": true,
+      "policy_assertions_complete": true
+    }]
+  }}
+}

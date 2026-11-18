@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S12",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-remote-routes",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "approved_routes": [{
+      "source_host_id": "host-a",
+      "destination_host_id": "host-b",
+      "channel": "winrm"
+    }],
+    "sessions": [{
+      "session_id": "session-a",
+      "source_host_id": "host-a",
+      "destination_host_id": "host-c",
+      "channel": "winrm",
+      "session_declared": true
+    }]
+  }}
+}

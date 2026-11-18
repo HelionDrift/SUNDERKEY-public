@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-implementation-report-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Implementation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "decision",
+    "implementation_status",
+    "implemented_steps",
+    "security_properties",
+    "operational_prerequisites",
+    "prohibited_effects",
+    "live_enrollment_status",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^CEI-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_id", "record_id", "sha256"],
+      "properties": {
+        "decision_id": {"const": "D009"},
+        "record_id": {"type": "string", "pattern": "^CER-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "implementation_status": {"const": "contract_implementation_complete"},
+    "implemented_steps": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "phase", "artifacts"],
+        "properties": {
+          "step_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+          "phase": {"type": "integer", "minimum": 66, "maximum": 69},
+          "artifacts": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9_./-]{8,160}$"}
+          }
+        }
+      }
+    },
+    "security_properties": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "operational_prerequisites": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "prohibited_effects": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,128}$"}
+    },
+    "live_enrollment_status": {"const": "not_started"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/ha-coordination-contract-v1.schema.json",
+  "title": "SUNDERKEY high-availability coordination contracts v1",
+  "oneOf": [
+    {"$ref": "#/$defs/memberDeclaration"},
+    {"$ref": "#/$defs/leaderEpoch"},
+    {"$ref": "#/$defs/quorumObservationSet"},
+    {"$ref": "#/$defs/splitBrainAssessment"},
+    {"$ref": "#/$defs/fencingGrant"},
+    {"$ref": "#/$defs/failoverPlan"},
+    {"$ref": "#/$defs/recoveryRequirements"},
+    {"$ref": "#/$defs/failoverObservation"},
+    {"$ref": "#/$defs/degradedMode"},
+    {"$ref": "#/$defs/safeWriteAdmission"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+(?:\\.[0-9]+){1,3}(?:[-+][A-Za-z0-9.]+)?$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|serviceref|clusterref|memberref|observerref|resourceref|leaseref|evidenceref|recoveryref|scoperef|missionref|authorityref|operationref|grantref|requirementref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization", "clock", "consensus", "dispatch", "failover", "fencing", "network", "persistence", "processes", "qualification", "threads"],
+      "properties": {
+        "authorization": {"const": "none"},
+        "clock": {"const": "caller_supplied"},
+        "consensus": {"const": "none"},
+        "dispatch": {"const": "none"},
+        "failover": {"const": "none"},
+        "fencing": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "processes": {"const": "none"},
+        "qualification": {"const": "none"},
+        "threads": {"const": "none"}
+      }
+    },
+    "base": {
+      "type": "object",
+      "required": ["cluster_ref", "cluster_version", "effects", "kind", "schema_version", "service_ref", "service_version", "tenant_ref"],
+      "properties": {
+        "cluster_ref": {"$ref": "#/$defs/reference"},
+        "cluster_version": {"$ref": "#/$defs/version"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "kind": {"type": "string"},
+        "schema_version": {"const": 1},
+        "service_ref": {"$ref": "#/$defs/reference"},
+        "service_version": {"$ref": "#/$defs/version"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "quorumObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed_at", "observed_epoch", "observed_leader_ref", "observed_lease_expires_at", "observer_ref"],
+      "properties": {
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "observed_epoch": {"type": "integer", "minimum": 1},
+        "observed_leader_ref": {"$ref": "#/$defs/reference"},
+        "observed_lease_expires_at": {"$ref": "#/$defs/timestamp"},
+        "observer_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "recoveryEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_kind", "evidence_ref", "evidence_sha256", "observed_at", "observer_ref"],
+      "properties": {
+        "evidence_kind": {"enum": ["member_health", "quorum_continuity", "leader_epoch_continuity", "fencing_continuity", "durable_state_reconciliation", "mission_stop_reconciliation", "execution_session_reconciliation", "outbox_reconciliation", "scheduler_reconciliation"]},
+        "evidence_ref": {"$ref": "#/$defs/reference"},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "observer_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "memberDeclaration": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["declaration_id", "declaration_sha256", "declaration_version", "declared_at", "eligible_for_leadership", "member_ref", "region", "role", "state"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-cluster-member-declaration.v1"},
+            "declaration_id": {"type": "string", "pattern": "^HMD-[0-9A-F]{32}$"},
+            "declaration_sha256": {"$ref": "#/$defs/sha256"},
+            "declaration_version": {"type": "integer", "minimum": 1},
+            "declared_at": {"$ref": "#/$defs/timestamp"},
+            "eligible_for_leadership": {"type": "boolean"},
+            "member_ref": {"$ref": "#/$defs/reference"},
+            "region": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$"},
+            "role": {"enum": ["voter", "witness", "learner"]},
+            "state": {"enum": ["active", "draining", "removed"]}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "leaderEpoch": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["epoch", "epoch_id", "epoch_sha256", "expected_prior_epoch", "issued_at", "leader_declaration_id", "leader_declaration_sha256", "leader_member_ref", "lease_expires_at", "lease_ref", "maximum_clock_skew_seconds"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-leader-epoch.v1"},
+            "epoch": {"type": "integer", "minimum": 1},
+            "epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "expected_prior_epoch": {"type": "integer", "minimum": 0},
+            "issued_at": {"$ref": "#/$defs/timestamp"},
+            "leader_declaration_id": {"type": "string", "pattern": "^HMD-[0-9A-F]{32}$"},
+            "leader_declaration_sha256": {"$ref": "#/$defs/sha256"},
+            "leader_member_ref": {"$ref": "#/$defs/reference"},
+            "lease_expires_at": {"$ref": "#/$defs/timestamp"},
+            "lease_ref": {"$ref": "#/$defs/reference"},
+            "maximum_clock_skew_seconds": {"type": "integer", "minimum": 1, "maximum": 3600}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "quorumObservationSet": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["evaluated_at", "expected_epoch_id", "expected_epoch_sha256", "maximum_clock_skew_seconds", "observation_set_id", "observation_set_sha256", "observations", "quorum_size", "voter_member_refs"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-quorum-observation-set.v1"},
+            "evaluated_at": {"$ref": "#/$defs/timestamp"},
+            "expected_epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "expected_epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "maximum_clock_skew_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+            "observation_set_id": {"type": "string", "pattern": "^HQO-[0-9A-F]{32}$"},
+            "observation_set_sha256": {"$ref": "#/$defs/sha256"},
+            "observations": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/quorumObservation"}},
+            "quorum_size": {"type": "integer", "minimum": 2},
+            "voter_member_refs": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "splitBrainAssessment": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["assessed_at", "assessment_id", "assessment_sha256", "blocker_codes", "candidate_support", "expected_epoch", "observation_set_ids", "observation_set_sha256s", "quorum_size", "status"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-split-brain-assessment.v1"},
+            "assessed_at": {"$ref": "#/$defs/timestamp"},
+            "assessment_id": {"type": "string", "pattern": "^HSA-[0-9A-F]{32}$"},
+            "assessment_sha256": {"$ref": "#/$defs/sha256"},
+            "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/code"}},
+            "candidate_support": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/code"}},
+            "expected_epoch": {"type": "integer", "minimum": 1},
+            "observation_set_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^HQO-[0-9A-F]{32}$"}},
+            "observation_set_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+            "quorum_size": {"type": "integer", "minimum": 1},
+            "status": {"enum": ["clear", "ambiguous", "conflicting_leaders", "insufficient_quorum", "stale_epoch"]}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "fencingGrant": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["epoch_id", "epoch_sha256", "expected_resource_version", "fence_epoch", "fence_token", "grant_id", "grant_sha256", "grant_status", "granted_at", "granted_to_member_ref", "lease_expires_at", "observation_set_id", "observation_set_sha256", "resource_ref"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-fencing-grant.v1"},
+            "epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "expected_resource_version": {"type": "integer", "minimum": 0},
+            "fence_epoch": {"type": "integer", "minimum": 1},
+            "fence_token": {"type": "string", "pattern": "^fence:[0-9a-f]{32}$"},
+            "grant_id": {"type": "string", "pattern": "^HFG-[0-9A-F]{32}$"},
+            "grant_sha256": {"$ref": "#/$defs/sha256"},
+            "grant_status": {"const": "eligible_for_external_atomic_commit"},
+            "granted_at": {"$ref": "#/$defs/timestamp"},
+            "granted_to_member_ref": {"$ref": "#/$defs/reference"},
+            "lease_expires_at": {"$ref": "#/$defs/timestamp"},
+            "observation_set_id": {"type": "string", "pattern": "^HQO-[0-9A-F]{32}$"},
+            "observation_set_sha256": {"$ref": "#/$defs/sha256"},
+            "resource_ref": {"$ref": "#/$defs/reference"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "failoverPlan": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["expected_resource_version", "plan_id", "plan_sha256", "plan_status", "planned_at", "prior_epoch", "prior_epoch_id", "prior_epoch_sha256", "proposed_leader_declaration_id", "proposed_leader_declaration_sha256", "proposed_leader_ref", "quorum_size", "reason", "required_next_epoch", "resource_ref"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-failover-plan.v1"},
+            "expected_resource_version": {"type": "integer", "minimum": 0},
+            "plan_id": {"type": "string", "pattern": "^HFP-[0-9A-F]{32}$"},
+            "plan_sha256": {"$ref": "#/$defs/sha256"},
+            "plan_status": {"const": "planned_only"},
+            "planned_at": {"$ref": "#/$defs/timestamp"},
+            "prior_epoch": {"type": "integer", "minimum": 1},
+            "prior_epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "prior_epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "proposed_leader_declaration_id": {"type": "string", "pattern": "^HMD-[0-9A-F]{32}$"},
+            "proposed_leader_declaration_sha256": {"$ref": "#/$defs/sha256"},
+            "proposed_leader_ref": {"$ref": "#/$defs/reference"},
+            "quorum_size": {"type": "integer", "minimum": 1},
+            "reason": {"enum": ["lease_expired", "explicit_relinquishment", "member_unavailable", "integrity_failure"]},
+            "required_next_epoch": {"type": "integer", "minimum": 2},
+            "resource_ref": {"$ref": "#/$defs/reference"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "recoveryRequirements": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["effective_at", "minimum_distinct_observers", "required_evidence_kinds", "requirement_id", "requirement_ref", "requirement_sha256", "requirement_version", "requires_execution_session_reconciliation", "requires_mission_stop_reconciliation"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-recovery-evidence-requirements.v1"},
+            "effective_at": {"$ref": "#/$defs/timestamp"},
+            "minimum_distinct_observers": {"type": "integer", "minimum": 1},
+            "required_evidence_kinds": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"$ref": "#/$defs/recoveryEvidence/properties/evidence_kind"}},
+            "requirement_id": {"type": "string", "pattern": "^HER-[0-9A-F]{32}$"},
+            "requirement_ref": {"$ref": "#/$defs/reference"},
+            "requirement_sha256": {"$ref": "#/$defs/sha256"},
+            "requirement_version": {"$ref": "#/$defs/version"},
+            "requires_execution_session_reconciliation": {"type": "boolean"},
+            "requires_mission_stop_reconciliation": {"type": "boolean"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "failoverObservation": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["blocker_codes", "evidence", "fencing_grant_id", "fencing_grant_sha256", "new_epoch_id", "new_epoch_sha256", "observation_id", "observation_sha256", "observed_at", "plan_id", "plan_sha256", "requirement_id", "requirement_sha256", "status"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-failover-observation.v1"},
+            "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/code"}},
+            "evidence": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/recoveryEvidence"}},
+            "fencing_grant_id": {"type": "string", "pattern": "^HFG-[0-9A-F]{32}$"},
+            "fencing_grant_sha256": {"$ref": "#/$defs/sha256"},
+            "new_epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "new_epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "observation_id": {"type": "string", "pattern": "^HFO-[0-9A-F]{32}$"},
+            "observation_sha256": {"$ref": "#/$defs/sha256"},
+            "observed_at": {"$ref": "#/$defs/timestamp"},
+            "plan_id": {"type": "string", "pattern": "^HFP-[0-9A-F]{32}$"},
+            "plan_sha256": {"$ref": "#/$defs/sha256"},
+            "requirement_id": {"type": "string", "pattern": "^HER-[0-9A-F]{32}$"},
+            "requirement_sha256": {"$ref": "#/$defs/sha256"},
+            "status": {"enum": ["rejected", "evidence_complete_unqualified"]}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "degradedMode": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["allowed_write_operations", "enforcement_status", "entered_at", "expires_at", "mode", "mode_id", "mode_sha256", "reason_codes"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-degraded-service-mode.v1"},
+            "allowed_write_operations": {"type": "array", "uniqueItems": true, "items": {"enum": ["metadata_write", "scheduler_claim", "outbox_claim", "control_plane_write", "target_action_dispatch"]}},
+            "enforcement_status": {"const": "external_enforcement_required"},
+            "entered_at": {"$ref": "#/$defs/timestamp"},
+            "expires_at": {"$ref": "#/$defs/timestamp"},
+            "mode": {"enum": ["read_only", "control_plane_only", "stop_only"]},
+            "mode_id": {"type": "string", "pattern": "^HDM-[0-9A-F]{32}$"},
+            "mode_sha256": {"$ref": "#/$defs/sha256"},
+            "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/code"}}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "safeWriteAdmission": {
+      "allOf": [
+        {"$ref": "#/$defs/base"},
+        {
+          "type": "object",
+          "required": ["admission_id", "admission_sha256", "assessment_id", "assessment_sha256", "authorization_effect", "blocker_codes", "degraded_mode_id", "degraded_mode_sha256", "epoch_id", "epoch_sha256", "evaluated_at", "expected_resource_version", "fencing_grant_id", "fencing_grant_sha256", "observation_set_id", "observation_set_sha256", "operation", "operation_ref", "resource_ref", "status"],
+          "properties": {
+            "kind": {"const": "sunderkey.ha-safe-write-admission.v1"},
+            "admission_id": {"type": "string", "pattern": "^HWA-[0-9A-F]{32}$"},
+            "admission_sha256": {"$ref": "#/$defs/sha256"},
+            "assessment_id": {"type": "string", "pattern": "^HSA-[0-9A-F]{32}$"},
+            "assessment_sha256": {"$ref": "#/$defs/sha256"},
+            "authorization_effect": {"const": "none"},
+            "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/code"}},
+            "degraded_mode_id": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^HDM-[0-9A-F]{32}$"}]},
+            "degraded_mode_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]},
+            "epoch_id": {"type": "string", "pattern": "^HLE-[0-9A-F]{32}$"},
+            "epoch_sha256": {"$ref": "#/$defs/sha256"},
+            "evaluated_at": {"$ref": "#/$defs/timestamp"},
+            "expected_resource_version": {"type": "integer", "minimum": 0},
+            "fencing_grant_id": {"type": "string", "pattern": "^HFG-[0-9A-F]{32}$"},
+            "fencing_grant_sha256": {"$ref": "#/$defs/sha256"},
+            "observation_set_id": {"type": "string", "pattern": "^HQO-[0-9A-F]{32}$"},
+            "observation_set_sha256": {"$ref": "#/$defs/sha256"},
+            "operation": {"enum": ["metadata_write", "scheduler_claim", "outbox_claim", "control_plane_write", "target_action_dispatch"]},
+            "operation_ref": {"$ref": "#/$defs/reference"},
+            "resource_ref": {"$ref": "#/$defs/reference"},
+            "status": {"enum": ["denied", "eligible_for_separate_authorization"]}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

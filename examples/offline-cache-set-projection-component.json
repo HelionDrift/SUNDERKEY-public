@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-cache-set-projection",
+      "synthetic_fixture": true,
+      "line_size_bytes": 64,
+      "set_count": 64,
+      "way_count": 2,
+      "accesses": [
+        {"address_hex": "0x0"},
+        {"address_hex": "0x1000"},
+        {"address_hex": "0x2000"},
+        {"address_hex": "0x40"}
+      ]
+    }
+  }
+}

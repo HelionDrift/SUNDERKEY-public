@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-linux-module-info",
+      "synthetic_fixture": true,
+      "elf_layout_model": {
+        "schema_version": 1,
+        "source_id": "synthetic-elf64-module",
+        "elf_file_base64": "f0VMRgIBAQAAAAAAAAAAAAEAPgABAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAEAAAAAAAEAAAwABAAAuc2hzdHJ0YWIALm1vZGluZm8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABsaWNlbnNlPUdQTAB2ZXJtYWdpYz1zeW50aGV0aWMAZGVwZW5kcz0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAwAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAACwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=="
+      },
+      "required_tag_ids": [
+        "license",
+        "vermagic",
+        "depends"
+      ]
+    }
+  }
+}

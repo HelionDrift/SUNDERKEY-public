@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D12-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "object": {
+        "access_acl": [
+          {
+            "permission_mask": 7,
+            "qualifier": null,
+            "tag": "user_obj"
+          },
+          {
+            "permission_mask": 4,
+            "qualifier": 1001,
+            "tag": "user"
+          },
+          {
+            "permission_mask": 5,
+            "qualifier": null,
+            "tag": "group_obj"
+          },
+          {
+            "permission_mask": 4,
+            "qualifier": null,
+            "tag": "mask"
+          },
+          {
+            "permission_mask": 7,
+            "qualifier": null,
+            "tag": "other"
+          }
+        ],
+        "object_ref": "file:synthetic",
+        "owner_gid": 2000,
+        "owner_uid": 1000,
+        "rwx_mode": 487
+      },
+      "principal": {
+        "fsgid": 2000,
+        "fsuid": 1001,
+        "principal_ref": "subject:synthetic",
+        "supplementary_gids": []
+      },
+      "requests": [
+        {
+          "request_id": "read",
+          "requested_mask": 4
+        },
+        {
+          "request_id": "write",
+          "requested_mask": 2
+        }
+      ],
+      "schema_version": 1
+    }
+  }
+}

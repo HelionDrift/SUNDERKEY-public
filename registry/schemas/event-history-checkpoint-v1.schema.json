@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/event-history-checkpoint-v1.schema.json",
+  "title": "SUNDERKEY Offline Event-History Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "checkpoint_id", "checkpoint_sha256", "schema_version", "custody_domain",
+    "scope_sha256", "head_sequence", "head_sha256", "observed_at",
+    "signer_key_id", "effects", "signature_b64url"
+  ],
+  "properties": {
+    "checkpoint_id": {"type": "string", "pattern": "^EHC-[0-9A-F]{32}$"},
+    "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "custody_domain": {
+      "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"
+    },
+    "scope_sha256": {"$ref": "#/$defs/sha256"},
+    "head_sequence": {"type": "integer", "minimum": 0, "maximum": 16384},
+    "head_sha256": {"$ref": "#/$defs/sha256"},
+    "observed_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "signer_key_id": {"type": "string", "pattern": "^EHK-[0-9A-F]{32}$"},
+    "effects": {
+      "const": {
+        "admission": "none", "authority": "none", "network": "none",
+        "qualification": "none", "scheduling": "none", "target_interaction": "none"
+      }
+    },
+    "signature_b64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

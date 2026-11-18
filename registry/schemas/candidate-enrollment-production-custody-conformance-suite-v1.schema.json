@@ -1,0 +1,529 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-production-custody-conformance-suite-v1.json",
+  "title": "SUNDERKEY Production Custody Provider Conformance Suite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "suite_id",
+    "suite_sha256",
+    "contract_id",
+    "contract_sha256",
+    "cases",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "suite_id": {"type": "string", "pattern": "^PCS-[0-9A-F]{32}$"},
+    "suite_sha256": {"$ref": "#/$defs/sha256"},
+    "contract_id": {"type": "string", "pattern": "^PCC-[0-9A-F]{32}$"},
+    "contract_sha256": {"$ref": "#/$defs/sha256"},
+    "cases": {
+      "allOf": [
+        {"$ref": "#/$defs/orderedCases"},
+        {
+          "const": [
+            {
+              "case_id": "exact_checkpoint_identity",
+              "sequence": 1,
+              "interface_ids": ["native_checkpoint_access"],
+              "objective": "Verify exact least-privilege checkpoint service identity.",
+              "variants": [
+                {
+                  "variant_id": "exact_identity",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["identity_receipt"]
+                },
+                {
+                  "variant_id": "wrong_identity",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["identity_rejection"]
+                }
+              ],
+              "required_evidence": ["identity_receipt", "identity_rejection"]
+            },
+            {
+              "case_id": "interrupted_checkpoint_replacement",
+              "sequence": 2,
+              "interface_ids": ["native_checkpoint_access"],
+              "objective": "Preserve recoverable checkpoint state across interrupted replacement.",
+              "variants": [
+                {
+                  "variant_id": "initial_commit",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["initial_commit_receipt"]
+                },
+                {
+                  "variant_id": "interrupted_replace",
+                  "expected_outcome": "blocked",
+                  "evidence_labels": ["replacement_fault"]
+                },
+                {
+                  "variant_id": "recovery_replace",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["recovery_commit_receipt"]
+                }
+              ],
+              "required_evidence": [
+                "initial_commit_receipt",
+                "replacement_fault",
+                "recovery_commit_receipt"
+              ]
+            },
+            {
+              "case_id": "ledger_put_if_absent",
+              "sequence": 3,
+              "interface_ids": ["retention_locked_ledger_objects"],
+              "objective": "Accept immutable creation and idempotent replay while rejecting overwrite.",
+              "variants": [
+                {
+                  "variant_id": "create_object",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["created_receipt"]
+                },
+                {
+                  "variant_id": "idempotent_replay",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["idempotent_receipt"]
+                },
+                {
+                  "variant_id": "conflicting_overwrite",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["overwrite_rejection"]
+                }
+              ],
+              "required_evidence": [
+                "created_receipt",
+                "idempotent_receipt",
+                "overwrite_rejection"
+              ]
+            },
+            {
+              "case_id": "retention_lock",
+              "sequence": 4,
+              "interface_ids": ["retention_locked_ledger_objects"],
+              "objective": "Verify retained immutable bytes and fail closed when retention cannot be proven.",
+              "variants": [
+                {
+                  "variant_id": "retention_verified",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["retention_receipt"]
+                },
+                {
+                  "variant_id": "retention_unavailable",
+                  "expected_outcome": "blocked",
+                  "evidence_labels": ["retention_fault"]
+                }
+              ],
+              "required_evidence": ["retention_receipt", "retention_fault"]
+            },
+            {
+              "case_id": "conditional_head_cas_race",
+              "sequence": 5,
+              "interface_ids": ["conditional_ledger_head"],
+              "objective": "Permit one compare-and-swap winner and reject a stale contender.",
+              "variants": [
+                {
+                  "variant_id": "initial_head",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["initial_cas_receipt"]
+                },
+                {
+                  "variant_id": "race_winner",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["winner_cas_receipt"]
+                },
+                {
+                  "variant_id": "stale_contender",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["stale_cas_rejection"]
+                }
+              ],
+              "required_evidence": [
+                "initial_cas_receipt",
+                "winner_cas_receipt",
+                "stale_cas_rejection"
+              ]
+            },
+            {
+              "case_id": "ledger_lineage_integrity",
+              "sequence": 6,
+              "interface_ids": ["conditional_ledger_head"],
+              "objective": "Accept one monotonic successor while rejecting sequence gaps and forks.",
+              "variants": [
+                {
+                  "variant_id": "valid_successor",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["successor_receipt"]
+                },
+                {
+                  "variant_id": "sequence_gap",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["gap_rejection"]
+                },
+                {
+                  "variant_id": "lineage_fork",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["fork_rejection"]
+                }
+              ],
+              "required_evidence": [
+                "successor_receipt",
+                "gap_rejection",
+                "fork_rejection"
+              ]
+            },
+            {
+              "case_id": "immutable_catalog_objects",
+              "sequence": 7,
+              "interface_ids": ["immutable_catalog_objects"],
+              "objective": "Preserve SHA-256 addressed catalog bytes and reject overwrite.",
+              "variants": [
+                {
+                  "variant_id": "create_catalog",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["catalog_put_receipt"]
+                },
+                {
+                  "variant_id": "catalog_overwrite",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["catalog_overwrite_rejection"]
+                },
+                {
+                  "variant_id": "read_original",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["catalog_read_receipt"]
+                }
+              ],
+              "required_evidence": [
+                "catalog_put_receipt",
+                "catalog_overwrite_rejection",
+                "catalog_read_receipt"
+              ]
+            },
+            {
+              "case_id": "custody_separation",
+              "sequence": 8,
+              "interface_ids": [
+                "native_checkpoint_access",
+                "retention_locked_ledger_objects",
+                "immutable_catalog_objects",
+                "release_head_signing",
+                "release_head_verification"
+              ],
+              "objective": "Verify distinct authority scopes, namespaces, failure domains, and signing roles.",
+              "variants": [
+                {
+                  "variant_id": "separated_custody",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["separation_snapshot"]
+                },
+                {
+                  "variant_id": "collapsed_custody",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["separation_rejection"]
+                }
+              ],
+              "required_evidence": ["separation_snapshot", "separation_rejection"]
+            },
+            {
+              "case_id": "workload_identity_lifecycle",
+              "sequence": 9,
+              "interface_ids": ["workload_identity"],
+              "objective": "Verify provider, scope, rotation, and freshness for workload identity.",
+              "variants": [
+                {
+                  "variant_id": "current_identity",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["identity_lifecycle_receipts"]
+                },
+                {
+                  "variant_id": "provider_mismatch",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["provider_contract_rejection"]
+                },
+                {
+                  "variant_id": "stale_identity",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["stale_identity_rejection"]
+                },
+                {
+                  "variant_id": "scope_mismatch",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["scope_rejection"]
+                },
+                {
+                  "variant_id": "retired_rotation",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["rotation_rejection"]
+                }
+              ],
+              "required_evidence": [
+                "identity_lifecycle_receipts",
+                "provider_contract_rejection",
+                "stale_identity_rejection",
+                "scope_rejection",
+                "rotation_rejection"
+              ]
+            },
+            {
+              "case_id": "signed_head_verification",
+              "sequence": 10,
+              "interface_ids": ["release_head_signing", "release_head_verification"],
+              "objective": "Verify signed release head lineage and offline root authorization.",
+              "variants": [
+                {
+                  "variant_id": "valid_signed_head",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["signed_head_receipts"]
+                },
+                {
+                  "variant_id": "tampered_signature",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["signature_rejection"]
+                },
+                {
+                  "variant_id": "wrong_root_authorization",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["root_contract_rejection"]
+                },
+                {
+                  "variant_id": "wrong_predecessor",
+                  "expected_outcome": "rejected",
+                  "evidence_labels": ["predecessor_contract_rejection"]
+                }
+              ],
+              "required_evidence": [
+                "signed_head_receipts",
+                "signature_rejection",
+                "root_contract_rejection",
+                "predecessor_contract_rejection"
+              ]
+            },
+            {
+              "case_id": "audit_append_blocks_release",
+              "sequence": 11,
+              "interface_ids": ["release_audit", "release_head_signing"],
+              "objective": "Require durable audit append before release signing.",
+              "variants": [
+                {
+                  "variant_id": "audit_before_sign",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["audit_and_sign_receipts"]
+                },
+                {
+                  "variant_id": "audit_failure",
+                  "expected_outcome": "blocked",
+                  "evidence_labels": ["audit_fault", "runner_signer_not_called"]
+                }
+              ],
+              "required_evidence": [
+                "audit_and_sign_receipts",
+                "audit_fault",
+                "runner_signer_not_called"
+              ]
+            },
+            {
+              "case_id": "partial_release_recovery",
+              "sequence": 12,
+              "interface_ids": [
+                "retention_locked_ledger_objects",
+                "conditional_ledger_head",
+                "immutable_catalog_objects",
+                "release_audit",
+                "release_head_signing",
+                "release_head_verification"
+              ],
+              "objective": "Recover safely after a partial release without skipping custody gates.",
+              "variants": [
+                {
+                  "variant_id": "partial_release",
+                  "expected_outcome": "blocked",
+                  "evidence_labels": ["partial_release_fault"]
+                },
+                {
+                  "variant_id": "recovered_release",
+                  "expected_outcome": "accepted",
+                  "evidence_labels": ["recovery_receipts"]
+                }
+              ],
+              "required_evidence": ["partial_release_fault", "recovery_receipts"]
+            }
+          ]
+        }
+      ]
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,127}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "pattern": "^[ -~]+$"
+    },
+    "tokenSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/token"}
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variant_id", "expected_outcome", "evidence_labels"],
+      "properties": {
+        "variant_id": {"$ref": "#/$defs/token"},
+        "expected_outcome": {"enum": ["accepted", "rejected", "blocked"]},
+        "evidence_labels": {"$ref": "#/$defs/tokenSet"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "sequence",
+        "interface_ids",
+        "objective",
+        "variants",
+        "required_evidence"
+      ],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/token"},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 12},
+        "interface_ids": {"$ref": "#/$defs/tokenSet"},
+        "objective": {"$ref": "#/$defs/text"},
+        "variants": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/variant"},
+          "contains": {
+            "type": "object",
+            "required": ["expected_outcome"],
+            "properties": {"expected_outcome": {"const": "accepted"}}
+          },
+          "minContains": 1,
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": ["expected_outcome"],
+                "properties": {
+                  "expected_outcome": {"enum": ["rejected", "blocked"]}
+                }
+              },
+              "minContains": 1
+            }
+          ]
+        },
+        "required_evidence": {"$ref": "#/$defs/tokenSet"}
+      }
+    },
+    "orderedCases": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "prefixItems": [
+        {"$ref": "#/$defs/case1"},
+        {"$ref": "#/$defs/case2"},
+        {"$ref": "#/$defs/case3"},
+        {"$ref": "#/$defs/case4"},
+        {"$ref": "#/$defs/case5"},
+        {"$ref": "#/$defs/case6"},
+        {"$ref": "#/$defs/case7"},
+        {"$ref": "#/$defs/case8"},
+        {"$ref": "#/$defs/case9"},
+        {"$ref": "#/$defs/case10"},
+        {"$ref": "#/$defs/case11"},
+        {"$ref": "#/$defs/case12"}
+      ],
+      "items": false
+    },
+    "case1": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "exact_checkpoint_identity"}, "sequence": {"const": 1}}}
+      ]
+    },
+    "case2": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "interrupted_checkpoint_replacement"}, "sequence": {"const": 2}}}
+      ]
+    },
+    "case3": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "ledger_put_if_absent"}, "sequence": {"const": 3}}}
+      ]
+    },
+    "case4": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "retention_lock"}, "sequence": {"const": 4}}}
+      ]
+    },
+    "case5": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "conditional_head_cas_race"}, "sequence": {"const": 5}}}
+      ]
+    },
+    "case6": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "ledger_lineage_integrity"}, "sequence": {"const": 6}}}
+      ]
+    },
+    "case7": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "immutable_catalog_objects"}, "sequence": {"const": 7}}}
+      ]
+    },
+    "case8": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "custody_separation"}, "sequence": {"const": 8}}}
+      ]
+    },
+    "case9": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "workload_identity_lifecycle"}, "sequence": {"const": 9}}}
+      ]
+    },
+    "case10": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "signed_head_verification"}, "sequence": {"const": 10}}}
+      ]
+    },
+    "case11": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "audit_append_blocks_release"}, "sequence": {"const": 11}}}
+      ]
+    },
+    "case12": {
+      "allOf": [
+        {"$ref": "#/$defs/case"},
+        {"properties": {"case_id": {"const": "partial_release_recovery"}, "sequence": {"const": 12}}}
+      ]
+    }
+  }
+}

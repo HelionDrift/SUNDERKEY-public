@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S08",
+  "component_id": "api_supplied_service_mesh_trust_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "workloads": [
+        {
+          "workload_id": "client",
+          "service_id": "caller",
+          "identity": "spiffe://demo/client",
+          "sidecar_present": true,
+          "sidecar_complete": true
+        },
+        {
+          "workload_id": "server",
+          "service_id": "orders",
+          "identity": "spiffe://demo/server",
+          "sidecar_present": true,
+          "sidecar_complete": true
+        }
+      ],
+      "routes": [
+        {
+          "route_id": "orders-route",
+          "service_id": "orders",
+          "destination_id": "server",
+          "policy_id": "orders-policy",
+          "complete": true
+        }
+      ],
+      "policies": [
+        {
+          "policy_id": "orders-policy",
+          "mtls_mode": "strict",
+          "identity_rule": "exact_allowlist",
+          "allowed_identities": ["spiffe://demo/server"],
+          "complete": true
+        }
+      ],
+      "flows": [
+        {
+          "flow_id": "deny-allowed",
+          "source_id": "client",
+          "route_id": "orders-route",
+          "source_path": "via_sidecar",
+          "destination_path": "via_sidecar",
+          "transport": "mtls",
+          "presented_identity": "spiffe://demo/client",
+          "identity_binding_complete": true,
+          "observed_outcome": "allowed",
+          "observation_complete": true
+        },
+        {
+          "flow_id": "plaintext-denied",
+          "source_id": "client",
+          "route_id": "orders-route",
+          "source_path": "via_sidecar",
+          "destination_path": "via_sidecar",
+          "transport": "plaintext",
+          "presented_identity": "unknown",
+          "identity_binding_complete": false,
+          "observed_outcome": "denied",
+          "observation_complete": true
+        },
+        {
+          "flow_id": "unknown-bypass",
+          "source_id": "client",
+          "route_id": "orders-route",
+          "source_path": "bypass",
+          "destination_path": "via_sidecar",
+          "transport": "mtls",
+          "presented_identity": "spiffe://demo/client",
+          "identity_binding_complete": true,
+          "observed_outcome": "allowed",
+          "observation_complete": true
+        }
+      ]
+    }
+  }
+}

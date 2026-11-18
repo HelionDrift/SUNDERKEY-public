@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S05",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "compact_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InN5bnRoZXRpYy1wdWJsaWMta2V5IiwidHlwIjoiSldUIn0.eyJhdWQiOiJzdW5kZXJrZXktc3ludGhldGljIiwiY3VzdG9tIjpbIm9wYXF1ZS1zeW50aGV0aWMtY29udGVudC1ub3QtcmV0YWluZWQiXSwiZXhwIjoxNzkwNjAwNDAwLCJpYXQiOjE3OTA1OTY3NDAsImlzcyI6Imh0dHBzOi8vaXNzdWVyLmV4YW1wbGUudGVzdCIsIm5iZiI6MTc5MDU5Njc0MCwic3ViIjoib3BhcXVlLXN5bnRoZXRpYy1zdWJqZWN0LW5vdC1yZXRhaW5lZCJ9.Qo8MSAtP1nt6dxrRwBqacHsT8sHoB3T3CR6VkWSO9dSFSI_bR18KJpBgMi5wP0xN-yyWq_CaKZ-LvaXzbPPvCw",
+      "evaluated_at": "2026-09-28T12:00:00Z",
+      "expected_algorithm": "ES256",
+      "expected_audience": "sunderkey-synthetic",
+      "expected_issuer": "https://issuer.example.test",
+      "public_jwk": {
+        "alg": "ES256",
+        "crv": "P-256",
+        "key_ops": [
+          "verify"
+        ],
+        "kid": "synthetic-public-key",
+        "kty": "EC",
+        "use": "sig",
+        "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+        "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU"
+      },
+      "schema_version": 1
+    }
+  }
+}

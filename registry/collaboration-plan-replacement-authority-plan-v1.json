@@ -1,0 +1,499 @@
+{
+  "assertion_requirements": [
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GC-D11",
+      "authority_kind": "command",
+      "operation": "sunderkey.collaboration.plan-replacement.destination-command-review.v1",
+      "preflight_operation_intent_sha256": "sha256:9748f54ef3d3c9cecb7e0a91240aff52cfd031d581d2240c2eade08bb384be86",
+      "principal_operation_intent_sha256": "sha256:c6a040c7709166cdd7de480623c0b4edaf9150fa5ee6e9e0cc3f9245a0f57b9d",
+      "replay_key_sha256": "sha256:223bc0689f7082195ee6c70b229610ed23c8fd8cdb00a922e15c906a958f24c2",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-0DFB7F42D6EAD9FDF240CD39FC246BA9",
+      "resolved_profile_id": "AOE-GC-D11-CMD",
+      "role": "destination_technical_command",
+      "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-12",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+      "preflight_operation_intent_sha256": "sha256:e0e2d084c422720586ff1981423abd26df2ab119275695d9ee57be55c4e4da0d",
+      "principal_operation_intent_sha256": "sha256:2e92f0859dde03f3969e380fba49dcd32078d7c74e29e102e0f0df129ac15f71",
+      "replay_key_sha256": "sha256:4539c50571ac3c42efa7f6bc0e370ffada400fc059e620bf8fd81559e94f8bb1",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-167B70F805AAB9BA4481C8E2F62ACD6C",
+      "resolved_profile_id": "AOE-HQ-12",
+      "role": "current_owner",
+      "work_item_id": "WIT-CONTROL-EC5AD22B18CDADD8"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GB-D06-S09",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+      "preflight_operation_intent_sha256": "sha256:82f13772ec5506c05344099ecd920e710e570182b5924e9c5c20f2c0d347d93f",
+      "principal_operation_intent_sha256": "sha256:3dbdceefbdb116908d3f56865e24f78968160a099612b3a04de5dd5954bf574f",
+      "replay_key_sha256": "sha256:2e657fc2c20ff1bc7e5dd59f3344f9cda4a1b1d403061a3ac4abdda8f012e919",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-2085303D083F05E7A93D9AE3B802AA0E",
+      "resolved_profile_id": "AOE-GB-D06-S09",
+      "role": "current_owner",
+      "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-16",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.second-control-approve.v1",
+      "preflight_operation_intent_sha256": "sha256:84db186560cc72508b041d6523f95d1fef70ad3fe4bcfe2cb3addf20eab87ae4",
+      "principal_operation_intent_sha256": "sha256:164915856f9444f1c1f42499e8745cb8453fa709246a51407ff6cf613533f1e8",
+      "replay_key_sha256": "sha256:659bc4375b6c928114af3f7caf2e984aedf7a521cdff623b036744ae97e9f501",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-355B8EEC9DC6ABAE8AA13B1506DDF9B2",
+      "resolved_profile_id": "AOE-HQ-16",
+      "role": "second_control",
+      "work_item_id": null
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-19",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+      "preflight_operation_intent_sha256": "sha256:384a6de98b0de912041c4277bd5770f0a9f1dc7c5c4342d90daa3a3248ab6aab",
+      "principal_operation_intent_sha256": "sha256:21ee48512f172cc80e6f5fc1e5262e4c03a8366fd2786fdd9e437283f401fb39",
+      "replay_key_sha256": "sha256:85ac79b0fd2f2360b8541d6a8af15d5168589a10115481fd63012f9cf0e9260d",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-40F6B06B61ED91ADDB9A3C6F5060D295",
+      "resolved_profile_id": "AOE-HQ-19",
+      "role": "current_owner",
+      "work_item_id": "WIT-ASSURE-23CF2FC03BD84EF5"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GC-D11-S09",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "preflight_operation_intent_sha256": "sha256:d82f03a32bed45f226e4f8bb9a151849e47806cc7f62e10e56b1655c49893379",
+      "principal_operation_intent_sha256": "sha256:b94c1190131e7c3dad03493935aebeb0ff4d312fe7040ac649785be4794fb29b",
+      "replay_key_sha256": "sha256:be58490f7557fa6cdc84da1c62032266d4cb27cb9276dcc8415ffd1ecad14870",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-556413D13C335139A2ED209975F86EC1",
+      "resolved_profile_id": "AOE-GC-D11-S09",
+      "role": "proposed_owner",
+      "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-08",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.owner-authorize.v1",
+      "preflight_operation_intent_sha256": "sha256:6112d0204fcc404655c36f630d8d773e0655cfe63d6e534b7872b3b1fd9a4b29",
+      "principal_operation_intent_sha256": "sha256:bdbc7f7368c7fd0060be53aca3f9c1b1db5fe7d4b7372055f97c5e5f056af9d7",
+      "replay_key_sha256": "sha256:0bfc35937c2ede6c2718d1e3bc18e58abfa8e947e3a3f0d9bd5627da5f9804f0",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-58D5E3FA588ACB40D88D54910D3AEE80",
+      "resolved_profile_id": "AOE-HQ-08",
+      "role": "mission_owner",
+      "work_item_id": null
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GB-D07-S01",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "preflight_operation_intent_sha256": "sha256:ba0a52cc6639e056c74f8efdbb08f0d7f83a0ceb75e4aac9fc59fd5a3de84c3f",
+      "principal_operation_intent_sha256": "sha256:c32f18dbec97a099b830388dcc56f677e9ef9c1a25e98215cd3dad69e51e822d",
+      "replay_key_sha256": "sha256:d202256f5381588412923f6473190deb50e9d296b98ad93fcf73f4afd4e116b5",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-70CD1A03AAB3987472889CCCFD2404CA",
+      "resolved_profile_id": "AOE-GB-D07-S01",
+      "role": "proposed_owner",
+      "work_item_id": "WIT-SPEC-AAAAAAAAAAAAAAAA"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-08",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "preflight_operation_intent_sha256": "sha256:e8fe69dfc22db0ab3a1ff0dfed7c8d84baeff2bd8b1e8f86a321d4b315bf0465",
+      "principal_operation_intent_sha256": "sha256:b713ee9063c9c57ed8182be2fd7a9c57d355a7a6dbc422900c20b7ca247eee61",
+      "replay_key_sha256": "sha256:dc2713807d021c5c65673fded1dc469c362325985e284ab0498891091993bba5",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-7401AA8336BD59A8EDD4EC93C7245FC9",
+      "resolved_profile_id": "AOE-HQ-08",
+      "role": "proposed_owner",
+      "work_item_id": "WIT-READY-1188D3BAEA783AC2"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GB-D06",
+      "authority_kind": "command",
+      "operation": "sunderkey.collaboration.plan-replacement.source-command-review.v1",
+      "preflight_operation_intent_sha256": "sha256:514824b8d70baa26276c2058ab4d5114a248d5c412e201a062640690726c5cba",
+      "principal_operation_intent_sha256": "sha256:d17be5988e4764fc28d8e3ffb4f7e413163c89df20fdf67f4125571576ebb343",
+      "replay_key_sha256": "sha256:80ea8a0d387da01fd96582622f6f30292e7b5d4461b46e937d63203e9c4fc573",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-92C8AF51A60EE5BC777A1D973698FECD",
+      "resolved_profile_id": "AOE-GB-D06-CMD",
+      "role": "source_technical_command",
+      "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-14",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.control-approve.v1",
+      "preflight_operation_intent_sha256": "sha256:285ee6a911df6e6cb3d35dc3bdb709173d2a957aa51cc24d814a33ff248ce684",
+      "principal_operation_intent_sha256": "sha256:b13b991421bab8d8cad2b518a5a55cd5d69d2803f77e171f6270e8ea0378caf6",
+      "replay_key_sha256": "sha256:4caf2027f4cae8d114b03ad4b00cb6e07bdd4b2798eb8ebe849bf114b8a5c92c",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-A636E7E69C2A9A11835CECB3CC304792",
+      "resolved_profile_id": "AOE-HQ-14",
+      "role": "independent_control",
+      "work_item_id": null
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-15",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "preflight_operation_intent_sha256": "sha256:226210691acbade9f44af14bddd9c2996340606092a52cfb8f70f7e2fdd3d87d",
+      "principal_operation_intent_sha256": "sha256:fa50c2b81c24884fbd42b270a7a15d262acbe9d7cbc97accb8353582d2d31df6",
+      "replay_key_sha256": "sha256:f70aa7bb35257eae9d2225a4adafb04f56cf889a05cdaf31244bb5d04458e980",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-C64FC72DDA68606390C2B306A76230AB",
+      "resolved_profile_id": "AOE-HQ-15",
+      "role": "proposed_owner",
+      "work_item_id": "WIT-CONTROL-EC5AD22B18CDADD8"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-19",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "preflight_operation_intent_sha256": "sha256:2ae270196f2ec41af84c18a83e405990cfc96c9035c18dfce3960414e6600c5f",
+      "principal_operation_intent_sha256": "sha256:ae59a00df3d69dd89fbc33348491bde1143cab7a4bef327a5f044965d093540c",
+      "replay_key_sha256": "sha256:4e9007184ae10e4e09f7cc04162dd7dffb478bfc60b7fcbbeb65e10429158c67",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-CEE2FFA7B9E559C80B5DEFE0BE21A6BD",
+      "resolved_profile_id": "AOE-HQ-19",
+      "role": "proposed_owner",
+      "work_item_id": "WIT-ASSURE-23CF2FC03BD84EF5"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-GB-D07-S01",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-cancel.v1",
+      "preflight_operation_intent_sha256": "sha256:cce8cf71c37146bffb69faaa45218ac98fae7e17e07c8fc346f23d590b1b0107",
+      "principal_operation_intent_sha256": "sha256:22b2b7462e28eca89b9f4af0cafc9fa00358a30672b6c4c1ff2f399e9830081a",
+      "replay_key_sha256": "sha256:33578cc8781ec3285e7aa752298bcf4899df011dcec337b37c33e86e214ff49e",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-D819A4F2A73C86976600E0A21CFF3F59",
+      "resolved_profile_id": "AOE-GB-D07-S01",
+      "role": "current_owner",
+      "work_item_id": "WIT-SPEC-D57CD37EC6645295"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-08",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+      "preflight_operation_intent_sha256": "sha256:769516598b25a530fab40063b43ca346d5f069d383e8cc44bb238ee1eceabfe1",
+      "principal_operation_intent_sha256": "sha256:04c3db64ebb61d239a5833f1ef4f383fd55499e5b5d0ad2ce6d5d2eccf9d5407",
+      "replay_key_sha256": "sha256:4cd5c5b608b7a721a73de1211f8a0f91e3792b0d1e2d400af0de3569b59ce50b",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-F2A7F0F422569B15023E0D03B0966717",
+      "resolved_profile_id": "AOE-HQ-08",
+      "role": "current_owner",
+      "work_item_id": "WIT-READY-1188D3BAEA783AC2"
+    },
+    {
+      "assertion_expires_at": "2026-08-03T00:33:00Z",
+      "assertion_valid_after": "2026-08-03T00:03:00Z",
+      "authority_id": "AOE-HQ-20",
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.assurance-approve.v1",
+      "preflight_operation_intent_sha256": "sha256:4489656cd8acee64c171f7821e03273d60b16401c97e1479eecee1d4d8354351",
+      "principal_operation_intent_sha256": "sha256:25d4a7b2449fea39e8dd91032adf0b6a0d54cf5ba1c12f284ed65d181968e714",
+      "replay_key_sha256": "sha256:9aa57f1ab3cd92d694311a4c936590f1e4174a28f91b0f104a0675971d3c104b",
+      "replay_status": "unused_required",
+      "requirement_id": "PAR-F9B51F1EA18A0ECC8473644B4A6C033B",
+      "resolved_profile_id": "AOE-HQ-20",
+      "role": "independent_assurance",
+      "work_item_id": null
+    }
+  ],
+  "assertions_authenticated": false,
+  "authentication_contract": {
+    "all_requirements_required": true,
+    "assertion_format": "sunderkey_principal_assertion_v1",
+    "assertion_signature_verification_required": true,
+    "exact_operation_intent_required": true,
+    "partial_authorization_effect": "none",
+    "scope_grant_verification_required": true,
+    "trust_policy_verification_required": true
+  },
+  "authentication_status": "authenticated_assertions_required",
+  "authority_plan_id": "APA-CC5433A4F438737A270A9EDACCD61C78",
+  "authority_plan_sha256": "sha256:cc5433a4f438737a270a9edaccd61c788491d875cf96a297b823cb7cf338e379",
+  "authority_requirement_coverage": {
+    "coverage_id": "ARC-F5A69BB03B9BD332A0ED01C98230B686",
+    "coverage_sha256": "sha256:f5a69bb03b9bd332a0ed01c98230b686a30fd562e03f877f84a1a4a70510bad6",
+    "ordered_requirement_tuples": [
+      {
+        "authority_id": "AOE-GC-D11",
+        "authority_kind": "command",
+        "operation": "sunderkey.collaboration.plan-replacement.destination-command-review.v1",
+        "requirement_id": "PAR-0DFB7F42D6EAD9FDF240CD39FC246BA9",
+        "role": "destination_technical_command",
+        "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+      },
+      {
+        "authority_id": "AOE-HQ-12",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+        "requirement_id": "PAR-167B70F805AAB9BA4481C8E2F62ACD6C",
+        "role": "current_owner",
+        "work_item_id": "WIT-CONTROL-EC5AD22B18CDADD8"
+      },
+      {
+        "authority_id": "AOE-GB-D06-S09",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+        "requirement_id": "PAR-2085303D083F05E7A93D9AE3B802AA0E",
+        "role": "current_owner",
+        "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+      },
+      {
+        "authority_id": "AOE-HQ-16",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.second-control-approve.v1",
+        "requirement_id": "PAR-355B8EEC9DC6ABAE8AA13B1506DDF9B2",
+        "role": "second_control",
+        "work_item_id": null
+      },
+      {
+        "authority_id": "AOE-HQ-19",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+        "requirement_id": "PAR-40F6B06B61ED91ADDB9A3C6F5060D295",
+        "role": "current_owner",
+        "work_item_id": "WIT-ASSURE-23CF2FC03BD84EF5"
+      },
+      {
+        "authority_id": "AOE-GC-D11-S09",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+        "requirement_id": "PAR-556413D13C335139A2ED209975F86EC1",
+        "role": "proposed_owner",
+        "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+      },
+      {
+        "authority_id": "AOE-HQ-08",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.owner-authorize.v1",
+        "requirement_id": "PAR-58D5E3FA588ACB40D88D54910D3AEE80",
+        "role": "mission_owner",
+        "work_item_id": null
+      },
+      {
+        "authority_id": "AOE-GB-D07-S01",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+        "requirement_id": "PAR-70CD1A03AAB3987472889CCCFD2404CA",
+        "role": "proposed_owner",
+        "work_item_id": "WIT-SPEC-AAAAAAAAAAAAAAAA"
+      },
+      {
+        "authority_id": "AOE-HQ-08",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+        "requirement_id": "PAR-7401AA8336BD59A8EDD4EC93C7245FC9",
+        "role": "proposed_owner",
+        "work_item_id": "WIT-READY-1188D3BAEA783AC2"
+      },
+      {
+        "authority_id": "AOE-GB-D06",
+        "authority_kind": "command",
+        "operation": "sunderkey.collaboration.plan-replacement.source-command-review.v1",
+        "requirement_id": "PAR-92C8AF51A60EE5BC777A1D973698FECD",
+        "role": "source_technical_command",
+        "work_item_id": "WIT-SPEC-1CAF2AB02D2C94DE"
+      },
+      {
+        "authority_id": "AOE-HQ-14",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.control-approve.v1",
+        "requirement_id": "PAR-A636E7E69C2A9A11835CECB3CC304792",
+        "role": "independent_control",
+        "work_item_id": null
+      },
+      {
+        "authority_id": "AOE-HQ-15",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+        "requirement_id": "PAR-C64FC72DDA68606390C2B306A76230AB",
+        "role": "proposed_owner",
+        "work_item_id": "WIT-CONTROL-EC5AD22B18CDADD8"
+      },
+      {
+        "authority_id": "AOE-HQ-19",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+        "requirement_id": "PAR-CEE2FFA7B9E559C80B5DEFE0BE21A6BD",
+        "role": "proposed_owner",
+        "work_item_id": "WIT-ASSURE-23CF2FC03BD84EF5"
+      },
+      {
+        "authority_id": "AOE-GB-D07-S01",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.current-owner-cancel.v1",
+        "requirement_id": "PAR-D819A4F2A73C86976600E0A21CFF3F59",
+        "role": "current_owner",
+        "work_item_id": "WIT-SPEC-D57CD37EC6645295"
+      },
+      {
+        "authority_id": "AOE-HQ-08",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+        "requirement_id": "PAR-F2A7F0F422569B15023E0D03B0966717",
+        "role": "current_owner",
+        "work_item_id": "WIT-READY-1188D3BAEA783AC2"
+      },
+      {
+        "authority_id": "AOE-HQ-20",
+        "authority_kind": "principal_profile",
+        "operation": "sunderkey.collaboration.plan-replacement.assurance-approve.v1",
+        "requirement_id": "PAR-F9B51F1EA18A0ECC8473644B4A6C033B",
+        "role": "independent_assurance",
+        "work_item_id": null
+      }
+    ],
+    "requirement_count": 16
+  },
+  "document_sha256": "sha256:e73e1faa9e722c1ef70356d7e75a6c27e81369c49f00903239efe5e84a789ae0",
+  "expires_at": "2026-08-03T00:33:00Z",
+  "issued_at": "2026-08-03T00:03:00Z",
+  "mission_id": "EXAMPLE-API-DATA-001",
+  "operation_contracts": [
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.owner-authorize.v1",
+      "role": "mission_owner",
+      "work_item_binding": "forbidden"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.control-approve.v1",
+      "role": "independent_control",
+      "work_item_binding": "forbidden"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-authorize.v1",
+      "role": "current_owner",
+      "work_item_binding": "required"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.current-owner-cancel.v1",
+      "role": "current_owner",
+      "work_item_binding": "required"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.proposed-owner-accept.v1",
+      "role": "proposed_owner",
+      "work_item_binding": "required"
+    },
+    {
+      "authority_kind": "command",
+      "operation": "sunderkey.collaboration.plan-replacement.source-command-review.v1",
+      "role": "source_technical_command",
+      "work_item_binding": "required"
+    },
+    {
+      "authority_kind": "command",
+      "operation": "sunderkey.collaboration.plan-replacement.destination-command-review.v1",
+      "role": "destination_technical_command",
+      "work_item_binding": "required"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.assurance-approve.v1",
+      "role": "independent_assurance",
+      "work_item_binding": "forbidden"
+    },
+    {
+      "authority_kind": "principal_profile",
+      "operation": "sunderkey.collaboration.plan-replacement.second-control-approve.v1",
+      "role": "second_control",
+      "work_item_binding": "forbidden"
+    }
+  ],
+  "replay_policy": {
+    "durable_atomic_consumption_required": true,
+    "mode": "consume_once_per_requirement_and_authority_plan",
+    "partial_consumption_effect": "none",
+    "reject_any_consumed_replay_key": true
+  },
+  "runtime_authority_effect": "none",
+  "runtime_effect": "none",
+  "schema_version": 1,
+  "source_policies": {
+    "mission_policy_commit": {
+      "authentication_id": "MPA-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "authentication_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "commit_status": "committed_inactive",
+      "committed_at": "2026-08-03T00:01:00Z",
+      "independent_control_assertion_id": "PAS-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "independent_control_assertion_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "independent_control_ledger_entry_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "mission_owner_assertion_id": "PAS-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "mission_owner_assertion_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mission_owner_ledger_entry_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "policy_id": "MRP-D7560282776AE7493F8586E279AD6516",
+      "policy_selection_sha256": "sha256:b6ae87a0c1a96a8530a4591cf60f8055542ee78f9c73b13e99dc8136d9a6c227",
+      "policy_sha256": "sha256:d7560282776ae7493f8586e279ad6516cd9cfba1b6cd0a6e0539a8e2ad8f5c64"
+    },
+    "mission_reconfiguration_policy": {
+      "policy_id": "MRP-D7560282776AE7493F8586E279AD6516",
+      "policy_selection_sha256": "sha256:b6ae87a0c1a96a8530a4591cf60f8055542ee78f9c73b13e99dc8136d9a6c227",
+      "policy_sha256": "sha256:d7560282776ae7493f8586e279ad6516cd9cfba1b6cd0a6e0539a8e2ad8f5c64"
+    },
+    "reconfiguration_authority_policy": {
+      "policy_id": "RAP-03BD076689DF7FD5177A4F0916F6100D",
+      "policy_sha256": "sha256:03bd076689df7fd5177a4f0916f6100db8f15d66eeb666bb7713238292e7a25f"
+    }
+  },
+  "source_preflight": {
+    "preflight_id": "PRF-694B3A966FDC71758F2A8B865AB72413",
+    "preflight_sha256": "sha256:694b3a966fdc71758f2a8b865ab72413acc5abc194d3fb1be2eee5d48c8aaf36",
+    "selection_sha256": "sha256:0afd2019e1010b7c9c804650d4f9554610462b9614963c7f42556f2613bebde6"
+  },
+  "source_registry": {
+    "catalog_id": "sunderkey-offensive-expert-army",
+    "catalog_version": "2.0.0",
+    "content_sha256": "sha256:2f9c94a2baa3f8445c646b473a87ee54c006a9d1298d2013ec484be83cc0882b",
+    "file_sha256": "sha256:f284f49effabfe147cc975dabeb5036b50615b05a11f7aafc7f853075ec28d87"
+  },
+  "verification_status": "source_verification_required"
+}

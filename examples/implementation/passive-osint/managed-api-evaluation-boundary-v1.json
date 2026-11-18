@@ -1,0 +1,89 @@
+{
+  "approval_basis": {
+    "approval_channel": "explicit_owner_decision",
+    "authority_role": "repository_owner",
+    "recording_mechanism": "reviewed_versioned_repository_record"
+  },
+  "authorized_next_steps": [
+    "select_exact_provider_model_and_revision",
+    "review_region_and_retention_policy",
+    "define_external_secret_reference",
+    "define_provider_endpoint_allowlist",
+    "implement_provider_adapter_behind_boundary",
+    "run_synthetic_cases_after_independent_review"
+  ],
+  "boundary_id": "MAB-E1317CB8CB214C864A32CCC63B84BBED",
+  "boundary_sha256": "sha256:e1317cb8cb214c864a32ccc63b84bbed5cb44c3be391c3cc3db7dcdbc413908e",
+  "candidate": {
+    "candidate_artifact_sha256": "sha256:faf1afbbaba455b9c4d5a02faaa80b0d3b0f04780fe65a89583087e8b7d0605e",
+    "candidate_id": "development.passive-osint",
+    "candidate_version": "1.0.0",
+    "profile_id": "AOE-GA-D01-S01"
+  },
+  "data_boundary": {
+    "allowed_data_classes": [
+      "synthetic_evaluation_scenario",
+      "reviewed_instruction_bundle"
+    ],
+    "credential_data_allowed": false,
+    "retrieval_allowed": false,
+    "target_data_allowed": false,
+    "tool_calls_allowed": false,
+    "unreviewed_context_allowed": false
+  },
+  "decision_effect": "contract_implementation_authorized",
+  "decision_id": "D010",
+  "decision_status": "approved",
+  "evaluation_suite": {
+    "candidate_artifact_sha256": "sha256:faf1afbbaba455b9c4d5a02faaa80b0d3b0f04780fe65a89583087e8b7d0605e",
+    "case_count": 29,
+    "suite_id": "development.passive-osint.qualification",
+    "suite_sha256": "sha256:61b1c530ffc2875983e0be31903af1693c41f73cacc832e0a36ac37b862796e7",
+    "suite_version": "1.0.0"
+  },
+  "prohibited_effects": [
+    "does_not_enable_network_access",
+    "does_not_store_or_accept_api_credentials",
+    "does_not_select_a_provider_model_endpoint_or_region",
+    "does_not_enable_tools_retrieval_or_target_access",
+    "does_not_run_the_candidate_or_evaluation_suite",
+    "does_not_create_observations_results_or_evidence",
+    "does_not_qualify_a_candidate_or_change_routing",
+    "does_not_mutate_mission_work_or_sqlite_state"
+  ],
+  "readiness": {
+    "execution_enabled": false,
+    "missing_bindings": [
+      "provider_id",
+      "model_id",
+      "model_revision",
+      "api_protocol",
+      "hosting_region",
+      "retention_policy_id",
+      "credential_reference_id",
+      "provider_endpoint_allowlist"
+    ],
+    "status": "blocked_pending_exact_runtime_binding"
+  },
+  "runtime_binding": {
+    "api_protocol": "unselected",
+    "credential_reference_id": "unselected",
+    "hosting_region": "unselected",
+    "model_id": "unselected",
+    "model_revision": "unselected",
+    "provider_id": "unselected",
+    "retention_policy_id": "unselected"
+  },
+  "schema_version": 1,
+  "selected_architecture": "managed_model_api_isolated_evaluation_worker",
+  "worker_boundary": {
+    "automatic_retries": 0,
+    "maximum_parallel_requests": 1,
+    "network_default": "deny",
+    "process_isolation_required": true,
+    "provider_endpoint_allowlist": "unselected",
+    "raw_logging": "disabled",
+    "response_handling": "content_address_before_review",
+    "server_side_tools_allowed": false
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S15",
+  "component_id": "supplied_integrity_poisoning",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-artifact-integrity-consumption-v1",
+      "source_id": "source.synthetic-1",
+      "policy": {"declaration_complete": true, "require_digest_match": true},
+      "artifacts": [
+        {
+          "artifact_id": "artifact-1",
+          "artifact_ref": "ref:artifact-a",
+          "expected_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "presented_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "origin_trust": "untrusted",
+          "declared_consumption": "allow",
+          "capture_complete": true
+        }
+      ]
+    }
+  }
+}

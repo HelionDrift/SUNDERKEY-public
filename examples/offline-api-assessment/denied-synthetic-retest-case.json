@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "case_id": "case.synthetic.api.example.002",
+  "invocation_id": "INV-SYNTHETIC-API-EXAMPLE-002",
+  "mission_id": "MISSION-SYNTHETIC-EXAMPLE-001",
+  "target_id": "TARGET-SYNTHETIC-EXAMPLE-001",
+  "scope_id": "SCOPE-SYNTHETIC-EXAMPLE-001",
+  "responses": [
+    {
+      "evidence_id": "owner-response-second",
+      "principal_id": "principal.owner",
+      "object_id": "object.example.7",
+      "action": "read",
+      "expected_access": true,
+      "status_code": 200,
+      "body": {"record": "synthetic-example-only"}
+    },
+    {
+      "evidence_id": "other-response-second",
+      "principal_id": "principal.other",
+      "object_id": "object.example.7",
+      "action": "read",
+      "expected_access": false,
+      "status_code": 403,
+      "body": {"message": "synthetic-denial"}
+    }
+  ]
+}

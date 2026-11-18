@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "asn_width_octets": 2,
+      "schema_version": 1,
+      "source_id": "synthetic-bgp-update",
+      "update_base64": "/////////////////////wAtAgAAABJAAQEAQAIEAgH8AEADBMAAAgEYywBx"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S14",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-finite-grammar",
+    "start_symbol": "packet",
+    "grammar_complete": true,
+    "rules": [
+      {"symbol_id": "packet", "alternatives": [[{"literal": "HEAD"}, {"ref": "body"}]]},
+      {"symbol_id": "body", "alternatives": [[{"literal": "A"}], [{"literal": "BC"}]]}
+    ]
+  }}
+}

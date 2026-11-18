@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S04",
+  "component_id": "http_supplied_cache_key_differential",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "key_rule": {
+        "include_method": true,
+        "include_scheme": true,
+        "include_host": true,
+        "include_path": true,
+        "include_query": false,
+        "header_names": []
+      },
+      "pairs": [
+        {
+          "pair_id": "synthetic-candidate",
+          "left": {
+            "request": {"method": "GET", "scheme": "https", "host": "example.invalid", "path": "/item", "query": "id=1", "headers": {"accept-language": "en"}},
+            "response": {"signature": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "vary": [], "no_store": false}
+          },
+          "right": {
+            "request": {"method": "GET", "scheme": "https", "host": "example.invalid", "path": "/item", "query": "id=1", "headers": {"accept-language": "fr"}},
+            "response": {"signature": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "vary": [], "no_store": false}
+          }
+        },
+        {
+          "pair_id": "synthetic-vary-negative",
+          "left": {
+            "request": {"method": "GET", "scheme": "https", "host": "example.invalid", "path": "/item", "query": "id=1", "headers": {"accept-language": "en"}},
+            "response": {"signature": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "vary": ["accept-language"], "no_store": false}
+          },
+          "right": {
+            "request": {"method": "GET", "scheme": "https", "host": "example.invalid", "path": "/item", "query": "id=1", "headers": {"accept-language": "fr"}},
+            "response": {"signature": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "vary": ["accept-language"], "no_store": false}
+          }
+        }
+      ]
+    }
+  }
+}

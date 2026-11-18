@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D05-S16",
+  "component_id": "web_supplied_service_worker_scope",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "source_id": "synthetic:worker-scope",
+      "source": {
+        "schema_version": "v1",
+        "facts_complete": true,
+        "registration_set_complete": true,
+        "registrations": [
+          {
+            "registration_id": "app-root",
+            "origin_id": "app-origin",
+            "script_path": "/sw.js",
+            "scope_path": "/app/",
+            "state": "active"
+          },
+          {
+            "registration_id": "app-admin",
+            "origin_id": "app-origin",
+            "script_path": "/admin-sw.js",
+            "scope_path": "/app/admin/",
+            "state": "active"
+          }
+        ],
+        "observations": [
+          {
+            "observation_id": "obs-admin",
+            "page_origin_id": "app-origin",
+            "page_path": "/app/admin/settings",
+            "control_outcome": "controlled",
+            "observed_controller_id": "app-admin",
+            "registration_snapshot_applies": true
+          },
+          {
+            "observation_id": "obs-mismatch",
+            "page_origin_id": "app-origin",
+            "page_path": "/app/home",
+            "control_outcome": "controlled",
+            "observed_controller_id": "app-admin",
+            "registration_snapshot_applies": true
+          },
+          {
+            "observation_id": "obs-outside",
+            "page_origin_id": "app-origin",
+            "page_path": "/help",
+            "control_outcome": "uncontrolled",
+            "observed_controller_id": null,
+            "registration_snapshot_applies": true
+          }
+        ]
+      }
+    }
+  }
+}

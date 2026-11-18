@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-flash-map",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "flash_size_bytes": 4096,
+    "regions": [
+      {"region_id": "boot", "offset_bytes": 0, "length_bytes": 1024,
+       "data_class": "internal", "protection_declared": true},
+      {"region_id": "config", "offset_bytes": 1024, "length_bytes": 512,
+       "data_class": "sensitive", "protection_declared": false}
+    ]
+  }}
+}

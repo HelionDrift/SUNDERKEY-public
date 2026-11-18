@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S06",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "queries": [
+      {
+        "group_membership_complete": true,
+        "groups": [
+          "group:readers@example.test"
+        ],
+        "permission": "storage.objects.get",
+        "principal": "user:alice@example.test",
+        "query_id": "inherited-reader",
+        "resource_name": "//storage.googleapis.com/projects/_/buckets/inert-alpha"
+      },
+      {
+        "group_membership_complete": true,
+        "groups": [
+          "group:readers@example.test"
+        ],
+        "permission": "storage.objects.get",
+        "principal": "user:alice@example.test",
+        "query_id": "sibling-no-grant",
+        "resource_name": "projects/inert-beta"
+      },
+      {
+        "group_membership_complete": true,
+        "groups": [],
+        "permission": "storage.objects.create",
+        "principal": "serviceAccount:builder@inert-alpha.iam.gserviceaccount.com",
+        "query_id": "conditional-writer",
+        "resource_name": "//storage.googleapis.com/projects/_/buckets/inert-alpha"
+      }
+    ],
+    "snapshot": {
+      "allow_policies": [
+        {
+          "bindings": [],
+          "etag": "synthetic-etag",
+          "resource_name": "organizations/100",
+          "version": 1
+        },
+        {
+          "bindings": [
+            {
+              "condition": null,
+              "members": [
+                "group:readers@example.test"
+              ],
+              "role": "organizations/100/roles/SyntheticReader"
+            }
+          ],
+          "etag": "synthetic-etag",
+          "resource_name": "folders/200",
+          "version": 1
+        },
+        {
+          "bindings": [
+            {
+              "condition": {
+                "description": "not evaluated",
+                "expression": "true",
+                "title": "supplied-condition"
+              },
+              "members": [
+                "serviceAccount:builder@inert-alpha.iam.gserviceaccount.com"
+              ],
+              "role": "projects/inert-alpha/roles/SyntheticWriter"
+            }
+          ],
+          "etag": "synthetic-etag",
+          "resource_name": "projects/inert-alpha",
+          "version": 3
+        },
+        {
+          "bindings": [],
+          "etag": "synthetic-etag",
+          "resource_name": "//storage.googleapis.com/projects/_/buckets/inert-alpha",
+          "version": 1
+        },
+        {
+          "bindings": [],
+          "etag": "synthetic-etag",
+          "resource_name": "folders/300",
+          "version": 1
+        },
+        {
+          "bindings": [],
+          "etag": "synthetic-etag",
+          "resource_name": "projects/inert-beta",
+          "version": 1
+        }
+      ],
+      "coverage": {
+        "allow_policies_complete": true,
+        "deny_policies": "none_supplied",
+        "principal_access_boundaries": "none_supplied",
+        "resource_ancestry_complete": true
+      },
+      "resources": [
+        {
+          "kind": "organization",
+          "parent_resource_name": null,
+          "resource_name": "organizations/100"
+        },
+        {
+          "kind": "folder",
+          "parent_resource_name": "organizations/100",
+          "resource_name": "folders/200"
+        },
+        {
+          "kind": "project",
+          "parent_resource_name": "folders/200",
+          "resource_name": "projects/inert-alpha"
+        },
+        {
+          "kind": "resource",
+          "parent_resource_name": "projects/inert-alpha",
+          "resource_name": "//storage.googleapis.com/projects/_/buckets/inert-alpha"
+        },
+        {
+          "kind": "folder",
+          "parent_resource_name": "organizations/100",
+          "resource_name": "folders/300"
+        },
+        {
+          "kind": "project",
+          "parent_resource_name": "folders/300",
+          "resource_name": "projects/inert-beta"
+        }
+      ],
+      "roles": [
+        {
+          "deleted": false,
+          "included_permissions": [
+            "storage.objects.get"
+          ],
+          "name": "organizations/100/roles/SyntheticReader",
+          "permissions_complete": true,
+          "stage": "GA"
+        },
+        {
+          "deleted": false,
+          "included_permissions": [
+            "storage.objects.create"
+          ],
+          "name": "projects/inert-alpha/roles/SyntheticWriter",
+          "permissions_complete": true,
+          "stage": "GA"
+        }
+      ],
+      "schema_version": 1
+    }
+  }
+}

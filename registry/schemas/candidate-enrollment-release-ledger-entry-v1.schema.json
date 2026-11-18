@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-release-ledger-entry-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Release Ledger Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "entry_id",
+    "entry_sha256",
+    "deployment_id",
+    "ledger_sequence",
+    "previous_entry",
+    "event_type",
+    "release_id",
+    "d011_decision",
+    "verification_receipt",
+    "catalog_checkpoint",
+    "checkpoint_record",
+    "event_artifact",
+    "authority",
+    "event_time",
+    "outcome"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "entry_id": {"type": "string", "pattern": "^CLE-[0-9A-F]{32}$"},
+    "entry_sha256": {"$ref": "#/$defs/sha256"},
+    "deployment_id": {"$ref": "#/$defs/identifier"},
+    "ledger_sequence": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+    "previous_entry": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/entryPredecessor"}
+      ]
+    },
+    "event_type": {
+      "enum": [
+        "release_intent",
+        "checkpoint_committed",
+        "catalog_promoted",
+        "release_completed",
+        "release_failed",
+        "recovery_intent",
+        "recovery_completed"
+      ]
+    },
+    "release_id": {"type": "string", "pattern": "^CRL-[0-9A-F]{32}$"},
+    "d011_decision": {"$ref": "#/$defs/d011Binding"},
+    "verification_receipt": {"$ref": "#/$defs/receiptBinding"},
+    "catalog_checkpoint": {"$ref": "#/$defs/catalogCheckpoint"},
+    "checkpoint_record": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/checkpointBinding"}
+      ]
+    },
+    "event_artifact": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/eventArtifact"}
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "approval_bindings"],
+      "properties": {
+        "mode": {
+          "enum": [
+            "automatic_monotonic_advance",
+            "dual_control_initialization",
+            "dual_control_recovery"
+          ]
+        },
+        "approval_bindings": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 2,
+          "items": {"$ref": "#/$defs/approvalBinding"}
+        }
+      }
+    },
+    "event_time": {"$ref": "#/$defs/timestamp"},
+    "outcome": {
+      "enum": [
+        "pending_checkpoint_commit",
+        "pending_catalog_promotion",
+        "pending_release_completion",
+        "completed",
+        "failed_closed",
+        "pending_recovery",
+        "recovered"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "d011Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "receiptBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sha256"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^CVR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "catalogCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_id", "catalog_version", "catalog_sha256"],
+      "properties": {
+        "catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "catalog_version": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "entryPredecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "sha256", "ledger_sequence"],
+      "properties": {
+        "entry_id": {"type": "string", "pattern": "^CLE-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "ledger_sequence": {"type": "integer", "minimum": 1, "maximum": 2147483647}
+      }
+    },
+    "checkpointBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint_id", "sha256"],
+      "properties": {
+        "checkpoint_id": {"type": "string", "pattern": "^CPC-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "approvalBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approval_id", "sha256", "role"],
+      "properties": {
+        "approval_id": {"type": "string", "pattern": "^CRA-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"enum": ["deployment_owner", "independent_control"]}
+      }
+    },
+    "eventArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_kind", "artifact_id", "sha256"],
+      "properties": {
+        "artifact_kind": {"enum": ["checkpoint_commit_receipt", "catalog_promotion_receipt"]},
+        "artifact_id": {"type": "string", "pattern": "^(CCR|CPR)-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

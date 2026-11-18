@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.example/schemas/assessment-transport-transcript-v1.schema.json",
+  "title": "SUNDERKEY Assessment Transport Transcript v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "binding",
+    "effects",
+    "schema_version",
+    "steps",
+    "transcript_id",
+    "transcript_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "transcript_id": { "$ref": "#/$defs/transcriptId" },
+    "transcript_sha256": { "$ref": "#/$defs/sha256" },
+    "binding": { "$ref": "#/$defs/binding" },
+    "effects": { "$ref": "#/$defs/noEffects" },
+    "steps": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": { "$ref": "#/$defs/step" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "transcriptId": {
+      "type": "string",
+      "pattern": "^ATT-[0-9A-F]{32}$"
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[^#]+$",
+      "maxLength": 2048
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "version"],
+      "properties": {
+        "adapter_id": { "$ref": "#/$defs/identifier" },
+        "version": { "$ref": "#/$defs/version" }
+      }
+    },
+    "mimeLimit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_bytes", "mime_type"],
+      "properties": {
+        "max_bytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "mime_type": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$"
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_redirects",
+        "max_request_bytes",
+        "max_response_bytes",
+        "max_steps",
+        "max_total_request_bytes",
+        "max_total_response_bytes",
+        "mime_limits",
+        "requests_active",
+        "requests_completed",
+        "requests_in_current_minute"
+      ],
+      "properties": {
+        "max_redirects": { "type": "integer", "minimum": 0, "maximum": 32 },
+        "max_request_bytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "max_response_bytes": { "type": "integer", "minimum": 1, "maximum": 100000000 },
+        "max_steps": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "max_total_request_bytes": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "max_total_response_bytes": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "mime_limits": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/mimeLimit" }
+        },
+        "requests_active": { "type": "integer", "minimum": 0, "maximum": 1000000000 },
+        "requests_completed": { "type": "integer", "minimum": 0, "maximum": 1000000000 },
+        "requests_in_current_minute": { "type": "integer", "minimum": 0, "maximum": 1000000000 }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter",
+        "authority_refs",
+        "budget",
+        "decision_at",
+        "evidence_hashes",
+        "impact_tier",
+        "scope_id",
+        "scope_sha256",
+        "stop_conditions",
+        "task_id",
+        "technique_id"
+      ],
+      "properties": {
+        "adapter": { "$ref": "#/$defs/adapter" },
+        "authority_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "budget": { "$ref": "#/$defs/budget" },
+        "decision_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "evidence_hashes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sha256" }
+        },
+        "impact_tier": { "enum": ["R0", "R1", "R2", "R3", "R4", "R5"] },
+        "scope_id": { "$ref": "#/$defs/identifier" },
+        "scope_sha256": { "$ref": "#/$defs/sha256" },
+        "stop_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+        },
+        "task_id": { "$ref": "#/$defs/identifier" },
+        "technique_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "noEffects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "browser",
+        "credential_values",
+        "deployment",
+        "execution",
+        "network",
+        "qualification",
+        "routing",
+        "shell"
+      ],
+      "properties": {
+        "authority": { "const": "none" },
+        "browser": { "const": "none" },
+        "credential_values": { "const": "none" },
+        "deployment": { "const": "none" },
+        "execution": { "const": "none" },
+        "network": { "const": "none" },
+        "qualification": { "const": "none" },
+        "routing": { "const": "none" },
+        "shell": { "const": "none" }
+      }
+    },
+    "health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter", "detail", "evidence_sha256", "sequence", "state"],
+      "properties": {
+        "adapter": { "$ref": "#/$defs/adapter" },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "sequence": { "type": "integer", "minimum": 0, "maximum": 1000000000 },
+        "state": { "enum": ["healthy", "degraded", "unavailable"] }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["principal_label", "session_id"],
+      "properties": {
+        "principal_label": { "$ref": "#/$defs/identifier" },
+        "session_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "requestHeader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "value": { "type": "string", "minLength": 1, "maxLength": 2048 }
+      }
+    },
+    "cookieMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "http_only", "name", "path", "same_site", "secure"],
+      "properties": {
+        "domain": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "http_only": { "type": "boolean" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "path": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "same_site": { "enum": ["strict", "lax", "none", "unspecified"] },
+        "secure": { "type": "boolean" }
+      }
+    },
+    "principalCredentialReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["credential_ref", "principal_label"],
+      "properties": {
+        "credential_ref": {
+          "type": "string",
+          "pattern": "^credref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$"
+        },
+        "principal_label": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "httpIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding",
+        "body_sha256",
+        "headers",
+        "kind",
+        "method",
+        "request_size_bytes",
+        "sequence",
+        "session",
+        "url"
+      ],
+      "properties": {
+        "binding": { "$ref": "#/$defs/binding" },
+        "body_sha256": {
+          "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "headers": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/requestHeader" }
+        },
+        "kind": { "const": "http_exchange" },
+        "method": { "enum": ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"] },
+        "request_size_bytes": { "type": "integer", "minimum": 0, "maximum": 100000000 },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "session": {
+          "oneOf": [{ "$ref": "#/$defs/session" }, { "type": "null" }]
+        },
+        "url": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "browserIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "binding",
+        "evidence_reference",
+        "kind",
+        "page_url",
+        "selector_or_condition",
+        "sequence",
+        "session",
+        "value_reference"
+      ],
+      "properties": {
+        "action": {
+          "enum": [
+            "navigate",
+            "click_selector",
+            "fill_reference",
+            "submit",
+            "wait_condition",
+            "read_metadata",
+            "screenshot_reference"
+          ]
+        },
+        "binding": { "$ref": "#/$defs/binding" },
+        "evidence_reference": {
+          "oneOf": [
+            { "type": "string", "pattern": "^(evidref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}|sha256:[0-9a-f]{64})$" },
+            { "type": "null" }
+          ]
+        },
+        "kind": { "const": "browser_action" },
+        "page_url": { "$ref": "#/$defs/httpsUrl" },
+        "selector_or_condition": {
+          "oneOf": [
+            { "type": "string", "minLength": 1, "maxLength": 1024 },
+            { "type": "null" }
+          ]
+        },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "session": { "$ref": "#/$defs/session" },
+        "value_reference": {
+          "oneOf": [
+            { "type": "string", "pattern": "^credref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "targetSessionIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding",
+        "credential_references",
+        "isolated",
+        "kind",
+        "login_url",
+        "method",
+        "mode",
+        "principal_label",
+        "requested_session_id",
+        "sequence"
+      ],
+      "properties": {
+        "binding": { "$ref": "#/$defs/binding" },
+        "credential_references": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/principalCredentialReference" }
+        },
+        "isolated": { "const": true },
+        "kind": { "const": "target_session_acquisition" },
+        "login_url": { "$ref": "#/$defs/httpsUrl" },
+        "method": { "enum": ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"] },
+        "mode": {
+          "enum": [
+            "basic",
+            "bearer",
+            "form_login",
+            "totp_reference",
+            "magic_link_reference",
+            "social_login_reference",
+            "multi_principal_test_accounts"
+          ]
+        },
+        "principal_label": { "$ref": "#/$defs/identifier" },
+        "requested_session_id": { "$ref": "#/$defs/identifier" },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 1000000000 }
+      }
+    },
+    "observedHeader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "redacted", "value"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "redacted": { "type": "boolean" },
+        "value": {
+          "oneOf": [
+            { "type": "string", "minLength": 1, "maxLength": 2048 },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "httpObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "body_sha256",
+        "cookies",
+        "effects",
+        "headers",
+        "intent_sha256",
+        "kind",
+        "mime_type",
+        "redirect_url",
+        "response_size_bytes",
+        "status_code"
+      ],
+      "properties": {
+        "body_sha256": {
+          "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "cookies": { "type": "array", "items": { "$ref": "#/$defs/cookieMetadata" } },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "headers": { "type": "array", "items": { "$ref": "#/$defs/observedHeader" } },
+        "intent_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "http_response" },
+        "mime_type": { "type": "string" },
+        "redirect_url": {
+          "oneOf": [{ "$ref": "#/$defs/httpsUrl" }, { "type": "null" }]
+        },
+        "response_size_bytes": { "type": "integer", "minimum": 0, "maximum": 100000000 },
+        "status_code": { "type": "integer", "minimum": 100, "maximum": 599 }
+      }
+    },
+    "browserObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cookies",
+        "effects",
+        "evidence_references",
+        "intent_sha256",
+        "kind",
+        "metadata",
+        "mime_type",
+        "response_size_bytes",
+        "session"
+      ],
+      "properties": {
+        "cookies": { "type": "array", "items": { "$ref": "#/$defs/cookieMetadata" } },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "evidence_references": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(evidref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}|sha256:[0-9a-f]{64})$"
+          }
+        },
+        "intent_sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "const": "browser_observation" },
+        "metadata": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/token" },
+          "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 2048 }
+        },
+        "mime_type": { "type": "string" },
+        "response_size_bytes": { "type": "integer", "minimum": 0, "maximum": 100000000 },
+        "session": { "$ref": "#/$defs/session" }
+      }
+    },
+    "targetSessionObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cookies",
+        "effects",
+        "intent_sha256",
+        "isolated",
+        "kind",
+        "principal_label",
+        "session_id"
+      ],
+      "properties": {
+        "cookies": { "type": "array", "items": { "$ref": "#/$defs/cookieMetadata" } },
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "intent_sha256": { "$ref": "#/$defs/sha256" },
+        "isolated": { "const": true },
+        "kind": { "const": "target_session_observation" },
+        "principal_label": { "$ref": "#/$defs/identifier" },
+        "session_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "scopeDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "reason"],
+      "properties": {
+        "allowed": { "const": true },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effects",
+        "health",
+        "intent",
+        "intent_kind",
+        "intent_sha256",
+        "observation",
+        "previous_step_sha256",
+        "scope_decision",
+        "sequence",
+        "state",
+        "step_sha256",
+        "stop_reason"
+      ],
+      "properties": {
+        "effects": { "$ref": "#/$defs/noEffects" },
+        "health": { "$ref": "#/$defs/health" },
+        "intent": {
+          "oneOf": [
+            { "$ref": "#/$defs/httpIntent" },
+            { "$ref": "#/$defs/browserIntent" },
+            { "$ref": "#/$defs/targetSessionIntent" }
+          ]
+        },
+        "intent_kind": {
+          "enum": ["http_exchange", "browser_action", "target_session_acquisition"]
+        },
+        "intent_sha256": { "$ref": "#/$defs/sha256" },
+        "observation": {
+          "oneOf": [
+            { "$ref": "#/$defs/httpObservation" },
+            { "$ref": "#/$defs/browserObservation" },
+            { "$ref": "#/$defs/targetSessionObservation" },
+            { "type": "null" }
+          ]
+        },
+        "previous_step_sha256": {
+          "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "scope_decision": { "$ref": "#/$defs/scopeDecision" },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+        "state": { "enum": ["completed", "cancelled", "stopped", "health_paused"] },
+        "step_sha256": { "$ref": "#/$defs/sha256" },
+        "stop_reason": {
+          "oneOf": [
+            { "type": "string", "minLength": 1, "maxLength": 256 },
+            { "type": "null" }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,518 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/target-context-bundle-v1.schema.json",
+  "title": "SUNDERKEY Target Context Bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "bundle_sha256",
+    "mission_id",
+    "authority_ref",
+    "status",
+    "parser_policy",
+    "ingestion_method",
+    "provenance",
+    "limits",
+    "inputs",
+    "artifacts",
+    "redactions",
+    "quarantine_flags",
+    "summary",
+    "effects"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^TCB-[0-9A-F]{32}$"
+    },
+    "bundle_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "mission_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "authority_ref": {
+      "$ref": "#/$defs/identifier"
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "quarantined"
+      ]
+    },
+    "parser_policy": {
+      "const": "metadata_and_safe_structure_only"
+    },
+    "ingestion_method": {
+      "enum": [
+        "injected_bytes",
+        "local_directory"
+      ]
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "limits": {
+      "$ref": "#/$defs/limits"
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "redactions": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/redaction"
+      }
+    },
+    "quarantine_flags": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/quarantine_flag"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "execution",
+        "network",
+        "operational"
+      ],
+      "properties": {
+        "authority": {
+          "const": "none"
+        },
+        "execution": {
+          "const": "none"
+        },
+        "network": {
+          "const": "none"
+        },
+        "operational": {
+          "const": "none"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "portable_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "allOf": [
+        {
+          "pattern": "^(?!.*[\\\\<>:\"|?*])[\\u0020-\\u002E\\u0030-\\u007E]+(?:/[\\u0020-\\u002E\\u0030-\\u007E]+)*$"
+        },
+        {
+          "not": {
+            "pattern": "(?:^|/)\\.{1,2}(?:/|$)"
+          }
+        },
+        {
+          "not": {
+            "pattern": "(?:^|/)[^/]*[ .](?:/|$)"
+          }
+        }
+      ]
+    },
+    "media_type": {
+      "enum": [
+        "application/json",
+        "application/openapi+json",
+        "application/openapi+yaml",
+        "application/toml",
+        "application/wsdl+xml",
+        "application/x-yaml",
+        "application/xml",
+        "application/yaml",
+        "application/zip",
+        "text/asciidoc",
+        "text/css",
+        "text/html",
+        "text/javascript",
+        "text/markdown",
+        "text/plain",
+        "text/typescript",
+        "text/x-c",
+        "text/x-c++",
+        "text/x-csharp",
+        "text/x-go",
+        "text/x-java-source",
+        "text/x-kotlin",
+        "text/x-php",
+        "text/x-python",
+        "text/x-rst",
+        "text/x-ruby",
+        "text/x-rust",
+        "text/x-shellscript",
+        "text/x-sql",
+        "text/xml",
+        "text/yaml"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "supplied_by",
+        "collected_at"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "supplied_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "collected_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_input_bytes",
+        "max_file_bytes",
+        "max_total_bytes",
+        "max_files",
+        "max_compression_ratio",
+        "max_path_length",
+        "max_structural_depth",
+        "max_findings"
+      ],
+      "properties": {
+        "max_input_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8388608
+        },
+        "max_file_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2097152
+        },
+        "max_total_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16777216
+        },
+        "max_files": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "max_compression_ratio": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "max_path_length": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 240
+        },
+        "max_structural_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "max_findings": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "media_type",
+        "sha256",
+        "size_bytes"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/portable_path"
+        },
+        "kind": {
+          "enum": [
+            "openapi",
+            "wsdl",
+            "source_archive",
+            "source_file",
+            "documentation",
+            "free_text"
+          ]
+        },
+        "media_type": {
+          "$ref": "#/$defs/media_type"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "media_type",
+        "sha256",
+        "size_bytes",
+        "quarantined",
+        "structural_facts"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/portable_path"
+        },
+        "kind": {
+          "enum": [
+            "openapi",
+            "wsdl",
+            "source_file",
+            "documentation",
+            "free_text"
+          ]
+        },
+        "media_type": {
+          "$ref": "#/$defs/media_type"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quarantined": {
+          "type": "boolean"
+        },
+        "structural_facts": {
+          "$ref": "#/$defs/structural_facts"
+        }
+      }
+    },
+    "structural_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format"
+      ],
+      "properties": {
+        "format": {
+          "enum": [
+            "adoc",
+            "documentation",
+            "free_text",
+            "htm",
+            "html",
+            "markdown",
+            "md",
+            "openapi",
+            "rst",
+            "source",
+            "swagger",
+            "text",
+            "txt",
+            "wsdl"
+          ]
+        },
+        "parse_status": {
+          "enum": [
+            "parsed",
+            "quarantined_unparsed"
+          ]
+        },
+        "serialization": {
+          "enum": [
+            "json",
+            "yaml"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "extension": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "method_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "delete": {"type": "integer", "minimum": 0},
+            "get": {"type": "integer", "minimum": 0},
+            "head": {"type": "integer", "minimum": 0},
+            "options": {"type": "integer", "minimum": 0},
+            "patch": {"type": "integer", "minimum": 0},
+            "post": {"type": "integer", "minimum": 0},
+            "put": {"type": "integer", "minimum": 0},
+            "trace": {"type": "integer", "minimum": 0}
+          }
+        },
+        "binding_count": {"type": "integer", "minimum": 0},
+        "character_count": {"type": "integer", "minimum": 0},
+        "endpoint_count": {"type": "integer", "minimum": 0},
+        "external_reference_count": {"type": "integer", "minimum": 0},
+        "heading_count": {"type": "integer", "minimum": 0},
+        "internal_reference_count": {"type": "integer", "minimum": 0},
+        "line_count": {"type": "integer", "minimum": 0},
+        "link_count": {"type": "integer", "minimum": 0},
+        "message_count": {"type": "integer", "minimum": 0},
+        "nonblank_line_count": {"type": "integer", "minimum": 0},
+        "operation_count": {"type": "integer", "minimum": 0},
+        "path_count": {"type": "integer", "minimum": 0},
+        "schema_count": {"type": "integer", "minimum": 0},
+        "security_scheme_count": {"type": "integer", "minimum": 0},
+        "server_count": {"type": "integer", "minimum": 0},
+        "service_count": {"type": "integer", "minimum": 0},
+        "types_count": {"type": "integer", "minimum": 0},
+        "word_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "detector",
+        "line",
+        "column",
+        "secret_sha256",
+        "replacement"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/portable_path"
+        },
+        "detector": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "secret_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "replacement": {
+          "type": "string",
+          "pattern": "^\\[REDACTED:[a-z][a-z0-9_]{0,63}\\]$"
+        }
+      }
+    },
+    "quarantine_flag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "code",
+        "severity"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/portable_path"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "severity": {
+          "enum": [
+            "high",
+            "critical"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_count",
+        "input_bytes",
+        "artifact_count",
+        "artifact_bytes",
+        "kind_counts",
+        "redaction_count",
+        "quarantine_flag_count",
+        "quarantined_artifact_count"
+      ],
+      "properties": {
+        "input_count": {"type": "integer", "minimum": 1},
+        "input_bytes": {"type": "integer", "minimum": 0},
+        "artifact_count": {"type": "integer", "minimum": 1},
+        "artifact_bytes": {"type": "integer", "minimum": 0},
+        "kind_counts": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "properties": {
+            "openapi": {"type": "integer", "minimum": 1},
+            "wsdl": {"type": "integer", "minimum": 1},
+            "source_file": {"type": "integer", "minimum": 1},
+            "documentation": {"type": "integer", "minimum": 1},
+            "free_text": {"type": "integer", "minimum": 1}
+          }
+        },
+        "redaction_count": {"type": "integer", "minimum": 0},
+        "quarantine_flag_count": {"type": "integer", "minimum": 0},
+        "quarantined_artifact_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

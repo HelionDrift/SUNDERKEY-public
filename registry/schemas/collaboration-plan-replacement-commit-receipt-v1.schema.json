@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/collaboration-plan-replacement-commit-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Plan Replacement Commit Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "replacement_commit_id",
+    "receipt_sha256",
+    "request_sha256",
+    "mission_id",
+    "preflight_id",
+    "preflight_sha256",
+    "predecessor_plan_id",
+    "predecessor_plan_sha256",
+    "replacement_plan_id",
+    "replacement_plan_sha256",
+    "predecessor_plan_version",
+    "replacement_plan_version",
+    "mission_revision",
+    "source_snapshot_hashes",
+    "authority_count",
+    "source_settlement_count",
+    "completed_carry_forward_count",
+    "work_initialization_count",
+    "committed_at",
+    "commit_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "replacement_commit_id": {
+      "type": "string",
+      "pattern": "^CPR-[0-9A-F]{32}$"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "request_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "mission_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "preflight_id": {
+      "type": "string",
+      "pattern": "^PRF-[0-9A-F]{32}$"
+    },
+    "preflight_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_plan_id": {
+      "$ref": "#/$defs/planId"
+    },
+    "predecessor_plan_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "replacement_plan_id": {
+      "$ref": "#/$defs/planId"
+    },
+    "replacement_plan_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "predecessor_plan_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "replacement_plan_version": {
+      "type": "integer",
+      "minimum": 2
+    },
+    "mission_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_snapshot_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ownership_snapshot_sha256",
+        "work_snapshot_sha256",
+        "cancellation_snapshot_sha256",
+        "execution_session_snapshot_sha256",
+        "terminal_custody_snapshot_sha256"
+      ],
+      "properties": {
+        "ownership_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "work_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "cancellation_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "execution_session_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "terminal_custody_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "authority_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_settlement_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "completed_carry_forward_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "work_initialization_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "committed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "commit_status": {
+      "const": "committed_active"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "planId": {
+      "type": "string",
+      "pattern": "^CLP-[0-9A-F]{24}$"
+    }
+  }
+}

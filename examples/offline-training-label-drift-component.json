@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S02",
+  "component_id": "training_supplied_label_share_drift",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-training-labels",
+      "baseline_dataset_id": "dataset-before",
+      "candidate_dataset_id": "dataset-after",
+      "maximum_share_delta_basis_points": 1000,
+      "declaration_complete": true,
+      "baseline_counts": [
+        {"label_id": "class-a", "count": 80},
+        {"label_id": "class-b", "count": 20}
+      ],
+      "candidate_counts": [
+        {"label_id": "class-a", "count": 60},
+        {"label_id": "class-b", "count": 40}
+      ]
+    }
+  }
+}

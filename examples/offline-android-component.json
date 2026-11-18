@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-merged-declarations",
+      "projection_complete": true,
+      "target_sdk": 31,
+      "application_enabled": null,
+      "components": [
+        {"component_id": "activity-explicit", "kind": "activity", "enabled": null, "exported": false, "has_intent_filters": true},
+        {"component_id": "disabled-service-missing", "kind": "service", "enabled": false, "exported": null, "has_intent_filters": true},
+        {"component_id": "receiver-no-filter", "kind": "receiver", "enabled": null, "exported": null, "has_intent_filters": false}
+      ]
+    }
+  }
+}

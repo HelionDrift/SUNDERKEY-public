@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D23-S10",
+  "component_id": "supplied_toctou_state_schedule",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-check-use-version-schedule-v1",
+      "source_id": "source.synthetic-1",
+      "schedule_complete": true,
+      "policy": {"declaration_complete": true, "reject_stale_check": true},
+      "initial_versions": [{"resource_ref": "ref:object-a", "version": 1}],
+      "events": [
+        {"event_id": "check-1", "kind": "check", "actor_ref": "ref:worker-a", "resource_ref": "ref:object-a", "version": 1, "check_event_id": null, "declared_outcome": null, "capture_complete": false},
+        {"event_id": "change-1", "kind": "mutate", "actor_ref": "ref:worker-b", "resource_ref": "ref:object-a", "version": 2, "check_event_id": null, "declared_outcome": null, "capture_complete": false},
+        {"event_id": "use-1", "kind": "use", "actor_ref": "ref:worker-a", "resource_ref": "ref:object-a", "version": null, "check_event_id": "check-1", "declared_outcome": "accepted", "capture_complete": true}
+      ]
+    }
+  }
+}

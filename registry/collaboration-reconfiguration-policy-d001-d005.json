@@ -1,0 +1,183 @@
+{
+  "approved_model": "reviewed_reconfiguration_ledger",
+  "current_boundary": {
+    "activated_plan_replacement_enabled": false,
+    "authorized_next_action": "implement_bounded_ownership_chain_and_revocation_contracts",
+    "cross_command_handoff_enabled": false,
+    "distributed_execution_acknowledgement_enabled": false,
+    "maximum_handoffs_per_work_item": 1,
+    "policy_status": "contract_defined_inactive"
+  },
+  "decision": {
+    "record_id": "CRD-B5960DBD94612183C67F5AD8C4C82B62",
+    "sha256": "sha256:b5960dbd94612183c67f5ad8c4c82b6275dffa570cf122602a97deecfde87816"
+  },
+  "limitations": [
+    "does_not_select_live_policy_parameter_values",
+    "does_not_create_signatures_credentials_or_execution_sessions",
+    "does_not_reassign_transfer_cancel_or_replace_live_work",
+    "does_not_activate_cross_command_or_repeated_delegation",
+    "does_not_create_or_accept_external_execution_acknowledgements",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_mutate_sqlite_runtime_state",
+    "does_not_qualify_a_specialist_or_change_routing"
+  ],
+  "network_call_performed": false,
+  "nonnegotiable_requirements": {
+    "authority_binding_requirements": [
+      "mission_identity",
+      "active_collaboration_plan_identity_and_sha256",
+      "work_item_identity_and_objective",
+      "current_owner_identity",
+      "proposed_owner_identity",
+      "current_ownership_chain_head",
+      "requested_transition_and_reason",
+      "authorization_policy_identity",
+      "validity_window",
+      "execution_session_fence_when_applicable"
+    ],
+    "direct_runtime_control": false,
+    "execution_credentials_in_reconfiguration": false,
+    "fail_closed_requirements": [
+      "unknown_current_ownership_head_rejected",
+      "ownership_cycle_rejected",
+      "maximum_delegation_depth_enforced",
+      "stale_plan_or_work_item_binding_rejected",
+      "unqualified_or_incapable_owner_rejected",
+      "unmapped_completed_work_not_carried_forward",
+      "unacknowledged_external_execution_transfer_not_effective",
+      "expired_or_revoked_authority_rejected",
+      "partial_reconfiguration_not_committed"
+    ],
+    "history_requirements": [
+      "append_only_ownership_chain",
+      "immutable_prior_plan_and_work_history",
+      "completed_result_provenance_preserved",
+      "cancelled_and_unmapped_work_retained",
+      "assertions_remain_bound_to_original_plan_and_owner_epoch",
+      "deterministic_replay_returns_original_result"
+    ],
+    "private_key_storage_in_sunderkey": false,
+    "separation_requirements": [
+      "current_owner_authorization",
+      "proposed_owner_acceptance",
+      "independent_control_review",
+      "second_control_or_mission_authority_for_control_replacement",
+      "assurance_independence_preserved",
+      "execution_acknowledger_distinct_from_control_plane_requester"
+    ]
+  },
+  "parameter_contracts": [
+    {
+      "maximum": 8,
+      "minimum": 1,
+      "parameter_id": "maximum_delegation_depth",
+      "selected_value": null,
+      "selection_authority": "signed_mission_reconfiguration_policy",
+      "value_type": "integer"
+    },
+    {
+      "maximum": 86400,
+      "minimum": 60,
+      "parameter_id": "reconfiguration_validity_seconds",
+      "selected_value": null,
+      "selection_authority": "signed_mission_reconfiguration_policy",
+      "value_type": "integer"
+    },
+    {
+      "maximum": 3600,
+      "minimum": 1,
+      "parameter_id": "execution_ack_timeout_seconds",
+      "selected_value": null,
+      "selection_authority": "signed_execution_channel_policy",
+      "value_type": "integer"
+    },
+    {
+      "maximum": 10000,
+      "minimum": 1,
+      "parameter_id": "maximum_plan_replacement_items",
+      "selected_value": null,
+      "selection_authority": "signed_mission_reconfiguration_policy",
+      "value_type": "integer"
+    }
+  ],
+  "policy_id": "RAP-03BD076689DF7FD5177A4F0916F6100D",
+  "policy_sha256": "sha256:03bd076689df7fd5177a4f0916f6100db8f15d66eeb666bb7713238292e7a25f",
+  "registry_effect": "none",
+  "runtime_effect": "none",
+  "schema_version": 1,
+  "transition_rules": [
+    {
+      "approved_rule": "owner_replacement_and_independent_control",
+      "conditional_parties": [
+        "second_control_or_mission_authority_for_control_replacement"
+      ],
+      "decision_id": "D001",
+      "required_parties": [
+        "current_owner",
+        "proposed_replacement",
+        "independent_control"
+      ],
+      "result_boundary": "new_owner_epoch_after_atomic_commit",
+      "transition_family": "privileged_role_reassignment"
+    },
+    {
+      "approved_rule": "versioned_bounded_chain_with_return_and_control_revocation",
+      "conditional_parties": [
+        "control_revocation_authority_for_revocation"
+      ],
+      "decision_id": "D002",
+      "required_parties": [
+        "current_owner",
+        "proposed_owner_for_delegation_or_return",
+        "independent_control"
+      ],
+      "result_boundary": "new_chain_head_and_owner_epoch_after_atomic_commit",
+      "transition_family": "delegation_return_and_revocation"
+    },
+    {
+      "approved_rule": "reviewed_plan_replacement_with_capability_revalidation",
+      "conditional_parties": [
+        "independent_assurance_when_assurance_work_changes"
+      ],
+      "decision_id": "D003",
+      "required_parties": [
+        "current_owner",
+        "proposed_owner",
+        "source_command",
+        "destination_command",
+        "independent_control"
+      ],
+      "result_boundary": "replacement_plan_only_after_capability_and_qualification_review",
+      "transition_family": "cross_command_transfer"
+    },
+    {
+      "approved_rule": "independently_reviewed_exact_item_mapping",
+      "conditional_parties": [
+        "second_control_for_control_role_mapping"
+      ],
+      "decision_id": "D004",
+      "required_parties": [
+        "mission_owner",
+        "affected_current_owners",
+        "affected_proposed_owners",
+        "independent_control"
+      ],
+      "result_boundary": "replacement_plan_and_mapping_commit_atomically",
+      "transition_family": "activated_plan_replacement"
+    },
+    {
+      "approved_rule": "fenced_sessions_signed_acknowledgement_and_timeout",
+      "conditional_parties": [
+        "independent_control_for_timeout_or_forced_cancellation"
+      ],
+      "decision_id": "D005",
+      "required_parties": [
+        "control_plane_request_authority",
+        "external_execution_acknowledger"
+      ],
+      "result_boundary": "effective_only_after_valid_fenced_acknowledgement",
+      "transition_family": "distributed_execution_transfer_or_cancellation"
+    }
+  ]
+}

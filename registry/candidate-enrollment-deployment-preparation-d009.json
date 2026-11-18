@@ -1,0 +1,259 @@
+{
+  "ceremonies": [
+    {
+      "acceptance_checks": [
+        "identifiers_are_stable_and_environment_specific",
+        "catalog_identity_contains_no_network_endpoint"
+      ],
+      "ceremony_id": "establish_organization_namespace",
+      "depends_on": [],
+      "input_ids": [
+        "select_organization_issuer_audience_and_catalog_identity"
+      ],
+      "sequence": 1
+    },
+    {
+      "acceptance_checks": [
+        "root_signer_reviewer_and_owner_keys_are_distinct",
+        "credential_and_authorization_scopes_are_exact",
+        "all_validity_windows_are_bounded"
+      ],
+      "ceremony_id": "establish_separated_trust_roles",
+      "depends_on": [
+        "establish_organization_namespace"
+      ],
+      "input_ids": [
+        "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+        "issue_root_signed_enrollment_signer_authorization",
+        "issue_role_scoped_control_and_assurance_reviewer_credentials"
+      ],
+      "sequence": 2
+    },
+    {
+      "acceptance_checks": [
+        "candidate_binding_is_exact_and_content_addressed",
+        "repository_identity_is_logical_and_uses_sha256",
+        "private_keys_credentials_and_endpoints_are_excluded"
+      ],
+      "ceremony_id": "bind_candidate_owner_and_repository",
+      "depends_on": [
+        "establish_separated_trust_roles"
+      ],
+      "input_ids": [
+        "select_exact_candidate_owner_identity_and_public_key",
+        "select_organization_logical_evidence_repository_identity"
+      ],
+      "sequence": 3
+    },
+    {
+      "acceptance_checks": [
+        "control_and_assurance_reviews_are_independent_and_valid",
+        "catalog_signature_scope_expiry_and_predecessor_are_valid",
+        "release_is_content_addressed_and_offline_verifiable"
+      ],
+      "ceremony_id": "review_sign_and_distribute_catalog",
+      "depends_on": [
+        "bind_candidate_owner_and_repository"
+      ],
+      "input_ids": [
+        "produce_independently_reviewed_and_signed_enrollment_catalog",
+        "distribute_catalog_and_revocations_through_reviewed_release_process"
+      ],
+      "sequence": 4
+    },
+    {
+      "acceptance_checks": [
+        "last_seen_version_and_digest_survive_restart",
+        "rollback_detection_fails_closed",
+        "recovery_requires_reviewed_operator_action"
+      ],
+      "ceremony_id": "establish_checkpoint_custody",
+      "depends_on": [
+        "review_sign_and_distribute_catalog"
+      ],
+      "input_ids": [
+        "protect_last_seen_catalog_checkpoint_against_rollback"
+      ],
+      "sequence": 5
+    }
+  ],
+  "deployment_status": "awaiting_external_inputs",
+  "external_inputs": [
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "independent_control"
+      ],
+      "completion_evidence": [
+        "approved_issuer_identifier",
+        "approved_audience_identifier",
+        "approved_logical_catalog_identifier"
+      ],
+      "input_id": "select_organization_issuer_audience_and_catalog_identity",
+      "input_kind": "organization_namespace_selection",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "offline_root_custodian",
+        "deployment_owner"
+      ],
+      "completion_evidence": [
+        "root_key_identifier",
+        "ed25519_public_key",
+        "independent_fingerprint_verification_record"
+      ],
+      "input_id": "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+      "input_kind": "out_of_band_trust_anchor",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "offline_root_custodian",
+        "enrollment_release_operator"
+      ],
+      "completion_evidence": [
+        "separated_signer_public_key",
+        "signed_signer_authorization",
+        "authorization_validity_and_key_separation_review"
+      ],
+      "input_id": "issue_root_signed_enrollment_signer_authorization",
+      "input_kind": "root_signed_authorization",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "qualification_credential_issuer",
+        "independent_control",
+        "independent_assurance"
+      ],
+      "completion_evidence": [
+        "control_reviewer_credential",
+        "assurance_reviewer_credential",
+        "reviewer_identity_and_key_separation_review"
+      ],
+      "input_id": "issue_role_scoped_control_and_assurance_reviewer_credentials",
+      "input_kind": "separated_reviewer_credentials",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "candidate_owner",
+        "deployment_owner"
+      ],
+      "completion_evidence": [
+        "exact_profile_and_candidate_binding",
+        "candidate_owner_identifier",
+        "candidate_owner_ed25519_public_key",
+        "candidate_artifact_sha256"
+      ],
+      "input_id": "select_exact_candidate_owner_identity_and_public_key",
+      "input_kind": "candidate_owner_binding",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "evidence_custodian",
+        "deployment_owner"
+      ],
+      "completion_evidence": [
+        "logical_repository_identifier",
+        "sha256_content_addressing_confirmation",
+        "credential_and_endpoint_exclusion_review"
+      ],
+      "input_id": "select_organization_logical_evidence_repository_identity",
+      "input_kind": "logical_repository_selection",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "enrollment_release_operator",
+        "independent_control",
+        "independent_assurance"
+      ],
+      "completion_evidence": [
+        "signed_control_release_review",
+        "signed_assurance_release_review",
+        "signed_enrollment_catalog",
+        "offline_verification_receipt"
+      ],
+      "input_id": "produce_independently_reviewed_and_signed_enrollment_catalog",
+      "input_kind": "reviewed_signed_release",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "enrollment_release_operator",
+        "deployment_owner"
+      ],
+      "completion_evidence": [
+        "content_addressed_catalog_release",
+        "revocation_distribution_procedure",
+        "consumer_verification_instructions"
+      ],
+      "input_id": "distribute_catalog_and_revocations_through_reviewed_release_process",
+      "input_kind": "reviewed_distribution",
+      "status": "external_input_required"
+    },
+    {
+      "accountable_roles": [
+        "deployment_owner",
+        "independent_control"
+      ],
+      "completion_evidence": [
+        "checkpoint_custodian_assignment",
+        "protected_storage_and_recovery_procedure",
+        "rollback_response_procedure"
+      ],
+      "input_id": "protect_last_seen_catalog_checkpoint_against_rollback",
+      "input_kind": "rollback_checkpoint_custody",
+      "status": "external_input_required"
+    }
+  ],
+  "implementation_report": {
+    "implementation_status": "contract_implementation_complete",
+    "report_id": "CEI-D1B281DE3CA3249C30A0090844BDD2BB",
+    "sha256": "sha256:d1b281de3ca3249c30a0090844bdd2bb15928efdb3738f5b84c5cbf8407cc47d"
+  },
+  "network_call_performed": false,
+  "packet_id": "CDP-C0D97BCF4BD9F24EF4E4F3D388DEFB2A",
+  "packet_sha256": "sha256:c0d97bcf4bd9f24ef4e4f3d388defb2ab5d7a26d86624bc605f9039245fe235f",
+  "prohibited_content": [
+    "private_keys",
+    "private_key_references",
+    "repository_credentials",
+    "repository_connection_profiles",
+    "network_endpoints",
+    "provider_credentials"
+  ],
+  "prohibited_effects": [
+    "does_not_generate_import_store_or_select_private_keys",
+    "does_not_issue_credentials_authorizations_reviews_or_signatures",
+    "does_not_enroll_a_live_owner_candidate_or_repository",
+    "does_not_publish_or_distribute_a_live_catalog",
+    "does_not_accept_or_retrieve_live_evidence",
+    "does_not_qualify_a_candidate_or_specialist",
+    "does_not_change_registry_status_or_routing_eligibility",
+    "does_not_make_network_provider_tool_retrieval_or_target_requests",
+    "does_not_mutate_runtime_or_sqlite_state"
+  ],
+  "qualification_effect": "none",
+  "readiness": {
+    "next_action": "complete_external_inputs_under_organization_change_control",
+    "pending_input_count": 9,
+    "pending_input_ids": [
+      "select_organization_issuer_audience_and_catalog_identity",
+      "obtain_d008_offline_root_public_key_through_out_of_band_trust",
+      "issue_root_signed_enrollment_signer_authorization",
+      "issue_role_scoped_control_and_assurance_reviewer_credentials",
+      "select_exact_candidate_owner_identity_and_public_key",
+      "select_organization_logical_evidence_repository_identity",
+      "produce_independently_reviewed_and_signed_enrollment_catalog",
+      "distribute_catalog_and_revocations_through_reviewed_release_process",
+      "protect_last_seen_catalog_checkpoint_against_rollback"
+    ],
+    "ready_for_live_enrollment": false
+  },
+  "registry_effect": "none",
+  "schema_version": 1
+}

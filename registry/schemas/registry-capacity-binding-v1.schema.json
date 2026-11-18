@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.example/schemas/registry-capacity-binding-v1.schema.json",
+  "title": "Registry capacity binding v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "binding_id",
+    "binding_sha256",
+    "catalog_id",
+    "catalog_sha256",
+    "catalog_version",
+    "effects",
+    "kind",
+    "qualification_effect",
+    "rehearsal_id",
+    "rehearsal_sha256",
+    "schedule_id",
+    "schedule_sha256",
+    "schema_version",
+    "task_count"
+  ],
+  "properties": {
+    "binding_id": {"type": "string", "pattern": "^RCB-[0-9A-F]{32}$"},
+    "binding_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "catalog_id": {"const": "sunderkey-offensive-expert-army"},
+    "catalog_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "catalog_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "effects": {
+      "const": {
+        "authorization": "none",
+        "dispatch": "none",
+        "network": "none",
+        "qualification": "none",
+        "routing": "none",
+        "target_action": "none"
+      }
+    },
+    "kind": {"const": "sunderkey.registry-capacity-binding.v1"},
+    "qualification_effect": {"const": "none"},
+    "rehearsal_id": {"type": "string", "pattern": "^CCR-[0-9A-F]{32}$"},
+    "rehearsal_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "schedule_id": {"type": "string", "pattern": "^CSS-[0-9A-F]{32}$"},
+    "schedule_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "schema_version": {"const": 1},
+    "task_count": {"type": "integer", "minimum": 0, "maximum": 4096}
+  }
+}

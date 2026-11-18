@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S01",
+  "component_id": "recon_supplied_passive_source_freshness",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:passive-sources",
+      "sources_complete": true,
+      "policy_complete": true,
+      "current_tick": 100,
+      "maximum_age_ticks": 20,
+      "observations": [
+        {
+          "observation_id": "synthetic:present",
+          "asset_id": "synthetic:asset-one",
+          "source_ref": "synthetic:archive",
+          "source_kind": "archive_index",
+          "observed_tick": 90,
+          "claim": "present"
+        },
+        {
+          "observation_id": "synthetic:absent",
+          "asset_id": "synthetic:asset-one",
+          "source_ref": "synthetic:inventory",
+          "source_kind": "inventory_snapshot",
+          "observed_tick": 95,
+          "claim": "absent"
+        },
+        {
+          "observation_id": "synthetic:stale",
+          "asset_id": "synthetic:asset-two",
+          "source_ref": "synthetic:old-index",
+          "source_kind": "certificate_index",
+          "observed_tick": 50,
+          "claim": "present"
+        }
+      ]
+    }
+  }
+}

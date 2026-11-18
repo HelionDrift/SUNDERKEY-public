@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S07",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "network_id": "synthetic-vpc",
+      "rules_complete": true,
+      "traffic_kind": "new_flow",
+      "rules": [
+        {
+          "rule_id": "ingress-one",
+          "network_id": "synthetic-vpc",
+          "direction": "INGRESS",
+          "disabled": false,
+          "priority": 100,
+          "action": "allow",
+          "targets": {"kind": "all"},
+          "predicate": {
+            "kind": "cidr_protocol_ports",
+            "protocol": "tcp",
+            "source_cidrs": ["10.0.0.0/24"],
+            "destination_cidrs": ["10.0.1.0/24"],
+            "destination_ports": [[443, 443]]
+          }
+        },
+        {
+          "rule_id": "ingress-two",
+          "network_id": "synthetic-vpc",
+          "direction": "INGRESS",
+          "disabled": false,
+          "priority": 100,
+          "action": "allow",
+          "targets": {"kind": "all"},
+          "predicate": {
+            "kind": "cidr_protocol_ports",
+            "protocol": "tcp",
+            "source_cidrs": ["10.0.0.0/24"],
+            "destination_cidrs": ["10.0.1.0/24"],
+            "destination_ports": [[443, 443]]
+          }
+        },
+        {
+          "rule_id": "egress-unknown",
+          "network_id": "synthetic-vpc",
+          "direction": "EGRESS",
+          "disabled": false,
+          "priority": 50,
+          "action": "allow",
+          "targets": {"kind": "unsupported", "reason": "target_tag"},
+          "predicate": {
+            "kind": "cidr_protocol_ports",
+            "protocol": "tcp",
+            "source_cidrs": ["10.0.0.0/24"],
+            "destination_cidrs": ["10.0.1.0/24"],
+            "destination_ports": [[443, 443]]
+          }
+        }
+      ],
+      "flows": [
+        {
+          "flow_id": "synthetic-ingress",
+          "network_id": "synthetic-vpc",
+          "target_id": "synthetic-nic",
+          "direction": "INGRESS",
+          "protocol": "tcp",
+          "source_ip": "10.0.0.7",
+          "destination_ip": "10.0.1.8",
+          "destination_port": 443
+        },
+        {
+          "flow_id": "synthetic-egress",
+          "network_id": "synthetic-vpc",
+          "target_id": "synthetic-nic",
+          "direction": "EGRESS",
+          "protocol": "tcp",
+          "source_ip": "10.0.0.7",
+          "destination_ip": "10.0.1.8",
+          "destination_port": 443
+        }
+      ]
+    }
+  }
+}

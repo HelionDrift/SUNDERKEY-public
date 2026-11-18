@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-protocol-traces",
+    "case_inventory_complete": true,
+    "implementation_ids": ["parser_a", "parser_b"],
+    "cases": [
+      {
+        "case_id": "c1",
+        "input_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "message_kind": "request",
+        "traces": {
+          "parser_a": {"stages": ["header", "body"], "outcome": "accepted"},
+          "parser_b": {"stages": ["header", "body"], "outcome": "accepted"}
+        }
+      },
+      {
+        "case_id": "c2",
+        "input_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "message_kind": "request",
+        "traces": {
+          "parser_a": {"stages": ["header", "body"], "outcome": "accepted"},
+          "parser_b": {"stages": ["header"], "outcome": "rejected"}
+        }
+      }
+    ]
+  }}
+}

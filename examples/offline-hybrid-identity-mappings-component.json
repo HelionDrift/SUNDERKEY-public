@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S17",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-hybrid-identity",
+      "inventory_complete": true,
+      "policy": {
+        "require_unique_source_anchor": true,
+        "require_unique_target_anchor": true,
+        "allowed_issuer_refs": ["issuer:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+      },
+      "sync_mappings": [
+        {
+          "mapping_id": "map-a",
+          "source_anchor_ref": "source-anchor:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "target_anchor_ref": "target-anchor:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "enabled": true
+        },
+        {
+          "mapping_id": "map-b",
+          "source_anchor_ref": "source-anchor:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "target_anchor_ref": "target-anchor:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "enabled": true
+        }
+      ],
+      "federation_routes": [
+        {
+          "route_id": "route-a",
+          "issuer_ref": "issuer:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "relying_party_ref": "relying-party:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "enabled": true
+        }
+      ]
+    }
+  }
+}

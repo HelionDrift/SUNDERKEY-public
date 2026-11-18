@@ -1,0 +1,631 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-production-custody-conformance-report-v1.json",
+  "title": "SUNDERKEY Production Custody Provider Conformance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "contract_id",
+    "contract_sha256",
+    "suite_id",
+    "suite_sha256",
+    "provider_descriptor",
+    "environment_class",
+    "case_observations",
+    "overall_outcome",
+    "independent_review_required",
+    "provider_selection_effect",
+    "qualification_effect",
+    "deployment_effect",
+    "catalog_publication_effect",
+    "enrollment_effect",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^PCF-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "contract_id": {"type": "string", "pattern": "^PCC-[0-9A-F]{32}$"},
+    "contract_sha256": {"$ref": "#/$defs/sha256"},
+    "suite_id": {"type": "string", "pattern": "^PCS-[0-9A-F]{32}$"},
+    "suite_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_descriptor": {"$ref": "#/$defs/providerDescriptor"},
+    "environment_class": {
+      "enum": [
+        "reference_simulation_nonqualifying",
+        "unattested_external_claim"
+      ]
+    },
+    "case_observations": {"$ref": "#/$defs/orderedObservations"},
+    "overall_outcome": {"enum": ["conformant", "nonconformant"]},
+    "independent_review_required": {"const": true},
+    "provider_selection_effect": {"const": "none"},
+    "qualification_effect": {"const": "none"},
+    "deployment_effect": {"const": "none"},
+    "catalog_publication_effect": {"const": "none"},
+    "enrollment_effect": {"const": "none"},
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,127}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$"
+    },
+    "providerDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "adapter_id",
+        "adapter_version",
+        "build_sha256",
+        "configuration_sha256",
+        "namespace_reference",
+        "credential_scope_sha256",
+        "failure_domain_reference"
+      ],
+      "properties": {
+        "provider_id": {"$ref": "#/$defs/token"},
+        "adapter_id": {"$ref": "#/$defs/token"},
+        "adapter_version": {"$ref": "#/$defs/version"},
+        "build_sha256": {"$ref": "#/$defs/sha256"},
+        "configuration_sha256": {"$ref": "#/$defs/sha256"},
+        "namespace_reference": {"$ref": "#/$defs/token"},
+        "credential_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "failure_domain_reference": {"$ref": "#/$defs/token"}
+      }
+    },
+    "variantObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variant_id",
+        "observed_outcome",
+        "evidence_sha256",
+        "evidence_summary"
+      ],
+      "properties": {
+        "variant_id": {"$ref": "#/$defs/token"},
+        "observed_outcome": {
+          "enum": ["accepted", "rejected", "blocked", "unexpected"]
+        },
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_summary": {"$ref": "#/$defs/evidenceSummary"}
+      }
+    },
+    "evidenceSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_stage",
+        "evidence_kind",
+        "request_sha256",
+        "subject_sha256",
+        "result_sha256",
+        "rejection_code",
+        "counter_before",
+        "counter_after"
+      ],
+      "properties": {
+        "execution_stage": {
+          "enum": [
+            "contract_validation",
+            "provider_invocation",
+            "runner_control"
+          ]
+        },
+        "evidence_kind": {
+          "enum": [
+            "validated_receipt",
+            "validated_receipt_set",
+            "expected_rejection",
+            "counter_observation",
+            "control_assertion"
+          ]
+        },
+        "request_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "subject_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "result_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "rejection_code": {
+          "oneOf": [
+            {"$ref": "#/$defs/token"},
+            {"type": "null"}
+          ]
+        },
+        "counter_before": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "counter_after": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        }
+      }
+    },
+    "caseObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "sequence",
+        "outcome",
+        "variant_observations",
+        "evidence_sha256s"
+      ],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/token"},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 12},
+        "outcome": {"enum": ["pass", "fail"]},
+        "variant_observations": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/variantObservation"}
+        },
+        "evidence_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "orderedObservations": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "prefixItems": [
+        {"$ref": "#/$defs/observation1"},
+        {"$ref": "#/$defs/observation2"},
+        {"$ref": "#/$defs/observation3"},
+        {"$ref": "#/$defs/observation4"},
+        {"$ref": "#/$defs/observation5"},
+        {"$ref": "#/$defs/observation6"},
+        {"$ref": "#/$defs/observation7"},
+        {"$ref": "#/$defs/observation8"},
+        {"$ref": "#/$defs/observation9"},
+        {"$ref": "#/$defs/observation10"},
+        {"$ref": "#/$defs/observation11"},
+        {"$ref": "#/$defs/observation12"}
+      ],
+      "items": false
+    },
+    "observation1": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "exact_checkpoint_identity"},
+            "sequence": {"const": 1},
+            "variant_observations": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {"$ref": "#/$defs/exactIdentityObservation"},
+                {"$ref": "#/$defs/wrongIdentityObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 2, "maxItems": 2}
+          }
+        }
+      ]
+    },
+    "observation2": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "interrupted_checkpoint_replacement"},
+            "sequence": {"const": 2},
+            "variant_observations": {
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                {"$ref": "#/$defs/initialCommitObservation"},
+                {"$ref": "#/$defs/interruptedReplaceObservation"},
+                {"$ref": "#/$defs/recoveryReplaceObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 3, "maxItems": 3}
+          }
+        }
+      ]
+    },
+    "observation3": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "ledger_put_if_absent"},
+            "sequence": {"const": 3},
+            "variant_observations": {
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                {"$ref": "#/$defs/createObjectObservation"},
+                {"$ref": "#/$defs/idempotentReplayObservation"},
+                {"$ref": "#/$defs/conflictingOverwriteObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 3, "maxItems": 3}
+          }
+        }
+      ]
+    },
+    "observation4": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "retention_lock"},
+            "sequence": {"const": 4},
+            "variant_observations": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {"$ref": "#/$defs/retentionVerifiedObservation"},
+                {"$ref": "#/$defs/retentionUnavailableObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 2, "maxItems": 2}
+          }
+        }
+      ]
+    },
+    "observation5": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "conditional_head_cas_race"},
+            "sequence": {"const": 5},
+            "variant_observations": {
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                {"$ref": "#/$defs/initialHeadObservation"},
+                {"$ref": "#/$defs/raceWinnerObservation"},
+                {"$ref": "#/$defs/staleContenderObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 3, "maxItems": 3}
+          }
+        }
+      ]
+    },
+    "observation6": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "ledger_lineage_integrity"},
+            "sequence": {"const": 6},
+            "variant_observations": {
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                {"$ref": "#/$defs/validSuccessorObservation"},
+                {"$ref": "#/$defs/sequenceGapObservation"},
+                {"$ref": "#/$defs/lineageForkObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 3, "maxItems": 3}
+          }
+        }
+      ]
+    },
+    "observation7": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "immutable_catalog_objects"},
+            "sequence": {"const": 7},
+            "variant_observations": {
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                {"$ref": "#/$defs/createCatalogObservation"},
+                {"$ref": "#/$defs/catalogOverwriteObservation"},
+                {"$ref": "#/$defs/readOriginalObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 3, "maxItems": 3}
+          }
+        }
+      ]
+    },
+    "observation8": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "custody_separation"},
+            "sequence": {"const": 8},
+            "variant_observations": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {"$ref": "#/$defs/separatedCustodyObservation"},
+                {"$ref": "#/$defs/collapsedCustodyObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 2, "maxItems": 2}
+          }
+        }
+      ]
+    },
+    "observation9": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "workload_identity_lifecycle"},
+            "sequence": {"const": 9},
+            "variant_observations": {
+              "minItems": 5,
+              "maxItems": 5,
+              "prefixItems": [
+                {"$ref": "#/$defs/currentIdentityObservation"},
+                {"$ref": "#/$defs/providerMismatchObservation"},
+                {"$ref": "#/$defs/staleIdentityObservation"},
+                {"$ref": "#/$defs/scopeMismatchObservation"},
+                {"$ref": "#/$defs/retiredRotationObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 5, "maxItems": 5}
+          }
+        }
+      ]
+    },
+    "observation10": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "signed_head_verification"},
+            "sequence": {"const": 10},
+            "variant_observations": {
+              "minItems": 4,
+              "maxItems": 4,
+              "prefixItems": [
+                {"$ref": "#/$defs/validSignedHeadObservation"},
+                {"$ref": "#/$defs/tamperedSignatureObservation"},
+                {"$ref": "#/$defs/wrongRootAuthorizationObservation"},
+                {"$ref": "#/$defs/wrongPredecessorObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 4, "maxItems": 4}
+          }
+        }
+      ]
+    },
+    "observation11": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "audit_append_blocks_release"},
+            "sequence": {"const": 11},
+            "variant_observations": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {"$ref": "#/$defs/auditBeforeSignObservation"},
+                {"$ref": "#/$defs/auditFailureObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 2, "maxItems": 2}
+          }
+        }
+      ]
+    },
+    "observation12": {
+      "allOf": [
+        {"$ref": "#/$defs/caseObservation"},
+        {
+          "properties": {
+            "case_id": {"const": "partial_release_recovery"},
+            "sequence": {"const": 12},
+            "variant_observations": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {"$ref": "#/$defs/partialReleaseObservation"},
+                {"$ref": "#/$defs/recoveredReleaseObservation"}
+              ],
+              "items": false
+            },
+            "evidence_sha256s": {"minItems": 2, "maxItems": 2}
+          }
+        }
+      ]
+    },
+    "providerAcceptedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "accepted"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "provider_invocation"},
+              "evidence_kind": {"enum": ["validated_receipt", "validated_receipt_set"]},
+              "request_sha256": {"$ref": "#/$defs/sha256"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "result_sha256": {"$ref": "#/$defs/sha256"},
+              "rejection_code": {"type": "null"},
+              "counter_before": {"type": "null"},
+              "counter_after": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    "providerRejectedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "rejected"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "provider_invocation"},
+              "evidence_kind": {"const": "expected_rejection"},
+              "request_sha256": {"$ref": "#/$defs/sha256"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "rejection_code": {"$ref": "#/$defs/token"},
+              "counter_before": {"type": "null"},
+              "counter_after": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    "providerBlockedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "blocked"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "provider_invocation"},
+              "evidence_kind": {"const": "expected_rejection"},
+              "request_sha256": {"$ref": "#/$defs/sha256"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "rejection_code": {"$ref": "#/$defs/token"},
+              "counter_before": {"type": "null"},
+              "counter_after": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    "controlAcceptedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "accepted"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "runner_control"},
+              "evidence_kind": {"const": "control_assertion"},
+              "request_sha256": {"type": "null"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "result_sha256": {"$ref": "#/$defs/sha256"},
+              "rejection_code": {"type": "null"},
+              "counter_before": {"type": "null"},
+              "counter_after": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    "controlRejectedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "rejected"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "runner_control"},
+              "evidence_kind": {"const": "expected_rejection"},
+              "request_sha256": {"$ref": "#/$defs/sha256"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "result_sha256": {"type": "null"},
+              "rejection_code": {"$ref": "#/$defs/token"},
+              "counter_before": {"type": "null"},
+              "counter_after": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    "auditBlockedProfile": {
+      "if": {"properties": {"observed_outcome": {"const": "blocked"}}},
+      "then": {
+        "properties": {
+          "evidence_summary": {
+            "properties": {
+              "execution_stage": {"const": "runner_control"},
+              "evidence_kind": {"const": "counter_observation"},
+              "request_sha256": {"$ref": "#/$defs/sha256"},
+              "subject_sha256": {"$ref": "#/$defs/sha256"},
+              "result_sha256": {"type": "null"},
+              "rejection_code": {"const": "test_fault_audit_append"},
+              "counter_before": {"type": "integer", "minimum": 0},
+              "counter_after": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "exactIdentityObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "exact_identity"}}}]},
+    "wrongIdentityObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "wrong_identity"}}}]},
+    "initialCommitObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "initial_commit"}}}]},
+    "interruptedReplaceObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerBlockedProfile"}, {"properties": {"variant_id": {"const": "interrupted_replace"}}}]},
+    "recoveryReplaceObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "recovery_replace"}}}]},
+    "createObjectObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "create_object"}}}]},
+    "idempotentReplayObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "idempotent_replay"}}}]},
+    "conflictingOverwriteObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "conflicting_overwrite"}}}]},
+    "retentionVerifiedObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "retention_verified"}}}]},
+    "retentionUnavailableObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerBlockedProfile"}, {"properties": {"variant_id": {"const": "retention_unavailable"}}}]},
+    "initialHeadObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "initial_head"}}}]},
+    "raceWinnerObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "race_winner"}}}]},
+    "staleContenderObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "stale_contender"}}}]},
+    "validSuccessorObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "valid_successor"}}}]},
+    "sequenceGapObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "sequence_gap"}}}]},
+    "lineageForkObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "lineage_fork"}}}]},
+    "createCatalogObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "create_catalog"}}}]},
+    "catalogOverwriteObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "catalog_overwrite"}}}]},
+    "readOriginalObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "read_original"}}}]},
+    "separatedCustodyObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/controlAcceptedProfile"}, {"properties": {"variant_id": {"const": "separated_custody"}}}]},
+    "collapsedCustodyObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/controlRejectedProfile"}, {"properties": {"variant_id": {"const": "collapsed_custody"}}}]},
+    "currentIdentityObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "current_identity"}}}]},
+    "providerMismatchObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "provider_mismatch"}}}]},
+    "staleIdentityObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "stale_identity"}}}]},
+    "scopeMismatchObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "scope_mismatch"}}}]},
+    "retiredRotationObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "retired_rotation"}}}]},
+    "validSignedHeadObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "valid_signed_head"}}}]},
+    "tamperedSignatureObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "tampered_signature"}}}]},
+    "wrongRootAuthorizationObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "wrong_root_authorization"}}}]},
+    "wrongPredecessorObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerRejectedProfile"}, {"properties": {"variant_id": {"const": "wrong_predecessor"}}}]},
+    "auditBeforeSignObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "audit_before_sign"}}}]},
+    "auditFailureObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/auditBlockedProfile"}, {"properties": {"variant_id": {"const": "audit_failure"}}}]},
+    "partialReleaseObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerBlockedProfile"}, {"properties": {"variant_id": {"const": "partial_release"}}}]},
+    "recoveredReleaseObservation": {"allOf": [{"$ref": "#/$defs/variantObservation"}, {"$ref": "#/$defs/providerAcceptedProfile"}, {"properties": {"variant_id": {"const": "recovered_release"}}}]}
+  }
+}

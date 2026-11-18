@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S13",
+  "component_id": "agent_supplied_output_handling_boundary",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-output-flow",
+      "outputs": [
+        {"output_id": "retrieval-one", "origin": "retrieval", "trust": "untrusted"},
+        {"output_id": "model-two", "origin": "model", "trust": "unknown"}
+      ],
+      "sinks": [
+        {"sink_id": "query-one", "kind": "query"},
+        {"sink_id": "display-one", "kind": "display"}
+      ],
+      "flows": [
+        {
+          "flow_id": "raw-query",
+          "output_id": "retrieval-one",
+          "sink_id": "query-one",
+          "handling": "raw",
+          "delivery": "accepted",
+          "context_complete": true
+        },
+        {
+          "flow_id": "display-only",
+          "output_id": "retrieval-one",
+          "sink_id": "display-one",
+          "handling": "raw",
+          "delivery": "accepted",
+          "context_complete": true
+        },
+        {
+          "flow_id": "uncertain-query",
+          "output_id": "model-two",
+          "sink_id": "query-one",
+          "handling": "raw",
+          "delivery": "accepted",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

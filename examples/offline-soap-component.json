@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S04",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "wsdl_content": "<definitions xmlns=\"http://schemas.xmlsoap.org/wsdl/\" xmlns:f=\"urn:fixture\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:s=\"http://schemas.xmlsoap.org/wsdl/soap/\" targetNamespace=\"urn:fixture\"><types><xs:schema targetNamespace=\"urn:fixture\" elementFormDefault=\"qualified\"><xs:element name=\"Lookup\"><xs:complexType><xs:sequence><xs:element name=\"id\" type=\"xs:int\"/><xs:element name=\"verbose\" type=\"xs:boolean\" minOccurs=\"0\"/></xs:sequence></xs:complexType></xs:element></xs:schema></types><message name=\"LookupRequest\"><part name=\"parameters\" element=\"f:Lookup\"/></message><portType name=\"FixtureInterface\"><operation name=\"Lookup\"><input message=\"f:LookupRequest\"/></operation></portType><binding name=\"FixtureSoapBinding\" type=\"f:FixtureInterface\"><s:binding style=\"document\" transport=\"http://schemas.xmlsoap.org/soap/http\"/><operation name=\"Lookup\"><s:operation soapAction=\"urn:fixture:lookup\"/><input><s:body use=\"literal\"/></input></operation></binding></definitions>",
+    "envelope_content": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:f=\"urn:fixture\"><s:Body><f:Lookup><f:id>7</f:id><f:verbose>true</f:verbose></f:Lookup></s:Body></s:Envelope>",
+    "wsdl_source_id": "fixture-wsdl",
+    "envelope_source_id": "fixture-envelope",
+    "selection": {
+      "binding_qname": "{urn:fixture}FixtureSoapBinding",
+      "operation_name": "Lookup",
+      "message_kind": "request",
+      "fault_name": null,
+      "observed_action": "urn:fixture:lookup"
+    },
+    "limits": {
+      "max_wsdl_bytes": 8192,
+      "max_envelope_bytes": 8192,
+      "max_xml_tokens": 2048,
+      "max_xml_nodes": 1024,
+      "max_xml_depth": 32,
+      "max_observations": 128
+    }
+  }
+}

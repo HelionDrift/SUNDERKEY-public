@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D22-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-protocol-state-graph",
+    "state_inventory_complete": true,
+    "initial_state_id": "start",
+    "states": [
+      {"state_id": "start", "accepts_application_data": false},
+      {"state_id": "authenticated", "accepts_application_data": false},
+      {"state_id": "accepted", "accepts_application_data": true}
+    ],
+    "transitions": [
+      {"transition_id": "t1", "from_state_id": "start", "to_state_id": "authenticated", "asserted_peer_authentication": true},
+      {"transition_id": "t2", "from_state_id": "authenticated", "to_state_id": "accepted", "asserted_peer_authentication": false}
+    ]
+  }}
+}

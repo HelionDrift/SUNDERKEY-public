@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S02",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-emulation-export",
+      "inventory_complete": true,
+      "emulation_runs": [
+        {
+          "image_id": "image-a",
+          "expected_architecture": "armv7m",
+          "declared_emulator_architecture": "armv7m",
+          "baseline_trace_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "declared_trace_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "fixture_complete": true,
+          "trace_complete": true
+        },
+        {
+          "image_id": "image-b",
+          "expected_architecture": "riscv32",
+          "declared_emulator_architecture": "riscv32",
+          "baseline_trace_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "declared_trace_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "fixture_complete": true,
+          "trace_complete": true
+        }
+      ]
+    }
+  }
+}

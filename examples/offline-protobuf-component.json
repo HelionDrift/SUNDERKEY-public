@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "previous_content": "syntax = \"proto3\"; package fixture; message Request { string name = 1; int32 revision = 2; } message Reply { string value = 1; } service Fixture { rpc Read(Request) returns (Reply); }\n",
+    "current_content": "syntax = \"proto3\"; package fixture; message Request { string name = 1; reserved 2; reserved \"revision\"; } message Reply { bytes value = 1; } service Fixture { rpc Read(Request) returns (stream Reply); }\n",
+    "previous_source_id": "fixture.previous.proto",
+    "current_source_id": "fixture.current.proto",
+    "limits": {
+      "max_previous_bytes": 4096,
+      "max_current_bytes": 4096,
+      "max_tokens": 1024,
+      "max_nodes": 1024,
+      "max_observations": 64
+    }
+  }
+}

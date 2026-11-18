@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D24-S09",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-esrt-device-resource",
+      "resource": {
+        "fw_class": "12345678-1234-1234-1234-123456789abc",
+        "fw_type": 2,
+        "fw_version": 12,
+        "lowest_supported_fw_version": 9,
+        "last_attempt_version": 0,
+        "last_attempt_status": 0
+      },
+      "proposed_updates": [
+        {
+          "proposal_id": "example-below-floor",
+          "target_fw_class": "12345678-1234-1234-1234-123456789abc",
+          "proposed_version": 8
+        }
+      ]
+    }
+  }
+}

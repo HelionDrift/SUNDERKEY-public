@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/deployment-profile-contract-v1.schema.json",
+  "title": "SUNDERKEY deployment profile and restricted worker contracts v1",
+  "oneOf": [
+    {"$ref": "#/$defs/profile"},
+    {"$ref": "#/$defs/admissionRequest"},
+    {"$ref": "#/$defs/admissionResult"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(profileref|workerref|bundleref|signatureref|trustref|componentref|toolref|credentialref|storeref|exportref|manifestref|snapshotref|stopref|cleanupref|restorationref|scoperef|assessmentref|tenantref|requestref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "credential_access",
+        "deployment",
+        "filesystem_mutation",
+        "network",
+        "qualification",
+        "signature_generation",
+        "target_action"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "credential_access": {"const": "none"},
+        "deployment": {"const": "none"},
+        "filesystem_mutation": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "signature_generation": {"const": "none"},
+        "target_action": {"const": "none"}
+      }
+    },
+    "capability": {
+      "enum": [
+        "passive_discovery",
+        "active_validation",
+        "api_assessment",
+        "browser_assessment",
+        "cloud_control_plane",
+        "evidence_collection",
+        "cleanup_verification",
+        "restoration_verification"
+      ]
+    },
+    "versionPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_sha256", "component_ref", "exact_version"],
+      "properties": {
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "component_ref": {"$ref": "#/$defs/reference"},
+        "exact_version": {
+          "type": "string",
+          "pattern": "^[0-9]+(\\.[0-9]+){1,3}([-+][A-Za-z0-9.]+)?$"
+        }
+      }
+    },
+    "trustRootPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public_material_sha256", "purposes", "trust_root_ref"],
+      "properties": {
+        "public_material_sha256": {"$ref": "#/$defs/sha256"},
+        "purposes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "mission_bundle",
+              "revocation_snapshot",
+              "update_bundle",
+              "evidence_export"
+            ]
+          }
+        },
+        "trust_root_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "missionBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_ref",
+        "bundle_ref",
+        "bundle_sha256",
+        "expires_at",
+        "issued_at",
+        "scope_ref",
+        "scope_sha256",
+        "signature_ref",
+        "signing_trust_root_ref",
+        "tenant_ref"
+      ],
+      "properties": {
+        "assessment_ref": {"$ref": "#/$defs/reference"},
+        "bundle_ref": {"$ref": "#/$defs/reference"},
+        "bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "scope_ref": {"$ref": "#/$defs/reference"},
+        "scope_sha256": {"$ref": "#/$defs/sha256"},
+        "signature_ref": {"$ref": "#/$defs/reference"},
+        "signing_trust_root_ref": {"$ref": "#/$defs/reference"},
+        "tenant_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "credentialConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_modes",
+        "maximum_lease_seconds",
+        "prohibit_persistence",
+        "reference_only",
+        "require_revocation_check"
+      ],
+      "properties": {
+        "allowed_modes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "none",
+              "brokered_ephemeral_reference",
+              "customer_injected_reference",
+              "offline_sealed_reference"
+            ]
+          }
+        },
+        "maximum_lease_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+        "prohibit_persistence": {"const": true},
+        "reference_only": {"const": true},
+        "require_revocation_check": {"const": true}
+      }
+    },
+    "custodyPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "encrypted_at_rest",
+        "evidence_store_ref",
+        "export_manifest_ref",
+        "export_required",
+        "export_trust_root_ref",
+        "local_deletion_after_verified_export"
+      ],
+      "properties": {
+        "encrypted_at_rest": {"const": true},
+        "evidence_store_ref": {"$ref": "#/$defs/reference"},
+        "export_manifest_ref": {"$ref": "#/$defs/reference"},
+        "export_required": {"const": true},
+        "export_trust_root_ref": {"$ref": "#/$defs/reference"},
+        "local_deletion_after_verified_export": {"const": true}
+      }
+    },
+    "stopCleanupPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cleanup_contract_ref",
+        "cleanup_required",
+        "maximum_stop_ack_seconds",
+        "restoration_contract_ref",
+        "restoration_required",
+        "stop_contract_ref",
+        "stop_supported"
+      ],
+      "properties": {
+        "cleanup_contract_ref": {"$ref": "#/$defs/reference"},
+        "cleanup_required": {"const": true},
+        "maximum_stop_ack_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+        "restoration_contract_ref": {"$ref": "#/$defs/reference"},
+        "restoration_required": {"const": true},
+        "stop_contract_ref": {"$ref": "#/$defs/reference"},
+        "stop_supported": {"const": true}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_constraints",
+        "custody_policy",
+        "deployment_kind",
+        "effects",
+        "egress_mode",
+        "ingress_mode",
+        "kind",
+        "maximum_clock_skew_seconds",
+        "maximum_offline_seconds",
+        "profile_id",
+        "profile_sha256",
+        "schema_version",
+        "stop_cleanup_policy",
+        "supported_capabilities",
+        "tool_allowlist",
+        "trust_roots",
+        "update_channel",
+        "version_pins",
+        "worker_ref"
+      ],
+      "properties": {
+        "credential_constraints": {"$ref": "#/$defs/credentialConstraints"},
+        "custody_policy": {"$ref": "#/$defs/custodyPolicy"},
+        "deployment_kind": {
+          "enum": [
+            "managed_service",
+            "customer_hosted_worker",
+            "private_cloud",
+            "restricted_network",
+            "disconnected_operation"
+          ]
+        },
+        "effects": {"$ref": "#/$defs/effects"},
+        "egress_mode": {
+          "enum": [
+            "restricted_allowlist",
+            "customer_proxy",
+            "private_allowlist",
+            "customer_relay",
+            "evidence_removable_media"
+          ]
+        },
+        "ingress_mode": {
+          "enum": [
+            "managed_control_plane",
+            "mutual_tls_control_plane",
+            "private_control_plane",
+            "customer_relay",
+            "signed_removable_media"
+          ]
+        },
+        "kind": {"const": "sunderkey.deployment-profile.v1"},
+        "maximum_clock_skew_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+        "maximum_offline_seconds": {"type": "integer", "minimum": 0, "maximum": 604800},
+        "profile_id": {"type": "string", "pattern": "^DPC-[0-9A-F]{32}$"},
+        "profile_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "stop_cleanup_policy": {"$ref": "#/$defs/stopCleanupPolicy"},
+        "supported_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/capability"}
+        },
+        "tool_allowlist": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/reference"}
+        },
+        "trust_roots": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 256,
+          "items": {"$ref": "#/$defs/trustRootPin"}
+        },
+        "update_channel": {
+          "enum": [
+            "managed_signed_channel",
+            "customer_signed_mirror",
+            "private_signed_mirror",
+            "relayed_signed_bundle",
+            "offline_signed_bundle"
+          ]
+        },
+        "version_pins": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 256,
+          "items": {"$ref": "#/$defs/versionPin"}
+        },
+        "worker_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "revocationSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_at",
+        "expires_at",
+        "signature_ref",
+        "signing_trust_root_ref",
+        "snapshot_ref",
+        "snapshot_sha256"
+      ],
+      "properties": {
+        "captured_at": {"$ref": "#/$defs/timestamp"},
+        "expires_at": {"$ref": "#/$defs/timestamp"},
+        "signature_ref": {"$ref": "#/$defs/reference"},
+        "signing_trust_root_ref": {"$ref": "#/$defs/reference"},
+        "snapshot_ref": {"$ref": "#/$defs/reference"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "exportManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_store_ref",
+        "manifest_ref",
+        "manifest_sha256",
+        "signature_ref",
+        "signing_trust_root_ref"
+      ],
+      "properties": {
+        "evidence_store_ref": {"$ref": "#/$defs/reference"},
+        "manifest_ref": {"$ref": "#/$defs/reference"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "signature_ref": {"$ref": "#/$defs/reference"},
+        "signing_trust_root_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "admissionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_mode",
+        "effects",
+        "evidence_export_manifest",
+        "kind",
+        "last_online_at",
+        "mission_bundle",
+        "profile_id",
+        "profile_sha256",
+        "request_id",
+        "request_sha256",
+        "requested_capabilities",
+        "requested_credential_lease_seconds",
+        "requested_tool_refs",
+        "revocation_snapshot",
+        "schema_version",
+        "worker_clock_at"
+      ],
+      "properties": {
+        "credential_mode": {
+          "enum": [
+            "none",
+            "brokered_ephemeral_reference",
+            "customer_injected_reference",
+            "offline_sealed_reference"
+          ]
+        },
+        "effects": {"$ref": "#/$defs/effects"},
+        "evidence_export_manifest": {"$ref": "#/$defs/exportManifest"},
+        "kind": {"const": "sunderkey.deployment-admission-request.v1"},
+        "last_online_at": {"$ref": "#/$defs/timestamp"},
+        "mission_bundle": {"$ref": "#/$defs/missionBundle"},
+        "profile_id": {"type": "string", "pattern": "^DPC-[0-9A-F]{32}$"},
+        "profile_sha256": {"$ref": "#/$defs/sha256"},
+        "request_id": {"type": "string", "pattern": "^DAR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "requested_capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/capability"}
+        },
+        "requested_credential_lease_seconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+        "requested_tool_refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/reference"}
+        },
+        "revocation_snapshot": {"$ref": "#/$defs/revocationSnapshot"},
+        "schema_version": {"const": 1},
+        "worker_clock_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "admissionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization_effect",
+        "blocker_codes",
+        "deployment_effect",
+        "effects",
+        "evaluated_at",
+        "kind",
+        "profile_id",
+        "profile_sha256",
+        "qualification_effect",
+        "request_id",
+        "request_sha256",
+        "result_id",
+        "result_sha256",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "authorization_effect": {"const": "none"},
+        "blocker_codes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "contains": {"const": "live_deployment_verification_required"},
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"}
+        },
+        "deployment_effect": {"const": "none"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "evaluated_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.deployment-admission-result.v1"},
+        "profile_id": {"type": "string", "pattern": "^DPC-[0-9A-F]{32}$"},
+        "profile_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_effect": {"const": "none"},
+        "request_id": {"type": "string", "pattern": "^DAR-[0-9A-F]{32}$"},
+        "request_sha256": {"$ref": "#/$defs/sha256"},
+        "result_id": {"type": "string", "pattern": "^DAS-[0-9A-F]{32}$"},
+        "result_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": 1},
+        "status": {"enum": ["denied", "contract_compatible_unverified"]}
+      }
+    }
+  }
+}

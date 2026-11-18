@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D10-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-evm-authorization",
+      "checks": [
+        {"check_id": "origin-check", "contract_id": "vault-one", "transaction_origin_id": "user-one", "immediate_caller_id": "proxy-one", "authorization_source": "transaction_origin", "declared_authorized": true, "context_complete": true},
+        {"check_id": "caller-check", "contract_id": "vault-one", "transaction_origin_id": "user-one", "immediate_caller_id": "proxy-one", "authorization_source": "immediate_caller", "declared_authorized": true, "context_complete": true}
+      ]
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/collaboration-ownership-chain-entry-v1.json",
+  "title": "SUNDERKEY Collaboration Ownership Chain Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "entry_id",
+    "entry_sha256",
+    "chain_id",
+    "sequence",
+    "owner_epoch",
+    "mission_id",
+    "collaboration_plan_id",
+    "collaboration_plan_sha256",
+    "work_item_id",
+    "work_item_objective_sha256",
+    "planned_owner_id",
+    "transition_kind",
+    "from_owner_id",
+    "to_owner_id",
+    "previous_entry_sha256",
+    "reason_code",
+    "requested_at",
+    "expires_at",
+    "control_role_replacement",
+    "authority_bindings",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "entry_id": {"type": "string", "pattern": "^OCE-[0-9A-F]{32}$"},
+    "entry_sha256": {"$ref": "#/$defs/sha256"},
+    "chain_id": {"type": "string", "pattern": "^OCN-[0-9A-F]{32}$"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "owner_epoch": {"type": "integer", "minimum": 1},
+    "mission_id": {"$ref": "#/$defs/identifier"},
+    "collaboration_plan_id": {"$ref": "#/$defs/identifier"},
+    "collaboration_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "work_item_id": {"$ref": "#/$defs/identifier"},
+    "work_item_objective_sha256": {"$ref": "#/$defs/sha256"},
+    "planned_owner_id": {"$ref": "#/$defs/identifier"},
+    "transition_kind": {
+      "enum": [
+        "delegation",
+        "return_to_planned_owner",
+        "control_revocation",
+        "privileged_reassignment"
+      ]
+    },
+    "from_owner_id": {"$ref": "#/$defs/identifier"},
+    "to_owner_id": {"$ref": "#/$defs/identifier"},
+    "previous_entry_sha256": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+    },
+    "reason_code": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]{2,95}$"},
+    "requested_at": {"$ref": "#/$defs/timestamp"},
+    "expires_at": {"$ref": "#/$defs/timestamp"},
+    "control_role_replacement": {"type": "boolean"},
+    "authority_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "current_owner_authorization_id",
+        "proposed_owner_acceptance_id",
+        "independent_control_approval_id",
+        "second_control_or_mission_authority_id"
+      ],
+      "properties": {
+        "current_owner_authorization_id": {"$ref": "#/$defs/optionalIdentifier"},
+        "proposed_owner_acceptance_id": {"$ref": "#/$defs/identifier"},
+        "independent_control_approval_id": {"$ref": "#/$defs/identifier"},
+        "second_control_or_mission_authority_id": {
+          "$ref": "#/$defs/optionalIdentifier"
+        }
+      }
+    },
+    "runtime_effect": {"const": "none"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "optionalIdentifier": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/identifier"}]
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

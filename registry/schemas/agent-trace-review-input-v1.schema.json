@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sunderkey:schema:agent-trace-review-input-v1",
+  "title": "Redacted agent trace review input v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tenant_ref", "scope_sha256", "case_ref",
+    "source_trace_sha256", "observed_at", "policy", "events"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "tenant_ref": { "$ref": "#/$defs/tenantRef" },
+    "scope_sha256": { "$ref": "#/$defs/digest" },
+    "case_ref": { "$ref": "#/$defs/caseRef" },
+    "source_trace_sha256": { "$ref": "#/$defs/digest" },
+    "observed_at": { "$ref": "#/$defs/utc" },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_tool_refs", "maximum_tool_executions"],
+      "properties": {
+        "allowed_tool_refs": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/toolRef" }
+        },
+        "maximum_tool_executions": {
+          "type": "integer", "minimum": 0, "maximum": 256
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence", "observed_at", "kind", "actor", "action_ref",
+          "tool_ref", "event_sha256"
+        ],
+        "properties": {
+          "sequence": { "type": "integer", "minimum": 1, "maximum": 256 },
+          "observed_at": { "$ref": "#/$defs/utc" },
+          "kind": {
+            "enum": [
+              "model_call", "tool_proposal", "approval_assertion",
+              "guardrail_block", "tool_execution", "handoff", "final_response"
+            ]
+          },
+          "actor": { "enum": ["candidate", "human", "guardrail", "tool"] },
+          "action_ref": { "oneOf": [
+            { "$ref": "#/$defs/actionRef" }, { "type": "null" }
+          ] },
+          "tool_ref": { "oneOf": [
+            { "$ref": "#/$defs/toolRef" }, { "type": "null" }
+          ] },
+          "event_sha256": { "$ref": "#/$defs/digest" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "tenantRef": {
+      "type": "string", "pattern": "^tenantref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "caseRef": {
+      "type": "string", "pattern": "^caseref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "actionRef": {
+      "type": "string", "pattern": "^actionref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    },
+    "toolRef": {
+      "type": "string", "pattern": "^toolref:[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$"
+    }
+  }
+}

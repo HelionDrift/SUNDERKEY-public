@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "policy_id": "sunderkey-pilot-qualified-routing",
+  "policy_version": "1.0.0",
+  "capability_catalog_id": "sunderkey-pilot-capabilities",
+  "capability_catalog_version": "1.0.0",
+  "allowed_statuses": [
+    "qualified"
+  ],
+  "require_pilot": true,
+  "allowed_environments": [
+    "offline",
+    "synthetic",
+    "test"
+  ],
+  "allow_supporting_matches": true,
+  "allow_tier_escalation": false,
+  "max_specialists": 8,
+  "max_cell_size": 24
+}

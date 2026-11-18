@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S17",
+  "component_id": "identity_supplied_biometric_assurance_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:biometric-assurance",
+      "policy_complete": true,
+      "records_complete": true,
+      "order_complete": true,
+      "require_liveness": true,
+      "require_bound_device": true,
+      "require_unique_nonce": true,
+      "records": [
+        {
+          "record_id": "synthetic:first",
+          "nonce_id": "synthetic:nonce-one",
+          "reported_outcome": "accepted",
+          "declared_liveness": "yes",
+          "declared_device_binding": "yes"
+        },
+        {
+          "record_id": "synthetic:second",
+          "nonce_id": "synthetic:nonce-one",
+          "reported_outcome": "accepted",
+          "declared_liveness": "no",
+          "declared_device_binding": "no"
+        }
+      ]
+    }
+  }
+}

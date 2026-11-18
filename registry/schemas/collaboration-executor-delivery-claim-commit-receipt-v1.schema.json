@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/collaboration-executor-delivery-claim-commit-receipt-v1.schema.json",
+  "title": "SUNDERKEY Collaboration Executor Delivery Claim Commit Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "delivery_claim",
+    "custody_status",
+    "external_effect_status",
+    "runtime_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "delivery_claim": {
+      "$ref": "collaboration-executor-delivery-claim-v1.schema.json"
+    },
+    "custody_status": {"const": "durable_delivery_claim"},
+    "external_effect_status": {"const": "not_started"},
+    "runtime_effect": {"const": "none"}
+  }
+}

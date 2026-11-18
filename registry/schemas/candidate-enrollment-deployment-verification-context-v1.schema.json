@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-deployment-verification-context-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Deployment Verification Context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "qualification_policy",
+    "signer_authorization",
+    "catalog",
+    "profile_id",
+    "reviewers",
+    "verification_time",
+    "last_seen_checkpoint",
+    "context_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "qualification_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_issuer",
+        "expected_audience",
+        "root_key_id",
+        "root_public_key",
+        "minimum_version"
+      ],
+      "properties": {
+        "expected_issuer": {"$ref": "#/$defs/identifier"},
+        "expected_audience": {"$ref": "#/$defs/identifier"},
+        "root_key_id": {"$ref": "#/$defs/identifier"},
+        "root_public_key": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+        "minimum_version": {"type": "integer", "minimum": 1, "maximum": 2147483647}
+      }
+    },
+    "signer_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_issuer", "expected_audience", "minimum_version"],
+      "properties": {
+        "expected_issuer": {"$ref": "#/$defs/identifier"},
+        "expected_audience": {"$ref": "#/$defs/identifier"},
+        "minimum_version": {"type": "integer", "minimum": 1, "maximum": 2147483647}
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_catalog_id",
+        "expected_issuer",
+        "expected_audience",
+        "minimum_version"
+      ],
+      "properties": {
+        "expected_catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "expected_issuer": {"$ref": "#/$defs/identifier"},
+        "expected_audience": {"$ref": "#/$defs/identifier"},
+        "minimum_version": {"type": "integer", "minimum": 1, "maximum": 2147483647}
+      }
+    },
+    "profile_id": {"type": "string", "pattern": "^AOE-[A-Z0-9-]{4,48}$"},
+    "reviewers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independent_control", "independent_assurance"],
+      "properties": {
+        "independent_control": {"$ref": "#/$defs/reviewer"},
+        "independent_assurance": {"$ref": "#/$defs/reviewer"}
+      }
+    },
+    "verification_time": {"type": "string", "format": "date-time"},
+    "last_seen_checkpoint": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/checkpoint"}
+      ]
+    },
+    "context_effect": {"const": "verification_inputs_only"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_id"],
+      "properties": {"reviewer_id": {"$ref": "#/$defs/identifier"}}
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_id", "catalog_version", "catalog_sha256"],
+      "properties": {
+        "catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "catalog_version": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

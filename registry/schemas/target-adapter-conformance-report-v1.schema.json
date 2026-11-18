@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/target-adapter-conformance-report-v1.schema.json",
+  "title": "SUNDERKEY target adapter conformance report version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "adapter_id",
+    "adapter_release_sha256",
+    "authority_effect",
+    "execution_scope",
+    "kind",
+    "live_deployment_qualified",
+    "network_call_performed",
+    "observations",
+    "qualification_effect",
+    "report_id",
+    "report_sha256",
+    "schema_version",
+    "status"
+  ],
+  "properties": {
+    "adapter_id": { "$ref": "#/$defs/identifier" },
+    "adapter_release_sha256": { "$ref": "#/$defs/digest" },
+    "authority_effect": { "const": "none" },
+    "execution_scope": { "const": "repository_only_offline_adapter_conformance" },
+    "kind": { "const": "target_adapter_conformance_report" },
+    "live_deployment_qualified": { "const": false },
+    "network_call_performed": { "const": false },
+    "observations": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": { "$ref": "#/$defs/observation" }
+    },
+    "qualification_effect": { "const": "none" },
+    "report_id": { "type": "string", "pattern": "^TAR-[0-9A-F]{32}$" },
+    "report_sha256": { "$ref": "#/$defs/digest" },
+    "schema_version": { "const": 1 },
+    "status": {
+      "enum": ["passed_repository_conformance", "failed_repository_conformance"]
+    }
+  },
+  "$defs": {
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{1,255}$"
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_effect",
+        "evidence_sha256",
+        "kind",
+        "network_call_performed",
+        "observation_id",
+        "observation_sha256",
+        "outcome_code",
+        "passed",
+        "qualification_effect",
+        "requirement",
+        "schema_version"
+      ],
+      "properties": {
+        "authority_effect": { "const": "none" },
+        "evidence_sha256": { "$ref": "#/$defs/digest" },
+        "kind": { "const": "target_adapter_conformance_observation" },
+        "network_call_performed": { "const": false },
+        "observation_id": { "type": "string", "pattern": "^TAO-[0-9A-F]{32}$" },
+        "observation_sha256": { "$ref": "#/$defs/digest" },
+        "outcome_code": { "enum": ["failed", "passed"] },
+        "passed": { "type": "boolean" },
+        "qualification_effect": { "const": "none" },
+        "requirement": {
+          "enum": [
+            "adapter_cannot_self_authorize",
+            "deterministic_transport_only",
+            "dns_rebinding_rejected",
+            "existing_authority_contracts_reused",
+            "lease_revocation_rejected",
+            "live_qualification_external",
+            "mfa_challenge_suspends",
+            "opaque_session_secret_boundary",
+            "redirect_reauthorization_required",
+            "request_response_limits",
+            "signed_health_chain",
+            "stop_propagation",
+            "tls_origin_exact",
+            "unhealthy_target_pause_proposed"
+          ]
+        },
+        "schema_version": { "const": 1 }
+      }
+    }
+  }
+}

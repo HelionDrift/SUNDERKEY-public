@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S07",
+  "component_id": "supplied_coupon_redemption_timeline",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-coupon-redemption-timeline-v1",
+      "coupon_ref": "coupon:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "global_limit": 2,
+      "per_actor_limit": 1,
+      "events": [
+        {"event_id": "e1", "actor_ref": "actor:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "order_ref": "order:sha256:1111111111111111111111111111111111111111111111111111111111111111", "result": "accepted", "declared_global_after": 1, "declared_actor_after": 1},
+        {"event_id": "e2", "actor_ref": "actor:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "order_ref": "order:sha256:2222222222222222222222222222222222222222222222222222222222222222", "result": "rejected", "declared_global_after": 1, "declared_actor_after": 1}
+      ]
+    }
+  }
+}

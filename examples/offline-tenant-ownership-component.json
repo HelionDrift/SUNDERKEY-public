@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S06",
+  "component_id": "supplied_tenant_ownership_reconciliation",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-tenant-ownership-reconciliation-v1",
+      "tenants": [
+        "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "memberships": [
+        {"principal_ref": "principal:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+      ],
+      "resources": [
+        {"resource_ref": "resource:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "owner_tenant_ref": "tenant:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+        {"resource_ref": "resource:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "owner_tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+      ],
+      "access_events": [
+        {"event_id": "e1", "principal_ref": "principal:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "resource_ref": "resource:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "action": "read", "declared_allowed": true},
+        {"event_id": "e2", "principal_ref": "principal:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "resource_ref": "resource:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "action": "write", "declared_allowed": true}
+      ]
+    }
+  }
+}

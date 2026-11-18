@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-release-completion-receipt-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Release Completion Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "receipt_sha256",
+    "deployment_id",
+    "release_id",
+    "d011_decision",
+    "verification_receipt",
+    "catalog_checkpoint",
+    "checkpoint_record",
+    "checkpoint_commit_receipt",
+    "catalog_promotion_receipt",
+    "ledger_entries",
+    "release_status",
+    "readiness",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "receipt_id": {"type": "string", "pattern": "^CRC-[0-9A-F]{32}$"},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "deployment_id": {"$ref": "#/$defs/identifier"},
+    "release_id": {"type": "string", "pattern": "^CRL-[0-9A-F]{32}$"},
+    "d011_decision": {"$ref": "#/$defs/d011Binding"},
+    "verification_receipt": {"$ref": "#/$defs/verificationReceipt"},
+    "catalog_checkpoint": {"$ref": "#/$defs/catalogCheckpoint"},
+    "checkpoint_record": {"$ref": "#/$defs/checkpointBinding"},
+    "checkpoint_commit_receipt": {"$ref": "#/$defs/commitBinding"},
+    "catalog_promotion_receipt": {"$ref": "#/$defs/promotionBinding"},
+    "ledger_entries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_intent", "checkpoint_committed", "catalog_promoted", "release_completed"],
+      "properties": {
+        "release_intent": {"$ref": "#/$defs/entryBinding"},
+        "checkpoint_committed": {"$ref": "#/$defs/entryBinding"},
+        "catalog_promoted": {"$ref": "#/$defs/entryBinding"},
+        "release_completed": {"$ref": "#/$defs/entryBinding"}
+      }
+    },
+    "release_status": {"const": "completed"},
+    "readiness": {
+      "const": {
+        "controlled_catalog_release_complete": true,
+        "next_action": "prepare_single_candidate_canary_activation_packet",
+        "ready_for_live_enrollment": false
+      }
+    },
+    "network_call_performed": {"type": "boolean"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "baseBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256"],
+      "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "d011Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "sha256"],
+      "properties": {
+        "record_id": {"type": "string", "pattern": "^CAR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "verificationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sha256"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^CVR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "catalogCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_id", "catalog_version", "catalog_sha256"],
+      "properties": {
+        "catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "catalog_version": {"type": "integer", "minimum": 1},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "checkpointBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint_id", "sha256"],
+      "properties": {
+        "checkpoint_id": {"type": "string", "pattern": "^CPC-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "commitBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sha256"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^CCR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "promotionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sha256"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^CPR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "entryBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "sha256"],
+      "properties": {
+        "entry_id": {"type": "string", "pattern": "^CLE-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

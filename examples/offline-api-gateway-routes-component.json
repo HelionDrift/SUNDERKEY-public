@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S07",
+  "component_id": "api_supplied_gateway_route_selection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-gateway-model",
+      "route_table": {
+        "source_id": "synthetic-route-table",
+        "normalization": "none",
+        "rewrite": "none",
+        "order": "priority_desc_then_declaration",
+        "backends": ["general-backend", "admin-backend"],
+        "auth_policies": ["general-policy", "admin-policy"],
+        "routes": [
+          {"route_id": "admin-route", "host": "example.invalid", "method": "GET", "path_kind": "exact", "path": "/api/admin", "priority": 20, "backend_ref": "admin-backend", "auth_policy_ref": "admin-policy"},
+          {"route_id": "api-prefix", "host": "example.invalid", "method": "GET", "path_kind": "literal_prefix", "path": "/api", "priority": 10, "backend_ref": "general-backend", "auth_policy_ref": "general-policy"},
+          {"route_id": "deep-prefix", "host": "example.invalid", "method": "GET", "path_kind": "literal_prefix", "path": "/api/deep", "priority": 5, "backend_ref": "admin-backend", "auth_policy_ref": "admin-policy"}
+        ]
+      },
+      "probes": {
+        "source_id": "synthetic-probes",
+        "requests": [
+          {"request_id": "admin", "host": "example.invalid", "method": "GET", "path": "/api/admin"},
+          {"request_id": "deep", "host": "example.invalid", "method": "GET", "path": "/api/deep/x"},
+          {"request_id": "miss", "host": "example.invalid", "method": "POST", "path": "/api"}
+        ]
+      }
+    }
+  }
+}

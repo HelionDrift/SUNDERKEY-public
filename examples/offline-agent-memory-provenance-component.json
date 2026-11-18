@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D20-S16",
+  "component_id": "agent_supplied_memory_provenance",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-agent-memory",
+      "entries": [
+        {
+          "entry_id": "denied-entry",
+          "writer_kind": "external",
+          "writer_approval": "denied",
+          "expected_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "stored_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "entry_id": "changed-entry",
+          "writer_kind": "agent",
+          "writer_approval": "approved",
+          "expected_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "stored_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "entry_id": "unknown-entry",
+          "writer_kind": "unknown",
+          "writer_approval": "unknown",
+          "expected_sha256": "unknown",
+          "stored_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "reads": [
+        {
+          "read_id": "denied-read",
+          "entry_id": "denied-entry",
+          "context_role": "instruction",
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "read_id": "changed-read",
+          "entry_id": "changed-entry",
+          "context_role": "tool_policy",
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "read_id": "data-read",
+          "entry_id": "changed-entry",
+          "context_role": "data",
+          "admission": "accepted",
+          "context_complete": true
+        },
+        {
+          "read_id": "unknown-read",
+          "entry_id": "unknown-entry",
+          "context_role": "instruction",
+          "admission": "accepted",
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

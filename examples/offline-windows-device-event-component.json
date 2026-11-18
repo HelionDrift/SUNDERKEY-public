@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D02-S11",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-windows-6416",
+      "synthetic_fixture": true,
+      "event_xml": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Security-Auditing\"/><EventID>6416</EventID><Version>1</Version><Channel>Security</Channel></System><EventData><Data Name=\"SubjectUserSid\">S-1-5-18</Data><Data Name=\"DeviceId\">USBSTOR\\SYNTHETIC\\0001</Data><Data Name=\"DeviceDescription\">Synthetic Test Device</Data><Data Name=\"ClassId\">{4D36E967-E325-11CE-BFC1-08002BE10318}</Data><Data Name=\"ClassName\">DiskDrive</Data></EventData></Event>",
+      "expected_device_id": "USBSTOR\\SYNTHETIC\\0001"
+    }
+  }
+}

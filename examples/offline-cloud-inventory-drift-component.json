@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S05",
+  "component_id": "supplied_cloud_inventory_drift",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-cloud-inventory-drift-v1",
+      "snapshots": [
+        {
+          "snapshot_id": "earlier",
+          "records": [
+            {"record_id": "e-one", "provider": "gcp", "scope_id": "project-fixture", "resource_id": "fixture-one", "resource_type": "compute.instance", "region": "us-west1", "source_id": "synthetic-a"}
+          ]
+        },
+        {
+          "snapshot_id": "later",
+          "records": [
+            {"record_id": "l-one", "provider": "gcp", "scope_id": "project-fixture", "resource_id": "fixture-one", "resource_type": "compute.group", "region": "us-west1", "source_id": "synthetic-a"}
+          ]
+        }
+      ]
+    }
+  }
+}

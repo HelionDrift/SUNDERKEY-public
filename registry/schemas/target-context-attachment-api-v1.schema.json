@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/target-context-attachment-api-v1.schema.json",
+  "title": "SUNDERKEY Target Context Attachment API v1",
+  "oneOf": [
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/receipt"}
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context_id", "principal_id", "session_ref", "tenant_id"],
+      "properties": {
+        "context_id": {"$ref": "#/$defs/identifier"},
+        "principal_id": {"$ref": "#/$defs/identifier"},
+        "session_ref": {"$ref": "#/$defs/identifier"},
+        "tenant_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collected_at", "source_id", "supplied_by"],
+      "properties": {
+        "collected_at": {"$ref": "#/$defs/timestamp"},
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "supplied_by": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_compression_ratio",
+        "max_file_bytes",
+        "max_files",
+        "max_findings",
+        "max_input_bytes",
+        "max_path_length",
+        "max_structural_depth",
+        "max_total_bytes"
+      ],
+      "properties": {
+        "max_compression_ratio": {"type": "integer", "minimum": 1, "maximum": 100},
+        "max_file_bytes": {"type": "integer", "minimum": 1, "maximum": 2097152},
+        "max_files": {"type": "integer", "minimum": 1, "maximum": 256},
+        "max_findings": {"type": "integer", "minimum": 1, "maximum": 256},
+        "max_input_bytes": {"type": "integer", "minimum": 1, "maximum": 8388608},
+        "max_path_length": {"type": "integer", "minimum": 1, "maximum": 240},
+        "max_structural_depth": {"type": "integer", "minimum": 1, "maximum": 32},
+        "max_total_bytes": {"type": "integer", "minimum": 1, "maximum": 16777216}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_base64url",
+        "content_sha256",
+        "expected_sha256",
+        "kind",
+        "media_type",
+        "name",
+        "size_bytes"
+      ],
+      "properties": {
+        "content_base64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]*$"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "expected_sha256": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+        },
+        "kind": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "enum": [
+                "documentation",
+                "free_text",
+                "openapi",
+                "source_archive",
+                "source_file",
+                "wsdl"
+              ]
+            }
+          ]
+        },
+        "media_type": {
+          "oneOf": [{"type": "null"}, {"type": "string", "minLength": 1, "maxLength": 128}]
+        },
+        "name": {"type": "string", "minLength": 1, "maxLength": 240},
+        "size_bytes": {"type": "integer", "minimum": 0, "maximum": 8388608}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "access",
+        "authority_ref",
+        "bundle",
+        "expected_authorization_audit_ref",
+        "expected_authorization_ref",
+        "idempotency_key",
+        "input_mode",
+        "limits",
+        "mission_id",
+        "operation",
+        "provenance",
+        "request_id",
+        "requested_at",
+        "schema_version",
+        "sources"
+      ],
+      "properties": {
+        "access": {"$ref": "#/$defs/access"},
+        "authority_ref": {"$ref": "#/$defs/identifier"},
+        "bundle": {"oneOf": [{"type": "null"}, {"type": "object"}]},
+        "expected_authorization_audit_ref": {
+          "type": "string",
+          "pattern": "^auditref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$"
+        },
+        "expected_authorization_ref": {
+          "type": "string",
+          "pattern": "^authzref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,246}$"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"
+        },
+        "input_mode": {"enum": ["caller_bytes", "context_bundle"]},
+        "limits": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/limits"}]},
+        "mission_id": {"$ref": "#/$defs/identifier"},
+        "operation": {"const": "attach_target_context"},
+        "provenance": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/provenance"}]},
+        "request_id": {"$ref": "#/$defs/identifier"},
+        "requested_at": {"$ref": "#/$defs/timestamp"},
+        "schema_version": {"const": 1},
+        "sources": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {"$ref": "#/$defs/source"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"input_mode": {"const": "caller_bytes"}}},
+          "then": {
+            "properties": {
+              "bundle": {"type": "null"},
+              "provenance": {"$ref": "#/$defs/provenance"},
+              "sources": {"minItems": 1}
+            }
+          },
+          "else": {
+            "properties": {
+              "bundle": {"type": "object"},
+              "limits": {"type": "null"},
+              "provenance": {"type": "null"},
+              "sources": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "execution",
+        "filesystem",
+        "network",
+        "qualification",
+        "repository_write",
+        "runtime"
+      ],
+      "properties": {
+        "authority": {"const": "none"},
+        "execution": {"const": "none"},
+        "filesystem": {"const": "none"},
+        "network": {"const": "none"},
+        "qualification": {"const": "none"},
+        "repository_write": {"const": "injected"},
+        "runtime": {"const": "none"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_count",
+        "attachment_request_sha256",
+        "authority_ref",
+        "authorization_audit_ref",
+        "authorization_ref",
+        "bundle_id",
+        "bundle_sha256",
+        "bundle_status",
+        "concurrency_token",
+        "effects",
+        "idempotency_sha256",
+        "input_count",
+        "integration_event_id",
+        "mission_id",
+        "mutation_audit_ref",
+        "operation",
+        "provenance",
+        "quarantine_flag_count",
+        "receipt_id",
+        "receipt_sha256",
+        "redaction_count",
+        "request_id",
+        "resource_version",
+        "schema_version",
+        "service_request_sha256",
+        "status"
+      ],
+      "properties": {
+        "artifact_count": {"type": "integer", "minimum": 1, "maximum": 256},
+        "attachment_request_sha256": {"$ref": "#/$defs/sha256"},
+        "authority_ref": {"$ref": "#/$defs/identifier"},
+        "authorization_audit_ref": {"$ref": "#/$defs/identifier"},
+        "authorization_ref": {"$ref": "#/$defs/identifier"},
+        "bundle_id": {"type": "string", "pattern": "^TCB-[0-9A-F]{32}$"},
+        "bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "bundle_status": {"enum": ["accepted", "quarantined"]},
+        "concurrency_token": {"type": "string", "pattern": "^ct:[0-9a-f]{64}$"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "idempotency_sha256": {"$ref": "#/$defs/sha256"},
+        "input_count": {"type": "integer", "minimum": 1, "maximum": 256},
+        "integration_event_id": {"$ref": "#/$defs/identifier"},
+        "mission_id": {"$ref": "#/$defs/identifier"},
+        "mutation_audit_ref": {"$ref": "#/$defs/identifier"},
+        "operation": {"const": "attach_target_context"},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "quarantine_flag_count": {"type": "integer", "minimum": 0, "maximum": 256},
+        "receipt_id": {"type": "string", "pattern": "^TCR-[0-9A-F]{32}$"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "redaction_count": {"type": "integer", "minimum": 0, "maximum": 256},
+        "request_id": {"$ref": "#/$defs/identifier"},
+        "resource_version": {"type": "integer", "minimum": 1},
+        "schema_version": {"const": 1},
+        "service_request_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"enum": ["completed", "replayed"]}
+      }
+    }
+  }
+}

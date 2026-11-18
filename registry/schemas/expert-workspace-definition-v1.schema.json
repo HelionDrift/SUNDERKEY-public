@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "identifier": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$",
+      "type": "string"
+    },
+    "profileId": {
+      "pattern": "^AOE-(?:G[A-E]-D[0-9]{2}-(?:S[0-9]{2}|CMD)|HQ-[0-9]{2})$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "$id": "https://sunderkey.dev/schemas/expert-workspace-definition-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignments": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "command_id": {
+            "$ref": "#/$defs/identifier"
+          },
+          "maximum_attempts": {
+            "maximum": 8,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "profile_id": {
+            "$ref": "#/$defs/profileId"
+          },
+          "runtime_pack_id": {
+            "$ref": "#/$defs/identifier"
+          },
+          "runtime_pack_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "work_id": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "required": [
+          "work_id",
+          "profile_id",
+          "command_id",
+          "runtime_pack_id",
+          "runtime_pack_sha256",
+          "maximum_attempts"
+        ],
+        "type": "object"
+      },
+      "maxItems": 512,
+      "minItems": 1,
+      "type": "array"
+    },
+    "authority_snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "authorization_effect": {
+      "const": "none"
+    },
+    "dependencies": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "depends_on_work_id": {
+            "$ref": "#/$defs/identifier"
+          },
+          "work_id": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "required": [
+          "work_id",
+          "depends_on_work_id"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4096,
+      "type": "array"
+    },
+    "evidence_snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "mission_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "model_call_performed": {
+      "const": false
+    },
+    "network_call_performed": {
+      "const": false
+    },
+    "plan_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "review_requirements": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "producer_excluded": {
+            "const": true
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "reviewer_profile_ids": {
+            "items": {
+              "$ref": "#/$defs/profileId"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "work_id": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "required": [
+          "work_id",
+          "required",
+          "reviewer_profile_ids",
+          "producer_excluded"
+        ],
+        "type": "object"
+      },
+      "maxItems": 512,
+      "minItems": 1,
+      "type": "array"
+    },
+    "runtime_catalog_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "runtime_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "runtime_catalog_version": {
+      "$ref": "#/$defs/identifier"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "target_action_performed": {
+      "const": false
+    },
+    "target_scope_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "tenant_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "tool_effect": {
+      "const": "none"
+    },
+    "workspace_effect": {
+      "const": "durable_collaboration_only"
+    },
+    "workspace_id": {
+      "pattern": "^EWS-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "required": [
+    "schema_version",
+    "workspace_id",
+    "workspace_sha256",
+    "tenant_id",
+    "mission_id",
+    "plan_id",
+    "runtime_catalog_id",
+    "runtime_catalog_version",
+    "runtime_catalog_sha256",
+    "target_scope_sha256",
+    "authority_snapshot_sha256",
+    "evidence_snapshot_sha256",
+    "assignments",
+    "dependencies",
+    "review_requirements",
+    "workspace_effect",
+    "model_call_performed",
+    "network_call_performed",
+    "target_action_performed",
+    "tool_effect",
+    "qualification_effect",
+    "authorization_effect"
+  ],
+  "type": "object"
+}

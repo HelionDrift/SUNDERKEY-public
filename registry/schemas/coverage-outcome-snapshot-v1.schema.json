@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/coverage-outcome-snapshot-v1.schema.json",
+  "title": "SUNDERKEY Schedule-Bound Outcome Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schedule_id",
+    "schedule_sha256",
+    "world_snapshot_sha256",
+    "outcomes",
+    "effects",
+    "snapshot_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "schedule_id": {"type": "string", "pattern": "^CSS-[0-9A-F]{32}$"},
+    "schedule_sha256": {"$ref": "#/$defs/sha256"},
+    "world_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "outcomes": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_id",
+          "task_key",
+          "world_snapshot_sha256",
+          "status",
+          "evidence_digests"
+        ],
+        "properties": {
+          "task_id": {"type": "string", "pattern": "^CST-[0-9A-F]{32}$"},
+          "task_key": {"$ref": "#/$defs/sha256"},
+          "world_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+          "status": {"enum": ["succeeded", "failed", "blocked", "cancelled"]},
+          "evidence_digests": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "effects": {
+      "const": {
+        "authorization": "none",
+        "execution": "none",
+        "qualification": "none",
+        "source_authentication": "none",
+        "target_action": "none"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

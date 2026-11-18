@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/human-review-statement-v1.schema.json",
+  "title": "SUNDERKEY Offline Human Review Statement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "statement_id", "statement_sha256", "schema_version", "tenant_id",
+    "routing_plan_sha256", "case_id", "case_sha256", "evidence_sha256",
+    "scope_binding_sha256", "role", "reviewer_id", "roster_entry_sha256",
+    "disposition", "rationale_sha256", "reviewed_at", "signer_key_id",
+    "effects", "signature_b64url"
+  ],
+  "properties": {
+    "statement_id": {"type": "string", "pattern": "^HRS-[0-9A-F]{32}$"},
+    "statement_sha256": {"$ref": "#/$defs/sha256"},
+    "schema_version": {"const": 1},
+    "tenant_id": {"$ref": "#/$defs/identifier"},
+    "routing_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "case_id": {"$ref": "#/$defs/identifier"},
+    "case_sha256": {"$ref": "#/$defs/sha256"},
+    "evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "scope_binding_sha256": {"$ref": "#/$defs/sha256"},
+    "role": {
+      "enum": ["technical_evaluator", "independent_control", "independent_assurance"]
+    },
+    "reviewer_id": {"$ref": "#/$defs/identifier"},
+    "roster_entry_sha256": {"$ref": "#/$defs/sha256"},
+    "disposition": {
+      "enum": ["supports", "challenges", "insufficient_evidence"]
+    },
+    "rationale_sha256": {"$ref": "#/$defs/sha256"},
+    "reviewed_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "signer_key_id": {"type": "string", "pattern": "^HRK-[0-9A-F]{32}$"},
+    "effects": {
+      "const": {
+        "admission": "none", "assignment": "none", "authority": "none",
+        "notification": "none", "qualification": "none",
+        "review_approval": "none", "target_interaction": "none"
+      }
+    },
+    "signature_b64url": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {
+      "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$"
+    }
+  }
+}

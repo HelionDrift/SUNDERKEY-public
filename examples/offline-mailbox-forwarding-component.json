@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S15",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-mailbox-forwarding",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "policies": [{
+      "policy_id": "restricted",
+      "external_forward_allowed": false,
+      "allowed_destination_domain_ids": []
+    }],
+    "mailboxes": [{
+      "mailbox_id": "mailbox-a",
+      "policy_id": "restricted",
+      "external_forward_declared": true,
+      "destination_domain_id": "external-example"
+    }]
+  }}
+}

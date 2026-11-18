@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D03-S07",
+  "component_id": "identity_supplied_certificate_auth_metadata",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:certificate-auth",
+      "policy_complete": true,
+      "certificates_complete": true,
+      "issuers_complete": true,
+      "order_complete": true,
+      "trusted_issuers": ["synthetic:issuer-one"],
+      "certificates": [
+        {
+          "certificate_id": "synthetic:certificate-one",
+          "issuer_id": "synthetic:issuer-one",
+          "subject_id": "synthetic:service-one",
+          "not_before": 10,
+          "not_after": 50,
+          "revoked_at": 40,
+          "client_auth_declared": true
+        }
+      ],
+      "observations": [
+        {
+          "observation_id": "synthetic:before-revocation",
+          "certificate_id": "synthetic:certificate-one",
+          "expected_subject_id": "synthetic:service-one",
+          "at_tick": 20,
+          "reported_outcome": "accepted"
+        },
+        {
+          "observation_id": "synthetic:after-revocation",
+          "certificate_id": "synthetic:certificate-one",
+          "expected_subject_id": "synthetic:service-one",
+          "at_tick": 45,
+          "reported_outcome": "accepted"
+        }
+      ]
+    }
+  }
+}

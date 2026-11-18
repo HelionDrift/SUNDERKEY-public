@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-seccomp-bpf-subset",
+      "synthetic_fixture": true,
+      "instructions": [
+        {"code": 32, "jt": 0, "jf": 0, "k": 4},
+        {"code": 21, "jt": 0, "jf": 4, "k": 3221225534},
+        {"code": 32, "jt": 0, "jf": 0, "k": 0},
+        {"code": 21, "jt": 0, "jf": 1, "k": 59},
+        {"code": 6, "jt": 0, "jf": 0, "k": 327681},
+        {"code": 6, "jt": 0, "jf": 0, "k": 2147418112},
+        {"code": 6, "jt": 0, "jf": 0, "k": 2147483648}
+      ],
+      "cases": [
+        {"case_id": "x86-execve", "arch": 3221225534, "syscall_nr": 59},
+        {"case_id": "x86-read", "arch": 3221225534, "syscall_nr": 0},
+        {"case_id": "i386-read", "arch": 1073741827, "syscall_nr": 0}
+      ]
+    }
+  }
+}

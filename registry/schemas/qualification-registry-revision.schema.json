@@ -1,0 +1,437 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/qualification-registry-revision-v1.json",
+  "title": "SUNDERKEY Qualification Registry Revision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revision_id",
+    "revision_version",
+    "policy",
+    "decision_record",
+    "base_registry",
+    "proposed_registry",
+    "profile_id",
+    "candidate",
+    "qualification_status",
+    "profile_change",
+    "reviews",
+    "issued_at",
+    "signer_id",
+    "signer_key_id",
+    "application_effect",
+    "algorithm",
+    "signature"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^QRR-[0-9A-F]{32}$"
+    },
+    "revision_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "policy": {
+      "$ref": "#/$defs/policyBinding"
+    },
+    "decision_record": {
+      "$ref": "#/$defs/decisionRecordBinding"
+    },
+    "base_registry": {
+      "$ref": "#/$defs/registryBinding"
+    },
+    "proposed_registry": {
+      "$ref": "#/$defs/registryBinding"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/profileId"
+    },
+    "candidate": {
+      "$ref": "#/$defs/candidateBinding"
+    },
+    "qualification_status": {
+      "$ref": "#/$defs/qualificationStatusBinding"
+    },
+    "profile_change": {
+      "$ref": "#/$defs/profileChange"
+    },
+    "reviews": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/reviewBinding"
+            },
+            {
+              "properties": {
+                "reviewer_role": {
+                  "const": "independent_assurance"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/reviewBinding"
+            },
+            {
+              "properties": {
+                "reviewer_role": {
+                  "const": "independent_control"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "items": false
+    },
+    "issued_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "signer_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "signer_key_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "application_effect": {
+      "const": "proposed_registry_only"
+    },
+    "algorithm": {
+      "const": "Ed25519"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "qualification_status": {
+            "properties": {
+              "lifecycle_status": {
+                "const": "active"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile_change": {
+            "properties": {
+              "to_status": {
+                "const": "qualified"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "qualification_status": {
+            "properties": {
+              "lifecycle_status": {
+                "const": "suspended"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile_change": {
+            "properties": {
+              "to_status": {
+                "const": "suspended"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "qualification_status": {
+            "properties": {
+              "lifecycle_status": {
+                "const": "revoked"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile_change": {
+            "properties": {
+              "to_status": {
+                "const": "revoked"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "policyBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_version",
+        "sha256"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "pattern": "^QTP-[0-9A-F]{32}$"
+        },
+        "policy_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "decisionRecordBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "sha256"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "pattern": "^QDR-[0-9A-F]{32}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "registryBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_id",
+        "catalog_version",
+        "sha256"
+      ],
+      "properties": {
+        "catalog_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "catalog_version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "candidateBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_version",
+        "candidate_artifact_sha256"
+      ],
+      "properties": {
+        "candidate_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "candidate_version": {
+          "$ref": "#/$defs/identifier"
+        },
+        "candidate_artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "qualificationStatusBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_sha256",
+        "sequence",
+        "lifecycle_status",
+        "source_event_id",
+        "source_event_sha256",
+        "previous_binding_sha256"
+      ],
+      "properties": {
+        "binding_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "lifecycle_status": {
+          "enum": [
+            "active",
+            "suspended",
+            "revoked"
+          ]
+        },
+        "source_event_id": {
+          "type": "string",
+          "pattern": "^(QKD|QST)-[0-9A-F]{32}$"
+        },
+        "source_event_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "previous_binding_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sequence": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "previous_binding_sha256": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "previous_binding_sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "profileChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_status",
+        "to_status"
+      ],
+      "properties": {
+        "from_status": {
+          "enum": [
+            "defined",
+            "qualified",
+            "suspended",
+            "revoked"
+          ]
+        },
+        "to_status": {
+          "enum": [
+            "defined",
+            "qualified",
+            "suspended",
+            "revoked"
+          ]
+        }
+      }
+    },
+    "reviewBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "reviewer_id",
+        "reviewer_role",
+        "review_sha256",
+        "credential_sha256",
+        "reviewer_key_sha256"
+      ],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "pattern": "^QRV-[0-9A-F]{32}$"
+        },
+        "reviewer_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "reviewer_role": {
+          "enum": [
+            "independent_assurance",
+            "independent_control"
+          ]
+        },
+        "review_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "credential_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "reviewer_key_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

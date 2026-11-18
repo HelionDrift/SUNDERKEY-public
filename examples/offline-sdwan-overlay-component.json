@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D13-S21",
+  "component_id": "network_supplied_sdwan_overlay_projection",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic:overlay-source",
+      "sites_complete": true,
+      "links_complete": true,
+      "policy_complete": true,
+      "queries_complete": true,
+      "sites": [
+        {"site_id": "synthetic:west"},
+        {"site_id": "synthetic:central"},
+        {"site_id": "synthetic:east"}
+      ],
+      "links": [
+        {
+          "source_site_id": "synthetic:west",
+          "target_site_id": "synthetic:central",
+          "up": true
+        },
+        {
+          "source_site_id": "synthetic:central",
+          "target_site_id": "synthetic:east",
+          "up": false
+        }
+      ],
+      "allowed_pairs": [
+        {
+          "source_site_id": "synthetic:west",
+          "target_site_id": "synthetic:east"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "synthetic:cross-region",
+          "source_site_id": "synthetic:west",
+          "target_site_id": "synthetic:east",
+          "declared_reachable": true
+        },
+        {
+          "query_id": "synthetic:to-central",
+          "source_site_id": "synthetic:west",
+          "target_site_id": "synthetic:central",
+          "declared_reachable": false
+        }
+      ]
+    }
+  }
+}

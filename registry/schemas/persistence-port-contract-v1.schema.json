@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/persistence-port-contract-v1.schema.json",
+  "title": "SUNDERKEY persistence port contracts v1",
+  "oneOf": [
+    {"$ref": "#/$defs/backendCapability"},
+    {"$ref": "#/$defs/migrationManifest"},
+    {"$ref": "#/$defs/transactionBatch"},
+    {"$ref": "#/$defs/suitabilityReport"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^(tenantref|assessmentref|scoperef|adapterref|storeref|migrationref|rollbackref|artifactref|aggregateref|operationref|outboxref|resourceref|verificationref):[A-Za-z0-9][A-Za-z0-9._/-]{0,190}$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization",
+        "database_connection",
+        "deployment",
+        "migration",
+        "network",
+        "persistence",
+        "qualification",
+        "sql_execution"
+      ],
+      "properties": {
+        "authorization": {"const": "none"},
+        "database_connection": {"const": "none"},
+        "deployment": {"const": "none"},
+        "migration": {"const": "none"},
+        "network": {"const": "none"},
+        "persistence": {"const": "none"},
+        "qualification": {"const": "none"},
+        "sql_execution": {"const": "none"}
+      }
+    },
+    "backendCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_ref",
+        "adapter_version",
+        "atomic_outbox_enqueue",
+        "atomic_transaction_batches",
+        "backend",
+        "declaration_id",
+        "declaration_sha256",
+        "deployment_classes",
+        "effects",
+        "fencing_tokens",
+        "high_availability",
+        "idempotency_keys",
+        "isolation_levels",
+        "kind",
+        "max_concurrent_workers",
+        "multi_writer",
+        "online_migrations",
+        "optimistic_concurrency",
+        "schema_version",
+        "tenant_isolation"
+      ],
+      "properties": {
+        "adapter_ref": {"$ref": "#/$defs/reference"},
+        "adapter_version": {"type": "string", "pattern": "^[0-9]+(\\.[0-9]+){1,3}([-+][A-Za-z0-9.]+)?$"},
+        "atomic_outbox_enqueue": {"type": "boolean"},
+        "atomic_transaction_batches": {"type": "boolean"},
+        "backend": {"enum": ["sqlite", "postgresql"]},
+        "declaration_id": {"type": "string", "pattern": "^PBD-[0-9A-F]{32}$"},
+        "declaration_sha256": {"$ref": "#/$defs/sha256"},
+        "deployment_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["local_development", "single_worker_test", "multi_worker_production", "high_availability_production"]}
+        },
+        "effects": {"$ref": "#/$defs/effects"},
+        "fencing_tokens": {"type": "boolean"},
+        "high_availability": {"type": "boolean"},
+        "idempotency_keys": {"type": "boolean"},
+        "isolation_levels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["serializable", "repeatable_read", "read_committed"]}
+        },
+        "kind": {"const": "sunderkey.persistence-backend-capability.v1"},
+        "max_concurrent_workers": {"type": "integer", "minimum": 1, "maximum": 100000},
+        "multi_writer": {"type": "boolean"},
+        "online_migrations": {"type": "boolean"},
+        "optimistic_concurrency": {"type": "boolean"},
+        "schema_version": {"const": 1},
+        "tenant_isolation": {"type": "boolean"}
+      }
+    },
+    "migrationStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_sha256", "from_version", "migration_ref", "mode", "rollback_ref", "sequence", "to_version"],
+      "properties": {
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "from_version": {"type": "integer", "minimum": 0},
+        "migration_ref": {"$ref": "#/$defs/reference"},
+        "mode": {"enum": ["offline", "expand_contract"]},
+        "rollback_ref": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/reference"}]},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 100000},
+        "to_version": {"type": "integer", "minimum": 1}
+      }
+    },
+    "migrationManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backend", "effects", "generated_at", "kind", "manifest_id", "manifest_sha256", "postcondition_refs", "precondition_refs", "schema_version", "steps", "store_ref"],
+      "properties": {
+        "backend": {"enum": ["sqlite", "postgresql"]},
+        "effects": {"$ref": "#/$defs/effects"},
+        "generated_at": {"$ref": "#/$defs/timestamp"},
+        "kind": {"const": "sunderkey.persistence-migration-manifest.v1"},
+        "manifest_id": {"type": "string", "pattern": "^PMM-[0-9A-F]{32}$"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "postcondition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "precondition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "schema_version": {"const": 1},
+        "steps": {"type": "array", "minItems": 1, "maxItems": 100000, "items": {"$ref": "#/$defs/migrationStep"}},
+        "store_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "transactionOperation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aggregate_ref", "content_sha256", "kind", "operation_ref"],
+      "properties": {
+        "aggregate_ref": {"$ref": "#/$defs/reference"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "kind": {"enum": ["append", "reservation", "state_transition", "outbox_enqueue"]},
+        "operation_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "versionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aggregate_ref", "expected_version"],
+      "properties": {
+        "aggregate_ref": {"$ref": "#/$defs/reference"},
+        "expected_version": {"type": "integer", "minimum": 0}
+      }
+    },
+    "fenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fence_epoch", "fence_token", "resource_ref"],
+      "properties": {
+        "fence_epoch": {"type": "integer", "minimum": 1},
+        "fence_token": {"type": "string", "pattern": "^fence:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "resource_ref": {"$ref": "#/$defs/reference"}
+      }
+    },
+    "transactionBatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assessment_ref", "atomicity", "batch_id", "batch_sha256", "created_at", "effects", "fence_bindings", "idempotency_key", "isolation_level", "kind", "operations", "outbox_event_refs", "schema_version", "scope_ref", "tenant_ref", "version_bindings"],
+      "properties": {
+        "assessment_ref": {"$ref": "#/$defs/reference"},
+        "atomicity": {"const": "all_or_nothing_with_outbox"},
+        "batch_id": {"type": "string", "pattern": "^PTB-[0-9A-F]{32}$"},
+        "batch_sha256": {"$ref": "#/$defs/sha256"},
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "fence_bindings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/fenceBinding"}},
+        "idempotency_key": {"type": "string", "pattern": "^idem:[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$"},
+        "isolation_level": {"enum": ["serializable", "repeatable_read", "read_committed"]},
+        "kind": {"const": "sunderkey.persistence-transaction-batch.v1"},
+        "operations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/transactionOperation"}},
+        "outbox_event_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reference"}},
+        "schema_version": {"const": 1},
+        "scope_ref": {"$ref": "#/$defs/reference"},
+        "tenant_ref": {"$ref": "#/$defs/reference"},
+        "version_bindings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/versionBinding"}}
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deployment_class", "require_atomic_outbox", "require_fencing", "require_high_availability", "require_online_migrations", "require_tenant_isolation", "required_isolation", "worker_count"],
+      "properties": {
+        "deployment_class": {"enum": ["local_development", "single_worker_test", "multi_worker_production", "high_availability_production"]},
+        "require_atomic_outbox": {"type": "boolean"},
+        "require_fencing": {"type": "boolean"},
+        "require_high_availability": {"type": "boolean"},
+        "require_online_migrations": {"type": "boolean"},
+        "require_tenant_isolation": {"type": "boolean"},
+        "required_isolation": {"enum": ["serializable", "repeatable_read", "read_committed"]},
+        "worker_count": {"type": "integer", "minimum": 1, "maximum": 100000}
+      }
+    },
+    "suitabilityReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization_effect", "blocker_codes", "declaration_id", "declaration_sha256", "deployment_effect", "effects", "kind", "qualification_effect", "report_id", "report_sha256", "requirements", "schema_version", "status"],
+      "properties": {
+        "authorization_effect": {"const": "none"},
+        "blocker_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": {"const": "live_backend_verification_required"},
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"}
+        },
+        "declaration_id": {"type": "string", "pattern": "^PBD-[0-9A-F]{32}$"},
+        "declaration_sha256": {"$ref": "#/$defs/sha256"},
+        "deployment_effect": {"const": "none"},
+        "effects": {"$ref": "#/$defs/effects"},
+        "kind": {"const": "sunderkey.persistence-deployment-suitability.v1"},
+        "qualification_effect": {"const": "none"},
+        "report_id": {"type": "string", "pattern": "^PDS-[0-9A-F]{32}$"},
+        "report_sha256": {"$ref": "#/$defs/sha256"},
+        "requirements": {"$ref": "#/$defs/requirements"},
+        "schema_version": {"const": 1},
+        "status": {"enum": ["incompatible", "contract_compatible_unverified"]}
+      }
+    }
+  }
+}

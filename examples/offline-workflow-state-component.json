@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S01",
+  "component_id": "supplied_workflow_state_replay",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-workflow-state-replay-v1",
+      "workflow_ref": "workflow:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "states": ["created", "paid", "closed"],
+      "terminal_states": ["closed"],
+      "initial_state": "created",
+      "transitions": [
+        {"transition_id": "pay", "from_state": "created", "to_state": "paid", "guard_label": "payment-approved"},
+        {"transition_id": "close", "from_state": "paid", "to_state": "closed", "guard_label": "delivered"}
+      ],
+      "events": [
+        {"event_id": "e1", "transition_id": "pay", "declared_before_state": "created", "declared_after_state": "paid", "guard_outcome": "satisfied", "result": "accepted"},
+        {"event_id": "e2", "transition_id": "close", "declared_before_state": "paid", "declared_after_state": "closed", "guard_outcome": "unknown", "result": "accepted"}
+      ]
+    }
+  }
+}

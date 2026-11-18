@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-production-custody-dossier-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Production Custody Dossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "report_sha256",
+    "decision_id",
+    "status",
+    "source_bindings",
+    "current_boundary",
+    "decision_questions",
+    "recommendation",
+    "required_owner_inputs",
+    "nonnegotiable_requirements",
+    "authorized_next_steps_if_approved",
+    "limitations",
+    "decision_effect",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^PCD-[0-9A-F]{32}$"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "decision_id": {"const": "D012"},
+    "status": {"const": "decision_required"},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["d011_implementation", "canary_preparation"],
+      "properties": {
+        "d011_implementation": {"$ref": "#/$defs/implementationBinding"},
+        "canary_preparation": {"$ref": "#/$defs/canaryBinding"}
+      }
+    },
+    "current_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "d011_contract_implementation_status",
+        "production_checkpoint_provider_status",
+        "production_release_ledger_provider_status",
+        "production_catalog_repository_provider_status",
+        "deployment_runtime_and_identity_status",
+        "live_activation_status"
+      ],
+      "properties": {
+        "d011_contract_implementation_status": {"const": "complete"},
+        "production_checkpoint_provider_status": {"const": "not_selected"},
+        "production_release_ledger_provider_status": {"const": "not_selected"},
+        "production_catalog_repository_provider_status": {"const": "not_selected"},
+        "deployment_runtime_and_identity_status": {"const": "not_selected"},
+        "live_activation_status": {"const": "blocked"}
+      }
+    },
+    "decision_questions": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {"$ref": "#/$defs/question"}
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_state", "recommended_options", "rationale"],
+      "properties": {
+        "selection_state": {"const": "not_selected"},
+        "recommended_options": {
+          "type": "object",
+          "minProperties": 8,
+          "maxProperties": 8,
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{8,96}$"
+          },
+          "propertyNames": {"pattern": "^[a-z0-9_]{8,64}$"}
+        },
+        "rationale": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+        }
+      }
+    },
+    "required_owner_inputs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,128}$"}
+    },
+    "nonnegotiable_requirements": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,160}$"}
+    },
+    "authorized_next_steps_if_approved": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9_]{8,160}$"}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^does_not_[a-z0-9_]{8,180}$"}
+    },
+    "decision_effect": {"const": "none"},
+    "network_call_performed": {"const": false},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "implementationBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "sha256"],
+      "properties": {
+        "report_id": {"type": "string", "pattern": "^CAI-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "canaryBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^CAP-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "prompt", "recommended_option_id", "options"],
+      "properties": {
+        "question_id": {"type": "string", "pattern": "^[a-z0-9_]{8,64}$"},
+        "prompt": {"type": "string", "minLength": 16, "maxLength": 180},
+        "recommended_option_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]{8,96}$"
+        },
+        "options": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/option"}
+        }
+      }
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_id", "name", "impact", "recommended"],
+      "properties": {
+        "option_id": {"type": "string", "pattern": "^[a-z0-9_]{8,96}$"},
+        "name": {"type": "string", "minLength": 8, "maxLength": 120},
+        "impact": {"type": "string", "minLength": 16, "maxLength": 240},
+        "recommended": {"type": "boolean"}
+      }
+    }
+  }
+}

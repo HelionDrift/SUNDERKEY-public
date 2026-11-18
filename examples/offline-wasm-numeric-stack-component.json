@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GE-D21-S19",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-numeric-wasm",
+      "module_base64": "AGFzbQEAAAABCQJgAX8Bf2AAAAIXAgNlbnYEc2FtZQAAA2VudgRzYW1lAAADAgEABwcBA2luYwACCgsBCQAgABAAQQFqCw=="
+    }
+  }
+}

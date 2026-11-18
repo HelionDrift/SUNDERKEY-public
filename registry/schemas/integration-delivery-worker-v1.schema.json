@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.local/integration-delivery-worker-v1.schema.json",
+  "title": "SUNDERKEY integration delivery worker contracts",
+  "oneOf": [
+    { "$ref": "#/$defs/webhookRequest" },
+    { "$ref": "#/$defs/workerReceipt" }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,127}$"
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,63}:[A-Za-z0-9._~:/+-]{1,255}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_refs",
+        "event_id",
+        "event_sha256",
+        "event_type",
+        "occurred_at",
+        "severity",
+        "state",
+        "subject_ref",
+        "summary"
+      ],
+      "properties": {
+        "artifact_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/reference" },
+          "uniqueItems": true
+        },
+        "event_id": { "$ref": "#/$defs/reference" },
+        "event_sha256": { "$ref": "#/$defs/digest" },
+        "event_type": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+        },
+        "occurred_at": { "$ref": "#/$defs/timestamp" },
+        "severity": {
+          "enum": ["not_applicable", "informational", "low", "medium", "high", "critical"]
+        },
+        "state": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{1,63}$"
+        },
+        "subject_ref": { "$ref": "#/$defs/reference" },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      }
+    },
+    "webhookRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_number",
+        "body_json",
+        "created_at",
+        "destination_id",
+        "destination_sha256",
+        "event",
+        "expires_at",
+        "idempotency_key",
+        "kind",
+        "request_id",
+        "request_sha256",
+        "schema_version",
+        "sequence_number",
+        "subscription_id",
+        "subscription_sha256",
+        "tenant_ref"
+      ],
+      "properties": {
+        "attempt_number": { "type": "integer", "minimum": 1 },
+        "body_json": { "type": "string", "minLength": 2 },
+        "created_at": { "$ref": "#/$defs/timestamp" },
+        "destination_id": { "$ref": "#/$defs/identifier" },
+        "destination_sha256": { "$ref": "#/$defs/digest" },
+        "event": { "$ref": "#/$defs/projection" },
+        "expires_at": { "$ref": "#/$defs/timestamp" },
+        "idempotency_key": { "$ref": "#/$defs/digest" },
+        "kind": { "const": "webhook_delivery_worker_request" },
+        "request_id": {
+          "type": "string",
+          "pattern": "^WDR-[0-9A-F]{32}$"
+        },
+        "request_sha256": { "$ref": "#/$defs/digest" },
+        "schema_version": { "const": 1 },
+        "sequence_number": { "type": "integer", "minimum": 1 },
+        "subscription_id": { "$ref": "#/$defs/identifier" },
+        "subscription_sha256": { "$ref": "#/$defs/digest" },
+        "tenant_ref": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "workerReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acknowledgement_id",
+        "acknowledgement_public_key_sha256",
+        "acknowledgement_sha256",
+        "acknowledgement_signer_key_id",
+        "attempt_number",
+        "authorization_effect",
+        "binding_id",
+        "binding_sha256",
+        "completed_at",
+        "delivery_semantic",
+        "deployment_effect",
+        "destination_id",
+        "destination_sha256",
+        "disposition",
+        "error_code",
+        "exactly_once_claimed",
+        "fencing_token",
+        "idempotency_key",
+        "kind",
+        "lease_expires_at",
+        "max_attempts",
+        "next_attempt_at",
+        "outbox_id",
+        "outbox_state",
+        "outcome",
+        "qualification_effect",
+        "receipt_id",
+        "receipt_sha256",
+        "remote_receipt_ref",
+        "request_id",
+        "request_sha256",
+        "response_sha256",
+        "retry_after_seconds",
+        "route_kind",
+        "schema_version",
+        "sequence_number",
+        "tenant_ref",
+        "transport_observation_id",
+        "transport_observation_sha256",
+        "worker_id"
+      ],
+      "properties": {
+        "acknowledgement_id": {
+          "type": "string",
+          "pattern": "^IDO-[0-9A-F]{32}$"
+        },
+        "acknowledgement_public_key_sha256": { "$ref": "#/$defs/digest" },
+        "acknowledgement_sha256": { "$ref": "#/$defs/digest" },
+        "acknowledgement_signer_key_id": { "$ref": "#/$defs/identifier" },
+        "attempt_number": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "authorization_effect": { "const": "none" },
+        "binding_id": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "pattern": "^ECB-[0-9A-F]{32}$" }
+          ]
+        },
+        "binding_sha256": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/digest" }
+          ]
+        },
+        "completed_at": { "$ref": "#/$defs/timestamp" },
+        "delivery_semantic": { "const": "at_least_once" },
+        "deployment_effect": { "const": "none" },
+        "destination_id": { "$ref": "#/$defs/identifier" },
+        "destination_sha256": { "$ref": "#/$defs/digest" },
+        "disposition": {
+          "enum": ["succeeded", "retryable_failure", "permanent_failure"]
+        },
+        "error_code": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{1,63}$" }
+          ]
+        },
+        "exactly_once_claimed": { "const": false },
+        "fencing_token": { "type": "integer", "minimum": 1 },
+        "idempotency_key": { "$ref": "#/$defs/digest" },
+        "kind": { "const": "integration_delivery_worker_receipt" },
+        "lease_expires_at": { "$ref": "#/$defs/timestamp" },
+        "max_attempts": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "next_attempt_at": { "$ref": "#/$defs/timestamp" },
+        "outbox_id": {
+          "type": "string",
+          "pattern": "^OBX-[0-9A-F]{32}$"
+        },
+        "outbox_state": { "enum": ["delivered", "retry", "dead_letter"] },
+        "outcome": { "enum": ["succeeded", "retry_scheduled", "dead_letter"] },
+        "qualification_effect": { "const": "none" },
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^IDW-[0-9A-F]{32}$"
+        },
+        "receipt_sha256": { "$ref": "#/$defs/digest" },
+        "remote_receipt_ref": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/reference" }
+          ]
+        },
+        "request_id": { "$ref": "#/$defs/identifier" },
+        "request_sha256": { "$ref": "#/$defs/digest" },
+        "response_sha256": { "$ref": "#/$defs/digest" },
+        "retry_after_seconds": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "integer", "minimum": 1, "maximum": 86400 }
+          ]
+        },
+        "route_kind": { "enum": ["webhook", "enterprise_connector"] },
+        "schema_version": { "const": 1 },
+        "sequence_number": { "type": "integer", "minimum": 1 },
+        "tenant_ref": { "$ref": "#/$defs/reference" },
+        "transport_observation_id": {
+          "type": "string",
+          "pattern": "^WTO-[0-9A-F]{32}$"
+        },
+        "transport_observation_sha256": { "$ref": "#/$defs/digest" },
+        "worker_id": { "$ref": "#/$defs/identifier" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "outcome": { "const": "succeeded" } } },
+          "then": {
+            "properties": {
+              "disposition": { "const": "succeeded" },
+              "error_code": { "type": "null" },
+              "outbox_state": { "const": "delivered" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "outcome": { "const": "retry_scheduled" } } },
+          "then": {
+            "properties": {
+              "disposition": { "const": "retryable_failure" },
+              "error_code": { "type": "string" },
+              "outbox_state": { "const": "retry" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "route_kind": { "const": "webhook" } } },
+          "then": {
+            "properties": {
+              "binding_id": { "type": "null" },
+              "binding_sha256": { "type": "null" }
+            }
+          },
+          "else": {
+            "properties": {
+              "binding_id": { "type": "string" },
+              "binding_sha256": { "$ref": "#/$defs/digest" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

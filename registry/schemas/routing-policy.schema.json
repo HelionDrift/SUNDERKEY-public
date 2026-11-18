@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.local/schemas/routing-policy.schema.json",
+  "title": "SUNDERKEY Routing Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "policy_version",
+    "capability_catalog_id",
+    "capability_catalog_version",
+    "allowed_statuses",
+    "require_pilot",
+    "allowed_environments",
+    "allow_supporting_matches",
+    "allow_tier_escalation",
+    "max_specialists",
+    "max_cell_size"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "policy_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "policy_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_id": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "capability_catalog_version": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "allowed_statuses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "defined",
+          "qualified"
+        ]
+      }
+    },
+    "require_pilot": {
+      "type": "boolean"
+    },
+    "allowed_environments": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "offline",
+          "synthetic",
+          "test",
+          "production"
+        ]
+      }
+    },
+    "allow_supporting_matches": {
+      "type": "boolean"
+    },
+    "allow_tier_escalation": {
+      "type": "boolean"
+    },
+    "max_specialists": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_cell_size": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+$"
+        },
+        {
+          "pattern": "[\\u0021-\\u007E]"
+        }
+      ]
+    }
+  }
+}

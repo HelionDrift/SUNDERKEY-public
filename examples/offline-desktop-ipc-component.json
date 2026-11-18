@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D08-S13",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-desktop-ipc",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "nodes": [
+      {"node_id": "user", "kind": "untrusted_client", "privileged": false},
+      {"node_id": "app", "kind": "app_process", "privileged": false},
+      {"node_id": "helper", "kind": "elevated_helper", "privileged": true}
+    ],
+    "entry_node_ids": ["user"],
+    "edges": [
+      {"source_id": "user", "destination_id": "app", "guard_declared": false},
+      {"source_id": "app", "destination_id": "helper", "guard_declared": false}
+    ]
+  }}
+}

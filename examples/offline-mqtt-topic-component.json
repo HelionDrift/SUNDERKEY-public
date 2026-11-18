@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S15",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "protocol_version": "3.1.1",
+      "filters": [
+        {"filter_id": "sensor", "topic_filter": "sensors/+/temperature"},
+        {"filter_id": "branch", "topic_filter": "sensors/#"},
+        {"filter_id": "root", "topic_filter": "#"},
+        {"filter_id": "system", "topic_filter": "$SYS/#"},
+        {"filter_id": "unicode", "topic_filter": "caf\u00e9/+"}
+      ],
+      "topics": [
+        {"topic_id": "sensor-a", "topic_name": "sensors/a/temperature"},
+        {"topic_id": "sensor-empty", "topic_name": "sensors//temperature"},
+        {"topic_id": "parent", "topic_name": "sensors"},
+        {"topic_id": "status", "topic_name": "$SYS/status"},
+        {"topic_id": "accent", "topic_name": "caf\u00e9/"}
+      ],
+      "match_queries": [
+        {"query_id": "sensor-a", "filter_id": "sensor", "topic_id": "sensor-a"},
+        {"query_id": "empty-level", "filter_id": "sensor", "topic_id": "sensor-empty"},
+        {"query_id": "parent", "filter_id": "branch", "topic_id": "parent"},
+        {"query_id": "wildcard-system", "filter_id": "root", "topic_id": "status"},
+        {"query_id": "literal-system", "filter_id": "system", "topic_id": "status"},
+        {"query_id": "unicode", "filter_id": "unicode", "topic_id": "accent"}
+      ],
+      "overlap_queries": [
+        {"query_id": "sensors", "left_filter_id": "sensor", "right_filter_id": "branch"},
+        {"query_id": "system-root", "left_filter_id": "system", "right_filter_id": "root"},
+        {"query_id": "system-self", "left_filter_id": "system", "right_filter_id": "system"}
+      ]
+    }
+  }
+}

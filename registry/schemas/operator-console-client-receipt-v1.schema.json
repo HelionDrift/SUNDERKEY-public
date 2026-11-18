@@ -1,0 +1,246 @@
+{
+  "$id": "https://sunderkey.local/schemas/operator-console-client-receipt-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "get_resource"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "input_cursor": {
+            "type": "null"
+          },
+          "items": {
+            "maxItems": 1,
+            "minItems": 1
+          },
+          "next_cursor": {
+            "type": "null"
+          },
+          "page_size": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "list_resources"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "page_size": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "authorization_audit_ref": {
+      "$ref": "#/$defs/identifier"
+    },
+    "authorization_ref": {
+      "$ref": "#/$defs/identifier"
+    },
+    "context_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "input_cursor": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/cursor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/item"
+      },
+      "maxItems": 100,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/cursor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "no_effects": {
+      "const": {
+        "authentication": "external",
+        "authorization": "external",
+        "credential_access": "none",
+        "execution": "none",
+        "intent_publication": "none",
+        "network": "none_by_client",
+        "persistence": "none",
+        "transport": "injected"
+      }
+    },
+    "operation": {
+      "enum": [
+        "get_resource",
+        "list_resources"
+      ]
+    },
+    "page_size": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "principal_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "receipt_id": {
+      "pattern": "^OCC-[0-9A-F]{32}$",
+      "type": "string"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "request_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "request_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "requested_at": {
+      "$ref": "#/$defs/utc"
+    },
+    "response_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "tenant_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "view_role": {
+      "enum": [
+        "assessment_operator",
+        "independent_control",
+        "independent_assurance",
+        "evidence_custodian",
+        "executive_observer",
+        "incident_responder"
+      ]
+    }
+  },
+  "required": [
+    "authorization_audit_ref",
+    "authorization_ref",
+    "context_id",
+    "input_cursor",
+    "items",
+    "next_cursor",
+    "no_effects",
+    "operation",
+    "page_size",
+    "principal_id",
+    "receipt_id",
+    "receipt_sha256",
+    "request_id",
+    "request_sha256",
+    "requested_at",
+    "response_sha256",
+    "schema_version",
+    "tenant_id",
+    "view_role"
+  ],
+  "title": "SUNDERKEY Operator Console Client Receipt v1",
+  "type": "object",
+  "$defs": {
+    "cursor": {
+      "pattern": "^cursor:[A-Za-z0-9_-]+\\.[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "identifier": {
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$",
+      "type": "string"
+    },
+    "item": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_ref": {
+          "pattern": "^assessmentref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$",
+          "type": "string"
+        },
+        "assessment_version": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "concurrency_token": {
+          "pattern": "^ct:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "payload_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "projection_id": {
+          "pattern": "^OCP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "projection_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "resource_id": {
+          "pattern": "^OCP-[0-9A-F]{32}$",
+          "type": "string"
+        },
+        "resource_version": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assessment_ref",
+        "assessment_version",
+        "concurrency_token",
+        "payload_sha256",
+        "projection_id",
+        "projection_sha256",
+        "resource_id",
+        "resource_version"
+      ],
+      "type": "object"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "type": "string"
+    }
+  }
+}

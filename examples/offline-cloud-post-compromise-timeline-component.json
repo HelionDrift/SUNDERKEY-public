@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D14-S18",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-cloud-artifacts",
+      "scope_id": "account-one",
+      "baseline_snapshot_id": "snapshot-one",
+      "later_snapshot_id": "snapshot-two",
+      "artifacts": [
+        {"artifact_id": "role-trust-new", "kind": "role_trust", "baseline_present": false, "later_present": true, "approved_change": false, "context_complete": true},
+        {"artifact_id": "automation-existing", "kind": "automation_binding", "baseline_present": true, "later_present": true, "approved_change": false, "context_complete": true}
+      ]
+    }
+  }
+}

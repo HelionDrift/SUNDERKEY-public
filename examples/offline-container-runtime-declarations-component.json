@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D15-S02",
+  "component_id": "container_supplied_runtime_declarations",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-container-runtime-declarations",
+      "runtime_inventory_complete": true,
+      "runtimes": [
+        {
+          "runtime_id": "runtime-a",
+          "engine": "podman",
+          "rootless": false,
+          "user_namespace_enabled": true,
+          "remote_api_enabled": false
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "check-a",
+          "runtime_id": "runtime-a",
+          "expected_engine": "podman",
+          "require_rootless": true,
+          "require_user_namespace": true,
+          "require_remote_api_disabled": true,
+          "claimed_compliant": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

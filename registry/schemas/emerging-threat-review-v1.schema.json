@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/emerging-threat-review-v1.schema.json",
+  "title": "SUNDERKEY Offline Emerging-Threat Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "advisory_id", "advisory_sha256", "inventory_sha256",
+    "review_at", "advisory_state", "inventory_state", "inventory_age_seconds",
+    "maximum_inventory_age_seconds", "source_provenance", "inventory_provenance",
+    "validation_content_state", "applicability_basis", "assets", "candidate_count",
+    "review_status", "qualification_effect", "effects", "review_id", "review_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "advisory_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "advisory_sha256": {"$ref": "#/$defs/sha256"},
+    "inventory_sha256": {"$ref": "#/$defs/sha256"},
+    "review_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "advisory_state": {"enum": ["expired", "declared_current_at_review"]},
+    "inventory_state": {"enum": ["stale", "declared_within_age_limit"]},
+    "inventory_age_seconds": {"type": "integer", "minimum": 0},
+    "maximum_inventory_age_seconds": {
+      "type": "integer", "minimum": 1, "maximum": 604800
+    },
+    "source_provenance": {"const": "asserted_not_authenticated"},
+    "inventory_provenance": {"const": "caller_supplied_not_authenticated"},
+    "validation_content_state": {"enum": ["hash_only_quarantined", "not_supplied"]},
+    "applicability_basis": {"const": "exact_declared_product_and_version_only"},
+    "assets": {
+      "type": "array", "maxItems": 2048,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["asset_id", "disposition"],
+        "properties": {
+          "asset_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+          "disposition": {
+            "enum": [
+              "expired_no_selection", "stale_inventory_no_selection", "out_of_scope",
+              "scope_or_owner_unknown",
+              "product_not_declared_affected", "version_unknown",
+              "version_not_declared_affected", "declared_exact_match_review_only"
+            ]
+          }
+        }
+      }
+    },
+    "candidate_count": {"type": "integer", "minimum": 0, "maximum": 2048},
+    "review_status": {"const": "independent_review_required"},
+    "qualification_effect": {"const": "none"},
+    "effects": {
+      "const": {
+        "authorization": "none", "content_publication": "none", "network": "none",
+        "qualification": "none", "target_interaction": "none", "test_execution": "none"
+      }
+    },
+    "review_id": {"type": "string", "pattern": "^ETR-[0-9A-F]{32}$"},
+    "review_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

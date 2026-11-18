@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "task_id": "synthetic.declared-flow-premises",
+  "jobs": [
+    {
+      "job_id": "gcp",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GC-D14-S07",
+        "component_id": "gcp_supplied_vpc_firewall_new_flow_predicates",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {"network":[],"filesystem":[],"process":[],"credential":[]},
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "network_id": "synthetic-vpc",
+            "traffic_kind": "new_flow",
+            "rules_complete": true,
+            "rules": [
+              {"rule_id":"ingress-one","priority":100,"direction":"INGRESS","action":"allow","disabled":false,"network_id":"synthetic-vpc","targets":{"kind":"all"},"predicate":{"kind":"cidr_protocol_ports","protocol":"tcp","source_cidrs":["10.0.0.0/24"],"destination_cidrs":["10.0.1.0/24"],"destination_ports":[[443,443]]}},
+              {"rule_id":"ingress-two","priority":100,"direction":"INGRESS","action":"allow","disabled":false,"network_id":"synthetic-vpc","targets":{"kind":"all"},"predicate":{"kind":"cidr_protocol_ports","protocol":"tcp","source_cidrs":["10.0.0.0/24"],"destination_cidrs":["10.0.1.0/24"],"destination_ports":[[443,443]]}},
+              {"rule_id":"egress-unknown","priority":50,"direction":"EGRESS","action":"allow","disabled":false,"network_id":"synthetic-vpc","targets":{"kind":"unsupported","reason":"target_tag"},"predicate":{"kind":"cidr_protocol_ports","protocol":"tcp","source_cidrs":["10.0.0.0/24"],"destination_cidrs":["10.0.1.0/24"],"destination_ports":[[443,443]]}}
+            ],
+            "flows": [
+              {"flow_id":"synthetic-ingress","network_id":"synthetic-vpc","target_id":"synthetic-nic","direction":"INGRESS","protocol":"tcp","source_ip":"10.0.0.7","destination_ip":"10.0.1.8","destination_port":443},
+              {"flow_id":"synthetic-egress","network_id":"synthetic-vpc","target_id":"synthetic-nic","direction":"EGRESS","protocol":"tcp","source_ip":"10.0.0.7","destination_ip":"10.0.1.8","destination_port":443}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "job_id": "azure",
+      "request": {
+        "schema_version": 1,
+        "profile_id": "AOE-GC-D14-S05",
+        "component_id": "azure_supplied_nsg_directional_predicates",
+        "environment": "synthetic",
+        "action_tier": "R0",
+        "dry_run": true,
+        "credential_refs": [],
+        "resources": {"network":[],"filesystem":[],"process":[],"credential":[]},
+        "payload": {
+          "model": {
+            "schema_version": 1,
+            "attachments": {"complete":true,"subnet_nsg_id":"synthetic-nsg","nic_nsg_id":null},
+            "nsgs": [
+              {
+                "nsg_id":"synthetic-nsg",
+                "rules_complete":true,
+                "rules":[
+                  {"rule_id":"inbound-tls","priority":100,"direction":"Inbound","access":"Allow","predicate":{"kind":"cidr_ports","protocol":"TCP","source_cidrs":["10.0.0.0/24"],"destination_cidrs":["10.0.1.0/24"],"source_ports":[[0,65535]],"destination_ports":[[443,443]]}},
+                  {"rule_id":"outbound-unknown-tag","priority":200,"direction":"Outbound","access":"Allow","predicate":{"kind":"unsupported","reason":"service_tag"}}
+                ]
+              }
+            ],
+            "flows": [
+              {"flow_id":"synthetic-inbound","direction":"Inbound","protocol":"TCP","source_ip":"10.0.0.7","destination_ip":"10.0.1.8","source_port":49152,"destination_port":443},
+              {"flow_id":"synthetic-outbound","direction":"Outbound","protocol":"TCP","source_ip":"10.0.0.7","destination_ip":"10.0.1.8","source_port":49152,"destination_port":443}
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

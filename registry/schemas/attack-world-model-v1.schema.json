@@ -1,0 +1,405 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sunderkey.invalid/schemas/attack-world-model-v1.schema.json",
+  "title": "SUNDERKEY Attack World Model Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "snapshot_sha256",
+    "parent_sha256",
+    "limits",
+    "nodes",
+    "edges",
+    "conflicts",
+    "summary",
+    "effects"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^AWM-[0-9A-F]{32}$"
+    },
+    "snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "parent_sha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limits": {
+      "$ref": "#/$defs/limits"
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 16384,
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "maxItems": 16384,
+      "items": {
+        "$ref": "#/$defs/conflict"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "effects": {
+      "$ref": "#/$defs/effects"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "refArray": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_nodes",
+        "max_edges",
+        "max_delta_facts",
+        "max_depth",
+        "max_path_expansions",
+        "max_paths"
+      ],
+      "properties": {
+        "max_nodes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "max_edges": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "max_delta_facts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "max_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "max_path_expansions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "max_paths": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenance_artifact_digest",
+        "observed_at",
+        "confidence",
+        "verification_state",
+        "source_kind"
+      ],
+      "properties": {
+        "provenance_artifact_digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verification_state": {
+          "enum": [
+            "verified",
+            "negative",
+            "hypothesis",
+            "abstained"
+          ]
+        },
+        "source_kind": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,63}$"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_id",
+        "node_kind",
+        "label",
+        "scope_refs",
+        "technique_refs",
+        "evidence",
+        "credential_ref"
+      ],
+      "properties": {
+        "node_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "node_kind": {
+          "enum": [
+            "asset",
+            "principal",
+            "identity",
+            "endpoint",
+            "service",
+            "data_store",
+            "finding",
+            "control",
+            "credential",
+            "trust_zone"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[ -~]+$"
+        },
+        "scope_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "technique_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "credential_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^credref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "node_kind": {
+                "const": "credential"
+              }
+            },
+            "required": [
+              "node_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "credential_ref": {
+                "type": "string",
+                "pattern": "^credref:[A-Za-z0-9][A-Za-z0-9._:/-]{0,247}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "credential_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "source_node_id",
+        "target_node_id",
+        "edge_kind",
+        "scope_refs",
+        "technique_refs",
+        "evidence"
+      ],
+      "properties": {
+        "fact_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_node_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_node_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "edge_kind": {
+          "enum": [
+            "observed",
+            "asserted",
+            "inferred",
+            "reachable",
+            "authenticated_as",
+            "authorized_to",
+            "contains",
+            "depends_on",
+            "communicates_with",
+            "mitigated_by"
+          ]
+        },
+        "scope_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "technique_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conflict_id",
+        "claim",
+        "fact_ids",
+        "verification_states"
+      ],
+      "properties": {
+        "conflict_id": {
+          "type": "string",
+          "pattern": "^AWC-[0-9A-F]{32}$"
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fact_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 16384,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "verification_states": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "abstained",
+              "hypothesis",
+              "negative",
+              "verified"
+            ]
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_count",
+        "edge_count",
+        "conflict_count"
+      ],
+      "properties": {
+        "node_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "edge_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384
+        },
+        "conflict_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384
+        }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "qualification",
+        "routing",
+        "deployment"
+      ],
+      "properties": {
+        "authority": {
+          "const": "none"
+        },
+        "qualification": {
+          "const": "none"
+        },
+        "routing": {
+          "const": "none"
+        },
+        "deployment": {
+          "const": "none"
+        }
+      }
+    }
+  }
+}

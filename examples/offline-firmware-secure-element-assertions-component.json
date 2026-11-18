@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GD-D18-S10",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-root-export",
+      "inventory_complete": true,
+      "assets": [
+        {
+          "asset_id": "device-a-tpm",
+          "asset_kind": "TPM",
+          "expected_identity_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supplied_identity_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "hardware_backed_expected": true,
+          "hardware_backed_declared": false,
+          "context_complete": true
+        },
+        {
+          "asset_id": "device-b-tee",
+          "asset_kind": "TEE",
+          "expected_identity_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "supplied_identity_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "hardware_backed_expected": true,
+          "hardware_backed_declared": true,
+          "context_complete": true
+        }
+      ]
+    }
+  }
+}

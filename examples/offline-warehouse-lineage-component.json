@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D07-S09",
+  "component_id": "supplied_warehouse_lineage",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-warehouse-lineage-v1",
+      "lineage_complete": false,
+      "datasets": [
+        {"dataset_ref": "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "region_ref": "region:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+        {"dataset_ref": "dataset:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "tenant_ref": "tenant:sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "region_ref": "region:sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"}
+      ],
+      "transfers": [
+        {"transfer_id": "declared-copy-1", "source_dataset_ref": "dataset:sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "output_dataset_ref": "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "state": "declared_included"}
+      ],
+      "objectives": [
+        {"output_dataset_ref": "dataset:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "expected_tenant_ref": "tenant:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "expected_region_ref": "region:sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}
+      ]
+    }
+  }
+}

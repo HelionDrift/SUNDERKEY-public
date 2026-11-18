@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D09-S09",
+  "component_id": "supplied_scalping_window_review",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-scalping-window-review-v1",
+      "item_ref": "item:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "window_seconds": 60,
+      "maximum_allowed_per_actor": 1,
+      "events": [
+        {"event_id": "e1", "actor_ref": "actor:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "second": 1, "result": "allowed", "declared_allowed_in_window": 1},
+        {"event_id": "e2", "actor_ref": "actor:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "second": 2, "result": "blocked", "declared_allowed_in_window": 1}
+      ]
+    }
+  }
+}

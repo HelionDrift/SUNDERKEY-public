@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S18",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-endpoint-assignment",
+    "synthetic_fixture": true,
+    "inventory_complete": true,
+    "ring_ids": ["pilot", "production"],
+    "package_policies": [{
+      "package_id": "package-a",
+      "allowed_ring_ids": ["pilot"]
+    }],
+    "assignments": [{
+      "assignment_id": "assignment-a",
+      "package_id": "package-a",
+      "ring_id": "production",
+      "enabled_declared": true
+    }]
+  }}
+}

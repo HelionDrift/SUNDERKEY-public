@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D16-S08",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {"model": {
+    "schema_version": 1,
+    "source_id": "synthetic-backup-recovery",
+    "inventory_complete": true,
+    "assets": [{
+      "asset_id": "asset_a",
+      "backup_required": true,
+      "backup_enabled": true,
+      "maximum_recovery_point_age_seconds": 3600,
+      "latest_backup_age_seconds": 7200,
+      "maximum_restore_test_age_seconds": 86400,
+      "latest_restore_test_age_seconds": null
+    }]
+  }}
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-enrollment-catalog-promotion-receipt-v1.json",
+  "title": "SUNDERKEY Candidate Enrollment Catalog Promotion Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "receipt_sha256",
+    "deployment_id",
+    "release_id",
+    "repository_id",
+    "catalog_checkpoint",
+    "verification_receipt",
+    "content_address",
+    "promotion_status",
+    "promoted_at",
+    "network_call_performed",
+    "qualification_effect",
+    "registry_effect"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "receipt_id": {"type": "string", "pattern": "^CPR-[0-9A-F]{32}$"},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "deployment_id": {"$ref": "#/$defs/identifier"},
+    "release_id": {"type": "string", "pattern": "^CRL-[0-9A-F]{32}$"},
+    "repository_id": {"$ref": "#/$defs/identifier"},
+    "catalog_checkpoint": {"$ref": "#/$defs/catalogCheckpoint"},
+    "verification_receipt": {"$ref": "#/$defs/verificationReceipt"},
+    "content_address": {"$ref": "#/$defs/sha256"},
+    "promotion_status": {"enum": ["promoted", "already_promoted_same_digest"]},
+    "promoted_at": {"$ref": "#/$defs/timestamp"},
+    "network_call_performed": {"type": "boolean"},
+    "qualification_effect": {"const": "none"},
+    "registry_effect": {"const": "none"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "catalogCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog_id", "catalog_version", "catalog_sha256"],
+      "properties": {
+        "catalog_id": {"type": "string", "pattern": "^CEC-[0-9A-F]{32}$"},
+        "catalog_version": {"type": "integer", "minimum": 1},
+        "catalog_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "verificationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sha256"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^CVR-[0-9A-F]{32}$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

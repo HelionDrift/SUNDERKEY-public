@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GC-D11-S03",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "source_id": "synthetic-ntlm-control-pairs",
+      "inventory_complete": true,
+      "policy": {
+        "require_target_signing": true,
+        "require_target_epa": true,
+        "require_channel_binding": true
+      },
+      "pairs": [
+        {
+          "pair_id": "pair-a",
+          "source_ref": "source:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "target_ref": "target:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "source_ntlm_offered": true,
+          "target_ntlm_accepted": true,
+          "target_signing_required": false,
+          "target_epa_required": false,
+          "channel_binding_declared": false
+        }
+      ]
+    }
+  }
+}

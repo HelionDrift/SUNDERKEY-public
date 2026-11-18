@@ -1,0 +1,595 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/candidate-blueprint-catalog-v2.json",
+  "title": "SUNDERKEY Army v2 Candidate Blueprint Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "blueprint_catalog_id",
+    "blueprint_catalog_version",
+    "catalog_sha256",
+    "expert_catalog_id",
+    "expert_catalog_version",
+    "expert_catalog_sha256",
+    "capability_catalog_id",
+    "capability_catalog_version",
+    "capability_catalog_sha256",
+    "vector_catalog_id",
+    "vector_catalog_version",
+    "vector_catalog_sha256",
+    "qualification_standard_id",
+    "qualification_standard_version",
+    "qualification_standard_sha256",
+    "qualification_plan_catalog_id",
+    "qualification_plan_catalog_version",
+    "qualification_plan_catalog_sha256",
+    "required_component_ids",
+    "required_test_stages",
+    "blueprint_status",
+    "qualification_effect",
+    "routing_effect",
+    "execution_effect",
+    "deployment_effect",
+    "blueprints",
+    "coverage_summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "blueprint_catalog_id": {
+      "const": "sunderkey-specialist-blueprints-v2"
+    },
+    "blueprint_catalog_version": {
+      "const": "2.0.0"
+    },
+    "catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "expert_catalog_id": {
+      "const": "sunderkey-offensive-expert-army"
+    },
+    "expert_catalog_version": {
+      "const": "2.0.0"
+    },
+    "expert_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "capability_catalog_id": {
+      "const": "sunderkey-army-capabilities-v2"
+    },
+    "capability_catalog_version": {
+      "const": "2.0.0"
+    },
+    "capability_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "vector_catalog_id": {
+      "const": "sunderkey-attack-vectors-v2"
+    },
+    "vector_catalog_version": {
+      "const": "2.0.0"
+    },
+    "vector_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_standard_id": {
+      "const": "sunderkey-specialist-qualification-v2"
+    },
+    "qualification_standard_version": {
+      "const": "2.0.0"
+    },
+    "qualification_standard_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "qualification_plan_catalog_id": {
+      "const": "sunderkey-army-qualification-plans-v2"
+    },
+    "qualification_plan_catalog_version": {
+      "const": "2.0.0"
+    },
+    "qualification_plan_catalog_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "required_component_ids": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "prefixItems": [
+        {
+          "const": "behavior_contract"
+        },
+        {
+          "const": "instruction_bundle"
+        },
+        {
+          "const": "knowledge_manifest"
+        },
+        {
+          "const": "runtime_manifest"
+        },
+        {
+          "const": "tool_policy"
+        },
+        {
+          "const": "input_contract"
+        },
+        {
+          "const": "output_contract"
+        },
+        {
+          "const": "evidence_contract"
+        },
+        {
+          "const": "restoration_contract"
+        },
+        {
+          "const": "test_manifest"
+        }
+      ],
+      "items": false
+    },
+    "required_test_stages": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        {
+          "const": "static_analysis"
+        },
+        {
+          "const": "unit"
+        },
+        {
+          "const": "integration"
+        },
+        {
+          "const": "containment"
+        },
+        {
+          "const": "evidence"
+        },
+        {
+          "const": "restoration"
+        }
+      ],
+      "items": false
+    },
+    "blueprint_status": {
+      "const": "defined_unimplemented"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "routing_effect": {
+      "const": "none"
+    },
+    "execution_effect": {
+      "const": "none"
+    },
+    "deployment_effect": {
+      "const": "none"
+    },
+    "blueprints": {
+      "type": "array",
+      "minItems": 391,
+      "maxItems": 391,
+      "items": {
+        "$ref": "#/$defs/blueprint"
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specialist_count",
+        "blueprint_count",
+        "vector_bound_blueprint_count",
+        "blueprints_with_tool_contracts",
+        "blueprints_with_input_output_contracts",
+        "blueprints_with_control_contracts",
+        "blueprints_with_evidence_contracts",
+        "blueprints_with_restoration_contracts",
+        "blueprints_with_complete_test_matrix",
+        "component_requirement_count",
+        "test_requirement_count"
+      ],
+      "properties": {
+        "specialist_count": {
+          "const": 391
+        },
+        "blueprint_count": {
+          "const": 391
+        },
+        "vector_bound_blueprint_count": {
+          "const": 391
+        },
+        "blueprints_with_tool_contracts": {
+          "const": 391
+        },
+        "blueprints_with_input_output_contracts": {
+          "const": 391
+        },
+        "blueprints_with_control_contracts": {
+          "const": 391
+        },
+        "blueprints_with_evidence_contracts": {
+          "const": 391
+        },
+        "blueprints_with_restoration_contracts": {
+          "const": 391
+        },
+        "blueprints_with_complete_test_matrix": {
+          "const": 391
+        },
+        "component_requirement_count": {
+          "const": 3910
+        },
+        "test_requirement_count": {
+          "const": 2346
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    }
+  },
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[\\t\\n\\r -~]*[!-~][\\t\\n\\r -~]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "textList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/asciiText"
+      }
+    },
+    "capabilityList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+      }
+    },
+    "testRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "objective",
+        "required_evidence"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "static_analysis",
+            "unit",
+            "integration",
+            "containment",
+            "evidence",
+            "restoration"
+          ]
+        },
+        "objective": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "required_evidence": {
+          "$ref": "#/$defs/textList"
+        }
+      }
+    },
+    "blueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_version",
+        "name",
+        "group_id",
+        "command_id",
+        "category",
+        "mission",
+        "policy_template_id",
+        "vector_id",
+        "scenario_family_id",
+        "primary_capability_ids",
+        "supporting_capability_ids",
+        "independent_validator_id",
+        "maximum_autonomous_action_tier",
+        "allowed_action_tiers",
+        "minimum_evidence_level",
+        "allowed_actions",
+        "prohibited_actions",
+        "stop_conditions",
+        "tool_adapter_requirements",
+        "input_contract",
+        "output_contract",
+        "control_requirements",
+        "evidence_contract",
+        "restoration_contract",
+        "known_blind_spots",
+        "required_scenario_variants",
+        "required_gate_ids",
+        "critical_failures",
+        "test_requirements",
+        "command_mission",
+        "command_inputs",
+        "command_outputs",
+        "collaboration_contract",
+        "command_boundary",
+        "required_component_ids",
+        "implementation_status",
+        "blueprint_sha256"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-H]-D[0-9]{2}-S[0-9]{2}$"
+        },
+        "profile_version": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "name": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "group_id": {
+          "type": "string",
+          "pattern": "^G[A-H]$"
+        },
+        "command_id": {
+          "type": "string",
+          "pattern": "^AOE-G[A-H]-D[0-9]{2}$"
+        },
+        "category": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "policy_template_id": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "vector_id": {
+          "type": "string",
+          "pattern": "^AV-G[A-H]-D[0-9]{2}-S[0-9]{2}-01$"
+        },
+        "scenario_family_id": {
+          "type": "string",
+          "pattern": "^qualification\\.aoe-g[a-h]-d[0-9]{2}-s[0-9]{2}$"
+        },
+        "primary_capability_ids": {
+          "$ref": "#/$defs/capabilityList"
+        },
+        "supporting_capability_ids": {
+          "$ref": "#/$defs/capabilityList"
+        },
+        "independent_validator_id": {
+          "type": "string",
+          "pattern": "^AOE-HQ-[0-9]{2}$"
+        },
+        "maximum_autonomous_action_tier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5"
+          ]
+        },
+        "allowed_action_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "R0",
+              "R1",
+              "R2",
+              "R3",
+              "R4",
+              "R5"
+            ]
+          }
+        },
+        "minimum_evidence_level": {
+          "enum": [
+            "E0",
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ]
+        },
+        "allowed_actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "prohibited_actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "stop_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "tool_adapter_requirements": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "input_contract": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "output_contract": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "control_requirements": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "evidence_contract": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "restoration_contract": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "known_blind_spots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "required_scenario_variants": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "required_gate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "critical_failures": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/asciiText"
+          }
+        },
+        "test_requirements": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "$ref": "#/$defs/testRequirement"
+          }
+        },
+        "command_mission": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "command_inputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "command_outputs": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "collaboration_contract": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "command_boundary": {
+          "$ref": "#/$defs/asciiText"
+        },
+        "required_component_ids": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "prefixItems": [
+            {
+              "const": "behavior_contract"
+            },
+            {
+              "const": "instruction_bundle"
+            },
+            {
+              "const": "knowledge_manifest"
+            },
+            {
+              "const": "runtime_manifest"
+            },
+            {
+              "const": "tool_policy"
+            },
+            {
+              "const": "input_contract"
+            },
+            {
+              "const": "output_contract"
+            },
+            {
+              "const": "evidence_contract"
+            },
+            {
+              "const": "restoration_contract"
+            },
+            {
+              "const": "test_manifest"
+            }
+          ],
+          "items": false
+        },
+        "implementation_status": {
+          "const": "defined_unimplemented"
+        },
+        "blueprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GA-D01-S07",
+  "component_id": "supplied_repository_reference_graph",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {"network": [], "filesystem": [], "process": [], "credential": []},
+  "payload": {
+    "model": {
+      "schema_version": 1,
+      "semantics_profile": "supplied-repository-reference-graph-v1",
+      "repositories": [
+        {"repo_id": "app", "owner_id": "org-a", "visibility": "private", "source_id": "fixture-inventory"},
+        {"repo_id": "lib", "owner_id": "org-b", "visibility": "public", "source_id": "fixture-inventory"}
+      ],
+      "references": [
+        {"reference_id": "external-branch", "from_repo_id": "app", "to_repo_id": "lib", "selector_kind": "branch", "selector": "main", "source_id": "fixture-manifest"},
+        {"reference_id": "internal-commit", "from_repo_id": "app", "to_repo_id": "app", "selector_kind": "commit", "selector": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "source_id": "fixture-manifest"}
+      ]
+    }
+  }
+}

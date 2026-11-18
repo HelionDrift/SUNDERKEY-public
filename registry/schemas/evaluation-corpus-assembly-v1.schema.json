@@ -1,0 +1,675 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.dev/evaluation-corpus-assembly-v1.json",
+  "title": "SUNDERKEY Evaluation Corpus Assembly Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_id",
+    "manifest_sha256",
+    "schema_version",
+    "manifest_version",
+    "corpus_id",
+    "corpus_version",
+    "assembly_status",
+    "budgets",
+    "partitions",
+    "records",
+    "exact_duplicate_indicators",
+    "near_duplicate_indicators",
+    "holdout_separation_checks",
+    "contamination_findings",
+    "summary",
+    "effects",
+    "limitations"
+  ],
+  "properties": {
+    "manifest_id": {
+      "type": "string",
+      "pattern": "^ECM-[0-9A-F]{32}$"
+    },
+    "manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "manifest_version": {
+      "const": "1.0.0"
+    },
+    "corpus_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "corpus_version": {
+      "$ref": "#/$defs/version"
+    },
+    "assembly_status": {
+      "enum": [
+        "clean",
+        "contamination_detected"
+      ]
+    },
+    "budgets": {
+      "$ref": "#/$defs/budgets"
+    },
+    "partitions": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/publicPartition"
+        },
+        {
+          "$ref": "#/$defs/privateHoldoutPartition"
+        },
+        {
+          "$ref": "#/$defs/adversarialSafetyPartition"
+        },
+        {
+          "$ref": "#/$defs/regressionPartition"
+        },
+        {
+          "$ref": "#/$defs/pilotPartition"
+        }
+      ],
+      "items": false
+    },
+    "records": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 100000,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    "exact_duplicate_indicators": {
+      "type": "array",
+      "maxItems": 5000000,
+      "items": {
+        "$ref": "#/$defs/exactIndicator"
+      }
+    },
+    "near_duplicate_indicators": {
+      "type": "array",
+      "maxItems": 5000000,
+      "items": {
+        "$ref": "#/$defs/nearIndicator"
+      }
+    },
+    "holdout_separation_checks": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "$ref": "#/$defs/holdoutCheck"
+      }
+    },
+    "contamination_findings": {
+      "type": "array",
+      "maxItems": 5000000,
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "effects": {
+      "$ref": "#/$defs/effects"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        {
+          "const": "receipt_does_not_authorize_corpus_access_or_evaluation"
+        },
+        {
+          "const": "hashed_shingle_similarity_is_an_indicator_not_a_semantic_judgment"
+        },
+        {
+          "const": "caller_is_responsible_for_source_and_provenance_digest_truthfulness"
+        },
+        {
+          "const": "receipt_does_not_store_or_recover_corpus_content"
+        }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[+.-][A-Za-z0-9][A-Za-z0-9.-]*)?$"
+    },
+    "partitionName": {
+      "enum": [
+        "public",
+        "private_holdout",
+        "adversarial_safety",
+        "regression",
+        "pilot"
+      ]
+    },
+    "nonnegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_records",
+        "maximum_total_content_bytes",
+        "maximum_content_bytes_per_record",
+        "maximum_tokens_per_record",
+        "maximum_pair_comparisons",
+        "maximum_findings",
+        "maximum_fingerprint_components",
+        "near_duplicate_threshold_basis_points"
+      ],
+      "properties": {
+        "maximum_records": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "maximum_total_content_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1099511627776
+        },
+        "maximum_content_bytes_per_record": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1073741824
+        },
+        "maximum_tokens_per_record": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 1000000
+        },
+        "maximum_pair_comparisons": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5000000000
+        },
+        "maximum_findings": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5000000
+        },
+        "maximum_fingerprint_components": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "near_duplicate_threshold_basis_points": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      }
+    },
+    "partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "partition",
+        "record_count",
+        "record_ids",
+        "membership_sha256"
+      ],
+      "properties": {
+        "partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "record_count": {
+          "$ref": "#/$defs/positiveInteger"
+        },
+        "record_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "membership_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "publicPartition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/partition"
+        },
+        {
+          "properties": {
+            "partition": {
+              "const": "public"
+            }
+          }
+        }
+      ]
+    },
+    "privateHoldoutPartition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/partition"
+        },
+        {
+          "properties": {
+            "partition": {
+              "const": "private_holdout"
+            }
+          }
+        }
+      ]
+    },
+    "adversarialSafetyPartition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/partition"
+        },
+        {
+          "properties": {
+            "partition": {
+              "const": "adversarial_safety"
+            }
+          }
+        }
+      ]
+    },
+    "regressionPartition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/partition"
+        },
+        {
+          "properties": {
+            "partition": {
+              "const": "regression"
+            }
+          }
+        }
+      ]
+    },
+    "pilotPartition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/partition"
+        },
+        {
+          "properties": {
+            "partition": {
+              "const": "pilot"
+            }
+          }
+        }
+      ]
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "record_version",
+        "partition",
+        "source_id",
+        "source_version",
+        "source_sha256",
+        "provenance_sha256",
+        "content_sha256",
+        "content_bytes",
+        "token_count",
+        "fingerprint_component_sha256s",
+        "fingerprint_sha256"
+      ],
+      "properties": {
+        "record_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_version": {
+          "$ref": "#/$defs/version"
+        },
+        "partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "source_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_version": {
+          "$ref": "#/$defs/version"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "provenance_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_bytes": {
+          "$ref": "#/$defs/positiveInteger"
+        },
+        "token_count": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 1000000
+        },
+        "fingerprint_component_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 65536,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sha256"
+          }
+        },
+        "fingerprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "pairBase": {
+      "type": "object",
+      "required": [
+        "left_record_id",
+        "left_partition",
+        "right_record_id",
+        "right_partition"
+      ],
+      "properties": {
+        "left_record_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "left_partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "right_record_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "right_partition": {
+          "$ref": "#/$defs/partitionName"
+        }
+      }
+    },
+    "exactIndicator": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/pairBase"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ecd_id",
+            "left_record_id",
+            "left_partition",
+            "right_record_id",
+            "right_partition",
+            "content_sha256"
+          ],
+          "properties": {
+            "ecd_id": {
+              "type": "string",
+              "pattern": "^ECD-[0-9A-F]{32}$"
+            },
+            "left_record_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "left_partition": {
+              "$ref": "#/$defs/partitionName"
+            },
+            "right_record_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "right_partition": {
+              "$ref": "#/$defs/partitionName"
+            },
+            "content_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      ]
+    },
+    "nearIndicator": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/pairBase"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ncd_id",
+            "left_record_id",
+            "left_partition",
+            "right_record_id",
+            "right_partition",
+            "matching_component_count",
+            "union_component_count",
+            "similarity_basis_points",
+            "threshold_basis_points"
+          ],
+          "properties": {
+            "ncd_id": {
+              "type": "string",
+              "pattern": "^NCD-[0-9A-F]{32}$"
+            },
+            "left_record_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "left_partition": {
+              "$ref": "#/$defs/partitionName"
+            },
+            "right_record_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "right_partition": {
+              "$ref": "#/$defs/partitionName"
+            },
+            "matching_component_count": {
+              "$ref": "#/$defs/positiveInteger"
+            },
+            "union_component_count": {
+              "$ref": "#/$defs/positiveInteger"
+            },
+            "similarity_basis_points": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "threshold_basis_points": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          }
+        }
+      ]
+    },
+    "holdoutCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left_partition",
+        "right_partition",
+        "exact_duplicate_count",
+        "near_duplicate_count",
+        "source_overlap_count",
+        "provenance_overlap_count",
+        "status"
+      ],
+      "properties": {
+        "left_partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "right_partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "exact_duplicate_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "near_duplicate_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "source_overlap_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "provenance_overlap_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "status": {
+          "enum": [
+            "clean",
+            "contaminated"
+          ]
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ecf_id",
+        "left_record_id",
+        "left_partition",
+        "right_record_id",
+        "right_partition",
+        "finding_kind",
+        "evidence_sha256",
+        "disposition",
+        "qualification_effect"
+      ],
+      "properties": {
+        "ecf_id": {
+          "type": "string",
+          "pattern": "^ECF-[0-9A-F]{32}$"
+        },
+        "left_record_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "left_partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "right_record_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "right_partition": {
+          "$ref": "#/$defs/partitionName"
+        },
+        "finding_kind": {
+          "enum": [
+            "exact_content_overlap",
+            "near_content_overlap",
+            "source_overlap",
+            "provenance_overlap"
+          ]
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "disposition": {
+          "const": "requires_independent_review"
+        },
+        "qualification_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_count",
+        "pair_comparison_count",
+        "exact_duplicate_count",
+        "near_duplicate_count",
+        "contamination_finding_count",
+        "holdout_check_count"
+      ],
+      "properties": {
+        "record_count": {
+          "$ref": "#/$defs/positiveInteger"
+        },
+        "pair_comparison_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "exact_duplicate_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "near_duplicate_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "contamination_finding_count": {
+          "$ref": "#/$defs/nonnegativeInteger"
+        },
+        "holdout_check_count": {
+          "const": 7
+        }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "evaluation_execution",
+        "model_calls",
+        "network",
+        "provider_calls",
+        "qualification",
+        "routing",
+        "target_access"
+      ],
+      "properties": {
+        "authority": {
+          "const": "none"
+        },
+        "evaluation_execution": {
+          "const": "none"
+        },
+        "model_calls": {
+          "const": "none"
+        },
+        "network": {
+          "const": "none"
+        },
+        "provider_calls": {
+          "const": "none"
+        },
+        "qualification": {
+          "const": "none"
+        },
+        "routing": {
+          "const": "none"
+        },
+        "target_access": {
+          "const": "none"
+        }
+      }
+    }
+  }
+}

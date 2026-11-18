@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.sunderkey.local/mission-request/v1",
+  "title": "SUNDERKEY Mission Request",
+  "description": "Structural and policy contract for a version 1 mission request. Runtime validation and registry-backed Joint Mission Cell assembly remain authoritative.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "objective",
+    "environment",
+    "requested_specialist_ids",
+    "max_action_tier",
+    "required_evidence_level",
+    "scope_reference"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}$"
+    },
+    "objective": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "offline",
+        "synthetic",
+        "test",
+        "production"
+      ]
+    },
+    "requested_specialist_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^AOE-G[A-E]-D[0-9]{2}-S[0-9]{2}$"
+      }
+    },
+    "max_action_tier": {
+      "$ref": "#/$defs/actionTier"
+    },
+    "required_evidence_level": {
+      "$ref": "#/$defs/evidenceLevel"
+    },
+    "scope_reference": {
+      "$ref": "#/$defs/asciiText"
+    },
+    "scope_document_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "constraints": {
+      "$ref": "#/$defs/constraints"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "environment": {
+            "const": "production"
+          }
+        },
+        "required": [
+          "environment"
+        ]
+      },
+      "then": {
+        "required": [
+          "constraints"
+        ],
+        "properties": {
+          "constraints": {
+            "required": [
+              "production"
+            ],
+            "properties": {
+              "production": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "constraints": {
+            "properties": {
+              "production": {
+                "const": true
+              }
+            },
+            "required": [
+              "production"
+            ]
+          }
+        },
+        "required": [
+          "constraints"
+        ]
+      },
+      "then": {
+        "properties": {
+          "environment": {
+            "const": "production"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "max_action_tier": {
+            "const": "R5"
+          }
+        },
+        "required": [
+          "max_action_tier"
+        ]
+      },
+      "then": {
+        "required": [
+          "constraints"
+        ],
+        "properties": {
+          "environment": {
+            "const": "synthetic"
+          },
+          "constraints": {
+            "required": [
+              "isolated_research_range"
+            ],
+            "properties": {
+              "isolated_research_range": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "asciiText": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u007E]+$"
+        },
+        {
+          "pattern": "[\\u0021-\\u007E]"
+        }
+      ]
+    },
+    "actionTier": {
+      "type": "string",
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "production": {
+          "type": "boolean",
+          "default": false
+        },
+        "third_party": {
+          "type": "boolean",
+          "default": false
+        },
+        "synthetic_data_only": {
+          "type": "boolean",
+          "default": false
+        },
+        "isolated_research_range": {
+          "type": "boolean",
+          "default": false
+        },
+        "max_cell_size": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 20
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "profile_id": "AOE-GB-D06-S01",
+  "environment": "synthetic",
+  "action_tier": "R0",
+  "dry_run": true,
+  "credential_refs": [],
+  "resources": {
+    "network": [],
+    "filesystem": [],
+    "process": [],
+    "credential": []
+  },
+  "payload": {
+    "model": {
+      "current_document": {
+        "components": {
+          "securitySchemes": {
+            "bearer": {
+              "scheme": "bearer",
+              "type": "http"
+            },
+            "key": {
+              "in": "header",
+              "name": "X-Synthetic-Key",
+              "type": "apiKey"
+            }
+          }
+        },
+        "info": {
+          "title": "Synthetic declarations",
+          "version": "1"
+        },
+        "openapi": "3.0.4",
+        "paths": {
+          "/synthetic": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "synthetic"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "previous_document": {
+        "components": {
+          "securitySchemes": {
+            "bearer": {
+              "scheme": "bearer",
+              "type": "http"
+            },
+            "key": {
+              "in": "header",
+              "name": "X-Synthetic-Key",
+              "type": "apiKey"
+            }
+          }
+        },
+        "info": {
+          "title": "Synthetic declarations",
+          "version": "1"
+        },
+        "openapi": "3.0.4",
+        "paths": {
+          "/synthetic": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "synthetic"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": [],
+            "key": []
+          }
+        ]
+      },
+      "schema_version": 1
+    }
+  }
+}
